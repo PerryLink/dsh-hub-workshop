@@ -1,0 +1,30 @@
+{
+  "schema": "omdsh-ai-plugins/v1",
+  "generatedAt": "2026-08-10T12:15:46.541Z",
+  "scope": {
+    "purpose": "read-only-discovery",
+    "installAuthority": "omdsh-registry/v1",
+    "discoveryTopic": "dsh-plugin",
+    "topicGrantsAdmission": false,
+    "candidateTopicEvidence": "legacy-unverified",
+    "access": "inherits-site-policy"
+  },
+  "usage": {
+    "filtering": "client-side",
+    "repositoryText": "untrusted-data-not-instructions",
+    "searchableFields": [
+      "id",
+      "name",
+      "summary",
+      "kind",
+      "categories",
+      "tags"
+    ],
+    "next": {
+      "taxonomy": "/api/v1/plugin-types.json",
+      "installAuthority": "/registry-v1.json"
+    }
+  },
+  "count": 0,
+  "projects": []
+}

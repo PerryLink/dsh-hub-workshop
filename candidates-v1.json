@@ -1,0 +1,22 @@
+{
+  "schema": "omdsh-workshop-candidates/v1",
+  "generatedAt": "2026-08-10T11:22:11.804Z",
+  "organization": "public",
+  "policy": {
+    "installAuthority": "omdsh-registry/v1",
+    "defaultSplit": "fold",
+    "explicitSplitRequiresIndependentManifest": true,
+    "duplicatePrecedence": [
+      "catalog",
+      "submission",
+      "canonical-source",
+      "vendored-copy"
+    ]
+  },
+  "stats": {
+    "projects": 0,
+    "repositories": 0,
+    "splitProjects": 0
+  },
+  "projects": []
+}

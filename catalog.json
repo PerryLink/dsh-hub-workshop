@@ -1,0 +1,16 @@
+{
+  "schema": "dsh-hub-index/v0.2",
+  "hub": "github:omdsh-dev/dsh-hub-workshop",
+  "updated": "2026-08-09T07:20:00.000Z",
+  "stats": {
+    "packages": 0,
+    "repositories": 0,
+    "featured": 0,
+    "categories": {},
+    "kinds": {},
+    "installMethods": {}
+  },
+  "packages": [],
+  "plugins": [],
+  "distros": []
+}

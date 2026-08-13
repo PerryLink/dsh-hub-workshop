@@ -1,0 +1,287 @@
+{
+  "schema": "omdsh-ai-plugin-types/v1",
+  "generatedAt": "2026-08-10T11:22:11.804Z",
+  "scope": "Explicitly allowed public Projects only. Facts are discovery-only and never authorize installation.",
+  "totals": {
+    "catalogProjects": 0,
+    "candidateProjects": 0,
+    "projects": 0
+  },
+  "kinds": [
+    {
+      "id": "skill",
+      "labels": {
+        "zh": "Skill",
+        "en": "Skill"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "mcp",
+      "labels": {
+        "zh": "MCP",
+        "en": "MCP"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "extension",
+      "labels": {
+        "zh": "扩展",
+        "en": "Extension"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "channel",
+      "labels": {
+        "zh": "渠道",
+        "en": "Channel"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "ui",
+      "labels": {
+        "zh": "界面扩展",
+        "en": "UI"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "adapter",
+      "labels": {
+        "zh": "适配器",
+        "en": "Adapter"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "manager",
+      "labels": {
+        "zh": "管理工具",
+        "en": "Manager"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "toolkit",
+      "labels": {
+        "zh": "工具集",
+        "en": "Toolkit"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    }
+  ],
+  "categories": [
+    {
+      "id": "workflow",
+      "labels": {
+        "zh": "工作流",
+        "en": "Workflow"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "developer-tools",
+      "labels": {
+        "zh": "开发工具",
+        "en": "Developer tools"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "channels",
+      "labels": {
+        "zh": "消息渠道",
+        "en": "Channels"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "interface",
+      "labels": {
+        "zh": "界面",
+        "en": "Interface"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "platform",
+      "labels": {
+        "zh": "平台接入",
+        "en": "Platform"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "safety",
+      "labels": {
+        "zh": "安全",
+        "en": "Safety"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "memory",
+      "labels": {
+        "zh": "记忆",
+        "en": "Memory"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "infrastructure",
+      "labels": {
+        "zh": "基础设施",
+        "en": "Infrastructure"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "fun",
+      "labels": {
+        "zh": "趣味",
+        "en": "Fun"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    },
+    {
+      "id": "uncategorized",
+      "labels": {
+        "zh": "待分类",
+        "en": "Uncategorized"
+      },
+      "counts": {
+        "catalog": 0,
+        "candidates": 0,
+        "total": 0
+      },
+      "examples": []
+    }
+  ],
+  "management": [
+    {
+      "id": "transactional",
+      "labels": {
+        "zh": "事务托管",
+        "en": "Transactional"
+      },
+      "count": 0
+    },
+    {
+      "id": "managed",
+      "labels": {
+        "zh": "配置托管",
+        "en": "Managed"
+      },
+      "count": 0
+    },
+    {
+      "id": "guided",
+      "labels": {
+        "zh": "引导接入",
+        "en": "Guided"
+      },
+      "count": 0
+    },
+    {
+      "id": "pending",
+      "labels": {
+        "zh": "待审核",
+        "en": "Pending review"
+      },
+      "count": 0
+    }
+  ],
+  "guardrails": [
+    "Unknown capabilities remain unknown.",
+    "No installation command or executable package intent is exposed by this directory.",
+    "Compatibility and recovery require separate public evidence."
+  ]
+}
