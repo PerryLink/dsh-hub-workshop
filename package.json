@@ -1,0 +1,22 @@
+{
+  "name": "@omdsh/dsh-hub-workshop",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Public DSH Hub Workshop catalog and feed projection",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-public-site.mjs",
+    "check": "npm run build && node --check worker/public.js && node scripts/check-public-site.mjs",
+    "test": "node --test",
+    "validate": "npm run check && npm test",
+    "deploy:dry-run": "npm run build && wrangler deploy -c wrangler.public.jsonc --dry-run --outdir dist",
+    "deploy": "npm run validate && wrangler deploy -c wrangler.public.jsonc"
+  },
+  "devDependencies": {
+    "wrangler": "4.122.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MIT"
+}

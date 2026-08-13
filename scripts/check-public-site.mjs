@@ -1,0 +1,67 @@
+#!/usr/bin/env node
+
+import { readFile, readdir } from 'node:fs/promises'
+import { resolve } from 'node:path'
+
+const ROOT = resolve(import.meta.dirname, '..')
+const BUILD = resolve(ROOT, '.public-site')
+const RETIRED_PRIVATE_OWNER = ['dsh', 'external'].join('-')
+const json = async (path) => JSON.parse(await readFile(resolve(ROOT, path), 'utf8'))
+
+async function files(directory) {
+  const output = []
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const path = resolve(directory, entry.name)
+    if (entry.isDirectory()) output.push(...await files(path))
+    else if (entry.isFile()) output.push(path)
+    else throw new Error(`public build contains a non-regular entry: ${path}`)
+  }
+  return output
+}
+
+const [catalog, registry, recipes, ecosystem, repositories] = await Promise.all([
+  json('catalog.json'),
+  json('registry-v1.json'),
+  json('recipes-v1.json'),
+  json('api/v1/ecosystem.json'),
+  json('ecosystem-repositories.json'),
+])
+
+if (catalog.schema !== 'dsh-hub-index/v0.2') throw new Error('catalog schema mismatch')
+if (registry.schema !== 'omdsh-registry/v1') throw new Error('Registry schema mismatch')
+if (recipes.schema !== 'omdsh-workshop-recipes/v1') throw new Error('Recipes schema mismatch')
+if (ecosystem.schema !== 'omdsh-agent-ecosystem/v1') throw new Error('Ecosystem schema mismatch')
+if (recipes.registry?.snapshotId !== registry.snapshotId || ecosystem.registry?.snapshotId !== registry.snapshotId) {
+  throw new Error('public feeds do not share one Registry snapshot')
+}
+if (registry.entries.length !== 0 || recipes.recipes.length !== 0 || ecosystem.projects.length !== 0) {
+  throw new Error('initial public deployment must keep install feeds empty until project review')
+}
+if (repositories.schema !== 'omdsh-public-repositories/v1' || repositories.repositories.length !== 9) {
+  throw new Error('public repository map must contain the nine approved repositories')
+}
+
+const builtFiles = await files(BUILD)
+if (builtFiles.length !== 23) throw new Error(`public build must contain exactly 23 files, received ${builtFiles.length}`)
+for (const repository of repositories.repositories) {
+  if (!/^https:\/\/github[.]com\/omdsh-dev\/[A-Za-z0-9._-]+$/.test(repository.url)) {
+    throw new Error(`unapproved public repository URL: ${repository.url}`)
+  }
+}
+
+const publicFiles = [
+  'index.html',
+  'catalog.json',
+  'registry-v1.json',
+  'recipes-v1.json',
+  'api/v1/ecosystem.json',
+  'ecosystem-repositories.json',
+  'assets/public.js',
+]
+const contents = (await Promise.all(publicFiles.map((path) => readFile(resolve(ROOT, path), 'utf8')))).join('\n')
+const forbiddenPublicContent = new RegExp(`${RETIRED_PRIVATE_OWNER}|Private Preview|/auth/github|github_pat_|\\bgh[opusr]_|\\bnpm_[A-Za-z0-9]{20,}|-----BEGIN(?: [A-Z]+)? PRIVATE KEY-----`, 'i')
+if (forbiddenPublicContent.test(contents)) {
+  throw new Error('public site contains private-source, login, credential, or key material')
+}
+
+console.log(`public site accepted: ${repositories.repositories.length} repository links, 0 install entries, snapshot ${registry.snapshotId}`)

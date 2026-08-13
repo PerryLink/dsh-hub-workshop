@@ -1,0 +1,56 @@
+{
+  "schema": "omdsh-public-repositories/v1",
+  "generatedAt": "2026-08-13T00:00:00.000Z",
+  "policy": {
+    "purpose": "public-repository-navigation",
+    "installAuthority": "omdsh-registry/v1",
+    "repositoryVisibilityGrantsInstallation": false
+  },
+  "repositories": [
+    {
+      "name": "omdsh",
+      "url": "https://github.com/omdsh-dev/omdsh",
+      "role": "distribution"
+    },
+    {
+      "name": "omdsh-runtime",
+      "url": "https://github.com/omdsh-dev/omdsh-runtime",
+      "role": "runtime"
+    },
+    {
+      "name": "dsh-hub-workshop",
+      "url": "https://github.com/omdsh-dev/dsh-hub-workshop",
+      "role": "catalog-authority"
+    },
+    {
+      "name": "dsh-hub",
+      "url": "https://github.com/omdsh-dev/dsh-hub",
+      "role": "marketplace-consumer"
+    },
+    {
+      "name": "7d7d",
+      "url": "https://github.com/omdsh-dev/7d7d",
+      "role": "extension-project"
+    },
+    {
+      "name": "toybox",
+      "url": "https://github.com/omdsh-dev/toybox",
+      "role": "extension-collection"
+    },
+    {
+      "name": "dsh-github-integration",
+      "url": "https://github.com/omdsh-dev/dsh-github-integration",
+      "role": "extension-project"
+    },
+    {
+      "name": "dsh-tool-browser",
+      "url": "https://github.com/omdsh-dev/dsh-tool-browser",
+      "role": "extension-project"
+    },
+    {
+      "name": "session-teleport",
+      "url": "https://github.com/omdsh-dev/session-teleport",
+      "role": "extension-project"
+    }
+  ]
+}
