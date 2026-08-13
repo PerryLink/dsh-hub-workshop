@@ -6,6 +6,7 @@ import { resolve } from 'node:path'
 const ROOT = resolve(import.meta.dirname, '..')
 const oldCatalogPath = process.argv[2]
 const topicDirectory = process.argv[3]
+const auditPath = process.argv[4] || resolve(ROOT, 'topic-plugin-audit.json')
 
 if (!oldCatalogPath || !topicDirectory) {
   throw new Error('usage: node scripts/build-topic-catalog.mjs OLD_CATALOG TOPIC_API_DIRECTORY')
@@ -14,15 +15,20 @@ if (!oldCatalogPath || !topicDirectory) {
 const oldCatalog = JSON.parse(await readFile(oldCatalogPath, 'utf8'))
 const existingCatalog = JSON.parse(await readFile(resolve(ROOT, 'catalog.json'), 'utf8'))
 const reviewedPackages = existingCatalog.packages.filter((entry) => entry.status !== 'discovery')
+const topicAudit = JSON.parse(await readFile(auditPath, 'utf8'))
 const topicPages = await Promise.all([1, 2, 3].map((page) => readFile(resolve(topicDirectory, `page-${page}.json`), 'utf8').then(JSON.parse)))
 const topicRepositories = topicPages.flatMap((page) => page.items)
 const topicCount = topicPages[0].total_count
+const auditByRepository = new Map(topicAudit.repositories.map((entry) => [`${entry.owner}/${entry.name}`.toLocaleLowerCase('en-US'), entry]))
 const RETIRED_TOPIC = ['dsh', 'external'].join('-')
 const publicTopics = (repository) => (repository.topics || []).filter((topic) => topic !== RETIRED_TOPIC)
 const sanitizePublicText = (value = '') => String(value).replaceAll(new RegExp(RETIRED_TOPIC, 'gi'), 'retired DSH ecosystem')
 
 if (topicRepositories.length !== topicCount) {
   throw new Error(`topic snapshot is incomplete: received ${topicRepositories.length} of ${topicCount} repositories`)
+}
+if (topicAudit.schema !== 'omdsh-topic-plugin-audit/v1' || topicAudit.repositories.length !== topicCount) {
+  throw new Error(`plugin audit must classify all ${topicCount} Topic repositories`)
 }
 
 const safeSlug = (value) => String(value).toLocaleLowerCase('en-US').replace(/[^a-z0-9._/-]+/g, '-').replace(/^-+|-+$/g, '')
@@ -81,13 +87,13 @@ function topicEntry(repository) {
     updatedAt: repository.pushed_at || repository.updated_at,
     license: '见仓库',
     status: 'discovery',
-    compatibility: '通过 GitHub dsh-plugin Topic 公开发现；尚未经过 Workshop 兼容审核。',
+    compatibility: '已发现可核验的 DSH 插件契约；尚未经过 Workshop 兼容与安装审核。',
     install: {
       type: 'manual',
       label: '查看公开来源',
       source: repository.html_url,
       command: repository.html_url,
-      note: 'Topic 标签只用于发现。请先检查源码、许可证、固定版本、权限和运行环境；该条目尚未获得 Registry 安装权限。',
+      note: '插件契约证据只用于 Catalog 收录。请先检查源码、许可证、固定版本、权限和运行环境；该条目尚未获得 Registry 安装权限。',
     },
     featured: false,
     discovery: {
@@ -97,6 +103,7 @@ function topicEntry(repository) {
       commitUpdatedAt: repository.pushed_at || repository.updated_at,
       metadataUpdatedAt: repository.updated_at,
       archived: repository.archived,
+      qualification: auditByRepository.get(repository.full_name.toLocaleLowerCase('en-US'))?.reasonCode,
     },
   }
 }
@@ -115,6 +122,7 @@ function migratedOldEntry(oldEntry, repository) {
         commitUpdatedAt: repository.pushed_at || repository.updated_at,
         metadataUpdatedAt: repository.updated_at,
         archived: repository.archived,
+        qualification: auditByRepository.get(repository.full_name.toLocaleLowerCase('en-US'))?.reasonCode,
       },
     }
   }
@@ -136,13 +144,13 @@ function migratedOldEntry(oldEntry, repository) {
     version: oldEntry.version,
     license: oldEntry.license || '见仓库',
     status: 'discovery',
-    compatibility: '从归档版 DSH Hub 恢复条目信息，并映射到当前公开 Topic 仓库；尚未重新完成兼容审核。',
+    compatibility: '从归档版 DSH Hub 恢复条目信息，并映射到当前具备插件契约证据的公开仓库；尚未重新完成兼容审核。',
     install: {
       type: 'manual',
       label: '查看公开来源',
       source: repository.html_url,
       command: repository.html_url,
-      note: '旧版安装坐标和权限说明已停用。当前条目只提供公开来源，安装前须重新核验。',
+      note: '旧版安装坐标和权限说明已停用。当前条目只提供已识别的插件公开来源，安装前须重新核验。',
     },
     featured: Boolean(oldEntry.featured),
     discovery: {
@@ -153,14 +161,23 @@ function migratedOldEntry(oldEntry, repository) {
       commitUpdatedAt: repository.pushed_at || repository.updated_at,
       metadataUpdatedAt: repository.updated_at,
       archived: repository.archived,
+      qualification: auditByRepository.get(repository.full_name.toLocaleLowerCase('en-US'))?.reasonCode,
     },
   }
 }
 
 const packages = []
 const representedRepositories = new Set()
+const reviewedRepositories = new Set(reviewedPackages.map((entry) => entry.repository.toLocaleLowerCase('en-US')))
 
 for (const repository of topicRepositories) {
+  const audit = auditByRepository.get(repository.full_name.toLocaleLowerCase('en-US'))
+  if (!audit) throw new Error(`missing plugin classification for ${repository.full_name}`)
+  if (audit.decision !== 'include') continue
+  if (reviewedRepositories.has(repository.html_url.toLocaleLowerCase('en-US'))) {
+    representedRepositories.add(repository.full_name.toLocaleLowerCase('en-US'))
+    continue
+  }
   const oldEntries = oldEntriesByRepository.get(repository.name.toLocaleLowerCase('en-US')) || []
   if (oldEntries.length) {
     packages.push(...oldEntries.map((entry) => migratedOldEntry(entry, repository)))
@@ -182,14 +199,18 @@ const catalog = {
   hub: 'github:omdsh-dev/dsh-hub-workshop',
   updated: new Date().toISOString(),
   policy: {
-    discovery: 'All public repositories currently returned by GitHub topic:dsh-plugin are included.',
-    archive: 'Detailed legacy records are restored from omdsh-dev/dsh-hub-private-archive when repository names map to a current public Topic repository.',
-    authority: 'Topic discovery and archive mapping do not grant Registry installation authority.',
+    discovery: 'The dsh-plugin Topic is only a candidate source. Catalog inclusion requires file-level evidence of a DSH plugin contract or a manually verified plugin subproject.',
+    exclusions: 'Core products, ecosystem infrastructure, distributions, awesome lists, documentation, templates, standalone applications, placeholders, unavailable private sources, and Topic-only repositories are excluded.',
+    archive: 'Detailed legacy records are restored only when they map to a currently qualified plugin repository.',
+    authority: 'Plugin qualification and archive mapping do not grant Registry installation authority.',
   },
   stats: {
     packages: packages.length,
     repositories: representedRepositories.size,
-    topicRepositories: topicCount,
+    observedTopicRepositories: topicCount,
+    qualifiedRepositories: topicAudit.stats.decisions.include,
+    pendingRepositories: topicAudit.stats.decisions.review,
+    excludedRepositories: topicAudit.stats.decisions.exclude,
     reviewed: packages.filter((entry) => entry.status !== 'discovery').length,
     featured: packages.filter((entry) => entry.featured).length,
     categories: countBy('category'),
@@ -232,5 +253,8 @@ console.log(JSON.stringify({
   topicRepositories: topicCount,
   catalogEntries: packages.length,
   reviewedEntries: catalog.stats.reviewed,
+  qualifiedRepositories: catalog.stats.qualifiedRepositories,
+  pendingRepositories: catalog.stats.pendingRepositories,
+  excludedRepositories: catalog.stats.excludedRepositories,
   restoredArchiveEntries: packages.filter((entry) => entry.discovery?.source === 'archive-and-github-topic').length,
 }, null, 2))

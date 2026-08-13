@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/omdsh-dev/dsh-hub/blob/main/recipes.schema.json",
+  "$id": "https://github.com/omdsh-dev/dsh-hub-workshop/blob/main/recipes.schema.json",
   "title": "OMDSH Workshop Configuration Recipes Source",
   "type": "object",
   "required": ["schema", "updatedAt", "recipes"],

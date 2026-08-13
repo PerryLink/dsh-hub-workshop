@@ -1,0 +1,85 @@
+{
+  "schema": "omdsh-registry-admissions/v1",
+  "updatedAt": "2026-08-13T17:27:31.000Z",
+  "runtimeBaseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+  "admissions": [],
+  "blocked": [
+    {
+      "id": "7d7d",
+      "reason": "current-runtime-baseline-not-verified",
+      "source": "github:omdsh-dev/7d7d#80b6ddb779a009d378a1c30c85dfef598f527997",
+      "staticVerification": "passed",
+      "runtimeVerification": "blocked"
+    },
+    {
+      "id": "github-integration",
+      "reason": "official-repository-plugin-unavailable",
+      "source": "github:omdsh-dev/dsh-github-integration#86f3a80be2c80cfd4d8d9401db0958fc1895ea69&path:/plugins/github-integration/.dsh-plugin",
+      "staticVerification": "passed",
+      "runtimeVerification": "blocked"
+    },
+    {
+      "id": "almanac-mcp",
+      "reason": "official-repository-plugin-unavailable",
+      "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/almanac-mcp/.dsh-plugin",
+      "staticVerification": "passed",
+      "runtimeVerification": "blocked"
+    },
+    {
+      "id": "bug-tamer",
+      "reason": "official-repository-plugin-unavailable",
+      "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/bug-tamer/.dsh-plugin",
+      "staticVerification": "passed",
+      "runtimeVerification": "blocked"
+    },
+    {
+      "id": "chinese-colors-mcp",
+      "reason": "official-repository-plugin-unavailable",
+      "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/chinese-colors-mcp/.dsh-plugin",
+      "staticVerification": "passed",
+      "runtimeVerification": "blocked"
+    },
+    {
+      "id": "code-archaeologist",
+      "reason": "official-repository-plugin-unavailable",
+      "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/code-archaeologist/.dsh-plugin",
+      "staticVerification": "passed",
+      "runtimeVerification": "blocked"
+    },
+    {
+      "id": "code-talent-scout",
+      "reason": "official-repository-plugin-unavailable",
+      "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/code-talent-scout/.dsh-plugin",
+      "staticVerification": "passed",
+      "runtimeVerification": "blocked"
+    },
+    {
+      "id": "decision-dice-mcp",
+      "reason": "official-repository-plugin-unavailable",
+      "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/decision-dice-mcp/.dsh-plugin",
+      "staticVerification": "passed",
+      "runtimeVerification": "blocked"
+    },
+    {
+      "id": "naming-master-mcp",
+      "reason": "official-repository-plugin-unavailable",
+      "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/naming-master-mcp/.dsh-plugin",
+      "staticVerification": "passed",
+      "runtimeVerification": "blocked"
+    },
+    {
+      "id": "time-capsule-mcp",
+      "reason": "official-repository-plugin-unavailable",
+      "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/time-capsule-mcp/.dsh-plugin",
+      "staticVerification": "passed",
+      "runtimeVerification": "blocked"
+    },
+    {
+      "id": "session-teleport",
+      "reason": "production-authority-environment-not-verified",
+      "source": "github:omdsh-dev/session-teleport#d76e0d98b09ad1d08f2592ffd47161acb907bfc4",
+      "staticVerification": "passed",
+      "runtimeVerification": "blocked"
+    }
+  ]
+}

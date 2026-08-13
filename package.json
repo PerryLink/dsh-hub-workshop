@@ -5,7 +5,10 @@
   "description": "Public DSH Hub Workshop catalog and feed projection",
   "type": "module",
   "scripts": {
-    "build": "node scripts/build-public-site.mjs",
+    "topic:audit": "node scripts/audit-topic-plugins.mjs",
+    "topic:apply": "node scripts/apply-topic-plugin-audit.mjs",
+    "feeds:build": "node scripts/build-install-feeds.mjs",
+    "build": "npm run feeds:build && node scripts/build-public-site.mjs",
     "check": "npm run build && node --check worker/public.js && node scripts/check-public-site.mjs",
     "test": "node --test",
     "validate": "npm run check && npm test",

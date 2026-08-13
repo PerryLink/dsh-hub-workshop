@@ -1,13 +1,13 @@
 {
   "schema": "omdsh-registry/v1",
-  "revision": 1786260000000,
-  "generatedAt": "2026-08-09T07:20:00.000Z",
+  "revision": 1786642051000,
+  "generatedAt": "2026-08-13T17:27:31.000Z",
   "origins": [
     "https://hub.omdsh.dev/registry-v1.json",
     "https://hub.0.org.cn/registry-v1.json"
   ],
   "entries": [],
   "collections": [],
-  "snapshotId": "sha256:b8d2af52deadeee47172635c6dde633f07cafbff038df4b1c9133efa7ad4e426",
+  "snapshotId": "sha256:e7efe723476a31cdc1754f08cb79c8af0a7879ca23cb437acf24d2b817330f8e",
   "signature": null
 }

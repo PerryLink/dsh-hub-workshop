@@ -1,0 +1,97 @@
+{
+  "schema": "omdsh-registry-audit/v1",
+  "projectId": "7d7d",
+  "releaseId": "7d7d@0.4.0-rc.1",
+  "source": {
+    "repository": "https://github.com/omdsh-dev/7d7d",
+    "ref": "80b6ddb779a009d378a1c30c85dfef598f527997",
+    "path": null,
+    "packageName": "@mattheliu/7d7d",
+    "spec": "github:omdsh-dev/7d7d#80b6ddb779a009d378a1c30c85dfef598f527997"
+  },
+  "runtime": {
+    "package": "@deepseek-ai/dsh",
+    "version": "0.0.1-rc.5",
+    "profile": "web",
+    "platform": "macOS 15.5 arm64",
+    "node": "24.3.0"
+  },
+  "supplyChain": {
+    "immutableSource": "passed",
+    "license": "MIT",
+    "installScripts": "absent",
+    "nativeCode": "absent",
+    "vulnerabilityScan": "unknown",
+    "permissions": {
+      "status": "reviewed",
+      "declared": [
+        "serve HTTP routes below /7d7d",
+        "write generated catalog data below the DSH home directory",
+        "optionally fetch a maintainer-configured community catalog URL"
+      ]
+    }
+  },
+  "checks": {
+    "repositoryTests": {
+      "status": "passed",
+      "files": 5,
+      "tests": 43
+    },
+    "typecheck": "passed",
+    "build": "passed",
+    "package": {
+      "status": "passed",
+      "files": 50,
+      "packedBytes": 62353,
+      "unpackedBytes": 216537
+    },
+    "profileInstall": {
+      "status": "passed",
+      "ignoreScripts": true,
+      "exactRuntime": true,
+      "exactSource": true
+    },
+    "ready": {
+      "status": "passed",
+      "probes": [
+        {
+          "path": "/7d7d",
+          "status": 200,
+          "contentType": "application/json",
+          "assertion": "service metadata named 7d7d"
+        },
+        {
+          "path": "/7d7d/api/server.json",
+          "status": 200,
+          "contentType": "application/json",
+          "assertion": "server configuration returned"
+        },
+        {
+          "path": "/7d7d/api/manifest.json",
+          "status": 200,
+          "contentType": "application/json",
+          "assertion": "18 game manifests returned"
+        }
+      ]
+    },
+    "uninstall": {
+      "status": "passed",
+      "dependencyRemoved": true,
+      "bundleRemoved": true
+    },
+    "generationRecovery": {
+      "status": "passed",
+      "basis": "OMDSH consumer validation: candidate/current/previous activation, startup-failure rollback, runtime-ready timeout recovery, and install-script blocking"
+    }
+  },
+  "limitations": [
+    "No independent community reproduction is recorded yet.",
+    "External catalog endpoints remain outside profile-generation rollback and require operator review.",
+    "The public Registry snapshot is reproducible and unsigned; remote consumer sync still requires the production Ed25519 trust root."
+  ],
+  "verifier": {
+    "github": "mattheliu",
+    "role": "author"
+  },
+  "verifiedAt": "2026-08-13T16:14:05.273Z"
+}

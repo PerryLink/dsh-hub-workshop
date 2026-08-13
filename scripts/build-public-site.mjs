@@ -9,6 +9,7 @@ const FILES = [
   'api/v1/ecosystem.json',
   'api/v1/plugin-types.json',
   'api/v1/plugins.json',
+  'agent-ecosystem-v1.json',
   'assets/atlas-symbol.png',
   'assets/app.js',
   'assets/composition-preflight.js',
@@ -45,6 +46,7 @@ const FILES = [
   'run-records.schema.json',
   'submission.schema.json',
   'topic-repositories.json',
+  'topic-plugin-audit.json',
   'workshop-v1.json',
 ]
 

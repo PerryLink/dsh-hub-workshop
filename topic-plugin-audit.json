@@ -1,0 +1,5448 @@
+{
+  "schema": "omdsh-topic-plugin-audit/v1",
+  "generatedAt": "2026-08-13T15:38:09.913Z",
+  "topic": "dsh-plugin",
+  "sourceSnapshotGeneratedAt": "2026-08-13T15:38:09.913Z",
+  "policy": {
+    "included": "Only repositories with a verifiable DSH plugin contract, Profile Bundle, Repository Plugin, or corroborated Harness integration are eligible.",
+    "reviewed": "Claims and collections without enough file-level evidence remain outside the Catalog pending manual expansion or verification.",
+    "excluded": "Core products, infrastructure, distributions, awesome lists, documentation, templates, placeholders, archived sources, and Topic-only repositories are excluded."
+  },
+  "stats": {
+    "repositories": 255,
+    "decisions": {
+      "exclude": 48,
+      "include": 182,
+      "review": 25
+    },
+    "reasons": {
+      "awesome-or-directory": 6,
+      "claimed-plugin-unverified": 18,
+      "core-product": 1,
+      "distribution": 1,
+      "ecosystem-infrastructure": 3,
+      "insufficient-plugin-evidence": 27,
+      "plugin-collection-needs-expansion": 7,
+      "private-or-unavailable": 2,
+      "template-or-guide": 8,
+      "verified-cordis-plugin": 7,
+      "verified-harness-integration": 11,
+      "verified-plugin-collection": 1,
+      "verified-plugin-contract": 162,
+      "verified-repository-plugin": 1
+    }
+  },
+  "repositories": [
+    {
+      "owner": "haytham818",
+      "name": "dsh-notify",
+      "url": "https://github.com/haytham818/dsh-notify",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Flyvhidbwo",
+      "name": "dsh-vision-proxy",
+      "url": "https://github.com/Flyvhidbwo/dsh-vision-proxy",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "yyh-001",
+      "name": "dsh-companion",
+      "url": "https://github.com/yyh-001/dsh-companion",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-harness-integration",
+      "reason": "代码包同时声明 DeepSeek Harness 依赖和明确插件接入方式。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (2)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "yuezengwu",
+      "name": "dsh-explain",
+      "url": "https://github.com/yuezengwu/dsh-explain",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (21)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Nwflower",
+      "name": "dsh-chat-import",
+      "url": "https://github.com/Nwflower/dsh-chat-import",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (1)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Ruler4396",
+      "name": "dsh-launcher",
+      "url": "https://github.com/Ruler4396/dsh-launcher",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "titanwings",
+      "name": "colleague-skill",
+      "url": "https://github.com/titanwings/colleague-skill",
+      "defaultBranch": "dot-skill",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "awesome-dsh-plugin",
+      "name": "awesome-dsh-plugin",
+      "url": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "awesome-or-directory",
+      "reason": "Awesome/导航/文档清单不是插件实现。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "ZeroHackz",
+      "name": "OpenFlowFrames",
+      "url": "https://github.com/ZeroHackz/OpenFlowFrames",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": [
+          "packages/ tree (3 children)"
+        ]
+      }
+    },
+    {
+      "owner": "jumpserver-east",
+      "name": "jumpserver-dsh",
+      "url": "https://github.com/jumpserver-east/jumpserver-dsh",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (7)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "0xsline",
+      "name": "awesome-deepseek-harness",
+      "url": "https://github.com/0xsline/awesome-deepseek-harness",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "awesome-or-directory",
+      "reason": "Awesome/导航/文档清单不是插件实现。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "repository-plugin",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Chinesezjc",
+      "name": "dsh-interconnect",
+      "url": "https://github.com/Chinesezjc/dsh-interconnect",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (12)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "zzh-newlearner",
+      "name": "dsh-postmortem",
+      "url": "https://github.com/zzh-newlearner/dsh-postmortem",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-harness-integration",
+      "reason": "代码包同时声明 DeepSeek Harness 依赖和明确插件接入方式。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (4)"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "titanwings",
+      "name": "ex-skill",
+      "url": "https://github.com/titanwings/ex-skill",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "ZSeven-W",
+      "name": "dsh-openpencil",
+      "url": "https://github.com/ZSeven-W/dsh-openpencil",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (12)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "chen-001",
+      "name": "dsh-grok-tui",
+      "url": "https://github.com/chen-001/dsh-grok-tui",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-harness-integration",
+      "reason": "代码包同时声明 DeepSeek Harness 依赖和明确插件接入方式。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (6)"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "moduqishi",
+      "name": "dsh-open-in-finder",
+      "url": "https://github.com/moduqishi/dsh-open-in-finder",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "moduqishi",
+      "name": "dsh-opencode-usage",
+      "url": "https://github.com/moduqishi/dsh-opencode-usage",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "wangyang10",
+      "name": "image-vision",
+      "url": "https://github.com/wangyang10/image-vision",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Mongfayi",
+      "name": "dsh-local-filetree",
+      "url": "https://github.com/Mongfayi/dsh-local-filetree",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (2)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Dominic789654",
+      "name": "awesome-deepseek-harness",
+      "url": "https://github.com/Dominic789654/awesome-deepseek-harness",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "awesome-or-directory",
+      "reason": "Awesome/导航/文档清单不是插件实现。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "repository-plugin"
+        ],
+        "collectionSignals": [
+          "plugins/ tree (5 children)"
+        ]
+      }
+    },
+    {
+      "owner": "ccch1mneyyy",
+      "name": "dsh-working-activity",
+      "url": "https://github.com/ccch1mneyyy/dsh-working-activity",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "huiliyi37",
+      "name": "dsh-tianshu-tui",
+      "url": "https://github.com/huiliyi37/dsh-tianshu-tui",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (21)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "ccch1mneyyy",
+      "name": "dsh-cc-tui",
+      "url": "https://github.com/ccch1mneyyy/dsh-cc-tui",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (13)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "crayonlu",
+      "name": "dsh-web-search-firecrawl",
+      "url": "https://github.com/crayonlu/dsh-web-search-firecrawl",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-harness-integration",
+      "reason": "代码包同时声明 DeepSeek Harness 依赖和明确插件接入方式。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (5)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "bitterSmilezzz",
+      "name": "dsh-mac-desktop",
+      "url": "https://github.com/bitterSmilezzz/dsh-mac-desktop",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "crayonlu",
+      "name": "dsh-web-search-tavily",
+      "url": "https://github.com/crayonlu/dsh-web-search-tavily",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-harness-integration",
+      "reason": "代码包同时声明 DeepSeek Harness 依赖和明确插件接入方式。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (5)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "DSH-better-sidebar",
+      "url": "https://github.com/omdsh-dev/DSH-better-sidebar",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (16)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "hust-open-atom-club",
+      "name": "oh-dsh-desktop",
+      "url": "https://github.com/hust-open-atom-club/oh-dsh-desktop",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./dist/cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-bundle"
+        ],
+        "collectionSignals": [
+          "plugins/ tree (7 children)"
+        ]
+      }
+    },
+    {
+      "owner": "hikariming",
+      "name": "dshfind",
+      "url": "https://github.com/hikariming/dshfind",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Mappedinfo",
+      "name": "PlainDeck",
+      "url": "https://github.com/Mappedinfo/PlainDeck",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "NanmiCoder",
+      "name": "dsh-agent-teams",
+      "url": "https://github.com/NanmiCoder/dsh-agent-teams",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (13)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "titanwings",
+      "name": "dsh-plannotator",
+      "url": "https://github.com/titanwings/dsh-plannotator",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "yuxino",
+      "name": "dsh-blue-whale-maid",
+      "url": "https://github.com/yuxino/dsh-blue-whale-maid",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "humblebanana",
+      "name": "dsh-record-replay",
+      "url": "https://github.com/humblebanana/dsh-record-replay",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-cordis-plugin",
+      "reason": "仓库包含 Cordis patch，并有 DeepSeek Harness 依赖或明确插件接入证据。",
+      "evidence": {
+        "strongSignals": [
+          "cordis.patch"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Anionex",
+      "name": "agent-vision-toolkit",
+      "url": "https://github.com/Anionex/agent-vision-toolkit",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "AdamPlatin123",
+      "name": "awesome-dsh-plugins",
+      "url": "https://github.com/AdamPlatin123/awesome-dsh-plugins",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "awesome-or-directory",
+      "reason": "Awesome/导航/文档清单不是插件实现。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "openguardrails",
+      "name": "openguardrails",
+      "url": "https://github.com/openguardrails/openguardrails",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": [
+          "packages/ tree (2 children)"
+        ]
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-genui",
+      "url": "https://github.com/omdsh-dev/dsh-genui",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (9)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Yihong89",
+      "name": "dsh-plugins",
+      "url": "https://github.com/Yihong89/dsh-plugins",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "plugin-collection-needs-expansion",
+      "reason": "看起来是插件集合；需要按子插件清单展开，不能把集合仓整体冒充一个插件。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": [
+          "packages/ tree (2 children)"
+        ]
+      }
+    },
+    {
+      "owner": "Drifter-yh",
+      "name": "dsh-tool-policy",
+      "url": "https://github.com/Drifter-yh/dsh-tool-policy",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (18)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Moeblack",
+      "name": "dsh-payload-capture",
+      "url": "https://github.com/Moeblack/dsh-payload-capture",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "titanwings",
+      "name": "dsh-better-browser",
+      "url": "https://github.com/titanwings/dsh-better-browser",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (5)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "titanwings",
+      "name": "dsh-automation",
+      "url": "https://github.com/titanwings/dsh-automation",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "RYun601",
+      "name": "dsh-launcher",
+      "url": "https://github.com/RYun601/dsh-launcher",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "liustack",
+      "name": "modlens",
+      "url": "https://github.com/liustack/modlens",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "alingalingling",
+      "name": "ui-status-label",
+      "url": "https://github.com/alingalingling/ui-status-label",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (10)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "echo-escape",
+      "name": "dsh-cost-governor",
+      "url": "https://github.com/echo-escape/dsh-cost-governor",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "PangYiMing",
+      "name": "dsh-mobile-control",
+      "url": "https://github.com/PangYiMing/dsh-mobile-control",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (2)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "PangYiMing",
+      "name": "dsh-browser-control",
+      "url": "https://github.com/PangYiMing/dsh-browser-control",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (2)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "zhu1090093659",
+      "name": "dsh-web-ui",
+      "url": "https://github.com/zhu1090093659/dsh-web-ui",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "plugin-collection-needs-expansion",
+      "reason": "看起来是插件集合；需要按子插件清单展开，不能把集合仓整体冒充一个插件。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": [
+          "packages/ tree (12 children)"
+        ]
+      }
+    },
+    {
+      "owner": "yoke233",
+      "name": "dsh-openai-codex-auth",
+      "url": "https://github.com/yoke233/dsh-openai-codex-auth",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (5)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Small-tailqwq",
+      "name": "dsh-deep-whale",
+      "url": "https://github.com/Small-tailqwq/dsh-deep-whale",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Degurechaff57",
+      "name": "dsh-openapi",
+      "url": "https://github.com/Degurechaff57/dsh-openapi",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Komeiji-Shiki",
+      "name": "graycode-for-dsh",
+      "url": "https://github.com/Komeiji-Shiki/graycode-for-dsh",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": [
+          "packages/ tree (2 children)"
+        ]
+      }
+    },
+    {
+      "owner": "a179-sanae",
+      "name": "dsh-code-check",
+      "url": "https://github.com/a179-sanae/dsh-code-check",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (15)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Nagi-ovo",
+      "name": "dsh-find-plugins",
+      "url": "https://github.com/Nagi-ovo/dsh-find-plugins",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Nagi-ovo",
+      "name": "dsh-visualize",
+      "url": "https://github.com/Nagi-ovo/dsh-visualize",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (12)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Nagi-ovo",
+      "name": "dsh-ads",
+      "url": "https://github.com/Nagi-ovo/dsh-ads",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (8)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Opr4Mp3r",
+      "name": "deepseek-harness-plugin-from-scratch",
+      "url": "https://github.com/Opr4Mp3r/deepseek-harness-plugin-from-scratch",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "template-or-guide",
+      "reason": "模板、教程、排行榜或占位项目不是插件实现。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (7)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "orriduck",
+      "name": "dsh-tui",
+      "url": "https://github.com/orriduck/dsh-tui",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (13)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "cking000bigdemon",
+      "name": "dsh-pi-plugins",
+      "url": "https://github.com/cking000bigdemon/dsh-pi-plugins",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (18)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "UynajGI",
+      "name": "dsh-ssh",
+      "url": "https://github.com/UynajGI/dsh-ssh",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-harness-integration",
+      "reason": "代码包同时声明 DeepSeek Harness 依赖和明确插件接入方式。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (6)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "ArtificialNotImbecile",
+      "name": "dsh-context-taxonomy",
+      "url": "https://github.com/ArtificialNotImbecile/dsh-context-taxonomy",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "YunTaiHua",
+      "name": "illusion-agent",
+      "url": "https://github.com/YunTaiHua/illusion-agent",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "vlln",
+      "name": "whale-girl",
+      "url": "https://github.com/vlln/whale-girl",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          ".dsh-plugin/",
+          ".dsh-plugin manifest/installer",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "repository-plugin"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "vlln",
+      "name": "dsh-task-status",
+      "url": "https://github.com/vlln/dsh-task-status",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "vlln",
+      "name": "dsh-navbar",
+      "url": "https://github.com/vlln/dsh-navbar",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "vlln",
+      "name": "dsh-loop",
+      "url": "https://github.com/vlln/dsh-loop",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "vlln",
+      "name": "plugin-registry",
+      "url": "https://github.com/vlln/plugin-registry",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "repository-plugin",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "icodesign",
+      "name": "orbis",
+      "url": "https://github.com/icodesign/orbis",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "plugin-collection-needs-expansion",
+      "reason": "看起来是插件集合；需要按子插件清单展开，不能把集合仓整体冒充一个插件。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": [
+          "packages/ tree (5 children)"
+        ]
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-annotation",
+      "url": "https://github.com/omdsh-dev/dsh-annotation",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "dbydd",
+      "name": "dsh-onlyne",
+      "url": "https://github.com/dbydd/dsh-onlyne",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-harness-integration",
+      "reason": "代码包同时声明 DeepSeek Harness 依赖和明确插件接入方式。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (6)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "PangYiMing",
+      "name": "dsh-batch-regression",
+      "url": "https://github.com/PangYiMing/dsh-batch-regression",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "PangYiMing",
+      "name": "dsh-port-guard",
+      "url": "https://github.com/PangYiMing/dsh-port-guard",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "PangYiMing",
+      "name": "dsh-bisect-debug",
+      "url": "https://github.com/PangYiMing/dsh-bisect-debug",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "PangYiMing",
+      "name": "dsh-screenshot-diff",
+      "url": "https://github.com/PangYiMing/dsh-screenshot-diff",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "YYTbit",
+      "name": "dsh-plugin-claude-bridge",
+      "url": "https://github.com/YYTbit/dsh-plugin-claude-bridge",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (2)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "FlashingChen",
+      "name": "dsh-worktree",
+      "url": "https://github.com/FlashingChen/dsh-worktree",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-harness-integration",
+      "reason": "代码包同时声明 DeepSeek Harness 依赖和明确插件接入方式。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (5)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "CanglongCl",
+      "name": "dsh-web-review",
+      "url": "https://github.com/CanglongCl/dsh-web-review",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-book2skill",
+      "url": "https://github.com/omdsh-dev/dsh-book2skill",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (10)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-at-file",
+      "url": "https://github.com/omdsh-dev/dsh-at-file",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (16)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-custom-tool",
+      "url": "https://github.com/omdsh-dev/dsh-custom-tool",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (11)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-open-in-vscode",
+      "url": "https://github.com/omdsh-dev/dsh-open-in-vscode",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (11)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-notification",
+      "url": "https://github.com/omdsh-dev/dsh-notification",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (11)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "LingLambda",
+      "name": "dsh-undo",
+      "url": "https://github.com/LingLambda/dsh-undo",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (10)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Zhenyu98",
+      "name": "dsh-context-doctor",
+      "url": "https://github.com/Zhenyu98/dsh-context-doctor",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (1)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-hub-workshop",
+      "url": "https://github.com/omdsh-dev/dsh-hub-workshop",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "ecosystem-infrastructure",
+      "reason": "Workshop/Catalog 权威仓，不是插件。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-pet-corner",
+      "url": "https://github.com/omdsh-dev/dsh-pet-corner",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (8)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-fun-typewriter",
+      "url": "https://github.com/omdsh-dev/dsh-fun-typewriter",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (9)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-voice-funasr",
+      "url": "https://github.com/omdsh-dev/dsh-voice-funasr",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (11)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "bruc3van",
+      "name": "awesome-dsh-plugin",
+      "url": "https://github.com/bruc3van/awesome-dsh-plugin",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "awesome-or-directory",
+      "reason": "Awesome/导航/文档清单不是插件实现。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-ernie-image",
+      "url": "https://github.com/omdsh-dev/dsh-ernie-image",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (11)"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-paddle-ocr",
+      "url": "https://github.com/omdsh-dev/dsh-paddle-ocr",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (15)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-daily-progress",
+      "url": "https://github.com/omdsh-dev/dsh-daily-progress",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-revive",
+      "url": "https://github.com/omdsh-dev/dsh-revive",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (17)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-longbridge",
+      "url": "https://github.com/omdsh-dev/dsh-longbridge",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (12)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Fisfzy",
+      "name": "ego-browser",
+      "url": "https://github.com/Fisfzy/ego-browser",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (1)"
+        ],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Lum1104",
+      "name": "dsh-browser",
+      "url": "https://github.com/Lum1104/dsh-browser",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (1)"
+        ],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "wangshunnn",
+      "name": "oh-my-dsh",
+      "url": "https://github.com/wangshunnn/oh-my-dsh",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-gomoku",
+      "url": "https://github.com/omdsh-dev/dsh-gomoku",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (9)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "qyw233",
+      "name": "dsh-deeplink",
+      "url": "https://github.com/qyw233/dsh-deeplink",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Moeblack",
+      "name": "dsh-prompt-studio",
+      "url": "https://github.com/Moeblack/dsh-prompt-studio",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "taxueseek",
+      "name": "argo",
+      "url": "https://github.com/taxueseek/argo",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "repository-plugin",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Andy8647",
+      "name": "dsh-auto-approval",
+      "url": "https://github.com/Andy8647/dsh-auto-approval",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "plugin-collection-needs-expansion",
+      "reason": "看起来是插件集合；需要按子插件清单展开，不能把集合仓整体冒充一个插件。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": [
+          "packages/ tree (2 children)"
+        ]
+      }
+    },
+    {
+      "owner": "nowledge-co",
+      "name": "nowledge-mem-deepseek-harness",
+      "url": "https://github.com/nowledge-co/nowledge-mem-deepseek-harness",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (7)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "lhh010",
+      "name": "dsh-bash-encoding",
+      "url": "https://github.com/lhh010/dsh-bash-encoding",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-harness-integration",
+      "reason": "代码包同时声明 DeepSeek Harness 依赖和明确插件接入方式。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (2)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "lhh010",
+      "name": "dsh-ui-whale",
+      "url": "https://github.com/lhh010/dsh-ui-whale",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "dsh.plugin.json",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (7)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "lhh010",
+      "name": "dsh-ui-progress",
+      "url": "https://github.com/lhh010/dsh-ui-progress",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "dsh.plugin.json",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (8)"
+        ],
+        "pluginClaims": [
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "lhh010",
+      "name": "dsh-paste-input",
+      "url": "https://github.com/lhh010/dsh-paste-input",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "lhh010",
+      "name": "dsh-minigames",
+      "url": "https://github.com/lhh010/dsh-minigames",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (1)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "lhh010",
+      "name": "dsh-input-history",
+      "url": "https://github.com/lhh010/dsh-input-history",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "dsh.plugin.json",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (4)"
+        ],
+        "pluginClaims": [
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-security-audit",
+      "url": "https://github.com/omdsh-dev/dsh-security-audit",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-fun-weather",
+      "url": "https://github.com/omdsh-dev/dsh-fun-weather",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (11)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-daily-fortune",
+      "url": "https://github.com/omdsh-dev/dsh-daily-fortune",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-cordis-plugin",
+      "reason": "仓库包含 Cordis patch，并有 DeepSeek Harness 依赖或明确插件接入证据。",
+      "evidence": {
+        "strongSignals": [
+          "cordis.patch"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-session-health",
+      "url": "https://github.com/omdsh-dev/dsh-session-health",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-fun-ticker",
+      "url": "https://github.com/omdsh-dev/dsh-fun-ticker",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (9)"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-plugin-dev",
+      "url": "https://github.com/omdsh-dev/dsh-plugin-dev",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "template-or-guide",
+      "reason": "插件开发说明与工具，不作为插件收录。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-plugin-check",
+      "url": "https://github.com/omdsh-dev/dsh-plugin-check",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-toolkit",
+      "url": "https://github.com/omdsh-dev/dsh-toolkit",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": [
+          "packages/ tree (10 children)"
+        ]
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-tool-schema",
+      "url": "https://github.com/omdsh-dev/dsh-tool-schema",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "csyangwen",
+      "name": "dsh-memory-evolve",
+      "url": "https://github.com/csyangwen/dsh-memory-evolve",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-tool-stat",
+      "url": "https://github.com/omdsh-dev/dsh-tool-stat",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-tool-time",
+      "url": "https://github.com/omdsh-dev/dsh-tool-time",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-tool-regex",
+      "url": "https://github.com/omdsh-dev/dsh-tool-regex",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Alex-Yanggg",
+      "name": "awesome-DSH-plugin",
+      "url": "https://github.com/Alex-Yanggg/awesome-DSH-plugin",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "awesome-or-directory",
+      "reason": "Awesome/导航/文档清单不是插件实现。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "emredeveloper",
+      "name": "deepseek-harness-huggingface",
+      "url": "https://github.com/emredeveloper/deepseek-harness-huggingface",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (2)"
+        ],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-tool-markdown",
+      "url": "https://github.com/omdsh-dev/dsh-tool-markdown",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-tool-json",
+      "url": "https://github.com/omdsh-dev/dsh-tool-json",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-tool-encoding",
+      "url": "https://github.com/omdsh-dev/dsh-tool-encoding",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Moeblack",
+      "name": "deepseek-manners",
+      "url": "https://github.com/Moeblack/deepseek-manners",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (2)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-tool-diff",
+      "url": "https://github.com/omdsh-dev/dsh-tool-diff",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-tool-csv",
+      "url": "https://github.com/omdsh-dev/dsh-tool-csv",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-tool-calculator",
+      "url": "https://github.com/omdsh-dev/dsh-tool-calculator",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "dingyi222666",
+      "name": "dsh-session-notification",
+      "url": "https://github.com/dingyi222666/dsh-session-notification",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (11)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "dingyi222666",
+      "name": "dsh-focus-chat",
+      "url": "https://github.com/dingyi222666/dsh-focus-chat",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (13)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "whiteguo233",
+      "name": "OpenBiliClaw",
+      "url": "https://github.com/whiteguo233/OpenBiliClaw",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "SnowCrescenter-tech",
+      "name": "dsh-launcher",
+      "url": "https://github.com/SnowCrescenter-tech/dsh-launcher",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "whiteguo233",
+      "name": "dsh-openbiliclaw",
+      "url": "https://github.com/whiteguo233/dsh-openbiliclaw",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (4)"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "bobleer",
+      "name": "dsh-acp-for-bitfun",
+      "url": "https://github.com/bobleer/dsh-acp-for-bitfun",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (4)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "btspoony",
+      "name": "mstar-harness",
+      "url": "https://github.com/btspoony/mstar-harness",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "plugin-collection-needs-expansion",
+      "reason": "看起来是插件集合；需要按子插件清单展开，不能把集合仓整体冒充一个插件。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": [
+          "packages/ tree (4 children)"
+        ]
+      }
+    },
+    {
+      "owner": "Tieboyh",
+      "name": "dsh-session-search",
+      "url": "https://github.com/Tieboyh/dsh-session-search",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-harness-integration",
+      "reason": "代码包同时声明 DeepSeek Harness 依赖和明确插件接入方式。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (5)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "whyihaveyou",
+      "name": "dsh-suite",
+      "url": "https://github.com/whyihaveyou/dsh-suite",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "plugin-collection-needs-expansion",
+      "reason": "看起来是插件集合；需要按子插件清单展开，不能把集合仓整体冒充一个插件。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "repository-plugin"
+        ],
+        "collectionSignals": [
+          "packages/ tree (2 children)"
+        ]
+      }
+    },
+    {
+      "owner": "fuhefei",
+      "name": "dsh-sentinel",
+      "url": "https://github.com/fuhefei/dsh-sentinel",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (2)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "havingautism",
+      "name": "dsh-ultra-ui",
+      "url": "https://github.com/havingautism/dsh-ultra-ui",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (5)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "havingautism",
+      "name": "dsh-deepresearch",
+      "url": "https://github.com/havingautism/dsh-deepresearch",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (11)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "havingautism",
+      "name": "dsh-notebooks",
+      "url": "https://github.com/havingautism/dsh-notebooks",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (10)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "THU-MAIC",
+      "name": "dsh-openmaic",
+      "url": "https://github.com/THU-MAIC/dsh-openmaic",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (7)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "yjh051108",
+      "name": "dsh-super-injector",
+      "url": "https://github.com/yjh051108/dsh-super-injector",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (1)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "repository-plugin",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "lzszq",
+      "name": "dsh-scholar",
+      "url": "https://github.com/lzszq/dsh-scholar",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (14)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": [
+          "packages/ tree (5 children)"
+        ]
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "omdsh",
+      "url": "https://github.com/omdsh-dev/omdsh",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "distribution",
+      "reason": "Oh My DSH 发行版，不是插件。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "session-teleport",
+      "url": "https://github.com/omdsh-dev/session-teleport",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (4)"
+        ],
+        "pluginClaims": [
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-tool-browser",
+      "url": "https://github.com/omdsh-dev/dsh-tool-browser",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "template-or-guide",
+      "reason": "浏览器接入配置与指南，不含独立 DSH 插件实现。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-github-integration",
+      "url": "https://github.com/omdsh-dev/dsh-github-integration",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-repository-plugin",
+      "reason": "固定提交中的 plugins/github-integration/.dsh-plugin 已通过静态打包核验。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "repository-plugin"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "toybox",
+      "url": "https://github.com/omdsh-dev/toybox",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-collection",
+      "reason": "固定提交中的 8 个 Repository Plugin 子项目已逐项通过静态或协议核验。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "repository-plugin"
+        ],
+        "collectionSignals": [
+          "plugins/ tree (8 children)"
+        ]
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "7d7d",
+      "url": "https://github.com/omdsh-dev/7d7d",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (6)"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-hub",
+      "url": "https://github.com/omdsh-dev/dsh-hub",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "ecosystem-infrastructure",
+      "reason": "Hub 消费端，不是插件。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (6)"
+        ],
+        "pluginClaims": [
+          "repository-plugin"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "omdsh-runtime",
+      "url": "https://github.com/omdsh-dev/omdsh-runtime",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "ecosystem-infrastructure",
+      "reason": "OMDSH Runtime，不是插件。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "0xsline",
+      "name": "dsh-spotlight",
+      "url": "https://github.com/0xsline/dsh-spotlight",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "bill9109",
+      "name": "dsh-conversation-share",
+      "url": "https://github.com/bill9109/dsh-conversation-share",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "gameswu",
+      "name": "dsh-plugin-background",
+      "url": "https://github.com/gameswu/dsh-plugin-background",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "LoserFox",
+      "name": "dsh-git-identity",
+      "url": "https://github.com/LoserFox/dsh-git-identity",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "LoserFox",
+      "name": "telegram",
+      "url": "https://github.com/LoserFox/telegram",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (5)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "LoserFox",
+      "name": "distill",
+      "url": "https://github.com/LoserFox/distill",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-cordis-plugin",
+      "reason": "仓库包含 Cordis patch，并有 DeepSeek Harness 依赖或明确插件接入证据。",
+      "evidence": {
+        "strongSignals": [
+          "cordis.patch"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "xiaohai-78",
+      "name": "Top",
+      "url": "https://github.com/xiaohai-78/Top",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "template-or-guide",
+      "reason": "模板、教程、排行榜或占位项目不是插件实现。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "repository-plugin",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "btspoony",
+      "name": "dsh-advisor",
+      "url": "https://github.com/btspoony/dsh-advisor",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (19)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "coppynight",
+      "name": "dsh-doctor",
+      "url": "https://github.com/coppynight/dsh-doctor",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          ".dsh-plugin/",
+          ".dsh-plugin manifest/installer"
+        ],
+        "pluginClaims": [
+          "repository-plugin",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Small-tailqwq",
+      "name": "dsh-tps",
+      "url": "https://github.com/Small-tailqwq/dsh-tps",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.yml",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (4)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "btspoony",
+      "name": "dsh-llm-fallbacks",
+      "url": "https://github.com/btspoony/dsh-llm-fallbacks",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./bundle/cordis.patch.yml",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (18)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "bruc3van",
+      "name": "dsh-desktop",
+      "url": "https://github.com/bruc3van/dsh-desktop",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "LaplaceYoung",
+      "name": "oh-my-dsh",
+      "url": "https://github.com/LaplaceYoung/oh-my-dsh",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": [
+          "plugins/ tree (715 children)"
+        ]
+      }
+    },
+    {
+      "owner": "AdamPlatin123",
+      "name": "dsh-tonghuashun",
+      "url": "https://github.com/AdamPlatin123/dsh-tonghuashun",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "LaplaceYoung",
+      "name": "dsh-qq2006",
+      "url": "https://github.com/LaplaceYoung/dsh-qq2006",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Small-tailqwq",
+      "name": "dsh-deepcel",
+      "url": "https://github.com/Small-tailqwq/dsh-deepcel",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "ilharp",
+      "name": "dsh-tool-approval",
+      "url": "https://github.com/ilharp/dsh-tool-approval",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (10)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "deepseek-ai",
+      "name": "deepseek-harness",
+      "url": "https://github.com/deepseek-ai/deepseek-harness",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "core-product",
+      "reason": "DeepSeek Harness 主仓，不是插件。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (1)"
+        ],
+        "pluginClaims": [],
+        "collectionSignals": [
+          "packages/ tree (54 children)"
+        ]
+      }
+    },
+    {
+      "owner": "Anionex",
+      "name": "dsh-computer-use",
+      "url": "https://github.com/Anionex/dsh-computer-use",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (20)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Anionex",
+      "name": "dsh-turn-rewind",
+      "url": "https://github.com/Anionex/dsh-turn-rewind",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Anionex",
+      "name": "dsh-vision-toolkit",
+      "url": "https://github.com/Anionex/dsh-vision-toolkit",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (13)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "SenmuuuuW",
+      "name": "dsh-group-photo",
+      "url": "https://github.com/SenmuuuuW/dsh-group-photo",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "template-or-guide",
+      "reason": "模板、教程、排行榜或占位项目不是插件实现。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "vibeinging",
+      "name": "dsh-work",
+      "url": "https://github.com/vibeinging/dsh-work",
+      "defaultBranch": "dev",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "HuanLinOTO",
+      "name": "dsh-plugin-yet-another-subagent",
+      "url": "https://github.com/HuanLinOTO/dsh-plugin-yet-another-subagent",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-cordis-plugin",
+      "reason": "仓库包含 Cordis patch，并有 DeepSeek Harness 依赖或明确插件接入证据。",
+      "evidence": {
+        "strongSignals": [
+          "cordis.patch"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "HuanLinOTO",
+      "name": "dsh-plugin-ya-workspace-sidebar",
+      "url": "https://github.com/HuanLinOTO/dsh-plugin-ya-workspace-sidebar",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (7)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "HuanLinOTO",
+      "name": "dsh-plugin-spur",
+      "url": "https://github.com/HuanLinOTO/dsh-plugin-spur",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (7)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "HuanLinOTO",
+      "name": "dsh-plugin-sleep",
+      "url": "https://github.com/HuanLinOTO/dsh-plugin-sleep",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (1)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "HuanLinOTO",
+      "name": "dsh-plugin-pet-rs",
+      "url": "https://github.com/HuanLinOTO/dsh-plugin-pet-rs",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "HuanLinOTO",
+      "name": "dsh-plugin-mineru",
+      "url": "https://github.com/HuanLinOTO/dsh-plugin-mineru",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (8)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "HuanLinOTO",
+      "name": "dsh-plugin-interpreters",
+      "url": "https://github.com/HuanLinOTO/dsh-plugin-interpreters",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-cordis-plugin",
+      "reason": "仓库包含 Cordis patch，并有 DeepSeek Harness 依赖或明确插件接入证据。",
+      "evidence": {
+        "strongSignals": [
+          "cordis.patch"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "HuanLinOTO",
+      "name": "dsh-plugin-d399",
+      "url": "https://github.com/HuanLinOTO/dsh-plugin-d399",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "HuanLinOTO",
+      "name": "dsh-plugin-better-sidebar-plugin-office",
+      "url": "https://github.com/HuanLinOTO/dsh-plugin-better-sidebar-plugin-office",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (1)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "HuanLinOTO",
+      "name": "dsh-plugin-auto-blame",
+      "url": "https://github.com/HuanLinOTO/dsh-plugin-auto-blame",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (14)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "HuanLinOTO",
+      "name": "dsh-plugin-anti-ads",
+      "url": "https://github.com/HuanLinOTO/dsh-plugin-anti-ads",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "dsh.plugin.json"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "HuanLinOTO",
+      "name": "dsh-plugin-aigc-canvas",
+      "url": "https://github.com/HuanLinOTO/dsh-plugin-aigc-canvas",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-cordis-plugin",
+      "reason": "仓库包含 Cordis patch，并有 DeepSeek Harness 依赖或明确插件接入证据。",
+      "evidence": {
+        "strongSignals": [
+          "cordis.patch"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "huiliyi37",
+      "name": "dsh-tianshu-tui-placeholder",
+      "url": "https://github.com/huiliyi37/dsh-tianshu-tui-placeholder",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "template-or-guide",
+      "reason": "模板、教程、排行榜或占位项目不是插件实现。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "chen-001",
+      "name": "dsh-chat-width",
+      "url": "https://github.com/chen-001/dsh-chat-width",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "dsh.plugin.json",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (4)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "hellodigua",
+      "name": "dsh-emoji",
+      "url": "https://github.com/hellodigua/dsh-emoji",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-cordis-plugin",
+      "reason": "仓库包含 Cordis patch，并有 DeepSeek Harness 依赖或明确插件接入证据。",
+      "evidence": {
+        "strongSignals": [
+          "cordis.patch"
+        ],
+        "pluginClaims": [
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "fakechris",
+      "name": "dsh-harness-ops",
+      "url": "https://github.com/fakechris/dsh-harness-ops",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Moeblack",
+      "name": "dsh-message-edit",
+      "url": "https://github.com/Moeblack/dsh-message-edit",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "pulseaiclub",
+      "name": "phi",
+      "url": "https://github.com/pulseaiclub/phi",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-auto-chess",
+      "url": "https://github.com/omdsh-dev/dsh-auto-chess",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (8)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "lehhair",
+      "name": "dsh-diff-viewer",
+      "url": "https://github.com/lehhair/dsh-diff-viewer",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "private-or-unavailable",
+      "reason": "公开描述标明 Private，不能作为可核验的公开插件来源。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (5)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "lehhair",
+      "name": "dsh-mobile",
+      "url": "https://github.com/lehhair/dsh-mobile",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (6)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "lehhair",
+      "name": "dsh-split-panes",
+      "url": "https://github.com/lehhair/dsh-split-panes",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (6)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Buyi-wsgzg",
+      "name": "dsh-sidechain",
+      "url": "https://github.com/Buyi-wsgzg/dsh-sidechain",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (13)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-mygo",
+      "url": "https://github.com/omdsh-dev/dsh-mygo",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "plugin-collection-needs-expansion",
+      "reason": "看起来是插件集合；需要按子插件清单展开，不能把集合仓整体冒充一个插件。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "profile-install"
+        ],
+        "collectionSignals": [
+          "packages/ tree (2 children)"
+        ]
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "fabric",
+      "url": "https://github.com/omdsh-dev/fabric",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": [
+          "packages/ tree (3 children)"
+        ]
+      }
+    },
+    {
+      "owner": "fakechris",
+      "name": "dsh-track",
+      "url": "https://github.com/fakechris/dsh-track",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (5)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Fisfzy",
+      "name": "math-lean",
+      "url": "https://github.com/Fisfzy/math-lean",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "renat3u",
+      "name": "tonghuashun-webui",
+      "url": "https://github.com/renat3u/tonghuashun-webui",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "zevorn",
+      "name": "dsh-humanize",
+      "url": "https://github.com/zevorn/dsh-humanize",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "AnacondaKC",
+      "name": "dsh-stock-market",
+      "url": "https://github.com/AnacondaKC/dsh-stock-market",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (11)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "AnacondaKC",
+      "name": "dsh-custom-css",
+      "url": "https://github.com/AnacondaKC/dsh-custom-css",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (10)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "AnacondaKC",
+      "name": "dsh-douyin",
+      "url": "https://github.com/AnacondaKC/dsh-douyin",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-mnemon",
+      "url": "https://github.com/omdsh-dev/dsh-mnemon",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "bill9109",
+      "name": "dsh-web-ui-notify",
+      "url": "https://github.com/bill9109/dsh-web-ui-notify",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "bill9109",
+      "name": "dsh-drag-and-drop",
+      "url": "https://github.com/bill9109/dsh-drag-and-drop",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "renat3u",
+      "name": "dsh-web-archive",
+      "url": "https://github.com/renat3u/dsh-web-archive",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "renat3u",
+      "name": "dsh-paseo",
+      "url": "https://github.com/renat3u/dsh-paseo",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "review",
+      "reasonCode": "claimed-plugin-unverified",
+      "reason": "文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "icetomoyo",
+      "name": "dsh_workflow",
+      "url": "https://github.com/icetomoyo/dsh_workflow",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (14)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-scout",
+      "url": "https://github.com/omdsh-dev/dsh-scout",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (5)"
+        ],
+        "pluginClaims": [
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-data-agent",
+      "url": "https://github.com/omdsh-dev/dsh-data-agent",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (8)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "william-jin-cmu",
+      "name": "dsh-stickers",
+      "url": "https://github.com/william-jin-cmu/dsh-stickers",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (11)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "william-jin-cmu",
+      "name": "dsh-companion",
+      "url": "https://github.com/william-jin-cmu/dsh-companion",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": [
+          "plugins/ tree (2 children)"
+        ]
+      }
+    },
+    {
+      "owner": "william-jin-cmu",
+      "name": "dsh-evolve",
+      "url": "https://github.com/william-jin-cmu/dsh-evolve",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "dsh.plugin.json",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "william-jin-cmu",
+      "name": "dsh-artifact",
+      "url": "https://github.com/william-jin-cmu/dsh-artifact",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "dsh.plugin.json",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "william-jin-cmu",
+      "name": "dsh-vision",
+      "url": "https://github.com/william-jin-cmu/dsh-vision",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "dsh.plugin.json",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "lujoai",
+      "name": "Lujo-MCP",
+      "url": "https://github.com/lujoai/Lujo-MCP",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "plugin-template",
+      "url": "https://github.com/omdsh-dev/plugin-template",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "template-or-guide",
+      "reason": "插件模板本身不作为插件收录。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "ccq1",
+      "name": "dsh-side-panel",
+      "url": "https://github.com/ccq1/dsh-side-panel",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "hellodigua",
+      "name": "dsh-share",
+      "url": "https://github.com/hellodigua/dsh-share",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Void0312Aurora",
+      "name": "dsh-desktop-electron",
+      "url": "https://github.com/Void0312Aurora/dsh-desktop-electron",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "WardLu",
+      "name": "shadow-vision",
+      "url": "https://github.com/WardLu/shadow-vision",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "whiteguo233",
+      "name": "dsh-cc-connect",
+      "url": "https://github.com/whiteguo233/dsh-cc-connect",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-harness-integration",
+      "reason": "代码包同时声明 DeepSeek Harness 依赖和明确插件接入方式。",
+      "evidence": {
+        "strongSignals": [
+          "DeepSeek Harness dependencies (1)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "vibeinging",
+      "name": "dsh-turn-navigator",
+      "url": "https://github.com/vibeinging/dsh-turn-navigator",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "private-or-unavailable",
+      "reason": "公开描述标明 Private，不能作为可核验的公开插件来源。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (6)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "vibeinging",
+      "name": "dsh-trace",
+      "url": "https://github.com/vibeinging/dsh-trace",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (8)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "vibeinging",
+      "name": "dsh-agent-budget",
+      "url": "https://github.com/vibeinging/dsh-agent-budget",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (19)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "vibeinging",
+      "name": "dsh-tool-search",
+      "url": "https://github.com/vibeinging/dsh-tool-search",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (10)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-deep-research",
+      "url": "https://github.com/omdsh-dev/dsh-deep-research",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (2)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-inspect",
+      "url": "https://github.com/omdsh-dev/dsh-inspect",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-kb-sieve",
+      "url": "https://github.com/omdsh-dev/dsh-kb-sieve",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (1)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "bill9109",
+      "name": "dsh-101",
+      "url": "https://github.com/bill9109/dsh-101",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (16)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "jark006",
+      "name": "RemoteOps",
+      "url": "https://github.com/jark006/RemoteOps",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "dsh-plugin-skills",
+      "url": "https://github.com/omdsh-dev/dsh-plugin-skills",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "template-or-guide",
+      "reason": "面向插件开发与测试的 Agent Skills，不是运行时插件。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [
+          "explicit-harness-plugin"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "sandbox-nono",
+      "url": "https://github.com/omdsh-dev/sandbox-nono",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (2)"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "hanelalo",
+      "name": "browser-bridge",
+      "url": "https://github.com/hanelalo/browser-bridge",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "bill9109",
+      "name": "dsh-webbridge",
+      "url": "https://github.com/bill9109/dsh-webbridge",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (4)"
+        ],
+        "pluginClaims": [
+          "explicit-harness-plugin",
+          "profile-install",
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "sandbox-mxc",
+      "url": "https://github.com/omdsh-dev/sandbox-mxc",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (3)"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "sandbox-micro",
+      "url": "https://github.com/omdsh-dev/sandbox-micro",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (4)"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "ex-setting",
+      "url": "https://github.com/omdsh-dev/ex-setting",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (10)"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "web-components",
+      "url": "https://github.com/omdsh-dev/web-components",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (4)"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "omdsh-dev",
+      "name": "Qwen-MM-Plugins",
+      "url": "https://github.com/omdsh-dev/Qwen-MM-Plugins",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "package.json:dsh.bundle.patch=./cordis.patch.yml",
+          "cordis.patch",
+          "package.json:dsh metadata",
+          "DeepSeek Harness dependencies (4)"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "paean-ai",
+      "name": "8x-skills",
+      "url": "https://github.com/paean-ai/8x-skills",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Fisfzy",
+      "name": "zotero-harvest",
+      "url": "https://github.com/Fisfzy/zotero-harvest",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "dsh.plugin.json",
+          "DeepSeek Harness dependencies (1)"
+        ],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "Fisfzy",
+      "name": "zotero-wave-rag",
+      "url": "https://github.com/Fisfzy/zotero-wave-rag",
+      "defaultBranch": "master",
+      "archived": false,
+      "decision": "include",
+      "reasonCode": "verified-plugin-contract",
+      "reason": "仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。",
+      "evidence": {
+        "strongSignals": [
+          "dsh.plugin.json",
+          "DeepSeek Harness dependencies (1)"
+        ],
+        "pluginClaims": [
+          "profile-bundle"
+        ],
+        "collectionSignals": []
+      }
+    },
+    {
+      "owner": "paean-ai",
+      "name": "deeptide",
+      "url": "https://github.com/paean-ai/deeptide",
+      "defaultBranch": "main",
+      "archived": false,
+      "decision": "exclude",
+      "reasonCode": "insufficient-plugin-evidence",
+      "reason": "只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。",
+      "evidence": {
+        "strongSignals": [],
+        "pluginClaims": [],
+        "collectionSignals": []
+      }
+    }
+  ]
+}

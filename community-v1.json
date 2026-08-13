@@ -1,32 +1,12 @@
 {
   "schema": "omdsh-workshop-community/v1",
-  "generatedAt": "2026-08-08T07:42:33.623Z",
+  "generatedAt": "2026-08-13T16:24:40.000Z",
   "sources": [
     {
-      "repository": "omdsh-dev/dsh-hub",
+      "repository": "omdsh-dev/dsh-hub-workshop",
       "projectId": null,
-      "enabled": true
+      "enabled": false
     }
   ],
-  "discussions": [
-    {
-      "id": "D_kwDOTteEFc4AoVzL",
-      "repository": "omdsh-dev/dsh-hub",
-      "projectId": null,
-      "number": 26,
-      "title": "Welcome to dsh-hub Discussions!",
-      "url": "https://github.com/omdsh-dev/dsh-hub/discussions/26",
-      "category": "Announcements",
-      "author": {
-        "login": "mattheliu",
-        "url": "https://github.com/mattheliu",
-        "avatarUrl": "https://avatars.githubusercontent.com/u/102272920?u=49a31bfcb637a99b310945f21971f81aac02f680&v=4"
-      },
-      "createdAt": "2026-08-08T07:42:25Z",
-      "updatedAt": "2026-08-08T07:42:25Z",
-      "commentCount": 0,
-      "upvoteCount": 1,
-      "answered": false
-    }
-  ]
+  "discussions": []
 }

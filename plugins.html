@@ -25,7 +25,7 @@
   <main class="doc-shell">
     <h1>公开扩展清单</h1>
     <blockquote>
-      <p>完整目录当前包含 255 个公开 Topic 仓库、264 个插件与扩展条目；其中 12 个保留已审核候选状态。Topic 收录不等于兼容审核或 Registry 安装权限。</p>
+      <p>本次快照先把全部 Topic 仓库作为候选，再按文件级插件证据筛选；主仓、基础设施、发行版、awesome/文档/模板、独立应用和 Topic-only 项目不进入 Catalog。精确统计见 Catalog 与 Plugin Audit JSON。</p>
     </blockquote>
     <p><a href="./#catalog">在首页搜索、筛选和浏览完整目录</a>，或读取 <a href="topic-repositories.json">Topic 仓库快照 JSON</a>。</p>
     <h2>已审核候选：toybox</h2>
@@ -43,12 +43,11 @@
     <h2>已审核候选：独立扩展项目</h2>
     <ul>
       <li><a href="./#package=github-integration">GitHub Integration</a></li>
-      <li><a href="./#package=dsh-tool-browser">DSH 浏览器控制配置</a></li>
       <li><a href="./#package=session-teleport">Session Teleport</a></li>
       <li><a href="./#package=7d7d">7d7d 游戏门户</a></li>
     </ul>
     <h2>数据边界</h2>
-    <p><a href="catalog.json">Catalog JSON</a> 用于公开发现；<a href="topic-repositories.json">Topic Snapshot JSON</a> 保留当前 255 个公开仓库的来源快照；<a href="registry-v1.json">Registry JSON</a> 当前保持空安装清单，直到各项目通过审核。</p>
+    <p><a href="catalog.json">Catalog JSON</a> 只列插件；<a href="topic-repositories.json">Topic Snapshot JSON</a> 保留 255 个公开候选的来源快照；<a href="topic-plugin-audit.json">Plugin Audit JSON</a> 公开每个仓库的收录、待复核或排除结论；<a href="registry-v1.json">Registry JSON</a> 只发布经过固定版本、供应链、真实运行和恢复门禁的安装条目。</p>
   </main>
   <footer class="site-footer">
     <a class="footer-brand" href="./">DSH Hub</a>

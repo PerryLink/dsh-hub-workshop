@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/omdsh-dev/dsh-hub/blob/main/candidates.schema.json",
+  "$id": "https://github.com/omdsh-dev/dsh-hub-workshop/blob/main/candidates.schema.json",
   "title": "OMDSH Workshop Candidates",
   "type": "object",
   "required": ["schema", "generatedAt", "organization", "policy", "stats", "projects"],
