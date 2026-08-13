@@ -30,8 +30,8 @@ test('retired login and private session endpoints remain unavailable', async () 
   }
 })
 
-test('public feeds and repository mapping require no session', async () => {
-  for (const path of ['/catalog.json', '/registry-v1.json', '/recipes-v1.json', '/api/v1/ecosystem.json', '/ecosystem-repositories.json']) {
+test('public feeds, project directory, and repository mappings require no session', async () => {
+  for (const path of ['/catalog.json', '/registry-v1.json', '/recipes-v1.json', '/api/v1/ecosystem.json', '/ecosystem-repositories.json', '/public-discovery.json', '/projects.html']) {
     const response = await publicWorker.fetch(new Request(`https://hub.omdsh.dev${path}`), env())
     assert.equal(response.status, 200, path)
     assert.equal(await response.text(), `asset:${path}`, path)

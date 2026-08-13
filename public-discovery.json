@@ -1,0 +1,339 @@
+{
+  "schema": "omdsh-public-discovery/v1",
+  "generatedAt": "2026-08-13T14:02:29.165Z",
+  "policy": {
+    "visibility": "Public repository visibility supports discovery only.",
+    "authority": "A repository appears in the install Registry only after Workshop review and immutable source admission.",
+    "topic": "The dsh-plugin Topic is an external discovery signal, not an endorsement or compatibility claim."
+  },
+  "organization": {
+    "owner": "omdsh-dev",
+    "source": "https://github.com/orgs/omdsh-dev/repositories?type=public",
+    "observedRepositoryCount": 63,
+    "projectCount": 62,
+    "repositories": [
+      {
+        "name": ".github",
+        "url": "https://github.com/omdsh-dev/.github",
+        "kind": "organization-config"
+      },
+      {
+        "name": "7d7d",
+        "url": "https://github.com/omdsh-dev/7d7d",
+        "kind": "public-project"
+      },
+      {
+        "name": "community",
+        "url": "https://github.com/omdsh-dev/community",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-annotation",
+        "url": "https://github.com/omdsh-dev/dsh-annotation",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-at-file",
+        "url": "https://github.com/omdsh-dev/dsh-at-file",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-auto-chess",
+        "url": "https://github.com/omdsh-dev/dsh-auto-chess",
+        "kind": "public-project"
+      },
+      {
+        "name": "DSH-better-sidebar",
+        "url": "https://github.com/omdsh-dev/DSH-better-sidebar",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-book2skill",
+        "url": "https://github.com/omdsh-dev/dsh-book2skill",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-custom-tool",
+        "url": "https://github.com/omdsh-dev/dsh-custom-tool",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-daily-fortune",
+        "url": "https://github.com/omdsh-dev/dsh-daily-fortune",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-daily-progress",
+        "url": "https://github.com/omdsh-dev/dsh-daily-progress",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-data-agent",
+        "url": "https://github.com/omdsh-dev/dsh-data-agent",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-deep-research",
+        "url": "https://github.com/omdsh-dev/dsh-deep-research",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-ernie-image",
+        "url": "https://github.com/omdsh-dev/dsh-ernie-image",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-fun-ticker",
+        "url": "https://github.com/omdsh-dev/dsh-fun-ticker",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-fun-typewriter",
+        "url": "https://github.com/omdsh-dev/dsh-fun-typewriter",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-fun-weather",
+        "url": "https://github.com/omdsh-dev/dsh-fun-weather",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-genui",
+        "url": "https://github.com/omdsh-dev/dsh-genui",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-github-integration",
+        "url": "https://github.com/omdsh-dev/dsh-github-integration",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-gomoku",
+        "url": "https://github.com/omdsh-dev/dsh-gomoku",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-hub",
+        "url": "https://github.com/omdsh-dev/dsh-hub",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-hub-workshop",
+        "url": "https://github.com/omdsh-dev/dsh-hub-workshop",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-inspect",
+        "url": "https://github.com/omdsh-dev/dsh-inspect",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-kb-sieve",
+        "url": "https://github.com/omdsh-dev/dsh-kb-sieve",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-longbridge",
+        "url": "https://github.com/omdsh-dev/dsh-longbridge",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-mnemon",
+        "url": "https://github.com/omdsh-dev/dsh-mnemon",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-mygo",
+        "url": "https://github.com/omdsh-dev/dsh-mygo",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-notification",
+        "url": "https://github.com/omdsh-dev/dsh-notification",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-open-in-vscode",
+        "url": "https://github.com/omdsh-dev/dsh-open-in-vscode",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-paddle-ocr",
+        "url": "https://github.com/omdsh-dev/dsh-paddle-ocr",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-pet-corner",
+        "url": "https://github.com/omdsh-dev/dsh-pet-corner",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-plugin-check",
+        "url": "https://github.com/omdsh-dev/dsh-plugin-check",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-plugin-dev",
+        "url": "https://github.com/omdsh-dev/dsh-plugin-dev",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-plugin-skills",
+        "url": "https://github.com/omdsh-dev/dsh-plugin-skills",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-revive",
+        "url": "https://github.com/omdsh-dev/dsh-revive",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-scout",
+        "url": "https://github.com/omdsh-dev/dsh-scout",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-security-audit",
+        "url": "https://github.com/omdsh-dev/dsh-security-audit",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-session-health",
+        "url": "https://github.com/omdsh-dev/dsh-session-health",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-tool-browser",
+        "url": "https://github.com/omdsh-dev/dsh-tool-browser",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-tool-calculator",
+        "url": "https://github.com/omdsh-dev/dsh-tool-calculator",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-tool-csv",
+        "url": "https://github.com/omdsh-dev/dsh-tool-csv",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-tool-diff",
+        "url": "https://github.com/omdsh-dev/dsh-tool-diff",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-tool-encoding",
+        "url": "https://github.com/omdsh-dev/dsh-tool-encoding",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-tool-json",
+        "url": "https://github.com/omdsh-dev/dsh-tool-json",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-tool-markdown",
+        "url": "https://github.com/omdsh-dev/dsh-tool-markdown",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-tool-regex",
+        "url": "https://github.com/omdsh-dev/dsh-tool-regex",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-tool-schema",
+        "url": "https://github.com/omdsh-dev/dsh-tool-schema",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-tool-stat",
+        "url": "https://github.com/omdsh-dev/dsh-tool-stat",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-tool-time",
+        "url": "https://github.com/omdsh-dev/dsh-tool-time",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-toolkit",
+        "url": "https://github.com/omdsh-dev/dsh-toolkit",
+        "kind": "public-project"
+      },
+      {
+        "name": "dsh-voice-funasr",
+        "url": "https://github.com/omdsh-dev/dsh-voice-funasr",
+        "kind": "public-project"
+      },
+      {
+        "name": "ex-setting",
+        "url": "https://github.com/omdsh-dev/ex-setting",
+        "kind": "public-project"
+      },
+      {
+        "name": "fabric",
+        "url": "https://github.com/omdsh-dev/fabric",
+        "kind": "public-project"
+      },
+      {
+        "name": "omdsh",
+        "url": "https://github.com/omdsh-dev/omdsh",
+        "kind": "public-project"
+      },
+      {
+        "name": "omdsh-runtime",
+        "url": "https://github.com/omdsh-dev/omdsh-runtime",
+        "kind": "public-project"
+      },
+      {
+        "name": "plugin-template",
+        "url": "https://github.com/omdsh-dev/plugin-template",
+        "kind": "public-project"
+      },
+      {
+        "name": "Qwen-MM-Plugins",
+        "url": "https://github.com/omdsh-dev/Qwen-MM-Plugins",
+        "kind": "public-project"
+      },
+      {
+        "name": "sandbox-micro",
+        "url": "https://github.com/omdsh-dev/sandbox-micro",
+        "kind": "public-project"
+      },
+      {
+        "name": "sandbox-mxc",
+        "url": "https://github.com/omdsh-dev/sandbox-mxc",
+        "kind": "public-project"
+      },
+      {
+        "name": "sandbox-nono",
+        "url": "https://github.com/omdsh-dev/sandbox-nono",
+        "kind": "public-project"
+      },
+      {
+        "name": "session-teleport",
+        "url": "https://github.com/omdsh-dev/session-teleport",
+        "kind": "public-project"
+      },
+      {
+        "name": "toybox",
+        "url": "https://github.com/omdsh-dev/toybox",
+        "kind": "public-project"
+      },
+      {
+        "name": "web-components",
+        "url": "https://github.com/omdsh-dev/web-components",
+        "kind": "public-project"
+      }
+    ]
+  },
+  "topic": {
+    "name": "dsh-plugin",
+    "source": "https://github.com/topics/dsh-plugin",
+    "observedRepositoryCount": 208,
+    "observedPages": 20,
+    "status": "discovery-only"
+  }
+}

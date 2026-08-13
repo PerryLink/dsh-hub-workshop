@@ -4,15 +4,55 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <title>项目 · DSH Hub Workshop</title>
+  <meta name="description" content="DSH Hub 当前公开扩展候选清单。">
+  <title>扩展清单 - DSH Hub</title>
+  <link rel="icon" href="assets/atlas-symbol.png">
   <link rel="stylesheet" href="assets/styles.css">
-  <script src="assets/public.js" defer></script>
 </head>
 <body>
-  <header class="site-header"><a class="brand" href="./">DSH Hub Workshop</a><nav class="primary-nav" aria-label="主导航"><a href="./">项目</a><a href="developer-guide.html">开发者</a><a href="contributing.html">收录</a></nav></header>
-  <main class="page-shell"><section class="hero"><p class="hero-kicker">社区扩展目录</p><h1>找到适合你的扩展。</h1><p>公开版只展示经过显式允许的项目、固定来源和作者声明；不会从未公开资料推断宿主能力。</p></section>
-  <section class="section-shell" aria-labelledby="catalog-title"><div class="section-heading"><div><h2 id="catalog-title">全部项目</h2><p>0 个公开项目</p></div><label>搜索 <input id="public-search" type="search" autocomplete="off" placeholder="名称、说明或类型"></label></div><div id="public-projects" class="catalog-grid"></div><p id="public-empty" hidden>没有找到匹配的项目。</p></section>
-  <section class="section-shell"><h2>数据接口</h2><p><a href="catalog.json">Catalog</a> · <a href="api/v1/plugins.json">AI 项目目录</a> · <a href="registry-v1.json">Registry 投影</a></p><p>这些接口只用于发现和解释，不授予安装权限。</p></section></main>
-  <footer class="site-footer"><strong>DSH Hub Workshop</strong><p>只展示明确允许公开的项目事实；未知能力保持未知。</p></footer>
+  <header class="site-header">
+    <a class="wordmark" href="./" aria-label="DSH Hub 首页">
+      <img class="wordmark-mark" src="assets/atlas-symbol.png" alt="" width="34" height="34">
+      <span>DSH Hub</span>
+    </a>
+    <nav class="site-nav" aria-label="主导航">
+      <a href="./#catalog">插件</a>
+      <a href="./#ecosystem">项目</a>
+      <a href="install.html">安装</a>
+      <a href="contributing.html">收录</a>
+    </nav>
+  </header>
+  <main class="doc-shell">
+    <h1>公开扩展清单</h1>
+    <blockquote>
+      <p>当前展示 12 个已经迁移到公开仓库的来源候选。它们尚未自动获得 Registry 安装权限。</p>
+    </blockquote>
+    <h2>toybox</h2>
+    <p>8 个公开技能与 MCP 候选：</p>
+    <ul>
+      <li><a href="./#package=code-archaeologist">代码考古学家</a></li>
+      <li><a href="./#package=code-talent-scout">代码星探</a></li>
+      <li><a href="./#package=bug-tamer">Bug 驯兽师</a></li>
+      <li><a href="./#package=almanac-mcp">老黄历 MCP</a></li>
+      <li><a href="./#package=chinese-colors-mcp">中国传统色 MCP</a></li>
+      <li><a href="./#package=decision-dice-mcp">决策骰子 MCP</a></li>
+      <li><a href="./#package=naming-master-mcp">取名大师 MCP</a></li>
+      <li><a href="./#package=time-capsule-mcp">时间胶囊 MCP</a></li>
+    </ul>
+    <h2>独立扩展项目</h2>
+    <ul>
+      <li><a href="./#package=github-integration">GitHub Integration</a></li>
+      <li><a href="./#package=dsh-tool-browser">DSH 浏览器控制配置</a></li>
+      <li><a href="./#package=session-teleport">Session Teleport</a></li>
+      <li><a href="./#package=7d7d">7d7d 游戏门户</a></li>
+    </ul>
+    <h2>数据边界</h2>
+    <p><a href="catalog.json">Catalog JSON</a> 用于公开发现；<a href="registry-v1.json">Registry JSON</a> 当前保持空安装清单，直到各项目通过审核。</p>
+  </main>
+  <footer class="site-footer">
+    <a class="footer-brand" href="./">DSH Hub</a>
+    <p>公开来源不等于安装权限。安装前请核验固定提交、依赖、权限与维护者声明。</p>
+    <div class="footer-links"><a href="catalog.json">JSON API</a><a href="https://github.com/orgs/omdsh-dev/repositories">omdsh-dev</a></div>
+  </footer>
 </body>
 </html>

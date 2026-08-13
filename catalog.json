@@ -1,16 +1,412 @@
 {
   "schema": "dsh-hub-index/v0.2",
   "hub": "github:omdsh-dev/dsh-hub-workshop",
-  "updated": "2026-08-09T07:20:00.000Z",
+  "updated": "2026-08-13T13:55:33.617Z",
   "stats": {
-    "packages": 0,
-    "repositories": 0,
-    "featured": 0,
-    "categories": {},
-    "kinds": {},
-    "installMethods": {}
+    "packages": 12,
+    "repositories": 5,
+    "featured": 4,
+    "categories": {
+      "developer-tools": 2,
+      "fun": 8,
+      "interface": 1,
+      "memory": 1
+    },
+    "kinds": {
+      "extension": 2,
+      "mcp": 5,
+      "skill": 4,
+      "ui": 1
+    },
+    "installMethods": {
+      "manual": 12
+    }
   },
-  "packages": [],
+  "packages": [
+    {
+      "id": "almanac-mcp",
+      "name": "老黄历 MCP",
+      "description": "查询今日宜忌、冲煞、幸运方向，支持可复现抽签与每日一诗。",
+      "kind": "mcp",
+      "category": "fun",
+      "tags": [
+        "黄历",
+        "抽签",
+        "零依赖"
+      ],
+      "author": {
+        "name": "mattheliu",
+        "url": "https://github.com/mattheliu"
+      },
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "repositoryPath": "/plugins/almanac-mcp",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "updatedAt": "2026-08-13T20:55:45+08:00",
+      "version": "0.0.1",
+      "license": "MIT",
+      "status": "prototype",
+      "compatibility": "已通过仓库本地静态或协议验证；DSH 运行时安装待官方 Repository Plugin 可用后复验",
+      "install": {
+        "type": "manual",
+        "label": "复制公开来源",
+        "source": "github:omdsh-dev/toybox",
+        "command": "https://github.com/omdsh-dev/toybox",
+        "note": "当前作为公开源码候选展示；安装坐标须经 Workshop 审核并写入 Registry 后才获得安装权限。"
+      },
+      "featured": false
+    },
+    {
+      "id": "bug-tamer",
+      "name": "Bug 驯兽师",
+      "description": "按诱捕、驯化、放归、饲养手册四阶段推进有证据的 Bug 修复。",
+      "kind": "skill",
+      "category": "fun",
+      "tags": [
+        "debug",
+        "回归测试",
+        "工作流"
+      ],
+      "author": {
+        "name": "mattheliu",
+        "url": "https://github.com/mattheliu"
+      },
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "repositoryPath": "/plugins/bug-tamer",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "updatedAt": "2026-08-13T20:55:45+08:00",
+      "version": "0.0.1",
+      "license": "MIT",
+      "status": "prototype",
+      "compatibility": "已通过仓库本地静态或协议验证；DSH 运行时安装待官方 Repository Plugin 可用后复验",
+      "install": {
+        "type": "manual",
+        "label": "复制公开来源",
+        "source": "github:omdsh-dev/toybox",
+        "command": "https://github.com/omdsh-dev/toybox",
+        "note": "当前作为公开源码候选展示；安装坐标须经 Workshop 审核并写入 Registry 后才获得安装权限。"
+      },
+      "featured": false
+    },
+    {
+      "id": "chinese-colors-mcp",
+      "name": "中国传统色 MCP",
+      "description": "搜索中国传统色、按日期取今日色，并生成带文化典故的和谐色板。",
+      "kind": "mcp",
+      "category": "fun",
+      "tags": [
+        "颜色",
+        "设计",
+        "文化"
+      ],
+      "author": {
+        "name": "mattheliu",
+        "url": "https://github.com/mattheliu"
+      },
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "repositoryPath": "/plugins/chinese-colors-mcp",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "updatedAt": "2026-08-13T20:55:45+08:00",
+      "version": "0.0.1",
+      "license": "MIT",
+      "status": "prototype",
+      "compatibility": "已通过仓库本地静态或协议验证；DSH 运行时安装待官方 Repository Plugin 可用后复验",
+      "install": {
+        "type": "manual",
+        "label": "复制公开来源",
+        "source": "github:omdsh-dev/toybox",
+        "command": "https://github.com/omdsh-dev/toybox",
+        "note": "当前作为公开源码候选展示；安装坐标须经 Workshop 审核并写入 Registry 后才获得安装权限。"
+      },
+      "featured": false
+    },
+    {
+      "id": "code-archaeologist",
+      "name": "代码考古学家",
+      "description": "用地层、文物和证据链方法解剖遗留代码，给出保护性迁移建议。",
+      "kind": "skill",
+      "category": "fun",
+      "tags": [
+        "legacy-code",
+        "架构",
+        "证据链"
+      ],
+      "author": {
+        "name": "mattheliu",
+        "url": "https://github.com/mattheliu"
+      },
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "repositoryPath": "/plugins/code-archaeologist",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "updatedAt": "2026-08-13T20:55:45+08:00",
+      "version": "0.0.1",
+      "license": "MIT",
+      "status": "prototype",
+      "featured": true,
+      "compatibility": "已通过仓库本地静态或协议验证；DSH 运行时安装待官方 Repository Plugin 可用后复验",
+      "install": {
+        "type": "manual",
+        "label": "复制公开来源",
+        "source": "github:omdsh-dev/toybox",
+        "command": "https://github.com/omdsh-dev/toybox",
+        "note": "当前作为公开源码候选展示；安装坐标须经 Workshop 审核并写入 Registry 后才获得安装权限。"
+      }
+    },
+    {
+      "id": "code-talent-scout",
+      "name": "代码星探",
+      "description": "用四维评分卡给函数做 S/A/B/C 评级，找出最值得重写的候选。",
+      "kind": "skill",
+      "category": "fun",
+      "tags": [
+        "code-review",
+        "评分",
+        "重构"
+      ],
+      "author": {
+        "name": "mattheliu",
+        "url": "https://github.com/mattheliu"
+      },
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "repositoryPath": "/plugins/code-talent-scout",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "updatedAt": "2026-08-13T20:55:45+08:00",
+      "version": "0.0.1",
+      "license": "MIT",
+      "status": "prototype",
+      "compatibility": "已通过仓库本地静态或协议验证；DSH 运行时安装待官方 Repository Plugin 可用后复验",
+      "install": {
+        "type": "manual",
+        "label": "复制公开来源",
+        "source": "github:omdsh-dev/toybox",
+        "command": "https://github.com/omdsh-dev/toybox",
+        "note": "当前作为公开源码候选展示；安装坐标须经 Workshop 审核并写入 Registry 后才获得安装权限。"
+      },
+      "featured": false
+    },
+    {
+      "id": "decision-dice-mcp",
+      "name": "决策骰子 MCP",
+      "description": "提供抛硬币、掷骰和命运抉择工具，为选择困难保留可复现结果。",
+      "kind": "mcp",
+      "category": "fun",
+      "tags": [
+        "决策",
+        "随机",
+        "seed"
+      ],
+      "author": {
+        "name": "mattheliu",
+        "url": "https://github.com/mattheliu"
+      },
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "repositoryPath": "/plugins/decision-dice-mcp",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "updatedAt": "2026-08-13T20:55:45+08:00",
+      "version": "0.0.1",
+      "license": "MIT",
+      "status": "prototype",
+      "compatibility": "已通过仓库本地静态或协议验证；DSH 运行时安装待官方 Repository Plugin 可用后复验",
+      "install": {
+        "type": "manual",
+        "label": "复制公开来源",
+        "source": "github:omdsh-dev/toybox",
+        "command": "https://github.com/omdsh-dev/toybox",
+        "note": "当前作为公开源码候选展示；安装坐标须经 Workshop 审核并写入 Registry 后才获得安装权限。"
+      },
+      "featured": false
+    },
+    {
+      "id": "naming-master-mcp",
+      "name": "取名大师 MCP",
+      "description": "用古风、赛博、极简与程序员梗四种风格给变量、函数或项目取名。",
+      "kind": "mcp",
+      "category": "fun",
+      "tags": [
+        "命名",
+        "创意",
+        "开发体验"
+      ],
+      "author": {
+        "name": "mattheliu",
+        "url": "https://github.com/mattheliu"
+      },
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "repositoryPath": "/plugins/naming-master-mcp",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "updatedAt": "2026-08-13T20:55:45+08:00",
+      "version": "0.0.1",
+      "license": "MIT",
+      "status": "prototype",
+      "compatibility": "已通过仓库本地静态或协议验证；DSH 运行时安装待官方 Repository Plugin 可用后复验",
+      "install": {
+        "type": "manual",
+        "label": "复制公开来源",
+        "source": "github:omdsh-dev/toybox",
+        "command": "https://github.com/omdsh-dev/toybox",
+        "note": "当前作为公开源码候选展示；安装坐标须经 Workshop 审核并写入 Registry 后才获得安装权限。"
+      },
+      "featured": false
+    },
+    {
+      "id": "time-capsule-mcp",
+      "name": "时间胶囊 MCP",
+      "description": "封存想法并在指定天数后开启，未到期时由服务端拒绝泄露内容。",
+      "kind": "mcp",
+      "category": "fun",
+      "tags": [
+        "时间胶囊",
+        "写作",
+        "存储"
+      ],
+      "author": {
+        "name": "mattheliu",
+        "url": "https://github.com/mattheliu"
+      },
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "repositoryPath": "/plugins/time-capsule-mcp",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "updatedAt": "2026-08-13T20:55:45+08:00",
+      "version": "0.0.1",
+      "license": "MIT",
+      "status": "prototype",
+      "compatibility": "已通过仓库本地静态或协议验证；DSH 运行时安装待官方 Repository Plugin 可用后复验",
+      "install": {
+        "type": "manual",
+        "label": "复制公开来源",
+        "source": "github:omdsh-dev/toybox",
+        "command": "https://github.com/omdsh-dev/toybox",
+        "note": "当前作为公开源码候选展示；安装坐标须经 Workshop 审核并写入 Registry 后才获得安装权限。"
+      },
+      "featured": false
+    },
+    {
+      "id": "github-integration",
+      "name": "GitHub Integration",
+      "description": "用于规范化 GitHub Issue 与 Pull Request 协作流程的静态工作流技能，不包含 API 客户端、工具提供方或凭据。",
+      "kind": "skill",
+      "category": "developer-tools",
+      "tags": [
+        "github",
+        "issue",
+        "pull-request"
+      ],
+      "author": {
+        "name": "mattheliu",
+        "url": "https://github.com/mattheliu"
+      },
+      "repository": "https://github.com/omdsh-dev/dsh-github-integration",
+      "repositoryPath": "/plugins/github-integration",
+      "ref": "86f3a80be2c80cfd4d8d9401db0958fc1895ea69",
+      "updatedAt": "2026-08-13T20:55:45+08:00",
+      "version": "0.1.0",
+      "license": "MIT",
+      "status": "prototype",
+      "featured": true,
+      "compatibility": "静态技能与打包候选；运行验收等待官方 Repository Plugin 与兼容工具提供方",
+      "install": {
+        "type": "manual",
+        "label": "复制公开来源",
+        "source": "github:omdsh-dev/dsh-github-integration",
+        "command": "https://github.com/omdsh-dev/dsh-github-integration",
+        "note": "当前作为公开源码候选展示；安装坐标须经 Workshop 审核并写入 Registry 后才获得安装权限。"
+      }
+    },
+    {
+      "id": "dsh-tool-browser",
+      "name": "DSH 浏览器控制配置",
+      "description": "公开的静态 Cordis overlay 与浏览器接入指南，不分发工具实现、DSH 运行时、浏览器二进制或凭据。",
+      "kind": "extension",
+      "category": "developer-tools",
+      "tags": [
+        "browser",
+        "playwright",
+        "tools"
+      ],
+      "author": {
+        "name": "mattheliu",
+        "url": "https://github.com/mattheliu"
+      },
+      "repository": "https://github.com/omdsh-dev/dsh-tool-browser",
+      "repositoryPath": "",
+      "ref": "28cf1046275e78b5e1a552327197c469e2d4839d",
+      "updatedAt": "2026-08-13T11:48:53+08:00",
+      "license": "BSD-3-Clause",
+      "status": "prototype",
+      "featured": false,
+      "compatibility": "静态配置候选；等待官方 @deepseek-ai/dsh-tool-browser 包可用后运行验收",
+      "install": {
+        "type": "manual",
+        "label": "复制公开来源",
+        "source": "github:omdsh-dev/dsh-tool-browser",
+        "command": "https://github.com/omdsh-dev/dsh-tool-browser",
+        "note": "当前作为公开源码候选展示；安装坐标须经 Workshop 审核并写入 Registry 后才获得安装权限。"
+      }
+    },
+    {
+      "id": "session-teleport",
+      "name": "Session Teleport",
+      "description": "基于 PostgreSQL 的多设备 Session 接力插件，提供单写者 fencing、接管、恢复与审计边界。",
+      "kind": "extension",
+      "category": "memory",
+      "tags": [
+        "session",
+        "postgresql",
+        "handoff"
+      ],
+      "author": {
+        "name": "mattheliu",
+        "url": "https://github.com/mattheliu"
+      },
+      "repository": "https://github.com/omdsh-dev/session-teleport",
+      "repositoryPath": "",
+      "ref": "d76e0d98b09ad1d08f2592ffd47161acb907bfc4",
+      "updatedAt": "2026-08-13T20:55:45+08:00",
+      "version": "0.6.0-rc.1",
+      "license": "BSD-3-Clause",
+      "status": "beta",
+      "featured": true,
+      "compatibility": "精确 RC.5 开发基线；启用前需完成目标环境、PostgreSQL 与 authority cutover 验收",
+      "install": {
+        "type": "manual",
+        "label": "复制公开来源",
+        "source": "github:omdsh-dev/session-teleport",
+        "command": "https://github.com/omdsh-dev/session-teleport",
+        "note": "当前作为公开源码候选展示；安装坐标须经 Workshop 审核并写入 Registry 后才获得安装权限。"
+      }
+    },
+    {
+      "id": "7d7d",
+      "name": "7d7d 游戏门户",
+      "description": "在 DSH Web UI 中生成、同步并游玩 HTML5 与同源自托管 Ruffle Flash 游戏的社区门户。",
+      "kind": "ui",
+      "category": "interface",
+      "tags": [
+        "games",
+        "html5",
+        "ruffle"
+      ],
+      "author": {
+        "name": "mattheliu",
+        "url": "https://github.com/mattheliu"
+      },
+      "repository": "https://github.com/omdsh-dev/7d7d",
+      "repositoryPath": "",
+      "ref": "80b6ddb779a009d378a1c30c85dfef598f527997",
+      "updatedAt": "2026-08-13T20:55:45+08:00",
+      "version": "0.4.0-rc.1",
+      "license": "MIT",
+      "status": "beta",
+      "featured": true,
+      "compatibility": "DSH Web UI 插件候选；安装前需在目标环境验证 peer dependencies 与浏览器安全边界",
+      "install": {
+        "type": "manual",
+        "label": "复制公开来源",
+        "source": "github:omdsh-dev/7d7d",
+        "command": "https://github.com/omdsh-dev/7d7d",
+        "note": "当前作为公开源码候选展示；安装坐标须经 Workshop 审核并写入 Registry 后才获得安装权限。"
+      }
+    }
+  ],
   "plugins": [],
   "distros": []
 }

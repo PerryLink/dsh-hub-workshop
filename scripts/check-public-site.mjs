@@ -19,12 +19,13 @@ async function files(directory) {
   return output
 }
 
-const [catalog, registry, recipes, ecosystem, repositories] = await Promise.all([
+const [catalog, registry, recipes, ecosystem, repositories, discovery] = await Promise.all([
   json('catalog.json'),
   json('registry-v1.json'),
   json('recipes-v1.json'),
   json('api/v1/ecosystem.json'),
   json('ecosystem-repositories.json'),
+  json('public-discovery.json'),
 ])
 
 if (catalog.schema !== 'dsh-hub-index/v0.2') throw new Error('catalog schema mismatch')
@@ -37,15 +38,35 @@ if (recipes.registry?.snapshotId !== registry.snapshotId || ecosystem.registry?.
 if (registry.entries.length !== 0 || recipes.recipes.length !== 0 || ecosystem.projects.length !== 0) {
   throw new Error('initial public deployment must keep install feeds empty until project review')
 }
+if (catalog.packages.length !== 12 || catalog.stats?.packages !== 12) {
+  throw new Error('public discovery catalog must contain the twelve reviewed public-source candidates')
+}
 if (repositories.schema !== 'omdsh-public-repositories/v1' || repositories.repositories.length !== 9) {
   throw new Error('public repository map must contain the nine approved repositories')
 }
+if (discovery.schema !== 'omdsh-public-discovery/v1') throw new Error('public discovery schema mismatch')
+if (discovery.organization?.owner !== 'omdsh-dev'
+  || discovery.organization?.observedRepositoryCount !== 63
+  || discovery.organization?.projectCount !== 62
+  || discovery.organization?.repositories?.length !== 63) {
+  throw new Error('public organization discovery snapshot must contain 63 repositories and 62 projects')
+}
+if (discovery.topic?.name !== 'dsh-plugin'
+  || discovery.topic?.observedRepositoryCount !== 208
+  || discovery.topic?.status !== 'discovery-only') {
+  throw new Error('dsh-plugin Topic must remain a 208-repository discovery-only snapshot')
+}
 
 const builtFiles = await files(BUILD)
-if (builtFiles.length !== 23) throw new Error(`public build must contain exactly 23 files, received ${builtFiles.length}`)
+if (builtFiles.length !== 28) throw new Error(`public build must contain exactly 28 files, received ${builtFiles.length}`)
 for (const repository of repositories.repositories) {
   if (!/^https:\/\/github[.]com\/omdsh-dev\/[A-Za-z0-9._-]+$/.test(repository.url)) {
     throw new Error(`unapproved public repository URL: ${repository.url}`)
+  }
+}
+for (const repository of discovery.organization.repositories) {
+  if (!/^https:\/\/github[.]com\/omdsh-dev\/[A-Za-z0-9._-]+$/.test(repository.url)) {
+    throw new Error(`unapproved discovery repository URL: ${repository.url}`)
   }
 }
 
@@ -56,7 +77,12 @@ const publicFiles = [
   'recipes-v1.json',
   'api/v1/ecosystem.json',
   'ecosystem-repositories.json',
-  'assets/public.js',
+  'public-discovery.json',
+  'projects.html',
+  'assets/app.js',
+  'assets/discovery.js',
+  'assets/i18n.json',
+  'assets/site.js',
 ]
 const contents = (await Promise.all(publicFiles.map((path) => readFile(resolve(ROOT, path), 'utf8')))).join('\n')
 const forbiddenPublicContent = new RegExp(`${RETIRED_PRIVATE_OWNER}|Private Preview|/auth/github|github_pat_|\\bgh[opusr]_|\\bnpm_[A-Za-z0-9]{20,}|-----BEGIN(?: [A-Z]+)? PRIVATE KEY-----`, 'i')
@@ -64,4 +90,4 @@ if (forbiddenPublicContent.test(contents)) {
   throw new Error('public site contains private-source, login, credential, or key material')
 }
 
-console.log(`public site accepted: ${repositories.repositories.length} repository links, 0 install entries, snapshot ${registry.snapshotId}`)
+console.log(`public site accepted: ${catalog.packages.length} reviewed discovery entries, ${discovery.organization.projectCount} organization projects, ${discovery.topic.observedRepositoryCount} Topic candidates, 0 install entries, snapshot ${registry.snapshotId}`)
