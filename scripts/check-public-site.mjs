@@ -19,16 +19,17 @@ async function files(directory) {
   return output
 }
 
-const [catalog, registry, recipes, ecosystem, repositories, discovery] = await Promise.all([
+const [catalog, registry, recipes, ecosystem, repositories, discovery, topicRepositories] = await Promise.all([
   json('catalog.json'),
   json('registry-v1.json'),
   json('recipes-v1.json'),
   json('api/v1/ecosystem.json'),
   json('ecosystem-repositories.json'),
   json('public-discovery.json'),
+  json('topic-repositories.json'),
 ])
 
-if (catalog.schema !== 'dsh-hub-index/v0.2') throw new Error('catalog schema mismatch')
+if (catalog.schema !== 'dsh-hub-index/v0.3') throw new Error('catalog schema mismatch')
 if (registry.schema !== 'omdsh-registry/v1') throw new Error('Registry schema mismatch')
 if (recipes.schema !== 'omdsh-workshop-recipes/v1') throw new Error('Recipes schema mismatch')
 if (ecosystem.schema !== 'omdsh-agent-ecosystem/v1') throw new Error('Ecosystem schema mismatch')
@@ -38,8 +39,13 @@ if (recipes.registry?.snapshotId !== registry.snapshotId || ecosystem.registry?.
 if (registry.entries.length !== 0 || recipes.recipes.length !== 0 || ecosystem.projects.length !== 0) {
   throw new Error('initial public deployment must keep install feeds empty until project review')
 }
-if (catalog.packages.length !== 12 || catalog.stats?.packages !== 12) {
-  throw new Error('public discovery catalog must contain the twelve reviewed public-source candidates')
+if (catalog.packages.length !== 264
+  || catalog.stats?.packages !== 264
+  || catalog.stats?.repositories !== 255
+  || catalog.stats?.topicRepositories !== 255
+  || catalog.stats?.reviewed !== 12
+  || new Set(catalog.packages.map((entry) => entry.id)).size !== 264) {
+  throw new Error('public catalog must contain 264 unique entries from 255 Topic repositories, including twelve reviewed candidates')
 }
 if (repositories.schema !== 'omdsh-public-repositories/v1' || repositories.repositories.length !== 9) {
   throw new Error('public repository map must contain the nine approved repositories')
@@ -52,13 +58,20 @@ if (discovery.organization?.owner !== 'omdsh-dev'
   throw new Error('public organization discovery snapshot must contain 63 repositories and 62 projects')
 }
 if (discovery.topic?.name !== 'dsh-plugin'
-  || discovery.topic?.observedRepositoryCount !== 208
+  || discovery.topic?.observedRepositoryCount !== 255
   || discovery.topic?.status !== 'discovery-only') {
-  throw new Error('dsh-plugin Topic must remain a 208-repository discovery-only snapshot')
+  throw new Error('dsh-plugin Topic must remain a 255-repository discovery-only snapshot')
+}
+if (topicRepositories.schema !== 'dsh-topic-discovery/v1'
+  || topicRepositories.topic !== 'dsh-plugin'
+  || topicRepositories.observedRepositoryCount !== 255
+  || topicRepositories.repositories.length !== 255
+  || topicRepositories.status !== 'discovery-only') {
+  throw new Error('Topic repository snapshot must contain all 255 public discovery repositories')
 }
 
 const builtFiles = await files(BUILD)
-if (builtFiles.length !== 28) throw new Error(`public build must contain exactly 28 files, received ${builtFiles.length}`)
+if (builtFiles.length !== 29) throw new Error(`public build must contain exactly 29 files, received ${builtFiles.length}`)
 for (const repository of repositories.repositories) {
   if (!/^https:\/\/github[.]com\/omdsh-dev\/[A-Za-z0-9._-]+$/.test(repository.url)) {
     throw new Error(`unapproved public repository URL: ${repository.url}`)
@@ -67,6 +80,16 @@ for (const repository of repositories.repositories) {
 for (const repository of discovery.organization.repositories) {
   if (!/^https:\/\/github[.]com\/omdsh-dev\/[A-Za-z0-9._-]+$/.test(repository.url)) {
     throw new Error(`unapproved discovery repository URL: ${repository.url}`)
+  }
+}
+for (const repository of topicRepositories.repositories) {
+  if (!/^https:\/\/github[.]com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9._-]+$/.test(repository.url)) {
+    throw new Error(`invalid Topic discovery repository URL: ${repository.url}`)
+  }
+}
+for (const entry of catalog.packages) {
+  if (!/^https:\/\/github[.]com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9._-]+$/.test(entry.repository)) {
+    throw new Error(`invalid catalog repository URL: ${entry.repository}`)
   }
 }
 
@@ -78,8 +101,10 @@ const publicFiles = [
   'api/v1/ecosystem.json',
   'ecosystem-repositories.json',
   'public-discovery.json',
+  'topic-repositories.json',
   'projects.html',
   'assets/app.js',
+  'assets/styles.css',
   'assets/discovery.js',
   'assets/i18n.json',
   'assets/site.js',
@@ -90,4 +115,19 @@ if (forbiddenPublicContent.test(contents)) {
   throw new Error('public site contains private-source, login, credential, or key material')
 }
 
-console.log(`public site accepted: ${catalog.packages.length} reviewed discovery entries, ${discovery.organization.projectCount} organization projects, ${discovery.topic.observedRepositoryCount} Topic candidates, 0 install entries, snapshot ${registry.snapshotId}`)
+const [home, app, styles] = await Promise.all([
+  readFile(resolve(ROOT, 'index.html'), 'utf8'),
+  readFile(resolve(ROOT, 'assets/app.js'), 'utf8'),
+  readFile(resolve(ROOT, 'assets/styles.css'), 'utf8'),
+])
+for (const required of ['discover-stage', 'featured-tabs', 'data-catalog-view="grid"', 'data-catalog-view="list"', 'catalog-pagination']) {
+  if (!home.includes(required)) throw new Error(`restored Workshop layout is missing ${required}`)
+}
+if (!app.includes('featured.empty.recoverable') || !app.includes('visiblePackages')) {
+  throw new Error('restored Workshop interactions must preserve empty recoverable state and catalog pagination')
+}
+if (!/\.author-project-mark\s*\{[^}]*position:\s*relative;[^}]*overflow:\s*hidden;/s.test(styles)) {
+  throw new Error('author project artwork must remain clipped to its icon container')
+}
+
+console.log(`public site accepted: ${catalog.packages.length} catalog entries (${catalog.stats.reviewed} reviewed), ${discovery.organization.projectCount} organization projects, ${discovery.topic.observedRepositoryCount} Topic repositories, 0 install entries, snapshot ${registry.snapshotId}`)

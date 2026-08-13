@@ -33,6 +33,7 @@ const FILES = [
   'recipes-v1.json',
   'registry-v1.json',
   'registry.html',
+  'topic-repositories.json',
   'workshop-v1.json',
 ]
 

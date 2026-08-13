@@ -332,8 +332,8 @@
   "topic": {
     "name": "dsh-plugin",
     "source": "https://github.com/topics/dsh-plugin",
-    "observedRepositoryCount": 208,
-    "observedPages": 20,
+    "observedRepositoryCount": 255,
+    "observedPages": 3,
     "status": "discovery-only"
   }
 }

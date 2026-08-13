@@ -1,28 +1,60 @@
 const state = {
   packages: [],
+  candidates: [],
+  projects: new Map(),
+  runRecords: [],
+  collections: [],
+  community: { sources: [], discussions: [] },
   query: '',
   category: 'all',
   kind: 'all',
   install: 'all',
+  channel: 'all',
   sort: 'featured',
+  view: 'grid',
+  featuredMode: 'featured',
+  authorsExpanded: false,
+  scope: 'all',
   snapshot: '',
+  visible: 24,
 }
 
 const elements = {
   list: document.querySelector('#catalog-list'),
+  spotlight: document.querySelector('#spotlight-side'),
   featured: document.querySelector('#featured-list'),
+  featuredRail: document.querySelector('#featured-rail'),
+  featuredPrevious: document.querySelector('#featured-previous'),
+  featuredNext: document.querySelector('#featured-next'),
+  workshopModes: document.querySelector('#workshop-modes'),
+  collections: document.querySelector('#collection-list'),
+  discussions: document.querySelector('#discussion-list'),
+  authors: document.querySelector('#author-list'),
+  authorSummary: document.querySelector('#author-summary'),
+  authorToggle: document.querySelector('#author-toggle'),
   count: document.querySelector('#result-count'),
   empty: document.querySelector('#empty-state'),
   search: document.querySelector('#search'),
   kind: document.querySelector('#kind-filter'),
   install: document.querySelector('#install-filter'),
+  channel: document.querySelector('#channel-filter'),
   sort: document.querySelector('#sort-order'),
   categories: document.querySelector('#category-filters'),
+  scope: document.querySelector('#catalog-scope'),
+  featuredTabs: document.querySelector('#featured-tabs'),
+  catalogShell: document.querySelector('.catalog-shell'),
   results: document.querySelector('.results-panel'),
   dialog: document.querySelector('#package-dialog'),
   dialogContent: document.querySelector('#dialog-content'),
   toast: document.querySelector('#toast'),
+  pagination: document.querySelector('#catalog-pagination'),
+  renderedCount: document.querySelector('#rendered-count'),
+  filteredCount: document.querySelector('#filtered-count'),
+  loadMore: document.querySelector('#load-more'),
 }
+
+let masonryObserver
+let masonryFrame = 0
 
 const escapeHtml = (value = '') => String(value)
   .replaceAll('&', '&amp;')
@@ -38,15 +70,43 @@ const formatText = (key, values = {}) => Object.entries(values)
 
 const detailUrl = (pkg) => `${pkg.repository}/tree/${pkg.ref}${pkg.repositoryPath || ''}`
 
-function avatarUrl(pkg) {
+const anonymousAuthorNames = new Set(['anonymous', 'dsh-hub maintainers', 'omdsh maintainers'])
+
+function isAnonymousAuthor(author) {
+  return anonymousAuthorNames.has(String(author?.name || '').trim().toLocaleLowerCase('en-US'))
+}
+
+function authorDisplayName(author) {
+  return isAnonymousAuthor(author) ? t('authors.anonymous') : author.name
+}
+
+function authorIdentity(author) {
+  return String(author?.name || '').trim().toLocaleLowerCase('en-US')
+}
+
+function githubProfileUrl(author) {
   try {
-    const url = new URL(pkg.author.url)
+    const url = new URL(author?.url)
     const segments = url.pathname.split('/').filter(Boolean)
     if (url.hostname !== 'github.com' || segments.length !== 1 || segments[0] === 'orgs') return ''
-    return `https://github.com/${encodeURIComponent(segments[0])}.png?size=80`
+    return `https://github.com/${segments[0]}`
   } catch {
     return ''
   }
+}
+
+function authorLink(author) {
+  const name = escapeHtml(authorDisplayName(author))
+  return isAnonymousAuthor(author)
+    ? `<span class="anonymous-author">${name}</span>`
+    : `<button class="author-inline" type="button" data-open-author="${escapeHtml(authorIdentity(author))}">${name}</button>`
+}
+
+function avatarUrl(pkg) {
+  if (isAnonymousAuthor(pkg.author)) return ''
+  const profile = githubProfileUrl(pkg.author)
+  if (!profile) return ''
+  return `https://avatars.githubusercontent.com/${encodeURIComponent(profile.split('/').at(-1))}?size=80`
 }
 
 function commandPreview(command) {
@@ -54,21 +114,54 @@ function commandPreview(command) {
   return firstLine.trim().replaceAll(/\s+/g, ' ')
 }
 
-function packageMonogram(name) {
-  const language = locale() === 'zh' ? 'zh-CN' : 'en-US'
-  const words = String(name).trim().split(/[^\p{L}\p{N}]+/u).filter(Boolean)
-  if (words.length > 1) {
-    return words.slice(0, 2).map((word) => [...word][0]).join('').toLocaleUpperCase(language)
+const projectKindSymbols = {
+  skill: '✦',
+  mcp: '⇄',
+  extension: '⌘',
+  channel: '⌁',
+  ui: '▣',
+  adapter: '↔',
+  manager: '▦',
+  toolkit: '◇',
+}
+
+function projectMedia(pkg) {
+  return state.projects.get(pkg.id)?.media || null
+}
+
+function projectMediaAsset(pkg, format = 'cover') {
+  const media = projectMedia(pkg)
+  if (!media) return null
+  return format === 'icon'
+    ? media.icon || media.cover || media.screenshots?.[0] || null
+    : media.cover || media.screenshots?.[0] || media.icon || null
+}
+
+function projectVisual(pkg, format = 'cover', { decorative = true } = {}) {
+  const copy = packageText(pkg)
+  const asset = projectMediaAsset(pkg, format)
+  const symbol = projectKindSymbols[pkg.kind] || '◇'
+  return {
+    state: asset ? 'declared' : 'generated',
+    content: `
+      <span class="project-visual-fallback" aria-hidden="true">
+        <span class="project-visual-symbol">${escapeHtml(symbol)}</span>
+        <span class="project-visual-kind">${escapeHtml(kindLabel(pkg.kind))}</span>
+      </span>
+      ${asset ? `<img class="project-media-image" src="${escapeHtml(asset.url)}" alt="${decorative ? '' : escapeHtml(copy.name)}" loading="lazy" decoding="async" data-project-media>` : ''}`,
   }
-  return [...(words[0] || 'D')].slice(0, 2).join('').toLocaleUpperCase(language)
 }
 
 function authorMark(pkg, className = '') {
+  const initial = [...authorDisplayName(pkg.author)][0]?.toLocaleUpperCase(locale() === 'zh' ? 'zh-CN' : 'en-US') || 'D'
+  if (isAnonymousAuthor(pkg.author)) {
+    return `<span class="author-fallback author-anonymous ${escapeHtml(className)}" aria-hidden="true">?</span>`
+  }
   const avatar = avatarUrl(pkg)
   if (avatar) {
-    return `<img class="author-avatar ${escapeHtml(className)}" src="${escapeHtml(avatar)}" alt="" width="24" height="24" loading="lazy" data-avatar>`
+    return `<img class="author-avatar ${escapeHtml(className)}" src="${escapeHtml(avatar)}" alt="" width="24" height="24" loading="lazy" data-avatar data-avatar-fallback="${escapeHtml(initial)}">`
   }
-  return `<span class="author-fallback ${escapeHtml(className)}" aria-hidden="true">${escapeHtml([...pkg.author.name][0]?.toLocaleUpperCase(locale() === 'zh' ? 'zh-CN' : 'en-US') || 'D')}</span>`
+  return `<span class="author-fallback ${escapeHtml(className)}" aria-hidden="true">${escapeHtml(initial)}</span>`
 }
 
 function packageText(pkg) {
@@ -79,6 +172,32 @@ function packageText(pkg) {
     installLabel: translation?.installLabel || pkg.install.label,
     installNote: translation?.installNote ?? pkg.install.note,
     compatibility: translation?.compatibility || pkg.compatibility || t('dialog.seeProject'),
+  }
+}
+
+function runTaskTitle(record) {
+  return locale() === 'en' ? record.checks.task.translations.en : record.checks.task.title
+}
+
+function runRecordRow(record) {
+  return `<article class="run-record">
+    <div class="run-record-main">
+      <span>${escapeHtml(record.environment.harnessSnapshot)} · ${escapeHtml(record.environment.profile)} / ${escapeHtml(record.environment.platform)}</span>
+      <strong>${escapeHtml(runTaskTitle(record))}</strong>
+      <small>${escapeHtml(t('project.runStagesPassed'))}</small>
+    </div>
+    <div class="run-record-proof">
+      ${record.reproduces ? `<span class="run-reproduced">${escapeHtml(t('project.reproduced'))}</span>` : ''}
+      <a href="${escapeHtml(record.evidenceUrl)}" rel="noreferrer">@${escapeHtml(record.verifier.github)} · ${escapeHtml(formatDate(record.verifiedAt, 'long'))} ↗</a>
+    </div>
+  </article>`
+}
+
+function collectionText(collection) {
+  const translation = locale() === 'en' ? collection.translations?.en : null
+  return {
+    title: translation?.title || collection.title,
+    summary: translation?.summary || collection.summary,
   }
 }
 
@@ -94,6 +213,18 @@ function statusLabel(status) {
   return t(`statuses.${status}`) === `statuses.${status}` ? status : t(`statuses.${status}`)
 }
 
+function presentationLabel(presentation) {
+  const key = `candidates.presentation.${presentation}`
+  const translated = t(key)
+  return translated === key ? presentation : translated
+}
+
+function declarationLabel(declaration) {
+  const key = `candidates.declaration.${declaration}`
+  const translated = t(key)
+  return translated === key ? declaration : translated
+}
+
 function formatDate(value, style = 'short') {
   const language = locale() === 'zh' ? 'zh-CN' : 'en-US'
   const options = style === 'long'
@@ -103,15 +234,248 @@ function formatDate(value, style = 'short') {
 }
 
 function installGroup(type) {
-  if (['repository-plugin', 'marisa', 'npm'].includes(type)) return 'quick'
-  if (type === 'plugin-registry') return 'managed'
-  if (type === 'source') return 'source'
-  return 'manual'
+  if (type === 'candidate') return 'pending'
+  if (type === 'profile-bundle') return 'transactional'
+  if (type === 'repository-plugin') return 'managed'
+  return 'guided'
+}
+
+function integrationProtocol(pkg) {
+  if (pkg.install.protocol) return pkg.install.protocol
+  if (pkg.install.type === 'profile-bundle') return 'harness-profile'
+  if (pkg.install.type === 'repository-plugin') return 'harness-repository'
+  return 'third-party'
+}
+
+function integrationLabel(pkg) {
+  if (pkg.install.type === 'profile-bundle') return t('install.backend.officialProfile')
+  if (pkg.install.type === 'repository-plugin') return t('install.backend.officialRepository')
+  return integrationProtocol(pkg) === 'harness-cordis'
+    ? t('install.officialCordis')
+    : t('install.guidedCompatibility')
+}
+
+function catalogAccessLabel(pkg) {
+  return installGroup(pkg.install.type) === 'guided'
+    ? integrationLabel(pkg)
+    : managementLabel(pkg.install.type)
+}
+
+function omdshCommand(pkg) {
+  return installGroup(pkg.install.type) === 'guided'
+    ? `omdsh workshop inspect ${pkg.id} --profile web`
+    : `omdsh workshop install ${pkg.id} --profile web --enable`
+}
+
+function omdshActionLabel(pkg) {
+  if (installGroup(pkg.install.type) !== 'guided') return t('install.withOmdsh')
+  return integrationProtocol(pkg) === 'harness-cordis'
+    ? t('install.viewOfficialSdkGuide')
+    : t('install.viewIntegrationGuide')
+}
+
+function installBackend(pkg) {
+  if (pkg.install.type === 'profile-bundle') return t('install.backend.officialProfile')
+  if (pkg.install.type === 'repository-plugin') return t('install.backend.officialRepository')
+  if (integrationProtocol(pkg) === 'harness-cordis') return t('install.backend.officialCordis')
+  return t('install.backend.none')
+}
+
+function integrationRequirement(pkg) {
+  if (pkg.install.type === 'profile-bundle') return t('install.requirement.officialCommand')
+  if (pkg.install.type === 'repository-plugin') return t('install.requirement.officialRepository')
+  if (integrationProtocol(pkg) === 'harness-cordis') return t('install.requirement.officialCordis')
+  return t('install.requirement.guidedOnly')
+}
+
+function installMethodLabel(pkg) {
+  return integrationLabel(pkg)
+}
+
+function omdshInstallNote(pkg) {
+  const group = installGroup(pkg.install.type)
+  if (group !== 'guided') return t(`install.note.${group}`)
+  return integrationProtocol(pkg) === 'harness-cordis'
+    ? t('install.note.officialCordis')
+    : t('install.note.thirdParty')
+}
+
+function managementLabel(type) {
+  return t(`management.${installGroup(type)}`)
+}
+
+function managementBoundary(type) {
+  const group = installGroup(type)
+  return {
+    group,
+    title: t(`managementBoundary.${group}.title`),
+    description: t(`managementBoundary.${group}.description`),
+  }
+}
+
+function projectRelease(pkg) {
+  const project = state.projects.get(pkg.id)
+  const release = project?.releases?.find((candidate) => candidate.id === project.latestRelease)
+    || project?.releases?.[0]
+    || {
+      id: `${pkg.id}@${pkg.ref}`,
+      version: pkg.version,
+      channel: 'beta',
+      ref: pkg.ref,
+      updatedAt: pkg.updatedAt,
+      license: pkg.license,
+      listing: { state: 'review-required' },
+      notice: pkg.install.note,
+      source: { ref: pkg.ref },
+      runtime: { kind: pkg.kind },
+      management: { recoveryScope: 'none' },
+      capabilities: {},
+      risk: {
+        level: 'unknown',
+        facts: {
+          sourcePinned: false,
+          vulnerabilityScan: 'unknown',
+          permissions: 'unknown',
+          nativeCode: 'unknown',
+          installScripts: 'unknown',
+        },
+      },
+      dependencies: [],
+      relations: [],
+    }
+  return { project, release }
+}
+
+function releaseChannel(pkg) {
+  if (pkg.candidate) return null
+  return projectRelease(pkg).release?.channel || 'beta'
+}
+
+function candidatePackage(candidate) {
+  return {
+    id: candidate.id,
+    name: candidate.displayName,
+    description: candidate.summary,
+    kind: candidate.kind,
+    category: candidate.category,
+    tags: candidate.tags,
+    author: candidate.author,
+    repository: candidate.source.repository,
+    repositoryPath: candidate.source.path,
+    ref: candidate.source.ref,
+    updatedAt: candidate.updatedAt,
+    version: candidate.declaration.version || undefined,
+    license: '',
+    status: 'candidate',
+    featured: false,
+    install: { type: 'candidate', label: '', command: '' },
+    candidate: true,
+    candidateData: candidate,
+  }
+}
+
+function factValue(value) {
+  const key = `factValue.${String(value)}`
+  const translated = t(key)
+  return translated === key ? String(value) : translated
+}
+
+function pushOverlayRoute(kind, value) {
+  history.pushState({ workshopOverlay: true }, '', `#${kind}=${encodeURIComponent(value)}`)
+}
+
+function replaceOverlayRoute(kind, value) {
+  history.replaceState({ workshopOverlay: true }, '', `#${kind}=${encodeURIComponent(value)}`)
+}
+
+function closeOverlay() {
+  if (history.state?.workshopOverlay) {
+    history.back()
+    return
+  }
+  if (elements.dialog.open) elements.dialog.close()
+  history.replaceState(null, '', `${location.pathname}${location.search}`)
+}
+
+function syncOverlayRoute() {
+  const params = new URLSearchParams(location.hash.slice(1))
+  const requested = params.get('package')
+  const requestedCollection = params.get('collection')
+  const requestedAuthor = params.get('author')
+  const requestedCandidate = params.get('candidate')
+  if (requested) openPackage(requested, false)
+  else if (requestedCollection) openCollection(requestedCollection, false)
+  else if (requestedAuthor) openAuthor(requestedAuthor, false)
+  else if (requestedCandidate) openCandidate(requestedCandidate, false)
+  else if (elements.dialog.dataset.returnAuthorUrl) {
+    const returnAuthorUrl = elements.dialog.dataset.returnAuthorUrl
+    pushOverlayRoute('author', returnAuthorUrl)
+    openAuthor(returnAuthorUrl, false)
+  } else if (elements.dialog.open) elements.dialog.close()
+}
+
+function returnToAuthor() {
+  const authorUrl = elements.dialog.dataset.returnAuthorUrl
+  if (!authorUrl) return
+  replaceOverlayRoute('author', authorUrl)
+  openAuthor(authorUrl, false)
+}
+
+function setActiveSection(sectionId) {
+  document.querySelectorAll('.site-nav a[href^="#"], .workshop-nav a[href^="#"]').forEach((link) => {
+    const active = link.getAttribute('href') === `#${sectionId}`
+    if (active) {
+      link.setAttribute('aria-current', link.closest('.site-nav') ? 'page' : 'location')
+    } else {
+      link.removeAttribute('aria-current')
+    }
+  })
+}
+
+function bindSectionNavigation() {
+  const sectionIds = ['discover', 'collections', 'community', 'catalog', 'authors']
+  document.querySelectorAll('.site-nav a[href^="#"], .workshop-nav a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', () => setActiveSection(link.hash.slice(1)))
+  })
+  const observer = new IntersectionObserver((entries) => {
+    const current = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((left, right) => Math.abs(left.boundingClientRect.top) - Math.abs(right.boundingClientRect.top))[0]
+    if (current) setActiveSection(current.target.id)
+  }, { rootMargin: '-22% 0px -68% 0px', threshold: 0 })
+  sectionIds.forEach((id) => {
+    const section = document.getElementById(id)
+    if (section) observer.observe(section)
+  })
+  const requested = location.hash.slice(1)
+  setActiveSection(sectionIds.includes(requested) ? requested : 'discover')
+}
+
+function activateProjectTab(tab) {
+  elements.dialog.dataset.projectTab = tab
+  elements.dialogContent.querySelectorAll('[data-project-tab]').forEach((button) => {
+    button.setAttribute('aria-selected', String(button.dataset.projectTab === tab))
+  })
+  elements.dialogContent.querySelectorAll('[data-project-panel]').forEach((panel) => {
+    panel.hidden = panel.dataset.projectPanel !== tab
+  })
+}
+
+function normalizeSearch(value) {
+  return String(value || '')
+    .normalize('NFKC')
+    .toLocaleLowerCase(locale() === 'zh' ? 'zh-CN' : 'en-US')
+    .replaceAll(/[^\p{L}\p{N}]+/gu, ' ')
+    .trim()
+}
+
+function searchTokens(value) {
+  return normalizeSearch(value).split(/\s+/).filter(Boolean)
 }
 
 function searchableText(pkg) {
   const translated = window.DSHHub.i18n?.packages?.[pkg.id] || {}
-  return [
+  return normalizeSearch([
     pkg.id,
     pkg.name,
     pkg.description,
@@ -121,17 +485,31 @@ function searchableText(pkg) {
     pkg.category,
     pkg.author.name,
     pkg.repository,
+    kindLabel(pkg.kind),
+    pkg.category ? categoryLabel(pkg.category) : '',
     ...pkg.tags,
-  ].filter(Boolean).join(' ').toLocaleLowerCase(locale() === 'zh' ? 'zh-CN' : 'en-US')
+  ].filter(Boolean).join(' '))
+}
+
+function scopedPackages() {
+  const reviewed = state.packages.filter((pkg) => pkg.status !== 'discovery')
+  const discovered = state.packages.filter((pkg) => pkg.status === 'discovery')
+  if (state.scope === 'reviewed') return reviewed
+  if (state.scope === 'candidates') return [...discovered, ...state.candidates]
+  return [...state.packages, ...state.candidates]
 }
 
 function filteredPackages() {
-  const query = state.query.trim().toLocaleLowerCase(locale() === 'zh' ? 'zh-CN' : 'en-US')
-  const packages = state.packages.filter((pkg) => {
-    if (query && !searchableText(pkg).includes(query)) return false
+  const query = searchTokens(state.query)
+  const packages = scopedPackages().filter((pkg) => {
+    if (query.length > 0) {
+      const text = searchableText(pkg)
+      if (!query.every((token) => text.includes(token))) return false
+    }
     if (state.category !== 'all' && pkg.category !== state.category) return false
     if (state.kind !== 'all' && pkg.kind !== state.kind) return false
     if (state.install !== 'all' && installGroup(pkg.install.type) !== state.install) return false
+    if (state.channel !== 'all' && releaseChannel(pkg) !== state.channel) return false
     return true
   })
 
@@ -145,18 +523,24 @@ function filteredPackages() {
 }
 
 function packageCard(pkg) {
+  if (pkg.candidate) return candidateCard(pkg)
   const copy = packageText(pkg)
+  const visualFormat = state.view === 'list' ? 'icon' : 'cover'
+  const visual = projectVisual(pkg, visualFormat)
   const version = pkg.version ? `v${pkg.version}` : pkg.ref.slice(0, 7)
+  const { release } = projectRelease(pkg)
+  const installBlocked = ['blocked', 'review-required'].includes(release?.listing?.state)
   return `
     <article class="package-card">
-      <button class="package-thumb mark-${escapeHtml(pkg.category)}" type="button" data-open-package="${escapeHtml(pkg.id)}" aria-label="${escapeHtml(formatText('row.open', { name: copy.name }))}">
-        <span>${escapeHtml(packageMonogram(copy.name))}</span>
+      <button class="package-thumb project-visual mark-${escapeHtml(pkg.category || 'uncategorized')}" type="button" data-media-state="${visual.state}" data-visual-format="${visualFormat}" data-open-package="${escapeHtml(pkg.id)}" aria-label="${escapeHtml(formatText('row.open', { name: copy.name }))}">
+        ${visual.content}
       </button>
       <div class="package-card-content">
         <div class="package-card-top">
           <div class="package-labels">
             <span>${escapeHtml(kindLabel(pkg.kind))}</span>
-            <span>${escapeHtml(categoryLabel(pkg.category))}</span>
+            ${pkg.category ? `<span>${escapeHtml(categoryLabel(pkg.category))}</span>` : ''}
+            <span>${escapeHtml(catalogAccessLabel(pkg))}</span>
           </div>
           <span class="package-status">${escapeHtml(statusLabel(pkg.status))}</span>
         </div>
@@ -167,21 +551,26 @@ function packageCard(pkg) {
         </div>
         <div class="package-byline">
           ${authorMark(pkg, 'classic-avatar')}
-          <a href="${escapeHtml(pkg.author.url)}">${escapeHtml(pkg.author.name)}</a>
+          ${authorLink(pkg.author)}
           <span>${escapeHtml(version)}</span>
           <span>${escapeHtml(pkg.license)}</span>
           <time datetime="${escapeHtml(pkg.updatedAt)}">${escapeHtml(formatDate(pkg.updatedAt))} ${escapeHtml(t('row.updated'))}</time>
         </div>
+        <div class="package-compatibility">
+          <span>${escapeHtml(t('row.compatibility'))}</span>
+          <strong title="${escapeHtml(copy.compatibility)}">${escapeHtml(copy.compatibility)}</strong>
+        </div>
       </div>
-      <div class="package-card-footer">
-        <button class="install-preview" type="button" data-copy-install="${escapeHtml(pkg.id)}" aria-label="${escapeHtml(formatText('row.copyInstall', { name: copy.name }))}">
+        <div class="package-card-footer">
+        ${installBlocked ? `<div class="install-preview install-preview-blocked"><span><strong>${escapeHtml(t('project.installUnavailable'))}</strong><code>${escapeHtml(factValue(release?.listing?.state || 'blocked'))}</code></span></div>` : `<button class="install-preview" type="button" data-copy-install="${escapeHtml(pkg.id)}">
           <span>
-            <strong>${escapeHtml(copy.installLabel)}</strong>
-            <code>${escapeHtml(commandPreview(pkg.install.command))}</code>
+            <strong>${escapeHtml(omdshActionLabel(pkg))}</strong>
+            <code>${escapeHtml(commandPreview(omdshCommand(pkg)))}</code>
           </span>
           <span class="copy-label">${escapeHtml(t('dialog.copy'))}</span>
-        </button>
+        </button>`}
         <div class="package-card-links">
+          <button type="button" data-copy-subscribe="${escapeHtml(pkg.id)}">${escapeHtml(t('row.subscribe'))}</button>
           <a href="${escapeHtml(detailUrl(pkg))}">${escapeHtml(t('row.source'))} ↗</a>
           <button type="button" data-open-package="${escapeHtml(pkg.id)}" aria-label="${escapeHtml(formatText('row.open', { name: copy.name }))}">${escapeHtml(t('row.details'))}</button>
         </div>
@@ -189,17 +578,207 @@ function packageCard(pkg) {
     </article>`
 }
 
+function candidateCard(pkg) {
+  const candidate = pkg.candidateData
+  const copy = packageText(pkg)
+  const declarations = candidate.declaration.types
+  const version = candidate.declaration.version ? `v${candidate.declaration.version}` : pkg.ref.slice(0, 7)
+  const visualFormat = state.view === 'list' ? 'icon' : 'cover'
+  const visual = projectVisual(pkg, visualFormat)
+  return `
+    <article class="package-card candidate-card">
+      <button class="package-thumb project-visual mark-${escapeHtml(pkg.category || 'uncategorized')}" type="button" data-media-state="${visual.state}" data-visual-format="${visualFormat}" data-open-candidate="${escapeHtml(pkg.id)}" aria-label="${escapeHtml(formatText('row.open', { name: copy.name }))}">
+        ${visual.content}
+      </button>
+      <div class="package-card-content">
+        <div class="package-card-top">
+          <div class="package-labels">
+            <span>${escapeHtml(kindLabel(pkg.kind))}</span>
+            <span>${escapeHtml(presentationLabel(candidate.presentation))}</span>
+            ${declarations.slice(0, 1).map((item) => `<span>${escapeHtml(declarationLabel(item))}</span>`).join('')}
+          </div>
+          <span class="package-status candidate-status">${escapeHtml(t('candidates.pending'))}</span>
+        </div>
+        <div class="package-card-copy">
+          <button class="package-name" type="button" data-open-candidate="${escapeHtml(pkg.id)}">${escapeHtml(copy.name)}</button>
+          <code>${escapeHtml(pkg.repository.replace('https://github.com/', ''))}${escapeHtml(pkg.repositoryPath || '')}</code>
+          <p>${escapeHtml(copy.description)}</p>
+        </div>
+        <div class="package-byline candidate-byline">
+          ${authorMark(pkg, 'classic-avatar')}
+          <span>${escapeHtml(authorDisplayName(pkg.author))}</span>
+          <span>${escapeHtml(version)}</span>
+          <time datetime="${escapeHtml(pkg.updatedAt)}">${escapeHtml(formatDate(pkg.updatedAt))} ${escapeHtml(t('row.updated'))}</time>
+        </div>
+        <div class="candidate-evidence">
+          <span>${escapeHtml(t('candidates.evidence'))}</span>
+          <strong>${escapeHtml(declarations.length > 0 ? declarations.map(declarationLabel).join(' · ') : t('candidates.noManifest'))}</strong>
+        </div>
+      </div>
+      <div class="package-card-footer candidate-footer">
+        <div class="install-preview install-preview-blocked">
+          <span><strong>${escapeHtml(t('candidates.notInstallable'))}</strong><code>${escapeHtml(t('candidates.reviewFirst'))}</code></span>
+        </div>
+        <div class="package-card-links">
+          <a href="${escapeHtml(detailUrl(pkg))}">${escapeHtml(t('row.source'))} ↗</a>
+          <button type="button" data-open-candidate="${escapeHtml(pkg.id)}">${escapeHtml(t('candidates.viewEvidence'))}</button>
+        </div>
+      </div>
+    </article>`
+}
+
+function renderCollections() {
+  elements.collections.innerHTML = state.collections.map((collection) => {
+    const projects = collection.items.map((item) => state.projects.get(item.projectId)).filter(Boolean)
+    const copy = collectionText(collection)
+    return `
+      <article class="collection-card">
+        <div class="collection-card-top">
+          <span>${escapeHtml(formatText('collections.projectCount', { count: projects.length }))}</span>
+          <span>${escapeHtml(t('collections.atomic'))}</span>
+        </div>
+        <h3>${escapeHtml(copy.title)}</h3>
+        <p>${escapeHtml(copy.summary)}</p>
+        <div class="collection-projects">
+          ${projects.map((project) => `<button type="button" data-open-package="${escapeHtml(project.id)}">${escapeHtml(project.displayName)}</button>`).join('')}
+        </div>
+        <div class="collection-footer">
+          <span>${escapeHtml(authorDisplayName(collection.author))}</span>
+          <button type="button" data-open-collection="${escapeHtml(collection.id)}">${escapeHtml(t('collections.details'))}</button>
+        </div>
+      </article>`
+  }).join('')
+  if (state.collections.length === 0) {
+    elements.collections.innerHTML = `<p class="section-empty">${escapeHtml(t('collections.empty'))}</p>`
+  }
+  elements.collections.setAttribute('aria-busy', 'false')
+}
+
+function discussionRow(item) {
+  return `
+    <a class="discussion-row" href="${escapeHtml(item.url)}">
+      <span class="discussion-category">${escapeHtml(item.category)}</span>
+      <span class="discussion-copy">
+        <strong>${escapeHtml(item.title)}</strong>
+        <span>${escapeHtml(item.author.login)} · ${escapeHtml(formatDate(item.updatedAt, 'long'))}</span>
+      </span>
+      <span class="discussion-facts">${escapeHtml(formatText('community.comments', { count: item.commentCount }))}${item.answered ? ` · ${escapeHtml(t('community.answered'))}` : ''}</span>
+    </a>`
+}
+
+function renderCommunity() {
+  const discussions = state.community.discussions || []
+  if (discussions.length > 0) {
+    elements.discussions.innerHTML = discussions.slice(0, 8).map(discussionRow).join('')
+  } else {
+    const enabled = (state.community.sources || []).some((source) => source.enabled)
+    elements.discussions.innerHTML = `
+      <div class="community-empty">
+        <strong>${escapeHtml(t(enabled ? 'community.emptyTitle' : 'community.disabledTitle'))}</strong>
+        <p>${escapeHtml(t(enabled ? 'community.emptyDescription' : 'community.disabledDescription'))}</p>
+      </div>`
+  }
+  elements.discussions.setAttribute('aria-busy', 'false')
+}
+
+function renderAuthors() {
+  const authors = new Map()
+  let anonymousProjects = 0
+  for (const pkg of state.packages) {
+    if (isAnonymousAuthor(pkg.author)) {
+      anonymousProjects += 1
+      continue
+    }
+    const key = authorIdentity(pkg.author)
+    const current = authors.get(key) || { author: pkg.author, projects: [] }
+    if (!githubProfileUrl(current.author) && githubProfileUrl(pkg.author)) current.author = pkg.author
+    current.projects.push(pkg)
+    authors.set(key, current)
+  }
+  const rankedAuthors = [...authors.entries()]
+    .sort(([, left], [, right]) => right.projects.length - left.projects.length || left.author.name.localeCompare(right.author.name))
+  const attributedProjects = rankedAuthors.reduce((total, [, entry]) => total + entry.projects.length, 0)
+  const visibleAuthors = state.authorsExpanded ? rankedAuthors : rankedAuthors.slice(0, 12)
+  elements.authorSummary.textContent = formatText('authors.summary', {
+    authors: rankedAuthors.length,
+    projects: attributedProjects,
+    anonymous: anonymousProjects,
+  })
+  elements.authors.innerHTML = visibleAuthors
+    .map(([key, entry]) => `
+      <button class="author-row" type="button" data-open-author="${escapeHtml(key)}">
+        ${authorMark({ author: entry.author })}
+        <span><strong>${escapeHtml(entry.author.name)}</strong><small>${escapeHtml(formatText(entry.projects.length === 1 ? 'authors.projectCountOne' : 'authors.projectCount', { count: entry.projects.length }))}</small></span>
+      </button>`).join('')
+  elements.authorToggle.hidden = rankedAuthors.length <= 12
+  elements.authorToggle.setAttribute('aria-expanded', String(state.authorsExpanded))
+  elements.authorToggle.textContent = formatText(state.authorsExpanded ? 'authors.showLess' : 'authors.showAll', { count: rankedAuthors.length })
+  elements.authors.setAttribute('aria-busy', 'false')
+}
+
+function layoutMasonry() {
+  if (state.view !== 'grid' || elements.list.hidden) return
+  const styles = getComputedStyle(elements.list)
+  const rowHeight = Number.parseFloat(styles.gridAutoRows)
+  const rowGap = Number.parseFloat(styles.rowGap)
+  if (!Number.isFinite(rowHeight) || rowHeight <= 0) return
+  elements.list.querySelectorAll('.package-card').forEach((card) => {
+    card.style.gridRowEnd = 'auto'
+    const height = card.getBoundingClientRect().height
+    const span = Math.max(1, Math.ceil((height + rowGap) / (rowHeight + rowGap)))
+    card.style.gridRowEnd = `span ${span}`
+  })
+}
+
+function scheduleMasonryLayout() {
+  window.cancelAnimationFrame(masonryFrame)
+  masonryFrame = window.requestAnimationFrame(layoutMasonry)
+}
+
+function refreshMasonryLayout() {
+  masonryObserver?.disconnect()
+  elements.list.querySelectorAll('.package-card').forEach((card) => {
+    card.style.removeProperty('grid-row-end')
+  })
+  if (state.view !== 'grid') return
+  if ('ResizeObserver' in window) {
+    masonryObserver = new ResizeObserver(scheduleMasonryLayout)
+    elements.list.querySelectorAll('.package-card').forEach((card) => masonryObserver.observe(card))
+  }
+  scheduleMasonryLayout()
+}
+
 function render() {
   const packages = filteredPackages()
-  elements.list.innerHTML = packages.map(packageCard).join('')
+  const visiblePackages = packages.slice(0, state.visible)
+  if (elements.catalogShell) elements.catalogShell.dataset.view = state.view
+  elements.list.dataset.view = state.view
+  elements.list.innerHTML = visiblePackages.map(packageCard).join('')
   elements.list.setAttribute('aria-busy', 'false')
   elements.count.textContent = String(packages.length)
   elements.empty.hidden = packages.length !== 0
   elements.list.hidden = packages.length === 0
+  elements.renderedCount.textContent = String(visiblePackages.length)
+  elements.filteredCount.textContent = String(packages.length)
+  elements.pagination.hidden = packages.length === 0
+  elements.loadMore.hidden = visiblePackages.length >= packages.length
+  refreshMasonryLayout()
 
   document.querySelectorAll('.category-filter').forEach((button) => {
     button.setAttribute('aria-pressed', String(button.dataset.category === state.category))
   })
+  document.querySelectorAll('[data-install-view]').forEach((button) => {
+    button.setAttribute('aria-pressed', String(button.dataset.installView === state.install))
+  })
+  document.querySelectorAll('[data-catalog-view]').forEach((button) => {
+    button.setAttribute('aria-pressed', String(button.dataset.catalogView === state.view))
+  })
+  document.querySelectorAll('[data-catalog-scope]').forEach((button) => {
+    button.setAttribute('aria-pressed', String(button.dataset.catalogScope === state.scope))
+  })
+  document.querySelector('[data-scope-count="all"]').textContent = String(state.packages.length + state.candidates.length)
+  document.querySelector('[data-scope-count="reviewed"]').textContent = String(state.packages.filter((pkg) => pkg.status !== 'discovery').length)
+  document.querySelector('[data-scope-count="candidates"]').textContent = String(state.packages.filter((pkg) => pkg.status === 'discovery').length + state.candidates.length)
 }
 
 function alignResultsToTop() {
@@ -209,31 +788,116 @@ function alignResultsToTop() {
   })
 }
 
-function renderFeatured() {
-  const packages = state.packages
-    .filter((pkg) => pkg.featured)
-    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-    .slice(0, 4)
+function updateFeaturedRail() {
+  const maxScroll = Math.max(0, elements.featured.scrollWidth - elements.featured.clientWidth)
+  const canPrevious = elements.featured.scrollLeft > 2
+  const canNext = elements.featured.scrollLeft < maxScroll - 2
+  elements.featuredRail.dataset.canPrevious = String(canPrevious)
+  elements.featuredRail.dataset.canNext = String(canNext)
+  elements.featuredPrevious.disabled = !canPrevious
+  elements.featuredNext.disabled = !canNext
+}
 
-  elements.featured.innerHTML = packages.map((pkg) => {
+function scrollFeatured(direction) {
+  const firstItem = elements.featured.querySelector('.featured-item')
+  if (!firstItem) return
+  const gap = Number.parseFloat(getComputedStyle(elements.featured).columnGap) || 12
+  const distance = firstItem.getBoundingClientRect().width + gap
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  elements.featured.scrollBy({ left: direction * distance, behavior: reducedMotion ? 'auto' : 'smooth' })
+}
+
+function selectFeaturedPackages(packages, mode) {
+  const byRecency = (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+    || a.id.localeCompare(b.id)
+  if (mode === 'recent') return [...packages].sort(byRecency)
+
+  const recoverable = packages
+    .filter((pkg) => installGroup(pkg.install.type) === 'transactional')
+    .sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)) || byRecency(a, b))
+  if (mode === 'recoverable') return recoverable
+
+  const guidedFallback = packages
+    .filter((pkg) => pkg.featured && installGroup(pkg.install.type) !== 'transactional')
+    .sort(byRecency)
+  return [...recoverable, ...guidedFallback]
+}
+
+function renderFeatured() {
+  const packages = selectFeaturedPackages(state.packages, state.featuredMode).slice(0, 16)
+
+  elements.featured.innerHTML = packages.length === 0
+    ? `<p class="featured-lane-empty">${escapeHtml(t('featured.empty.recoverable'))}</p>`
+    : packages.map((pkg) => {
     const copy = packageText(pkg)
+    const visual = projectVisual(pkg, 'icon')
     return `
       <button class="featured-item" type="button" data-open-package="${escapeHtml(pkg.id)}">
-        <span class="featured-icon mark-${escapeHtml(pkg.category)}">
-          <span>${escapeHtml(packageMonogram(copy.name))}</span>
+        <span class="featured-icon project-visual mark-${escapeHtml(pkg.category || 'uncategorized')}" data-media-state="${visual.state}" data-visual-format="icon">
+          ${visual.content}
         </span>
         <span class="featured-content">
           <span class="featured-meta">
-            <span>${escapeHtml(kindLabel(pkg.kind))}</span>
+            <span>${escapeHtml(kindLabel(pkg.kind))} · ${escapeHtml(managementLabel(pkg.install.type))}</span>
             <time datetime="${escapeHtml(pkg.updatedAt)}">${escapeHtml(formatDate(pkg.updatedAt))}</time>
           </span>
           <strong>${escapeHtml(copy.name)}</strong>
           <span class="featured-description">${escapeHtml(copy.description)}</span>
-          <span class="featured-author">${authorMark(pkg)}<span>${escapeHtml(pkg.author.name)}</span></span>
+          <span class="featured-author">${authorMark(pkg)}<span>${escapeHtml(authorDisplayName(pkg.author))}</span></span>
         </span>
       </button>`
   }).join('')
   elements.featured.setAttribute('aria-busy', 'false')
+  elements.featured.scrollLeft = 0
+  elements.featuredTabs.querySelectorAll('[data-featured-mode]').forEach((button) => {
+    button.setAttribute('aria-pressed', String(button.dataset.featuredMode === state.featuredMode))
+  })
+  window.requestAnimationFrame(updateFeaturedRail)
+}
+
+function renderSpotlight() {
+  const packages = state.packages
+    .sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured))
+      || Number(a.status === 'discovery') - Number(b.status === 'discovery')
+      || Number(!isAnonymousAuthor(b.author)) - Number(!isAnonymousAuthor(a.author))
+      || new Date(b.updatedAt) - new Date(a.updatedAt))
+    .slice(0, 2)
+
+  elements.spotlight.innerHTML = packages.map((pkg) => {
+    const copy = packageText(pkg)
+    const visual = projectVisual(pkg)
+    return `
+      <button class="spotlight-project" type="button" data-open-package="${escapeHtml(pkg.id)}">
+        <span class="spotlight-project-visual project-visual mark-${escapeHtml(pkg.category || 'uncategorized')}" data-media-state="${visual.state}" data-visual-format="cover">
+          ${visual.content}
+        </span>
+        <span class="spotlight-project-copy">
+          <span class="spotlight-project-meta">${escapeHtml(kindLabel(pkg.kind))}<span>${escapeHtml(catalogAccessLabel(pkg))}</span></span>
+          <strong>${escapeHtml(copy.name)}</strong>
+          <span class="spotlight-project-description">${escapeHtml(copy.description)}</span>
+          <span class="spotlight-project-author">${authorMark(pkg)}<span>${escapeHtml(authorDisplayName(pkg.author))}</span></span>
+        </span>
+      </button>`
+  }).join('')
+  elements.spotlight.setAttribute('aria-busy', 'false')
+}
+
+function renderWorkshopModes() {
+  const modes = ['transactional', 'managed', 'guided']
+  const counts = Object.fromEntries(modes.map((mode) => [
+    mode,
+    state.packages.filter((pkg) => installGroup(pkg.install.type) === mode).length,
+  ]))
+  elements.workshopModes.innerHTML = modes.map((mode) => `
+    <button class="workshop-mode mode-${escapeHtml(mode)}" type="button" data-install-view="${escapeHtml(mode)}" aria-pressed="${state.install === mode}">
+      <span class="workshop-mode-count">${escapeHtml(counts[mode])}</span>
+      <span class="workshop-mode-copy">
+        <strong>${escapeHtml(t(`workshop.${mode}.title`))}</strong>
+        <span>${escapeHtml(t(`workshop.${mode}.description`))}</span>
+      </span>
+      <span class="workshop-mode-action">${escapeHtml(t(`workshop.${mode}.action`))}</span>
+    </button>`).join('')
+  elements.workshopModes.setAttribute('aria-busy', 'false')
 }
 
 function option(value, label) {
@@ -241,23 +905,29 @@ function option(value, label) {
 }
 
 function renderFilters() {
-  const categories = [...new Set(state.packages.map((pkg) => pkg.category))]
+  const available = scopedPackages()
+  const categories = [...new Set([...state.packages, ...state.candidates].map((pkg) => pkg.category).filter(Boolean))]
   elements.categories.innerHTML = ['all', ...categories].map((category) => {
     const count = category === 'all'
-      ? state.packages.length
-      : state.packages.filter((pkg) => pkg.category === category).length
+      ? available.length
+      : available.filter((pkg) => pkg.category === category).length
     return `<button class="category-filter" type="button" data-category="${escapeHtml(category)}" aria-pressed="${category === state.category}">${escapeHtml(categoryLabel(category))}<span>${count}</span></button>`
   }).join('')
 
-  const kinds = [...new Set(state.packages.map((pkg) => pkg.kind))]
+  const kinds = [...new Set([...state.packages, ...state.candidates].map((pkg) => pkg.kind))]
   elements.kind.innerHTML = option('all', t('filters.allTypes'))
     + kinds.map((kind) => option(kind, kindLabel(kind))).join('')
   elements.install.innerHTML = [
     option('all', t('filters.allInstall')),
-    option('quick', t('filters.quick')),
+    option('transactional', t('filters.transactional')),
     option('managed', t('filters.managed')),
-    option('source', t('filters.source')),
-    option('manual', t('filters.manual')),
+    option('guided', t('filters.guided')),
+    option('pending', t('filters.pending')),
+  ].join('')
+  elements.channel.innerHTML = [
+    option('all', t('filters.allChannels')),
+    option('stable', factValue('stable')),
+    option('beta', factValue('beta')),
   ].join('')
   elements.sort.innerHTML = [
     option('featured', t('sort.featured')),
@@ -267,6 +937,7 @@ function renderFilters() {
 
   elements.kind.value = state.kind
   elements.install.value = state.install
+  elements.channel.value = state.channel
   elements.sort.value = state.sort
 }
 
@@ -277,7 +948,7 @@ function showToast(message) {
   showToast.timeout = window.setTimeout(() => elements.toast.classList.remove('is-visible'), 1900)
 }
 
-async function copyText(text) {
+async function copyText(text, messageKey = 'dialog.copied') {
   try {
     await navigator.clipboard.writeText(text)
   } catch {
@@ -290,54 +961,409 @@ async function copyText(text) {
     document.execCommand('copy')
     area.remove()
   }
-  showToast(t('dialog.copied'))
+  showToast(t(messageKey))
 }
 
-function openPackage(id, updateHash = true) {
+function releaseCard(project, pkg, item) {
+  const version = item?.version ? `v${item.version}` : item.ref.slice(0, 7)
+  const current = item.id === project.latestRelease
+  const capabilities = [
+    item.capabilities?.requiresFabric ? t('project.requiresFabric') : '',
+    item.capabilities?.deepHook ? t('project.deepHook') : '',
+    item.capabilities?.restartRequired ? t('project.restartRequired') : '',
+  ].filter(Boolean)
+  return `
+    <article class="release-card ${current ? 'is-current' : ''}">
+      <div class="release-card-top">
+        <span>${escapeHtml(current ? t('project.mainRelease') : t('project.previousRelease'))}</span>
+        <span>${escapeHtml(factValue(item.channel || 'stable'))} · ${escapeHtml(factValue(item.state || 'active'))}</span>
+      </div>
+      <strong>${escapeHtml(version)}</strong>
+      <code>${escapeHtml(item.ref)}</code>
+      <dl>
+        <div><dt>${escapeHtml(t('project.updated'))}</dt><dd>${escapeHtml(formatDate(item.updatedAt, 'long'))}</dd></div>
+        <div><dt>${escapeHtml(t('project.runtimeFormat'))}</dt><dd>${escapeHtml(kindLabel(item.runtime?.kind || pkg.kind))}</dd></div>
+        <div><dt>${escapeHtml(t('project.installMethod'))}</dt><dd>${escapeHtml(installMethodLabel(pkg))}</dd></div>
+      </dl>
+      ${item.changelog ? `<p class="release-changelog"><strong>${escapeHtml(t('project.changelog'))}</strong><span>${escapeHtml(item.changelog)}</span></p>` : ''}
+      ${item.notice ? `<p class="release-notice">${escapeHtml(item.notice)}</p>` : ''}
+      ${capabilities.length > 0 ? `<div class="release-capabilities">${capabilities.map((value) => `<span>${escapeHtml(value)}</span>`).join('')}</div>` : ''}
+      <a href="${escapeHtml(`${pkg.repository}/tree/${item.ref}${pkg.repositoryPath || ''}`)}">${escapeHtml(t('dialog.viewSource'))} ↗</a>
+    </article>`
+}
+
+function openAuthor(url, updateHash = true) {
+  const legacyAuthor = state.packages.find((pkg) => pkg.author.url === url)
+  const requestedIdentity = legacyAuthor ? authorIdentity(legacyAuthor.author) : url
+  const packages = state.packages
+    .filter((pkg) => !isAnonymousAuthor(pkg.author) && authorIdentity(pkg.author) === requestedIdentity)
+    .sort((left, right) => new Date(right.updatedAt) - new Date(left.updatedAt))
+  if (packages.length === 0) return
+  const author = packages.map((pkg) => pkg.author).find((candidate) => githubProfileUrl(candidate)) || packages[0].author
+  const profileUrl = githubProfileUrl(author)
+  elements.dialog.dataset.packageId = ''
+  elements.dialog.dataset.collectionId = ''
+  elements.dialog.dataset.authorUrl = requestedIdentity
+  elements.dialog.dataset.returnAuthorUrl = ''
+  elements.dialogContent.innerHTML = `
+    <div class="dialog-body author-dialog">
+      <div class="author-dialog-heading">
+        ${authorMark({ author }, 'author-dialog-avatar')}
+        <div>
+          <span>${escapeHtml(t('authors.profileLabel'))}</span>
+          <h2 id="dialog-title">${escapeHtml(authorDisplayName(author))}</h2>
+          <p>${escapeHtml(formatText(packages.length === 1 ? 'authors.portfolioDescriptionOne' : 'authors.portfolioDescription', { name: authorDisplayName(author), count: packages.length }))}</p>
+        </div>
+      </div>
+      <div class="author-project-list">
+        ${packages.map((pkg) => {
+          const copy = packageText(pkg)
+          const version = pkg.version ? `v${pkg.version}` : pkg.ref.slice(0, 7)
+          const visual = projectVisual(pkg, 'icon')
+          return `
+            <button class="author-project" type="button" data-open-package="${escapeHtml(pkg.id)}">
+              <span class="author-project-mark project-visual mark-${escapeHtml(pkg.category || 'uncategorized')}" data-media-state="${visual.state}" data-visual-format="icon" aria-hidden="true">${visual.content}</span>
+              <span>
+                <strong>${escapeHtml(copy.name)}</strong>
+                <small>${escapeHtml(kindLabel(pkg.kind))} · ${escapeHtml(version)} · ${escapeHtml(catalogAccessLabel(pkg))}</small>
+              </span>
+              <span>${escapeHtml(t('row.details'))}</span>
+            </button>`
+        }).join('')}
+      </div>
+      <div class="dialog-actions">
+        ${profileUrl ? `<a class="secondary-action" href="${escapeHtml(profileUrl)}">${escapeHtml(t('authors.viewGitHub'))} ↗</a>` : ''}
+      </div>
+    </div>`
+  if (!elements.dialog.open) elements.dialog.showModal()
+  if (updateHash) pushOverlayRoute('author', requestedIdentity)
+}
+
+function openCollection(id, updateHash = true) {
+  const collection = state.collections.find((candidate) => candidate.id === id)
+  if (!collection) return
+  const copy = collectionText(collection)
+  const items = collection.items.map((item) => ({ ...item, project: state.projects.get(item.projectId) })).filter((item) => item.project)
+  elements.dialog.dataset.packageId = ''
+  elements.dialog.dataset.collectionId = id
+  elements.dialog.dataset.authorUrl = ''
+  elements.dialog.dataset.returnAuthorUrl = ''
+  elements.dialogContent.innerHTML = `
+    <div class="dialog-body collection-dialog">
+      <div class="dialog-meta"><span>${escapeHtml(t('collections.label'))}</span><span>${escapeHtml(t('collections.atomic'))}</span></div>
+      <h2 id="dialog-title">${escapeHtml(copy.title)}</h2>
+      <code class="dialog-id">${escapeHtml(collection.id)}</code>
+      <p class="dialog-description">${escapeHtml(copy.summary)}</p>
+      <section class="management-boundary boundary-transactional">
+        <span class="management-boundary-label">${escapeHtml(t('management.transactional'))}</span>
+        <div><strong>${escapeHtml(t('collections.singleCandidateTitle'))}</strong><p>${escapeHtml(t('collections.singleCandidateDescription'))}</p></div>
+      </section>
+      <div class="collection-dialog-list">
+        ${items.map((item) => `
+          <button type="button" data-open-package="${escapeHtml(item.projectId)}">
+            <span><strong>${escapeHtml(item.project.displayName)}</strong><code>${escapeHtml(item.releaseId)}</code></span>
+            <span>${escapeHtml(t('row.details'))}</span>
+          </button>`).join('')}
+      </div>
+      <div class="dialog-actions">
+        <button class="primary-action copy-collection-id" type="button">${escapeHtml(t('collections.copyId'))}</button>
+        <a class="secondary-action" href="install.html">${escapeHtml(t('collections.harnessGuide'))}</a>
+      </div>
+      <p class="dialog-safety">${escapeHtml(t('collections.publicBoundary'))}</p>
+    </div>`
+  elements.dialogContent.querySelector('.copy-collection-id').addEventListener('click', () => {
+    void copyText(collection.id, 'collections.idCopied')
+  })
+  if (!elements.dialog.open) elements.dialog.showModal()
+  if (updateHash) pushOverlayRoute('collection', collection.id)
+}
+
+function ecosystemInsight(release, runRecords, collections) {
+  const relations = release?.relations || { state: 'not-declared', required: [], optional: [] }
+  const hasReproduction = runRecords.some((record) => record.reproduces !== null)
+  let suggestion = 'project.suggestion.ready'
+  if (relations.state !== 'declared') suggestion = 'project.suggestion.declareRelations'
+  else if (runRecords.length === 0) suggestion = 'project.suggestion.addRunRecord'
+  else if (!hasReproduction) suggestion = 'project.suggestion.reproduceRun'
+  else if (release?.management?.recoveryScope === 'none') suggestion = 'project.suggestion.documentRecovery'
+  else if (release?.capabilities?.restartRequired === true) suggestion = 'project.suggestion.documentRestart'
+  else if (collections.length === 0) suggestion = 'project.suggestion.publishCollection'
+
+  return {
+    relations,
+    hasReproduction,
+    dependency: relations.state === 'declared'
+      ? formatText('project.dependenciesDeclared', { required: relations.required.length, optional: relations.optional.length })
+      : t('project.dependenciesUnknown'),
+    compatibility: runRecords.length > 0
+      ? formatText('project.compatibilityObserved', { count: runRecords.length })
+      : t('project.compatibilityDeclaredOnly'),
+    compatibilityDetail: hasReproduction ? t('project.compatibilityReproduced') : t('project.compatibilityEvidenceBoundary'),
+    composition: collections.length > 0
+      ? formatText('project.compositionCount', { count: collections.length })
+      : t('project.noCompositions'),
+    suggestion: t(suggestion),
+  }
+}
+
+function relationRows(items) {
+  return items.map((relation) => {
+    const project = state.projects.get(relation.projectId)
+    return `<button type="button" data-open-package="${escapeHtml(relation.projectId)}">
+      <span><strong>${escapeHtml(project?.displayName || relation.projectId)}</strong><code>${escapeHtml(relation.releaseId)}</code></span>
+      <span>${escapeHtml(t('row.details'))}</span>
+    </button>`
+  }).join('')
+}
+
+function openPackage(id, updateHash = true, requestedTab = 'overview') {
   const pkg = state.packages.find((candidate) => candidate.id === id)
   if (!pkg) return
   const copy = packageText(pkg)
-  const version = pkg.version ? `v${pkg.version}` : pkg.ref.slice(0, 7)
+  const { project, release } = projectRelease(pkg)
+  const version = release?.version ? `v${release.version}` : pkg.ref.slice(0, 7)
+  const boundary = managementBoundary(pkg.install.type)
+  const installBlocked = ['blocked', 'review-required'].includes(release?.listing?.state)
+  const detailVisual = projectVisual(pkg, 'cover', { decorative: false })
+  const media = projectMedia(pkg)
+  const runRecords = state.runRecords.filter((record) => record.projectId === pkg.id && record.releaseId === release?.id)
+  const hasReproduction = runRecords.some((record) => record.reproduces !== null)
+  const releaseCollections = state.collections.filter((collection) => collection.items.some((item) => item.projectId === pkg.id && item.releaseId === release?.id))
+  const insight = ecosystemInsight(release, runRecords, releaseCollections)
+  const returnAuthorUrl = elements.dialog.dataset.authorUrl || elements.dialog.dataset.returnAuthorUrl || ''
   elements.dialog.dataset.packageId = id
+  elements.dialog.dataset.collectionId = ''
+  elements.dialog.dataset.authorUrl = ''
+  elements.dialog.dataset.returnAuthorUrl = returnAuthorUrl
   elements.dialogContent.innerHTML = `
     <div class="dialog-body">
+      ${returnAuthorUrl ? `<button class="project-back" type="button" data-back-author>${escapeHtml(t('authors.backToProjects'))}</button>` : ''}
+      <div class="project-detail-visual project-visual mark-${escapeHtml(pkg.category || 'uncategorized')}" data-media-state="${detailVisual.state}" data-visual-format="cover">
+        ${detailVisual.content}
+      </div>
       <div class="dialog-meta">
         <span>${escapeHtml(kindLabel(pkg.kind))}</span>
-        <span>${escapeHtml(categoryLabel(pkg.category))}</span>
+        ${pkg.category ? `<span>${escapeHtml(categoryLabel(pkg.category))}</span>` : ''}
         <span>${escapeHtml(statusLabel(pkg.status))}</span>
+        <span>${escapeHtml(catalogAccessLabel(pkg))}</span>
       </div>
       <h2 id="dialog-title">${escapeHtml(copy.name)}</h2>
       <code class="dialog-id">${escapeHtml(pkg.id)}</code>
-      <p class="dialog-description">${escapeHtml(copy.description)}</p>
-      <dl class="dialog-facts">
-        <div><dt>${escapeHtml(t('dialog.author'))}</dt><dd>${escapeHtml(pkg.author.name)}</dd></div>
-        <div><dt>${escapeHtml(t('dialog.version'))}</dt><dd>${escapeHtml(version)}</dd></div>
-        <div><dt>${escapeHtml(t('dialog.license'))}</dt><dd>${escapeHtml(pkg.license)}</dd></div>
-        <div><dt>${escapeHtml(t('dialog.compatibility'))}</dt><dd>${escapeHtml(copy.compatibility)}</dd></div>
-      </dl>
-      <section class="install-panel">
-        <div class="install-heading">
-          <h3>${escapeHtml(copy.installLabel)}</h3>
-          <span>${escapeHtml(pkg.install.type)}</span>
+      <nav class="project-tabs" aria-label="${escapeHtml(t('project.tabsLabel'))}" role="tablist">
+        ${['overview', 'releases', 'compatibility', 'relations', 'discussions'].map((tab) => `
+          <button type="button" role="tab" data-project-tab="${tab}" aria-selected="${requestedTab === tab}">${escapeHtml(t(`project.tab.${tab}`))}</button>
+        `).join('')}
+      </nav>
+      <section class="project-panel" role="tabpanel" data-project-panel="overview">
+        <p class="dialog-description">${escapeHtml(copy.description)}</p>
+        ${media?.screenshots?.length > 0 ? `<div class="project-gallery">${media.screenshots.map((asset, index) => `<img src="${escapeHtml(asset.url)}" alt="${escapeHtml(`${copy.name} ${t('project.screenshot')} ${index + 1}`)}" loading="lazy" decoding="async" data-project-media>`).join('')}</div>` : ''}
+        ${project?.lifecycle?.state && project.lifecycle.state !== 'active' ? `<section class="project-lifecycle"><strong>${escapeHtml(factValue(project.lifecycle.state))}</strong><p>${escapeHtml(project.lifecycle.notice || t('project.lifecycleNotice'))}</p>${project.lifecycle.successor ? `<button type="button" data-open-package="${escapeHtml(project.lifecycle.successor)}">${escapeHtml(t('project.openSuccessor'))}</button>` : ''}</section>` : ''}
+        <dl class="dialog-facts">
+          <div><dt>${escapeHtml(t('dialog.author'))}</dt><dd>${authorLink(pkg.author)}</dd></div>
+          <div><dt>${escapeHtml(t('dialog.version'))}</dt><dd>${escapeHtml(version)}</dd></div>
+          <div><dt>${escapeHtml(t('dialog.license'))}</dt><dd>${escapeHtml(release?.license || pkg.license)}</dd></div>
+          <div><dt>${escapeHtml(t('project.updated'))}</dt><dd>${escapeHtml(formatDate(release?.updatedAt || pkg.updatedAt, 'long'))}</dd></div>
+        </dl>
+        <section class="management-boundary boundary-${escapeHtml(boundary.group)}">
+          <span class="management-boundary-label">${escapeHtml(managementLabel(pkg.install.type))}</span>
+          <div>
+            <strong>${escapeHtml(boundary.title)}</strong>
+            <p>${escapeHtml(boundary.description)}</p>
+          </div>
+        </section>
+        ${installBlocked ? `<section class="install-panel install-unavailable"><div class="install-heading"><h3>${escapeHtml(t('project.installUnavailable'))}</h3><span>${escapeHtml(factValue(release?.listing?.state || 'blocked'))}</span></div><p>${escapeHtml(release?.notice || t('project.installUnavailableDescription'))}</p></section>` : `<section class="install-panel">
+          <div class="install-heading">
+            <h3>${escapeHtml(omdshActionLabel(pkg))}</h3>
+            <span>${escapeHtml(managementLabel(pkg.install.type))} · ${escapeHtml(integrationRequirement(pkg))}</span>
+          </div>
+          <div class="code-block">
+            <pre><code>${escapeHtml(omdshCommand(pkg))}</code></pre>
+            <button class="copy-command" type="button">${escapeHtml(t('dialog.copy'))}</button>
+          </div>
+          <p class="install-note">${escapeHtml(omdshInstallNote(pkg))}</p>
+          <details class="advanced-install">
+            <summary>${escapeHtml(t('install.advanced'))}</summary>
+            <dl>
+              <div><dt>${escapeHtml(t('install.backend'))}</dt><dd>${escapeHtml(installBackend(pkg))}</dd></div>
+              <div><dt>${escapeHtml(t('install.requirement'))}</dt><dd>${escapeHtml(integrationRequirement(pkg))}</dd></div>
+            </dl>
+            ${installGroup(pkg.install.type) !== 'guided' && copy.installNote ? `<p>${escapeHtml(copy.installNote)}</p>` : ''}
+          </details>
+        </section>`}
+        <p class="dialog-safety">${escapeHtml(t('safety.short'))}</p>
+        <div class="dialog-source">
+          <div>
+            <strong>${escapeHtml(t('dialog.fixedSource'))}</strong>
+            <code>${escapeHtml(release?.ref || pkg.ref)}</code>
+          </div>
+          <a href="${escapeHtml(project?.links?.repository || detailUrl(pkg))}">${escapeHtml(t('dialog.viewSource'))} ↗</a>
         </div>
-        <div class="code-block">
-          <pre><code>${escapeHtml(pkg.install.command)}</code></pre>
-          <button class="copy-command" type="button">${escapeHtml(t('dialog.copy'))}</button>
-        </div>
-        ${copy.installNote ? `<p class="install-note">${escapeHtml(copy.installNote)}</p>` : ''}
       </section>
-      <p class="dialog-safety">${escapeHtml(t('safety.short'))}</p>
+
+      <section class="project-panel" role="tabpanel" data-project-panel="releases" hidden>
+        <div class="project-panel-heading">
+          <div><span>${escapeHtml(t('project.releaseCount'))}</span><strong>${escapeHtml(project?.releases?.length || 1)}</strong></div>
+          <p>${escapeHtml(t('project.releaseHistoryBoundary'))}</p>
+        </div>
+        <div class="release-list">
+          ${(project?.releases || [release]).filter(Boolean).map((item) => releaseCard(project || { latestRelease: release?.id }, pkg, item)).join('')}
+        </div>
+      </section>
+
+      <section class="project-panel" role="tabpanel" data-project-panel="compatibility" hidden>
+        <section class="ecosystem-insights">
+          <div class="ecosystem-insights-heading">
+            <h3>${escapeHtml(t('project.insightsTitle'))}</h3>
+            <p>${escapeHtml(t('project.insightsDescription'))}</p>
+          </div>
+          <div class="ecosystem-insight-grid">
+            <article><span>${escapeHtml(t('project.insightDependencies'))}</span><strong>${escapeHtml(insight.dependency)}</strong><small>${escapeHtml(t('project.insightDependenciesBoundary'))}</small></article>
+            <article><span>${escapeHtml(t('project.insightCompatibility'))}</span><strong>${escapeHtml(insight.compatibility)}</strong><small>${escapeHtml(insight.compatibilityDetail)}</small></article>
+            <article><span>${escapeHtml(t('project.insightSuggestion'))}</span><strong>${escapeHtml(insight.suggestion)}</strong><small>${escapeHtml(t('project.insightSuggestionBoundary'))}</small></article>
+            <article><span>${escapeHtml(t('project.insightCompositions'))}</span><strong>${escapeHtml(insight.composition)}</strong><small>${escapeHtml(t('project.insightCompositionsBoundary'))}</small></article>
+          </div>
+          ${releaseCollections.length > 0 ? `<div class="ecosystem-compositions">${releaseCollections.map((collection) => `<button type="button" data-open-collection="${escapeHtml(collection.id)}">${escapeHtml(collectionText(collection).title)}</button>`).join('')}</div>` : ''}
+        </section>
+        <div class="project-info-block">
+          <span>${escapeHtml(t('project.declaredCompatibility'))}</span>
+          <strong>${escapeHtml(copy.compatibility)}</strong>
+        </div>
+        <section class="run-evidence${runRecords.length === 0 ? ' is-empty' : ''}">
+          <div class="run-evidence-heading">
+            <div>
+              <span>${escapeHtml(t('project.runRecords'))}</span>
+              <strong>${escapeHtml(runRecords.length === 0 ? t('project.noRunRecordsTitle') : formatText('project.runRecordCount', { count: runRecords.length }))}</strong>
+            </div>
+            ${hasReproduction ? `<span class="run-reproduced">${escapeHtml(t('project.reproduced'))}</span>` : ''}
+          </div>
+          <p>${escapeHtml(runRecords.length === 0 ? t('project.noRunRecordsDescription') : t('project.runRecordsDescription'))}</p>
+          ${runRecords.length > 0 ? `<div class="run-record-list">${runRecords.map(runRecordRow).join('')}</div>` : ''}
+        </section>
+        <dl class="compatibility-facts">
+          <div><dt>${escapeHtml(t('project.runtimeFormat'))}</dt><dd>${escapeHtml(kindLabel(release?.runtime?.kind || pkg.kind))}</dd></div>
+          <div><dt>${escapeHtml(t('project.installMethod'))}</dt><dd>${escapeHtml(installMethodLabel(pkg))}</dd></div>
+          <div><dt>${escapeHtml(t('project.managementCapability'))}</dt><dd>${escapeHtml(managementLabel(pkg.install.type))}</dd></div>
+          <div><dt>${escapeHtml(t('project.recoveryScope'))}</dt><dd>${escapeHtml(factValue(release?.management?.recoveryScope || 'unknown'))}</dd></div>
+          <div><dt>${escapeHtml(t('project.requiresFabric'))}</dt><dd>${escapeHtml(factValue(release?.capabilities?.requiresFabric === true))}</dd></div>
+          <div><dt>${escapeHtml(t('project.deepHook'))}</dt><dd>${escapeHtml(factValue(release?.capabilities?.deepHook === true))}</dd></div>
+          <div><dt>${escapeHtml(t('project.restartRequired'))}</dt><dd>${escapeHtml(factValue(release?.capabilities?.restartRequired === true))}</dd></div>
+        </dl>
+        <h3 class="project-section-title">${escapeHtml(t('project.scanFacts'))}</h3>
+        <dl class="scan-facts">
+          <div><dt>${escapeHtml(t('project.riskLevel'))}</dt><dd>${escapeHtml(factValue(release?.risk?.level || 'unknown'))}</dd></div>
+          <div><dt>${escapeHtml(t('project.listingState'))}</dt><dd>${escapeHtml(factValue(release?.listing?.state || 'unknown'))}</dd></div>
+          <div><dt>${escapeHtml(t('project.sourcePinned'))}</dt><dd>${escapeHtml(factValue(release?.risk?.facts?.sourcePinned === true))}</dd></div>
+          <div><dt>${escapeHtml(t('project.vulnerabilityScan'))}</dt><dd>${escapeHtml(factValue(release?.risk?.facts?.vulnerabilityScan || 'unknown'))}</dd></div>
+          <div><dt>${escapeHtml(t('project.permissions'))}</dt><dd>${escapeHtml(factValue(release?.risk?.facts?.permissions || 'unknown'))}</dd></div>
+          <div><dt>${escapeHtml(t('project.nativeCode'))}</dt><dd>${escapeHtml(factValue(release?.risk?.facts?.nativeCode || 'unknown'))}</dd></div>
+          <div><dt>${escapeHtml(t('project.installScripts'))}</dt><dd>${escapeHtml(factValue(release?.risk?.facts?.installScripts || 'unknown'))}</dd></div>
+        </dl>
+      </section>
+
+      <section class="project-panel" role="tabpanel" data-project-panel="relations" hidden>
+        ${insight.relations.state !== 'declared' ? `<div class="relations-empty">
+          <span aria-hidden="true">↔</span>
+          <div><strong>${escapeHtml(t('project.noRelationsTitle'))}</strong><p>${escapeHtml(t('project.noRelationsDescription'))}</p></div>
+        </div>` : `<div class="relations-declared">
+          <strong>${escapeHtml(t('project.declaredRelationsTitle'))}</strong>
+          <p>${escapeHtml(t('project.declaredRelationsDescription'))}</p>
+        </div>
+        <h3 class="project-section-title">${escapeHtml(t('project.requiredDependencies'))}</h3>
+        <div class="relation-list">${relationRows(insight.relations.required) || `<p>${escapeHtml(t('project.noRequiredDependencies'))}</p>`}</div>
+        <h3 class="project-section-title">${escapeHtml(t('project.optionalDependencies'))}</h3>
+        <div class="relation-list">${relationRows(insight.relations.optional) || `<p>${escapeHtml(t('project.noOptionalDependencies'))}</p>`}</div>`}
+        <dl class="compatibility-facts relation-facts">
+          <div><dt>${escapeHtml(t('project.requiredDependencies'))}</dt><dd>${escapeHtml(insight.relations.state === 'declared' ? insight.relations.required.length : factValue('not-declared'))}</dd></div>
+          <div><dt>${escapeHtml(t('project.optionalDependencies'))}</dt><dd>${escapeHtml(insight.relations.state === 'declared' ? insight.relations.optional.length : factValue('not-declared'))}</dd></div>
+        </dl>
+      </section>
+
+      <section class="project-panel" role="tabpanel" data-project-panel="discussions" hidden>
+        <div class="project-panel-heading">
+          <div><span>${escapeHtml(t('project.discussions'))}</span><strong>${escapeHtml((state.community.discussions || []).filter((item) => item.projectId === pkg.id).length)}</strong></div>
+          <p>${escapeHtml(t('project.discussionsBoundary'))}</p>
+        </div>
+        <div class="project-discussions">
+          ${(state.community.discussions || []).filter((item) => item.projectId === pkg.id).map(discussionRow).join('') || `<div class="community-empty"><strong>${escapeHtml(t('project.noDiscussionsTitle'))}</strong><p>${escapeHtml(t('project.noDiscussionsDescription'))}</p></div>`}
+        </div>
+        <a class="secondary-action discussion-external" href="${escapeHtml(project?.links?.discussions || `${pkg.repository}/discussions`)}">${escapeHtml(t('project.openDiscussions'))} ↗</a>
+      </section>
+    </div>`
+  elements.dialogContent.querySelector('.copy-command')?.addEventListener('click', () => copyText(omdshCommand(pkg)))
+  elements.dialogContent.querySelector('[data-back-author]')?.addEventListener('click', (event) => {
+    event.preventDefault()
+    returnToAuthor()
+  })
+  activateProjectTab(requestedTab)
+  if (!elements.dialog.open) elements.dialog.showModal()
+  if (updateHash) {
+    const currentRoute = new URLSearchParams(location.hash.slice(1))
+    if (returnAuthorUrl && history.state?.workshopOverlay && currentRoute.has('author')) {
+      replaceOverlayRoute('package', pkg.id)
+    } else {
+      pushOverlayRoute('package', pkg.id)
+    }
+  }
+}
+
+function openCandidate(id, updateHash = true) {
+  const pkg = state.candidates.find((candidate) => candidate.id === id)
+  if (!pkg) return
+  const candidate = pkg.candidateData
+  const declarations = candidate.declaration.types
+  const adapter = candidate.install.possibleAdapter
+  const source = detailUrl(pkg)
+  elements.dialog.dataset.packageId = ''
+  elements.dialog.dataset.candidateId = id
+  elements.dialog.dataset.collectionId = ''
+  elements.dialog.dataset.authorUrl = ''
+  elements.dialog.dataset.returnAuthorUrl = ''
+  elements.dialogContent.innerHTML = `
+    <div class="dialog-body candidate-dialog">
+      <div class="dialog-meta">
+        <span>${escapeHtml(t('candidates.pending'))}</span>
+        <span>${escapeHtml(kindLabel(pkg.kind))}</span>
+        <span>${escapeHtml(presentationLabel(candidate.presentation))}</span>
+      </div>
+      <h2 id="dialog-title">${escapeHtml(pkg.name)}</h2>
+      <code class="dialog-id">${escapeHtml(pkg.repository.replace('https://github.com/', ''))}${escapeHtml(pkg.repositoryPath || '')}</code>
+      <p class="dialog-description">${escapeHtml(pkg.description)}</p>
+      <section class="candidate-gate">
+        <span aria-hidden="true">⌁</span>
+        <div>
+          <strong>${escapeHtml(t('candidates.notInstallable'))}</strong>
+          <p>${escapeHtml(t('candidates.boundary'))}</p>
+        </div>
+      </section>
+      <dl class="candidate-facts">
+        <div><dt>${escapeHtml(t('candidates.scanDecision'))}</dt><dd>${escapeHtml(factValue(candidate.review.scanDecision))}</dd></div>
+        <div><dt>${escapeHtml(t('project.riskLevel'))}</dt><dd>${escapeHtml(factValue(candidate.review.risk))}</dd></div>
+        <div><dt>${escapeHtml(t('candidates.declarations'))}</dt><dd>${escapeHtml(declarations.length > 0 ? declarations.map(declarationLabel).join(' · ') : t('candidates.noManifest'))}</dd></div>
+        <div><dt>${escapeHtml(t('candidates.possibleAdapter'))}</dt><dd>${escapeHtml(adapter === 'official-profile/v1' ? t('install.backend.officialProfile') : adapter === 'official-repository/v1' ? t('install.backend.officialRepository') : t('factValue.unknown'))}</dd></div>
+        <div><dt>${escapeHtml(t('dialog.version'))}</dt><dd>${escapeHtml(candidate.declaration.version || t('factValue.unknown'))}</dd></div>
+        <div><dt>${escapeHtml(t('project.updated'))}</dt><dd>${escapeHtml(formatDate(pkg.updatedAt, 'long'))}</dd></div>
+      </dl>
+      <div class="candidate-manifests">
+        <strong>${escapeHtml(t('candidates.manifests'))}</strong>
+        ${candidate.declaration.manifests.length > 0
+          ? `<ul>${candidate.declaration.manifests.map((manifest) => `<li><code>${escapeHtml(manifest)}</code></li>`).join('')}</ul>`
+          : `<p>${escapeHtml(t('candidates.noManifestDescription'))}</p>`}
+      </div>
+      <p class="candidate-review-note">${escapeHtml(t('candidates.reviewNote'))}</p>
+      <div class="candidate-actions">
+        <a class="primary-action" href="publish.html?candidate=${encodeURIComponent(candidate.id)}">${escapeHtml(t('candidates.apply'))}</a>
+        <span>${escapeHtml(t('candidates.applyHelp'))}</span>
+      </div>
       <div class="dialog-source">
         <div>
           <strong>${escapeHtml(t('dialog.fixedSource'))}</strong>
           <code>${escapeHtml(pkg.ref)}</code>
         </div>
-        <a href="${escapeHtml(detailUrl(pkg))}">${escapeHtml(t('dialog.viewSource'))} ↗</a>
+        <a href="${escapeHtml(source)}">${escapeHtml(t('dialog.viewSource'))} ↗</a>
       </div>
     </div>`
-  elements.dialogContent.querySelector('.copy-command').addEventListener('click', () => copyText(pkg.install.command))
   if (!elements.dialog.open) elements.dialog.showModal()
-  if (updateHash) history.replaceState(null, '', `#package=${encodeURIComponent(pkg.id)}`)
+  if (updateHash) pushOverlayRoute('candidate', id)
 }
 
 function resetFilters() {
@@ -345,43 +1371,153 @@ function resetFilters() {
   state.category = 'all'
   state.kind = 'all'
   state.install = 'all'
+  state.channel = 'all'
+  state.scope = 'all'
   state.sort = 'featured'
+  state.visible = 24
   elements.search.value = ''
   renderFilters()
   render()
   alignResultsToTop()
 }
 
+function applyInstallView(mode) {
+  state.install = mode
+  state.visible = 24
+  elements.install.value = mode
+  render()
+  alignResultsToTop()
+}
+
 function bindEvents() {
   document.addEventListener('error', (event) => {
-    if (event.target instanceof HTMLImageElement && event.target.matches('[data-avatar]')) {
+    if (event.target instanceof HTMLImageElement && event.target.matches('[data-project-media]')) {
+      const visual = event.target.closest('.project-visual')
+      if (visual) visual.dataset.mediaState = 'generated'
       event.target.remove()
+      return
+    }
+    if (event.target instanceof HTMLImageElement && event.target.matches('[data-avatar]')) {
+      const fallback = document.createElement('span')
+      fallback.className = event.target.className.replace(/\bauthor-avatar\b/, 'author-fallback')
+      fallback.setAttribute('aria-hidden', 'true')
+      fallback.textContent = event.target.dataset.avatarFallback || 'D'
+      event.target.replaceWith(fallback)
     }
   }, true)
-  elements.search.addEventListener('input', (event) => { state.query = event.target.value; render() })
+  elements.search.addEventListener('input', (event) => { state.query = event.target.value; state.visible = 24; render() })
+  elements.featured.addEventListener('scroll', updateFeaturedRail, { passive: true })
+  elements.featuredPrevious.addEventListener('click', () => scrollFeatured(-1))
+  elements.featuredNext.addEventListener('click', () => scrollFeatured(1))
+  elements.authorToggle.addEventListener('click', () => {
+    state.authorsExpanded = !state.authorsExpanded
+    renderAuthors()
+  })
+  window.addEventListener('resize', updateFeaturedRail)
   elements.kind.addEventListener('change', (event) => {
     state.kind = event.target.value
+    state.visible = 24
     render()
     alignResultsToTop()
   })
   elements.install.addEventListener('change', (event) => {
-    state.install = event.target.value
+    applyInstallView(event.target.value)
+  })
+  elements.channel.addEventListener('change', (event) => {
+    state.channel = event.target.value
+    state.visible = 24
     render()
     alignResultsToTop()
   })
-  elements.sort.addEventListener('change', (event) => { state.sort = event.target.value; render() })
+  elements.sort.addEventListener('change', (event) => { state.sort = event.target.value; state.visible = 24; render() })
   elements.categories.addEventListener('click', (event) => {
     const button = event.target.closest('[data-category]')
     if (!button) return
     state.category = button.dataset.category
+    state.visible = 24
     render()
     alignResultsToTop()
   })
+  // Keep modal navigation local to the top-layer dialog. Relying only on the
+  // document delegate leaves author/project transitions inert in browsers
+  // that isolate synthetic top-layer dialog events.
+  elements.dialogContent.addEventListener('click', (event) => {
+    const authorButton = event.target.closest('[data-open-author]')
+    if (authorButton) {
+      event.stopPropagation()
+      openAuthor(authorButton.dataset.openAuthor)
+      return
+    }
+    const packageButton = event.target.closest('[data-open-package]')
+    if (packageButton) {
+      event.stopPropagation()
+      openPackage(packageButton.dataset.openPackage)
+      return
+    }
+    const candidateButton = event.target.closest('[data-open-candidate]')
+    if (candidateButton) {
+      event.stopPropagation()
+      openCandidate(candidateButton.dataset.openCandidate)
+    }
+  })
   document.addEventListener('click', (event) => {
+    const projectTab = event.target.closest('[data-project-tab]')
+    if (projectTab && elements.dialog.contains(projectTab)) {
+      activateProjectTab(projectTab.dataset.projectTab)
+      return
+    }
+    const installView = event.target.closest('[data-install-view]')
+    if (installView) {
+      applyInstallView(installView.dataset.installView)
+      return
+    }
+    const featuredMode = event.target.closest('[data-featured-mode]')
+    if (featuredMode) {
+      state.featuredMode = featuredMode.dataset.featuredMode
+      renderFeatured()
+      return
+    }
+    const catalogView = event.target.closest('[data-catalog-view]')
+    if (catalogView) {
+      state.view = catalogView.dataset.catalogView
+      render()
+      alignResultsToTop()
+      return
+    }
+    const catalogScope = event.target.closest('[data-catalog-scope]')
+    if (catalogScope) {
+      state.scope = catalogScope.dataset.catalogScope
+      state.visible = 24
+      if (state.scope === 'candidates' && state.install !== 'all' && state.install !== 'pending') state.install = 'all'
+      renderFilters()
+      render()
+      alignResultsToTop()
+      return
+    }
     const copyButton = event.target.closest('[data-copy-install]')
     if (copyButton) {
       const pkg = state.packages.find((candidate) => candidate.id === copyButton.dataset.copyInstall)
-      if (pkg) copyText(pkg.install.command)
+      if (pkg) copyText(omdshCommand(pkg))
+      return
+    }
+    const subscribeButton = event.target.closest('[data-copy-subscribe]')
+    if (subscribeButton) {
+      void copyText(subscribeButton.dataset.copySubscribe, 'row.subscribeCopied')
+      return
+    }
+    const collectionButton = event.target.closest('[data-open-collection]')
+    if (collectionButton) {
+      openCollection(collectionButton.dataset.openCollection)
+      return
+    }
+    const authorButton = event.target.closest('[data-open-author]')
+    if (authorButton) {
+      openAuthor(authorButton.dataset.openAuthor)
+      return
+    }
+    const candidateButton = event.target.closest('[data-open-candidate]')
+    if (candidateButton) {
+      openCandidate(candidateButton.dataset.openCandidate)
       return
     }
     const button = event.target.closest('[data-open-package]')
@@ -389,14 +1525,26 @@ function bindEvents() {
   })
   document.querySelector('#reset-filters').addEventListener('click', resetFilters)
   document.querySelector('#reset-filters-top').addEventListener('click', resetFilters)
-  document.querySelector('.dialog-close').addEventListener('click', () => elements.dialog.close())
+  elements.loadMore.addEventListener('click', () => {
+    state.visible += 24
+    render()
+  })
+  document.querySelector('.dialog-close').addEventListener('click', closeOverlay)
   elements.dialog.addEventListener('click', (event) => {
-    if (event.target === elements.dialog) elements.dialog.close()
+    if (event.target === elements.dialog) closeOverlay()
+  })
+  elements.dialog.addEventListener('cancel', (event) => {
+    event.preventDefault()
+    closeOverlay()
   })
   elements.dialog.addEventListener('close', () => {
     elements.dialog.dataset.packageId = ''
-    if (location.hash.startsWith('#package=')) history.replaceState(null, '', `${location.pathname}${location.search}`)
+    elements.dialog.dataset.candidateId = ''
+    elements.dialog.dataset.collectionId = ''
+    elements.dialog.dataset.authorUrl = ''
+    elements.dialog.dataset.returnAuthorUrl = ''
   })
+  window.addEventListener('popstate', syncOverlayRoute)
   document.addEventListener('keydown', (event) => {
     if (event.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
       event.preventDefault()
@@ -405,35 +1553,62 @@ function bindEvents() {
   })
   document.addEventListener('dsh:locale', () => {
     renderFilters()
+    renderWorkshopModes()
+    renderSpotlight()
     renderFeatured()
+    renderCollections()
+    renderCommunity()
+    renderAuthors()
     render()
     document.querySelector('#snapshot-time').textContent = formatDate(state.snapshot, 'long')
     if (elements.dialog.open && elements.dialog.dataset.packageId) {
-      openPackage(elements.dialog.dataset.packageId, false)
+      openPackage(elements.dialog.dataset.packageId, false, elements.dialog.dataset.projectTab || 'overview')
+    } else if (elements.dialog.open && elements.dialog.dataset.candidateId) {
+      openCandidate(elements.dialog.dataset.candidateId, false)
+    } else if (elements.dialog.open && elements.dialog.dataset.collectionId) {
+      openCollection(elements.dialog.dataset.collectionId, false)
+    } else if (elements.dialog.open && elements.dialog.dataset.authorUrl) {
+      openAuthor(elements.dialog.dataset.authorUrl, false)
     }
   })
 }
 
 async function init() {
   bindEvents()
+  bindSectionNavigation()
   try {
-    const [response] = await Promise.all([
+    const [response, workshopResponse, candidateResponse] = await Promise.all([
       fetch('catalog.json'),
+      fetch('workshop-v1.json'),
+      fetch('candidates-v1.json'),
       window.dshI18nReady,
     ])
     if (!response.ok) throw new Error(`HTTP ${response.status}`)
+    if (!workshopResponse.ok) throw new Error(`Workshop HTTP ${workshopResponse.status}`)
+    if (!candidateResponse.ok) throw new Error(`Candidates HTTP ${candidateResponse.status}`)
     const index = await response.json()
+    const workshop = await workshopResponse.json()
+    const candidateFeed = await candidateResponse.json()
     state.packages = index.packages || []
+    state.candidates = (candidateFeed.projects || []).map(candidatePackage)
+    state.projects = new Map((workshop.projects || []).map((project) => [project.id, project]))
+    state.runRecords = workshop.runRecords || []
+    state.collections = workshop.collections || []
+    state.community = workshop.community || { sources: [], discussions: [] }
     state.snapshot = index.updated
     document.querySelector('#stat-packages').textContent = index.stats.packages
     document.querySelector('#stat-repositories').textContent = index.stats.repositories
     document.querySelector('#stat-categories').textContent = Object.keys(index.stats.categories).length
     document.querySelector('#snapshot-time').textContent = formatDate(index.updated, 'long')
     renderFilters()
+    renderWorkshopModes()
+    renderSpotlight()
     renderFeatured()
+    renderCollections()
+    renderCommunity()
+    renderAuthors()
     render()
-    const requested = new URLSearchParams(location.hash.slice(1)).get('package')
-    if (requested) openPackage(requested, false)
+    syncOverlayRoute()
   } catch (error) {
     elements.list.setAttribute('aria-busy', 'false')
     elements.list.innerHTML = `<p class="load-error">${escapeHtml(t('error.load'))} ${escapeHtml(String(error))}</p>`

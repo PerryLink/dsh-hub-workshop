@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="theme-color" content="#f7f7f5">
-    <meta name="description" content="DSH 社区插件与生态工具索引：搜索、筛选并核验公开来源。" data-i18n-content="meta.description">
-    <title>DSH Hub - 社区扩展目录</title>
+    <meta name="description" content="面向 DeepSeek Harness 的公开社区工作坊：收录 dsh-plugin Topic 全部公开仓库，发现扩展并核验来源。" data-i18n-content="meta.description">
+    <title>DSH Hub Workshop - DSH 社区工作坊</title>
     <link rel="icon" href="assets/atlas-symbol.png">
     <link rel="stylesheet" href="assets/styles.css">
     <script src="assets/site.js" data-i18n-src="assets/i18n.json" defer></script>
@@ -16,16 +16,17 @@
     <a class="skip-link" href="#catalog" data-i18n="site.skip">跳到插件目录</a>
 
     <header class="site-header">
-      <a class="wordmark" href="./" aria-label="DSH Hub 首页" data-i18n-aria-label="site.homeLabel">
+      <a class="wordmark" href="./" aria-label="DSH Hub Workshop 首页" data-i18n-aria-label="site.homeLabel">
         <img class="wordmark-mark" src="assets/atlas-symbol.png" alt="" width="34" height="34">
-        <span>DSH Hub</span>
+        <span>DSH Hub Workshop</span>
       </a>
       <nav class="site-nav" aria-label="主导航" data-i18n-aria-label="site.navLabel">
-        <a href="#catalog" data-i18n="nav.catalog">插件</a>
-        <a href="projects.html" data-i18n="nav.ecosystem">项目</a>
-        <a href="install.html" data-i18n="nav.install">安装</a>
-        <a href="contributing.html" data-i18n="nav.contribute">收录</a>
-        <a href="https://github.com/omdsh-dev/dsh-hub-workshop">GitHub</a>
+        <a href="#discover" aria-current="page" data-i18n="nav.discover">发现</a>
+        <a href="configurations.html" data-i18n="nav.configurations">配置</a>
+        <a href="#community" data-i18n="nav.community">讨论</a>
+        <a href="#catalog" data-i18n="nav.projects">项目</a>
+        <a href="developer-guide.html" data-i18n="nav.developers">开发者</a>
+        <a href="publish.html" data-i18n="nav.publish">发布</a>
       </nav>
       <div class="site-actions">
         <div class="locale-switch" aria-label="语言" data-i18n-aria-label="site.languageLabel">
@@ -47,41 +48,109 @@
     </header>
 
     <main>
-      <section class="hero mod-hero" aria-labelledby="hero-title">
-        <div class="mod-hero-copy">
-          <p class="hero-kicker" data-i18n="hero.kicker">社区扩展库</p>
-          <h1 id="hero-title" data-i18n="hero.title">浏览 DSH 扩展。</h1>
-          <p class="hero-copy" data-i18n="hero.description">浏览已经迁移到公开仓库的社区扩展，核验来源与状态，再决定是否接入 DSH。</p>
-          <dl class="hero-stats" aria-label="目录统计" data-i18n-aria-label="hero.statsLabel">
+      <section id="discover" class="discover-stage" aria-labelledby="hero-title">
+        <article class="spotlight-lead">
+          <img class="spotlight-lead-image" src="assets/workshop-hero-v2.webp" alt="" width="1600" height="900" decoding="async" fetchpriority="high">
+          <div class="spotlight-lead-copy">
+          <p class="hero-kicker" data-i18n="hero.kicker">DeepSeek Harness 社区工作坊</p>
+          <h1 id="hero-title" data-i18n="hero.title">找到适合你的扩展。</h1>
+          <p class="hero-copy" data-i18n="hero.description">浏览社区作品，核验固定来源，并按真实管理能力接入 Harness。</p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#catalog" data-i18n="hero.browse">浏览 Workshop</a>
+            <a class="secondary-action" href="publish.html" data-i18n="hero.publish">发布作品</a>
+          </div>
+          </div>
+        </article>
+        <div id="spotlight-side" class="spotlight-side" aria-live="polite" aria-busy="true">
+          <div class="spotlight-project spotlight-placeholder"></div>
+          <div class="spotlight-project spotlight-placeholder"></div>
+        </div>
+      </section>
+
+      <section class="discovery-dock" aria-label="Workshop 概览" data-i18n-aria-label="workshop.navLabel">
+        <dl class="hero-stats" aria-label="目录统计" data-i18n-aria-label="hero.statsLabel">
             <div><dt id="stat-packages">-</dt><dd data-i18n="hero.packages">个插件</dd></div>
             <div><dt id="stat-repositories">-</dt><dd data-i18n="hero.repositories">个仓库</dd></div>
             <div><dt id="stat-categories">-</dt><dd data-i18n="hero.categories">个分类</dd></div>
           </dl>
-        </div>
-        <div class="mod-hero-mark" aria-hidden="true">
-          <img src="assets/atlas-symbol.png" alt="" width="200" height="200">
-          <div>
-            <strong>DSH Hub</strong>
-            <span>Public Extension Directory</span>
-          </div>
-        </div>
+        <nav class="workshop-nav" aria-label="Workshop 区域" data-i18n-aria-label="workshop.navLabel">
+          <a href="#discover" data-i18n="nav.discover">发现</a>
+          <a href="#collections" data-i18n="nav.collections">合集</a>
+          <a href="#community" data-i18n="nav.community">讨论</a>
+          <a href="#catalog" data-i18n="nav.allProjects">全部项目</a>
+          <a href="#authors" data-i18n="nav.authors">作者</a>
+        </nav>
       </section>
 
       <section class="featured" aria-labelledby="featured-title">
         <div class="featured-heading">
-          <h2 id="featured-title" data-i18n="featured.title">目录精选</h2>
-          <p data-i18n="featured.description">从已经迁移到公开仓库的社区扩展开始浏览。</p>
+          <div>
+            <h2 id="featured-title" data-i18n="featured.title">社区精选</h2>
+            <p data-i18n="featured.description">浏览社区精选、按固定 Commit 排序的最近更新，以及支持失败恢复的安装项目。</p>
+          </div>
+          <div id="featured-tabs" class="featured-tabs" role="group" aria-label="发现栏目" data-i18n-aria-label="featured.tabsLabel">
+            <button type="button" data-featured-mode="featured" aria-pressed="true" data-i18n="featured.mode.featured">精选</button>
+            <button type="button" data-featured-mode="recent" aria-pressed="false" data-i18n="featured.mode.recent">最近更新</button>
+            <button type="button" data-featured-mode="recoverable" aria-pressed="false" data-i18n="featured.mode.recoverable">可恢复安装</button>
+          </div>
         </div>
-        <div id="featured-list" class="featured-list" aria-live="polite" aria-busy="true">
-          <div class="featured-item featured-placeholder"></div>
-          <div class="featured-item featured-placeholder"></div>
-          <div class="featured-item featured-placeholder"></div>
-          <div class="featured-item featured-placeholder"></div>
+        <div id="featured-rail" class="featured-rail" data-can-previous="false" data-can-next="true">
+          <button id="featured-previous" class="featured-arrow featured-arrow-previous" type="button" aria-label="向左浏览" data-i18n-aria-label="featured.previous" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"></path></svg>
+          </button>
+          <div id="featured-list" class="featured-list" aria-live="polite" aria-busy="true">
+            <div class="featured-item featured-placeholder"></div>
+            <div class="featured-item featured-placeholder"></div>
+            <div class="featured-item featured-placeholder"></div>
+            <div class="featured-item featured-placeholder"></div>
+          </div>
+          <button id="featured-next" class="featured-arrow featured-arrow-next" type="button" aria-label="向右浏览" data-i18n-aria-label="featured.next">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7"></path></svg>
+          </button>
         </div>
       </section>
 
+      <section class="workshop-entry" aria-labelledby="workshop-title">
+        <div class="workshop-heading">
+          <div>
+            <h2 id="workshop-title" data-i18n="workshop.title">按管理能力浏览</h2>
+            <p data-i18n="workshop.description">同一工作坊，清楚区分 Profile Bundle 事务、Repository Plugin 配置托管和仅提供接入说明的扩展。</p>
+          </div>
+          <a href="contributing.html" data-i18n="workshop.submit">发布你的扩展</a>
+        </div>
+        <div id="workshop-modes" class="workshop-modes" aria-live="polite" aria-busy="true">
+          <div class="workshop-mode mode-placeholder"></div>
+          <div class="workshop-mode mode-placeholder"></div>
+          <div class="workshop-mode mode-placeholder"></div>
+        </div>
+      </section>
+
+      <div class="workshop-community-pair">
+        <section id="collections" class="collections-section" aria-labelledby="collections-title">
+          <div class="section-heading-stack">
+            <h2 id="collections-title" data-i18n="collections.title">合集</h2>
+            <p data-i18n="collections.description">一组经过固定版本解析的 Profile Bundle，在同一个 candidate 中原子安装。</p>
+          </div>
+          <div id="collection-list" class="collection-list" aria-live="polite" aria-busy="true">
+            <div class="collection-card collection-placeholder"></div>
+            <div class="collection-card collection-placeholder"></div>
+          </div>
+        </section>
+
+        <section id="community" class="community-section" aria-labelledby="community-title">
+          <div class="community-heading">
+            <div>
+              <h2 id="community-title" data-i18n="community.title">社区讨论</h2>
+              <p data-i18n="community.description">聚合 GitHub Discussions 的标题、分类和状态，正文与回复仍留在 GitHub。</p>
+            </div>
+        <a href="https://github.com/omdsh-dev/dsh-hub-workshop/issues" data-i18n="community.issues">打开 Issues</a>
+          </div>
+          <div id="discussion-list" class="discussion-list" aria-live="polite" aria-busy="true"></div>
+        </section>
+      </div>
+
       <section id="catalog" class="catalog mod-browser" aria-labelledby="catalog-title">
-        <div class="catalog-shell">
+        <div class="catalog-shell" data-view="grid">
           <aside class="filter-panel" aria-label="目录筛选" data-i18n-aria-label="catalog.filtersLabel">
             <div class="filter-panel-heading">
               <h2 data-i18n="filters.title">筛选</h2>
@@ -98,8 +167,12 @@
                 <select id="kind-filter" aria-label="扩展类型" data-i18n-aria-label="catalog.typeLabel"></select>
               </label>
               <label>
-                <span data-i18n="catalog.installLabel">安装方式</span>
-                <select id="install-filter" aria-label="安装方式" data-i18n-aria-label="catalog.installLabel"></select>
+                <span data-i18n="catalog.installLabel">管理能力</span>
+                <select id="install-filter" aria-label="管理能力" data-i18n-aria-label="catalog.installLabel"></select>
+              </label>
+              <label>
+                <span data-i18n="catalog.channelLabel">发布通道</span>
+                <select id="channel-filter" aria-label="发布通道" data-i18n-aria-label="catalog.channelLabel"></select>
               </label>
             </div>
             <div class="filter-category-heading" data-i18n="catalog.categoryLabel">按分类筛选</div>
@@ -119,15 +192,30 @@
                   <time id="snapshot-time">-</time>
                 </p>
               </div>
-              <label class="results-sort">
-                <span data-i18n="catalog.sortLabel">排序</span>
-                <select id="sort-order" aria-label="排序" data-i18n-aria-label="catalog.sortLabel"></select>
-              </label>
+              <div class="results-tools">
+                <div class="catalog-view" role="group" aria-label="展示方式" data-i18n-aria-label="catalog.viewLabel">
+                  <span data-i18n="catalog.viewLabel">展示方式</span>
+                  <div class="catalog-view-options">
+                    <button type="button" data-catalog-view="grid" aria-pressed="true" data-i18n="catalog.gridView">网格</button>
+                    <button type="button" data-catalog-view="list" aria-pressed="false" data-i18n="catalog.listView">列表</button>
+                  </div>
+                </div>
+                <label class="results-sort">
+                  <span data-i18n="catalog.sortLabel">排序</span>
+                  <select id="sort-order" aria-label="排序" data-i18n-aria-label="catalog.sortLabel"></select>
+                </label>
+              </div>
+            </div>
+
+            <div id="catalog-scope" class="catalog-scope" role="group" aria-label="收录状态" data-i18n-aria-label="catalog.scopeLabel">
+              <button type="button" data-catalog-scope="all" aria-pressed="true"><span data-i18n="catalog.scope.all">全部</span><strong data-scope-count="all">-</strong></button>
+              <button type="button" data-catalog-scope="reviewed" aria-pressed="false"><span data-i18n="catalog.scope.reviewed">已收录</span><strong data-scope-count="reviewed">-</strong></button>
+              <button type="button" data-catalog-scope="candidates" aria-pressed="false"><span data-i18n="catalog.scope.candidates">待审核</span><strong data-scope-count="candidates">-</strong></button>
             </div>
 
             <aside class="safety-note" role="note" aria-labelledby="safety-title">
               <strong id="safety-title" data-i18n="safety.title">安装前请自行核验</strong>
-              <p data-i18n="safety.description">DSH Hub 只做索引与信息整理，不审核或担保插件内容。插件可能包含恶意指令、依赖或代码，请在安装前检查源码、固定 commit、权限与维护者身份。</p>
+              <p data-i18n="safety.description">DSH Hub Workshop 会对固定 commit 做非执行式静态扫描，并复核高风险信号，但不对插件内容提供安全担保。安装前仍请检查源码、权限与维护者身份。</p>
             </aside>
 
             <div id="catalog-list" class="catalog-list" aria-live="polite" aria-busy="true">
@@ -140,55 +228,18 @@
               <p data-i18n="empty.description">试试其他关键词，或清空当前筛选。</p>
               <button id="reset-filters" type="button" data-i18n="catalog.reset">重置筛选</button>
             </div>
+            <div id="catalog-pagination" class="catalog-pagination" hidden>
+              <p><span id="rendered-count">0</span> / <span id="filtered-count">0</span></p>
+              <button id="load-more" type="button" data-i18n="catalog.loadMore">显示更多</button>
+            </div>
           </div>
         </div>
-      </section>
-
-      <section id="ecosystem" class="ecosystem-directory" aria-labelledby="ecosystem-title">
-        <div class="ecosystem-directory-heading">
-          <h2 id="ecosystem-title">公开项目体系</h2>
-          <p>omdsh-dev 目前观察到 63 个公开仓库，其中 62 个是项目。下面是承担核心职责的 9 个仓库；公开可见不等于获得安装权限。</p>
-        </div>
-        <div class="ecosystem-repository-grid">
-          <a class="ecosystem-repository ecosystem-repository-primary" href="https://github.com/omdsh-dev/omdsh">
-            <span>社区发行版</span><strong>Oh My DSH</strong><small>精确发行清单与生命周期入口</small>
-          </a>
-          <a class="ecosystem-repository" href="https://github.com/omdsh-dev/omdsh-runtime">
-            <span>执行层</span><strong>OMDSH Runtime</strong><small>无前端的执行、恢复与能力探测</small>
-          </a>
-          <a class="ecosystem-repository" href="https://github.com/omdsh-dev/dsh-hub-workshop">
-            <span>目录权威源</span><strong>DSH Hub Workshop</strong><small>收录、审核与版本化 Feed</small>
-          </a>
-          <a class="ecosystem-repository" href="https://github.com/omdsh-dev/dsh-hub">
-            <span>消费端</span><strong>DSH Hub</strong><small>面向用户的市场与目录界面</small>
-          </a>
-          <a class="ecosystem-repository" href="https://github.com/omdsh-dev/toybox">
-            <span>扩展集合</span><strong>toybox</strong><small>8 个公开技能与 MCP 候选</small>
-          </a>
-          <a class="ecosystem-repository" href="https://github.com/omdsh-dev/7d7d">
-            <span>扩展项目</span><strong>7d7d</strong><small>DSH Web UI 游戏门户</small>
-          </a>
-          <a class="ecosystem-repository" href="https://github.com/omdsh-dev/dsh-github-integration">
-            <span>扩展项目</span><strong>GitHub Integration</strong><small>Issue 与 Pull Request 工作流技能</small>
-          </a>
-          <a class="ecosystem-repository" href="https://github.com/omdsh-dev/dsh-tool-browser">
-            <span>扩展项目</span><strong>Tool Browser</strong><small>浏览器控制配置与接入指南</small>
-          </a>
-          <a class="ecosystem-repository" href="https://github.com/omdsh-dev/session-teleport">
-            <span>扩展项目</span><strong>Session Teleport</strong><small>多设备 Session 接力与单写者边界</small>
-          </a>
-        </div>
-        <div class="ecosystem-discovery-links">
-          <a href="projects.html"><strong>浏览 62 个公开项目</strong><span>可搜索的 omdsh-dev 完整项目清单</span></a>
-          <a href="https://github.com/topics/dsh-plugin"><strong>浏览 dsh-plugin Topic</strong><span>观察到 208 个外部发现候选，仅作为发现信号</span></a>
-        </div>
-        <p class="ecosystem-machine-link"><a href="ecosystem-repositories.json">核心仓库关系 JSON</a> · <a href="public-discovery.json">公开发现快照 JSON</a></p>
       </section>
 
       <section class="principles" aria-labelledby="principles-title">
         <div class="principles-heading">
           <h2 id="principles-title" data-i18n="principles.title">一个清晰、可维护的目录</h2>
-          <p data-i18n="principles.description">这里索引已经公开的扩展实体，不机械复制仓库列表，也不替代 Registry 审核和独立安全检查。</p>
+          <p data-i18n="principles.description">这里索引可安装的实体，不机械复制仓库列表，也不替代独立的安全审查。</p>
         </div>
         <div class="principle-list">
           <article>
@@ -200,18 +251,35 @@
             <p data-i18n="principles.traceBody">作者、仓库、固定 commit 与兼容范围会一起记录。</p>
           </article>
           <article>
-            <h3 data-i18n="principles.installTitle">安装成本透明</h3>
-            <p data-i18n="principles.installBody">配置、管理器、手动挂载与源码接入会被明确区分。</p>
+            <h3 data-i18n="principles.installTitle">管理能力透明</h3>
+            <p data-i18n="principles.installBody">事务托管、Repository 配置托管和第三方接入会被明确区分。</p>
           </article>
+        </div>
+      </section>
+
+      <section id="authors" class="authors-section" aria-labelledby="authors-title">
+        <div class="authors-layout">
+          <div class="section-heading-stack">
+            <h2 id="authors-title" data-i18n="authors.title">作者与发布</h2>
+            <p data-i18n="authors.description">作者不需要理解整个 Registry。固定版本、说明权限，再由自动化形成可审查的提交。</p>
+            <p id="author-summary" class="author-summary" aria-live="polite"></p>
+            <a class="primary-action" href="publish.html" data-i18n="authors.openStudio">打开 Author Studio</a>
+          </div>
+          <div class="author-directory">
+            <div id="author-list" class="author-list" aria-live="polite" aria-busy="true"></div>
+            <button id="author-toggle" class="author-toggle" type="button" aria-controls="author-list" aria-expanded="false" hidden></button>
+          </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <a class="footer-brand" href="./">DSH Hub</a>
-      <p data-i18n="footer.notice">DSH Hub 只做索引，不对插件内容做安全担保。是否信任与安装，请自行核验。</p>
+      <a class="footer-brand" href="./">DSH Hub Workshop</a>
+      <p data-i18n="footer.notice">DSH Hub Workshop 只做索引，不对插件内容做安全担保。是否信任与安装，请自行核验。</p>
       <div class="footer-links">
         <a href="catalog.json">JSON API</a>
+        <a href="collections-v1.json" data-i18n="footer.collectionsApi">合集 API</a>
+        <a href="community-v1.json" data-i18n="footer.communityApi">讨论 API</a>
         <a href="contributing.html" data-i18n="nav.contribute">收录</a>
         <a href="https://github.com/orgs/omdsh-dev/repositories">omdsh-dev</a>
       </div>
