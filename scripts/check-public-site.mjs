@@ -71,7 +71,7 @@ if (topicRepositories.schema !== 'dsh-topic-discovery/v1'
 }
 
 const builtFiles = await files(BUILD)
-if (builtFiles.length !== 29) throw new Error(`public build must contain exactly 29 files, received ${builtFiles.length}`)
+if (builtFiles.length !== 40) throw new Error(`public build must contain exactly 40 files, received ${builtFiles.length}`)
 for (const repository of repositories.repositories) {
   if (!/^https:\/\/github[.]com\/omdsh-dev\/[A-Za-z0-9._-]+$/.test(repository.url)) {
     throw new Error(`unapproved public repository URL: ${repository.url}`)
@@ -108,6 +108,14 @@ const publicFiles = [
   'assets/discovery.js',
   'assets/i18n.json',
   'assets/site.js',
+  'assets/composition-preflight.js',
+  'assets/configurations.js',
+  'assets/distribution-studio.js',
+  'assets/publish.js',
+  'configurations.html',
+  'developer-guide.html',
+  'publish.html',
+  'contributing.html',
 ]
 const contents = (await Promise.all(publicFiles.map((path) => readFile(resolve(ROOT, path), 'utf8')))).join('\n')
 const forbiddenPublicContent = new RegExp(`${RETIRED_PRIVATE_OWNER}|Private Preview|/auth/github|github_pat_|\\bgh[opusr]_|\\bnpm_[A-Za-z0-9]{20,}|-----BEGIN(?: [A-Z]+)? PRIVATE KEY-----`, 'i')
@@ -115,16 +123,35 @@ if (forbiddenPublicContent.test(contents)) {
   throw new Error('public site contains private-source, login, credential, or key material')
 }
 
-const [home, app, styles] = await Promise.all([
+const [home, app, styles, configurations, developers, publish, contributing] = await Promise.all([
   readFile(resolve(ROOT, 'index.html'), 'utf8'),
   readFile(resolve(ROOT, 'assets/app.js'), 'utf8'),
   readFile(resolve(ROOT, 'assets/styles.css'), 'utf8'),
+  readFile(resolve(ROOT, 'configurations.html'), 'utf8'),
+  readFile(resolve(ROOT, 'developer-guide.html'), 'utf8'),
+  readFile(resolve(ROOT, 'publish.html'), 'utf8'),
+  readFile(resolve(ROOT, 'contributing.html'), 'utf8'),
 ])
 for (const required of ['discover-stage', 'featured-tabs', 'data-catalog-view="grid"', 'data-catalog-view="list"', 'catalog-pagination']) {
   if (!home.includes(required)) throw new Error(`restored Workshop layout is missing ${required}`)
 }
 if (!app.includes('featured.empty.recoverable') || !app.includes('visiblePackages')) {
   throw new Error('restored Workshop interactions must preserve empty recoverable state and catalog pagination')
+}
+if (!home.includes('data-featured-mode="stars"')
+  || !app.includes('projectStars')
+  || !app.includes('commitUpdatedAt')) {
+  throw new Error('featured lanes must use GitHub stars and repository commit activity')
+}
+for (const [name, source, minimumLines, required] of [
+  ['configurations', configurations, 150, 'configuration-task-finder'],
+  ['developer guide', developers, 700, 'ai-integration-prompt'],
+  ['publish', publish, 250, 'manifest-form'],
+  ['contributing', contributing, 330, 'omdsh-workshop-submission/v1'],
+]) {
+  if (source.split('\n').length < minimumLines || !source.includes(required)) {
+    throw new Error(`${name} page regressed to an incomplete public placeholder`)
+  }
 }
 if (!/\.author-project-mark\s*\{[^}]*position:\s*relative;[^}]*overflow:\s*hidden;/s.test(styles)) {
   throw new Error('author project artwork must remain clipped to its icon container')

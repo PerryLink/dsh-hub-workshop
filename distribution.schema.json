@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hub.0.org.cn/distribution.schema.json",
+  "title": "OMDSH Community Distribution Source",
+  "type": "object",
+  "required": [
+    "schema",
+    "id",
+    "version",
+    "channel",
+    "title",
+    "summary",
+    "translations",
+    "maintainer",
+    "compatibility",
+    "useCases",
+    "items",
+    "application"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schema": { "const": "omdsh-distribution/v1" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?$"
+    },
+    "channel": { "enum": ["preview", "stable"] },
+    "title": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string", "minLength": 12 },
+    "translations": {
+      "type": "object",
+      "required": ["en"],
+      "additionalProperties": false,
+      "properties": { "en": { "$ref": "#/$defs/localizedText" } }
+    },
+    "maintainer": {
+      "type": "object",
+      "required": ["name", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "required": ["harness", "declared"],
+      "additionalProperties": false,
+      "properties": {
+        "harness": { "const": "official-profile/v1" },
+        "declared": { "type": "string", "minLength": 12 }
+      }
+    },
+    "useCases": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": { "$ref": "#/$defs/taskIntent" }
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["projectId", "releaseId", "enabled"],
+        "additionalProperties": false,
+        "properties": {
+          "projectId": { "type": "string", "minLength": 1 },
+          "releaseId": { "type": "string", "minLength": 1 },
+          "enabled": { "type": "boolean" }
+        }
+      }
+    },
+    "application": {
+      "type": "object",
+      "required": ["candidate", "confirmation", "recovery", "externalSideEffects"],
+      "additionalProperties": false,
+      "properties": {
+        "candidate": { "const": "required" },
+        "confirmation": { "const": "required" },
+        "recovery": { "const": "managed-profile-generation" },
+        "externalSideEffects": { "const": "not-covered" }
+      }
+    }
+  },
+  "$defs": {
+    "localizedText": {
+      "type": "object",
+      "required": ["title", "summary"],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 12 }
+      }
+    },
+    "taskIntent": {
+      "type": "object",
+      "required": ["id", "title", "translations"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "title": { "type": "string", "minLength": 1 },
+        "translations": {
+          "type": "object",
+          "required": ["en"],
+          "additionalProperties": false,
+          "properties": { "en": { "type": "string", "minLength": 1 } }
+        }
+      }
+    }
+  }
+}

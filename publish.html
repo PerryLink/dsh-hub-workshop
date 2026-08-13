@@ -1,16 +1,266 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
-  <title>发布准备 · DSH Hub Workshop</title>
-  <link rel="stylesheet" href="assets/styles.css">
-  
-</head>
-<body>
-  <header class="site-header"><a class="brand" href="./">DSH Hub Workshop</a><nav class="primary-nav" aria-label="主导航"><a href="./">项目</a><a href="developer-guide.html">开发者</a><a href="contributing.html">收录</a></nav></header>
-  <main class="page-shell"><section class="section-shell prose"><p class="eyebrow">公开边界</p><h1>发布准备</h1><p>先在公开仓库准备项目说明、许可和不可变版本，再通过市场收录流程提交。</p><h2>当前原则</h2><ul><li>来源固定到公开仓库和不可变提交。</li><li>作者、许可、兼容与权限未知时保持未知。</li><li>自动扫描只形成审查事实，不代表安全背书。</li><li>没有公开安装契约的项目只提供接入说明。</li></ul><p><a class="primary-action" href="./">返回项目目录</a></p></section></main>
-  <footer class="site-footer"><strong>DSH Hub Workshop</strong><p>只展示明确允许公开的项目事实；未知能力保持未知。</p></footer>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#f4f5f7">
+    <meta name="description" content="为 DSH Hub Workshop 生成可审查的项目、版本与整合包 manifest。" data-i18n-content="publish.metaDescription">
+    <title>Author Studio - DSH Hub Workshop</title>
+    <link rel="icon" href="assets/atlas-symbol.png">
+    <link rel="stylesheet" href="assets/styles.css?v=20260809-author-studio-v14">
+    <script src="assets/site.js?v=20260809-author-studio-v14" data-i18n-src="assets/i18n.json?v=20260809-author-studio-v14" defer></script>
+    <script src="assets/publish.js?v=20260809-author-studio-v13" defer></script>
+    <script src="assets/distribution-studio.js?v=20260811-distribution-studio-v1" defer></script>
+  </head>
+  <body data-title-key="publish.metaTitle">
+    <a class="skip-link" href="#manifest-form" data-i18n="publish.skip">跳到发布表单</a>
+    <header class="site-header">
+      <a class="wordmark" href="./" aria-label="DSH Hub Workshop 首页" data-i18n-aria-label="site.homeLabel">
+        <img class="wordmark-mark" src="assets/atlas-symbol.png" alt="" width="34" height="34">
+        <span>DSH Hub Workshop</span>
+      </a>
+      <nav class="site-nav" aria-label="主导航" data-i18n-aria-label="site.navLabel">
+        <a href="./#discover" data-i18n="nav.discover">发现</a>
+        <a href="configurations.html" data-i18n="nav.configurations">配置</a>
+        <a href="./#community" data-i18n="nav.community">讨论</a>
+        <a href="./#catalog" data-i18n="nav.projects">项目</a>
+        <a href="developer-guide.html" data-i18n="nav.developers">开发者</a>
+        <a href="publish.html" aria-current="page" data-i18n="nav.publish">发布</a>
+      </nav>
+      <div class="site-actions">
+        <div class="locale-switch" aria-label="语言" data-i18n-aria-label="site.languageLabel">
+          <button type="button" data-set-locale="zh" aria-pressed="true">中</button><span aria-hidden="true">/</span><button type="button" data-set-locale="en" aria-pressed="false">EN</button>
+        </div>
+        <button class="theme-toggle" type="button" data-theme-toggle><span class="visually-hidden" data-theme-label>暗色</span><span aria-hidden="true">◐</span></button>
+      </div>
+    </header>
+
+    <main class="publish-shell">
+      <header class="publish-intro">
+        <p class="hero-kicker" data-i18n="publish.kicker">Workshop 作者工具</p>
+        <h1 data-i18n="publish.title">把作品带到 Workshop。</h1>
+        <p data-i18n="publish.description">发布一个项目，或把已收录的固定 Release 组合成整合包；提交材料只在本机生成。</p>
+        <div class="publish-boundaries">
+          <span data-i18n="publish.noToken">不读取 GitHub Token</span>
+          <span data-i18n="publish.noUpload">不上传文件</span>
+          <span data-i18n="publish.noAutoTrust">不自动授予信任</span>
+          <a href="developer-guide.html#ai-integration-prompt" data-i18n="publish.aiGuide">让 AI 帮我准备仓库</a>
+          <a href="submission.schema.json" data-i18n="publish.schema">查看 v1 数据契约</a>
+        </div>
+      </header>
+
+      <nav class="publish-mode-tabs" role="tablist" aria-label="发布类型" data-i18n-aria-label="publish.modeLabel">
+        <button type="button" role="tab" aria-selected="true" aria-controls="project-studio" data-publish-mode="project">
+          <span>PROJECT</span><strong data-i18n="publish.modeProject">项目 / 插件</strong><small data-i18n="publish.modeProjectHelp">发布一个独立能力及其固定 Release</small>
+        </button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="distribution-studio" data-publish-mode="distribution" tabindex="-1">
+          <span>MODPACK</span><strong data-i18n="publish.modeDistribution">整合包 / 发行版</strong><small data-i18n="publish.modeDistributionHelp">组合已有 Release，不新增执行权限</small>
+        </button>
+      </nav>
+
+      <section id="project-studio" data-publish-panel="project">
+
+      <section id="candidate-prefill" class="candidate-prefill" aria-live="polite" hidden>
+        <span aria-hidden="true">↳</span>
+        <div>
+          <p data-i18n="publish.candidateKicker">从待审核候选继续</p>
+          <strong id="candidate-prefill-name"></strong>
+          <small data-i18n="publish.candidateHelp">已填入固定来源和检测到的声明；作者、许可、兼容性、权限、测试与实际管理方式仍须由你确认。</small>
+        </div>
+      </section>
+
+      <ol class="publish-steps" aria-label="发布步骤" data-i18n-aria-label="publish.stepsLabel">
+        <li><button type="button" data-publish-step="0" aria-current="step"><span>1</span><span><strong data-i18n="publish.stepProject">项目</strong><small data-i18n="publish.stepProjectHelp">它是什么、来自哪里</small></span></button></li>
+        <li><button type="button" data-publish-step="1" disabled><span>2</span><span><strong data-i18n="publish.stepRelease">版本</strong><small data-i18n="publish.stepReleaseHelp">固定可核验的 Release</small></span></button></li>
+        <li><button type="button" data-publish-step="2" disabled><span>3</span><span><strong data-i18n="publish.stepIntegration">接入</strong><small data-i18n="publish.stepIntegrationHelp">选择官方或引导路径</small></span></button></li>
+      </ol>
+
+      <div class="publish-layout">
+        <form id="manifest-form" class="manifest-form" novalidate>
+          <section class="form-section" data-form-step="0">
+            <header class="form-section-heading">
+              <div><h2 data-i18n="publish.project">项目信息</h2><p data-i18n="publish.projectHelp">填写用户在 Workshop 中首先看到的内容。</p></div>
+            </header>
+            <div class="form-section-body form-grid">
+              <label class="form-wide"><span data-i18n="publish.repository">GitHub 仓库</span><input name="repository" required type="url" pattern="https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/?" placeholder="https://github.com/owner/repository"><small data-i18n="publish.repositoryHelp">填写后会自动建议项目 ID 和作者，你仍可修改。</small></label>
+              <label><span data-i18n="publish.operation">提交类型</span><select name="operation"><option value="create-project" data-i18n="publish.createProject">创建项目</option><option value="add-release" data-i18n="publish.addRelease">为已收录项目新增 Release</option></select></label>
+              <label><span data-i18n="publish.id">项目 ID</span><input name="id" required list="published-projects" pattern="[a-z0-9][a-z0-9-]*" placeholder="session-notes"><datalist id="published-projects"></datalist><small data-i18n="publish.idHelp">小写字母、数字与连字符，收录后保持稳定。</small></label>
+              <label><span data-i18n="publish.name">显示名称</span><input name="name" required placeholder="Session Notes"></label>
+              <label class="form-wide"><span data-i18n="publish.summary">简介</span><textarea name="summary" required minlength="12" rows="3"></textarea></label>
+              <label><span data-i18n="publish.kind">扩展形态</span><select name="kind" required><option value="skill">Skill</option><option value="mcp">MCP</option><option value="extension">Runtime extension</option><option value="channel">Channel</option><option value="ui">Web UI</option><option value="adapter">Adapter</option><option value="manager">Manager</option><option value="toolkit">Toolkit</option></select></label>
+              <label><span data-i18n="publish.category">分类</span><select name="category" required><option value="workflow">Workflow</option><option value="developer-tools">Developer tools</option><option value="channels">Channels</option><option value="interface">Interface</option><option value="platform">Platform</option><option value="safety">Safety</option><option value="memory">Memory</option><option value="infrastructure">Infrastructure</option><option value="fun">Playground</option></select></label>
+              <label><span data-i18n="publish.author">作者 GitHub ID</span><input name="author" required pattern="[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?" maxlength="39" placeholder="github-login"></label>
+              <label><span data-i18n="publish.license">许可</span><input name="license" required placeholder="MIT"></label>
+              <label class="form-wide"><span data-i18n="publish.tags">标签</span><input name="tags" required placeholder="workflow, productivity, session"><small data-i18n="publish.tagsHelp">使用英文逗号分隔；标签只用于发现，不代表审核分类。</small></label>
+            </div>
+            <details class="form-disclosure">
+              <summary><span><strong data-i18n="publish.projectOptional">仓库路径与图片</strong><small data-i18n="publish.projectOptionalHelp">单仓多包或自定义封面时再填写</small></span><span aria-hidden="true">+</span></summary>
+              <div class="disclosure-body form-grid">
+                <label class="form-wide"><span data-i18n="publish.path">包路径</span><input name="path" pattern="/.*" placeholder="/packages/session-notes"><small data-i18n="publish.pathHelp">仓库根目录就是项目时留空。</small></label>
+                <fieldset class="form-wide media-fields">
+                  <legend data-i18n="publish.media">项目媒体（可选）</legend>
+                  <p data-i18n="publish.mediaHelp">只填写本次固定 commit 内、相对项目根目录的图片路径。留空时 Workshop 自动生成类型封面。</p>
+                  <div class="form-grid">
+                    <label><span data-i18n="publish.mediaIcon">图标路径</span><input name="mediaIcon" placeholder="assets/icon.webp"></label>
+                    <label><span data-i18n="publish.mediaCover">封面路径</span><input name="mediaCover" placeholder="assets/cover.webp"></label>
+                    <label class="form-wide"><span data-i18n="publish.mediaScreenshots">截图路径</span><textarea name="mediaScreenshots" rows="3" placeholder="assets/screenshot-1.webp&#10;assets/screenshot-2.webp"></textarea><small data-i18n="publish.mediaScreenshotsHelp">每行或逗号分隔，最多 4 张；单张不超过 2 MiB，总计不超过 8 MiB。</small></label>
+                  </div>
+                </fieldset>
+              </div>
+            </details>
+          </section>
+
+          <section class="form-section" data-form-step="1" hidden>
+            <header class="form-section-heading">
+              <div><h2 data-i18n="publish.release">版本信息</h2><p data-i18n="publish.releaseHelp">固定到一个接受扫描、不会漂移的 commit。</p></div>
+            </header>
+            <div class="form-section-body form-grid">
+              <label><span data-i18n="publish.version">版本</span><input name="version" required placeholder="1.0.0"></label>
+              <label><span data-i18n="publish.compatibility">Harness 兼容范围</span><input name="compatibility" required placeholder="official-v1（请注明已实测范围）" data-i18n-placeholder="publish.compatibilityPlaceholder"></label>
+              <label class="form-wide"><span data-i18n="publish.commit">完整 commit SHA</span><input name="ref" required pattern="[0-9a-f]{40}" minlength="40" maxlength="40" placeholder="0123456789abcdef0123456789abcdef01234567"><small data-i18n="publish.commitHelp">必须是准备接受扫描和收录的 40 位 commit，不能填分支或浮动标签。</small></label>
+              <label class="form-wide"><span data-i18n="publish.changelog">版本说明</span><textarea name="changelog" required rows="3"></textarea></label>
+            </div>
+            <details class="form-disclosure">
+              <summary><span><strong data-i18n="publish.releaseOptional">发布通道与运行要求</strong><small data-i18n="publish.releaseOptionalHelp">默认稳定版、当前时间、无需特殊运行条件</small></span><span aria-hidden="true">+</span></summary>
+              <div class="disclosure-body">
+                <div class="form-grid">
+                  <label><span data-i18n="publish.channel">通道</span><select name="channel"><option value="stable">Stable</option><option value="beta">Beta</option><option value="nightly">Nightly</option></select></label>
+                  <label><span data-i18n="publish.updatedAt">发布时间</span><input name="updatedAt" required type="datetime-local"></label>
+                </div>
+                <div class="capability-grid">
+                  <label class="check-row"><input name="requiresFabric" type="checkbox"><span><strong data-i18n="publish.requiresFabric">社区 Fabric 适配</strong><small data-i18n="publish.requiresFabricHelp">Workshop 只按第三方接入记录 Fabric 兼容事实，不参与安装。</small></span></label>
+                  <label class="check-row"><input name="deepHook" type="checkbox"><span><strong data-i18n="publish.deepHook">使用深层 Hook</strong><small data-i18n="publish.deepHookHelp">会自动同时声明需要 Fabric。</small></span></label>
+                  <label class="check-row"><input name="restartRequired" type="checkbox"><span><strong data-i18n="publish.restartRequired">需要重启</strong><small data-i18n="publish.restartRequiredHelp">不能只依赖 Cordis 热重载完成应用。</small></span></label>
+                </div>
+              </div>
+            </details>
+          </section>
+
+          <section class="form-section" data-form-step="2" hidden>
+            <header class="form-section-heading">
+              <div><h2 data-i18n="publish.management">接入与声明</h2><p data-i18n="publish.managementHelp">选择真实接入方式，OMDSH 会生成能自动确定的部分。</p></div>
+            </header>
+            <div class="form-section-body">
+              <div class="form-grid">
+                <label class="form-wide method-field"><span data-i18n="publish.method">接入形态</span><select name="method" required><option value="" disabled selected data-i18n="publish.methodPlaceholder">请选择真实接入方式</option><option value="profile-bundle" data-i18n="publish.method.profileBundle">官方 Profile Bundle - OMDSH 托管</option><option value="repository-plugin" data-i18n="publish.method.repositoryPlugin">官方 Repository Plugin - OMDSH 托管</option><option value="cordis-sdk" data-i18n="publish.method.cordisSdk">官方 Cordis 插件 - SDK 接入</option><option value="manual" data-i18n="publish.method.thirdParty">第三方接入 - 仅发现与说明</option></select><small data-i18n="publish.methodHelp">按仓库中的真实声明选择；只有 Profile Bundle 与 Repository Plugin 由 OMDSH 自动托管。</small></label>
+              </div>
+              <p id="management-summary" class="management-summary" aria-live="polite"></p>
+            </div>
+            <div id="bundle-fields" class="form-grid bundle-fields" hidden>
+              <label><span data-i18n="publish.packageName">包名</span><input name="packageName" placeholder="@owner/session-notes"></label>
+              <label><span data-i18n="publish.spec">不可变 spec</span><input name="spec" placeholder="git+https://github.com/owner/repo.git#40-char-commit"></label>
+            </div>
+            <div class="form-section-body declaration-fields">
+              <div class="permission-grid">
+                <label><span data-i18n="publish.permissions">权限说明</span><textarea name="permissions" required rows="3" placeholder="无额外权限；或说明文件、网络、Shell、凭据访问" data-i18n-placeholder="publish.permissionsPlaceholder"></textarea><small data-i18n="publish.permissionsHelp">没有额外权限也请明确填写“无”。</small></label>
+                <label><span data-i18n="publish.testing">测试与已知限制</span><textarea name="testing" required rows="3" placeholder="已运行的测试；未覆盖的环境或已知限制" data-i18n-placeholder="publish.testingPlaceholder"></textarea><small data-i18n="publish.testingHelp">只写实际验证过的内容，不需要包装。</small></label>
+              </div>
+            </div>
+            <details id="management-details" class="form-disclosure">
+              <summary><span><strong data-i18n="publish.integrationDetails">接入细节</strong><small data-i18n="publish.integrationDetailsHelp">官方路径通常会自动生成，可按需修正</small></span><span aria-hidden="true">+</span></summary>
+              <div class="disclosure-body form-grid">
+                <label><span data-i18n="publish.installLabel">展示文案</span><input name="installLabel" required placeholder="在 Harness 中订阅"></label>
+                <label id="source-field" hidden><span data-i18n="publish.source">固定 Repository Plugin source</span><input name="source" placeholder="github:owner/repository#40-char-commit&path:/package/.dsh-plugin"></label>
+                <label class="form-wide"><span data-i18n="publish.instructions">接入边界与说明</span><textarea name="instructions" required rows="3"></textarea></label>
+                <label class="form-wide check-row compact-check"><input name="trustedPublisherRequested" type="checkbox"><span><strong data-i18n="publish.trustedPublisher">申请可信发布者</strong><small data-i18n="publish.trustedPublisherHelp">这是独立的人工审核，不影响普通项目提交。</small></span></label>
+              </div>
+            </details>
+          </section>
+
+          <p id="publish-error" class="publish-error" role="alert" hidden></p>
+          <div class="form-actions">
+            <button id="reset-manifest" class="secondary-action" type="reset" data-i18n="publish.reset">清空</button>
+            <div class="form-step-actions">
+              <button id="previous-publish-step" class="secondary-action" type="button" hidden data-i18n="publish.back">上一步</button>
+              <button id="next-publish-step" class="primary-action" type="button" data-i18n="publish.nextRelease">下一步：版本</button>
+              <button id="preview-manifest" class="primary-action" type="submit" hidden data-i18n="publish.preview">校验并预览</button>
+            </div>
+          </div>
+        </form>
+
+        <details id="manifest-preview" class="manifest-preview">
+          <summary class="preview-heading"><span><strong id="preview-title" data-i18n="publish.previewTitle">Manifest 预览</strong><small data-i18n="publish.previewHelp">校验通过后在这里查看和提交</small></span><span data-i18n="publish.localOnly">只在本机生成</span></summary>
+          <div class="preview-body">
+            <pre><code id="manifest-output">{}</code></pre>
+            <div class="preview-actions">
+              <button id="copy-manifest" class="primary-action" type="button" disabled data-i18n="publish.copy">复制 JSON</button>
+              <button id="download-manifest" class="secondary-action" type="button" disabled data-i18n="publish.download">下载文件</button>
+              <a id="open-submission" class="secondary-action is-disabled" href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=extension-submission.yml" aria-disabled="true" data-i18n="publish.openIssue">打开收录申请</a>
+            </div>
+            <p data-i18n="publish.issueHelp">把生成的完整 JSON 粘贴到 Issue 的 Author Studio manifest 字段；自动化会扫描固定 commit 并维护一个 Catalog PR。</p>
+          </div>
+        </details>
+      </div>
+      </section>
+
+      <section id="distribution-studio" class="distribution-studio" data-publish-panel="distribution" hidden>
+        <header class="distribution-studio-intro">
+          <div>
+            <p class="hero-kicker" data-i18n="distributionStudio.kicker">Community Modpack</p>
+            <h2 data-i18n="distributionStudio.title">把固定 Release 组合成你的整合包。</h2>
+          </div>
+          <p data-i18n="distributionStudio.description">只选择已进入事务安装链路的 Release。生成的是纯数据清单，实际应用仍经过 OMDSH candidate 与官方 Profile/Bundle。</p>
+        </header>
+
+        <div class="distribution-studio-layout">
+          <form id="distribution-form" class="manifest-form distribution-form" novalidate>
+            <section class="distribution-studio-section">
+              <header class="form-section-heading"><div><h2 data-i18n="distributionStudio.identity">整合包信息</h2><p data-i18n="distributionStudio.identityHelp">名称、用途与维护者构成一个可版本化作品。</p></div></header>
+              <div class="form-section-body form-grid">
+                <label class="form-wide"><span data-i18n="distributionStudio.repository">维护仓库</span><input name="repository" required type="url" pattern="https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/?" placeholder="https://github.com/owner/my-dsh"><small data-i18n="distributionStudio.repositoryHelp">清单生成后提交到这个仓库，再用完整 commit 发起收录。</small></label>
+                <label><span data-i18n="distributionStudio.id">整合包 ID</span><input name="id" required pattern="[a-z0-9][a-z0-9-]*" placeholder="research-dsh"></label>
+                <label><span data-i18n="distributionStudio.version">版本</span><input name="version" required pattern="(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?" placeholder="0.1.0-preview.1"></label>
+                <label><span data-i18n="distributionStudio.channel">更新通道</span><select name="channel"><option value="preview">Preview</option><option value="stable">Stable</option></select></label>
+                <label><span data-i18n="distributionStudio.maintainer">维护者 GitHub ID</span><input name="maintainer" required pattern="[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?" placeholder="github-login"></label>
+                <label><span data-i18n="distributionStudio.titleZh">中文名称</span><input name="titleZh" required placeholder="研究工作台"></label>
+                <label><span data-i18n="distributionStudio.titleEn">英文名称</span><input name="titleEn" required placeholder="Research Workbench"></label>
+                <label><span data-i18n="distributionStudio.summaryZh">中文简介</span><textarea name="summaryZh" required minlength="12" rows="3"></textarea></label>
+                <label><span data-i18n="distributionStudio.summaryEn">英文简介</span><textarea name="summaryEn" required minlength="12" rows="3"></textarea></label>
+                <label class="form-wide"><span data-i18n="distributionStudio.compatibility">真实测试过的 Harness 范围</span><textarea name="compatibility" required minlength="12" rows="2" placeholder="official-profile/v1；在明确的 DSH 版本与平台上验证" data-i18n-placeholder="distributionStudio.compatibilityPlaceholder"></textarea><small data-i18n="distributionStudio.compatibilityHelp">没有运行证据时请明确写“尚未实测”，不要猜测兼容性。</small></label>
+                <label class="form-wide"><span data-i18n="distributionStudio.useCases">具体用途</span><textarea name="useCases" required rows="3" placeholder="研究复杂问题 | Research complex questions&#10;定制 Web 界面 | Customize the Web interface" data-i18n-placeholder="distributionStudio.useCasesPlaceholder"></textarea><small data-i18n="distributionStudio.useCasesHelp">每行“中文 | English”，1–5 项；推荐只会匹配这些明确声明。</small></label>
+              </div>
+            </section>
+
+            <section class="distribution-studio-section">
+              <header class="form-section-heading"><div><h2 data-i18n="distributionStudio.components">选择组件</h2><p data-i18n="distributionStudio.componentsHelp">这里只列出可由一个 candidate 管理的固定 Profile Bundle Release。</p></div></header>
+              <div class="form-section-body">
+                <div class="distribution-release-picker">
+                  <label><span data-i18n="distributionStudio.release">固定 Release</span><select id="distribution-release-picker"><option value="" data-i18n="distributionStudio.loading">正在读取可用 Release…</option></select></label>
+                  <button id="distribution-add-release" class="secondary-action" type="button" data-i18n="distributionStudio.add">加入整合包</button>
+                </div>
+                <p id="distribution-items-empty" class="distribution-items-empty" data-i18n="distributionStudio.empty">还没有组件。至少加入一个固定 Release。</p>
+                <ul id="distribution-items" class="distribution-items" aria-live="polite"></ul>
+              </div>
+            </section>
+
+            <aside class="distribution-application-boundary">
+              <span aria-hidden="true">✓</span>
+              <div><strong data-i18n="distributionStudio.boundaryTitle">固定应用边界</strong><p data-i18n="distributionStudio.boundary">必须生成 candidate、必须用户确认、可恢复受管理 Profile 代际；外部副作用不在恢复范围内。</p></div>
+            </aside>
+
+            <p id="distribution-error" class="publish-error" role="alert" hidden></p>
+            <div class="form-actions">
+              <button class="secondary-action" type="reset" data-i18n="publish.reset">清空</button>
+              <button class="primary-action" type="submit" data-i18n="distributionStudio.preview">校验并生成清单</button>
+            </div>
+          </form>
+
+          <details id="distribution-preview" class="manifest-preview">
+            <summary class="preview-heading"><span><strong data-i18n="distributionStudio.previewTitle">整合包 manifest</strong><small data-i18n="distributionStudio.previewHelp">下载后提交到你的仓库</small></span><span data-i18n="publish.localOnly">只在本机生成</span></summary>
+            <div class="preview-body">
+              <pre><code id="distribution-output">{}</code></pre>
+              <div class="preview-actions">
+                <button id="copy-distribution" class="primary-action" type="button" disabled data-i18n="publish.copy">复制 JSON</button>
+                <button id="download-distribution" class="secondary-action" type="button" disabled data-i18n="publish.download">下载文件</button>
+                <a id="open-distribution-submission" class="secondary-action is-disabled" href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=distribution-submission.yml" aria-disabled="true" data-i18n="distributionStudio.openIssue">提交整合包</a>
+              </div>
+              <p data-i18n="distributionStudio.issueHelp">先把 JSON 提交到维护仓库，再在 Issue 中填写完整 commit。收录只投影当前版本，不执行仓库脚本。</p>
+            </div>
+          </details>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer doc-footer"><a class="footer-brand" href="./">DSH Hub Workshop</a><p data-i18n="publish.footer">Author Studio 只生成提交材料，收录与审核仍由 GitHub 流程完成。</p><div class="footer-links"><a href="contributing.html" data-i18n="nav.contribute">收录指南</a><a href="registry.html" data-i18n="nav.registry">协议</a></div></footer>
+  </body>
 </html>

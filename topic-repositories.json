@@ -1,6 +1,6 @@
 {
   "schema": "dsh-topic-discovery/v1",
-  "generatedAt": "2026-08-13T14:58:22.130Z",
+  "generatedAt": "2026-08-13T15:38:09.913Z",
   "topic": "dsh-plugin",
   "source": "https://github.com/search?q=topic%3Adsh-plugin&type=repositories",
   "observedRepositoryCount": 255,
@@ -17,7 +17,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:33:04Z",
+      "commitUpdatedAt": "2026-08-13T14:47:48Z",
+      "metadataUpdatedAt": "2026-08-13T14:33:04Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -35,7 +36,8 @@
         "vision",
         "vlm"
       ],
-      "updatedAt": "2026-08-13T14:48:31Z",
+      "commitUpdatedAt": "2026-08-13T14:47:28Z",
+      "metadataUpdatedAt": "2026-08-13T14:48:31Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -49,7 +51,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:46:06Z",
+      "commitUpdatedAt": "2026-08-13T14:47:27Z",
+      "metadataUpdatedAt": "2026-08-13T14:46:06Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -63,7 +66,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:49:48Z",
+      "commitUpdatedAt": "2026-08-13T14:47:21Z",
+      "metadataUpdatedAt": "2026-08-13T13:49:48Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -77,7 +81,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:47:41Z",
+      "commitUpdatedAt": "2026-08-13T14:47:06Z",
+      "metadataUpdatedAt": "2026-08-13T14:47:41Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -95,7 +100,8 @@
         "webview2",
         "windows"
       ],
-      "updatedAt": "2026-08-13T14:47:39Z",
+      "commitUpdatedAt": "2026-08-13T14:46:41Z",
+      "metadataUpdatedAt": "2026-08-13T14:47:39Z",
       "stars": 6,
       "archived": false,
       "defaultBranch": "master"
@@ -120,7 +126,8 @@
         "openclaw",
         "skill-generator"
       ],
-      "updatedAt": "2026-08-13T14:48:20Z",
+      "commitUpdatedAt": "2026-08-13T14:46:19Z",
+      "metadataUpdatedAt": "2026-08-13T14:48:20Z",
       "stars": 20867,
       "archived": false,
       "defaultBranch": "dot-skill"
@@ -138,7 +145,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:46:46Z",
+      "commitUpdatedAt": "2026-08-13T14:46:08Z",
+      "metadataUpdatedAt": "2026-08-13T14:46:46Z",
       "stars": 5,
       "archived": false,
       "defaultBranch": "main"
@@ -154,7 +162,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:47:26Z",
+      "commitUpdatedAt": "2026-08-13T14:46:00Z",
+      "metadataUpdatedAt": "2026-08-13T14:47:26Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -170,7 +179,8 @@
         "dsh-plugin",
         "jumpserver"
       ],
-      "updatedAt": "2026-08-13T14:47:34Z",
+      "commitUpdatedAt": "2026-08-13T14:45:59Z",
+      "metadataUpdatedAt": "2026-08-13T14:47:34Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -200,7 +210,8 @@
         "mcp",
         "plugins"
       ],
-      "updatedAt": "2026-08-13T14:48:12Z",
+      "commitUpdatedAt": "2026-08-13T14:45:57Z",
+      "metadataUpdatedAt": "2026-08-13T14:48:12Z",
       "stars": 68,
       "archived": false,
       "defaultBranch": "main"
@@ -217,7 +228,8 @@
         "dsh-plugin",
         "interconnect"
       ],
-      "updatedAt": "2026-08-13T14:46:32Z",
+      "commitUpdatedAt": "2026-08-13T14:47:44Z",
+      "metadataUpdatedAt": "2026-08-13T14:46:32Z",
       "stars": 7,
       "archived": false,
       "defaultBranch": "main"
@@ -234,7 +246,8 @@
         "dsh-plugin",
         "postmortem"
       ],
-      "updatedAt": "2026-08-13T14:46:33Z",
+      "commitUpdatedAt": "2026-08-13T14:45:05Z",
+      "metadataUpdatedAt": "2026-08-13T14:46:33Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "master"
@@ -257,7 +270,8 @@
         "persona",
         "skill-generator"
       ],
-      "updatedAt": "2026-08-13T14:48:36Z",
+      "commitUpdatedAt": "2026-08-13T14:44:58Z",
+      "metadataUpdatedAt": "2026-08-13T14:48:36Z",
       "stars": 1019,
       "archived": false,
       "defaultBranch": "master"
@@ -274,7 +288,8 @@
         "dsh-plugin",
         "openpencil"
       ],
-      "updatedAt": "2026-08-13T14:44:59Z",
+      "commitUpdatedAt": "2026-08-13T14:44:51Z",
+      "metadataUpdatedAt": "2026-08-13T14:44:59Z",
       "stars": 15,
       "archived": false,
       "defaultBranch": "main"
@@ -290,7 +305,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:45:17Z",
+      "commitUpdatedAt": "2026-08-13T14:44:47Z",
+      "metadataUpdatedAt": "2026-08-13T14:45:17Z",
       "stars": 5,
       "archived": false,
       "defaultBranch": "main"
@@ -306,7 +322,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:45:25Z",
+      "commitUpdatedAt": "2026-08-13T14:44:45Z",
+      "metadataUpdatedAt": "2026-08-13T14:45:25Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -322,7 +339,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:46:14Z",
+      "commitUpdatedAt": "2026-08-13T14:44:28Z",
+      "metadataUpdatedAt": "2026-08-13T14:46:14Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -341,7 +359,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:46:51Z",
+      "commitUpdatedAt": "2026-08-13T14:44:23Z",
+      "metadataUpdatedAt": "2026-08-13T14:46:51Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -355,7 +374,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:48:24Z",
+      "commitUpdatedAt": "2026-08-13T14:44:22Z",
+      "metadataUpdatedAt": "2026-08-13T14:48:24Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -387,7 +407,8 @@
         "mcp",
         "plugins"
       ],
-      "updatedAt": "2026-08-13T14:44:54Z",
+      "commitUpdatedAt": "2026-08-13T14:43:55Z",
+      "metadataUpdatedAt": "2026-08-13T14:44:54Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -405,7 +426,8 @@
         "dsh-plugin",
         "status-line"
       ],
-      "updatedAt": "2026-08-13T14:44:47Z",
+      "commitUpdatedAt": "2026-08-13T14:43:53Z",
+      "metadataUpdatedAt": "2026-08-13T14:44:47Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -422,7 +444,8 @@
         "harness",
         "harness-engineering"
       ],
-      "updatedAt": "2026-08-13T14:43:58Z",
+      "commitUpdatedAt": "2026-08-13T14:43:49Z",
+      "metadataUpdatedAt": "2026-08-13T14:43:58Z",
       "stars": 48,
       "archived": false,
       "defaultBranch": "main"
@@ -444,7 +467,8 @@
         "terminal",
         "tui"
       ],
-      "updatedAt": "2026-08-13T14:48:20Z",
+      "commitUpdatedAt": "2026-08-13T14:43:44Z",
+      "metadataUpdatedAt": "2026-08-13T14:48:20Z",
       "stars": 67,
       "archived": false,
       "defaultBranch": "main"
@@ -461,7 +485,8 @@
         "firecrawl",
         "web-search"
       ],
-      "updatedAt": "2026-08-13T14:44:37Z",
+      "commitUpdatedAt": "2026-08-13T14:46:12Z",
+      "metadataUpdatedAt": "2026-08-13T14:44:37Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -477,7 +502,8 @@
         "dsh-plugin",
         "macos"
       ],
-      "updatedAt": "2026-08-13T14:42:30Z",
+      "commitUpdatedAt": "2026-08-13T14:43:15Z",
+      "metadataUpdatedAt": "2026-08-13T14:42:30Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -494,7 +520,8 @@
         "tavily",
         "web-search"
       ],
-      "updatedAt": "2026-08-13T14:43:51Z",
+      "commitUpdatedAt": "2026-08-13T14:42:45Z",
+      "metadataUpdatedAt": "2026-08-13T14:43:51Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -512,7 +539,8 @@
         "dsh-plugin",
         "sidebar"
       ],
-      "updatedAt": "2026-08-13T14:44:17Z",
+      "commitUpdatedAt": "2026-08-13T14:42:44Z",
+      "metadataUpdatedAt": "2026-08-13T14:44:17Z",
       "stars": 47,
       "archived": false,
       "defaultBranch": "main"
@@ -527,7 +555,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:47:41Z",
+      "commitUpdatedAt": "2026-08-13T14:41:20Z",
+      "metadataUpdatedAt": "2026-08-13T14:47:41Z",
       "stars": 34,
       "archived": false,
       "defaultBranch": "main"
@@ -543,7 +572,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:44:23Z",
+      "commitUpdatedAt": "2026-08-13T14:41:03Z",
+      "metadataUpdatedAt": "2026-08-13T14:44:23Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -557,7 +587,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:40:48Z",
+      "commitUpdatedAt": "2026-08-13T14:40:44Z",
+      "metadataUpdatedAt": "2026-08-13T14:40:48Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -575,7 +606,8 @@
         "dsh-agent-teams",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:43:47Z",
+      "commitUpdatedAt": "2026-08-13T14:39:24Z",
+      "metadataUpdatedAt": "2026-08-13T14:43:47Z",
       "stars": 24,
       "archived": false,
       "defaultBranch": "main"
@@ -593,7 +625,8 @@
         "plan-review",
         "plannotator"
       ],
-      "updatedAt": "2026-08-13T14:41:28Z",
+      "commitUpdatedAt": "2026-08-13T14:39:00Z",
+      "metadataUpdatedAt": "2026-08-13T14:41:28Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -614,7 +647,8 @@
         "pixel-pet",
         "plugin"
       ],
-      "updatedAt": "2026-08-13T14:41:02Z",
+      "commitUpdatedAt": "2026-08-13T14:38:46Z",
+      "metadataUpdatedAt": "2026-08-13T14:41:02Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -632,7 +666,8 @@
         "macos",
         "record-replay"
       ],
-      "updatedAt": "2026-08-13T14:43:37Z",
+      "commitUpdatedAt": "2026-08-13T14:38:42Z",
+      "metadataUpdatedAt": "2026-08-13T14:43:37Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -662,7 +697,8 @@
         "vision",
         "vision-language-model"
       ],
-      "updatedAt": "2026-08-13T14:46:18Z",
+      "commitUpdatedAt": "2026-08-13T14:38:09Z",
+      "metadataUpdatedAt": "2026-08-13T14:46:18Z",
       "stars": 428,
       "archived": false,
       "defaultBranch": "main"
@@ -676,7 +712,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:47:48Z",
+      "commitUpdatedAt": "2026-08-13T14:47:49Z",
+      "metadataUpdatedAt": "2026-08-13T14:47:48Z",
       "stars": 153,
       "archived": false,
       "defaultBranch": "main"
@@ -698,7 +735,8 @@
         "protocol",
         "specification"
       ],
-      "updatedAt": "2026-08-13T14:38:06Z",
+      "commitUpdatedAt": "2026-08-13T14:37:48Z",
+      "metadataUpdatedAt": "2026-08-13T14:38:06Z",
       "stars": 23,
       "archived": false,
       "defaultBranch": "main"
@@ -713,7 +751,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:44:57Z",
+      "commitUpdatedAt": "2026-08-13T14:37:17Z",
+      "metadataUpdatedAt": "2026-08-13T14:44:57Z",
       "stars": 4,
       "archived": false,
       "defaultBranch": "main"
@@ -728,7 +767,8 @@
         "dsh-plugin",
         "dsh-plugins"
       ],
-      "updatedAt": "2026-08-13T14:46:16Z",
+      "commitUpdatedAt": "2026-08-13T14:36:22Z",
+      "metadataUpdatedAt": "2026-08-13T14:46:16Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -746,7 +786,8 @@
         "dsh-plugin",
         "tool-policy"
       ],
-      "updatedAt": "2026-08-13T14:39:27Z",
+      "commitUpdatedAt": "2026-08-13T14:36:12Z",
+      "metadataUpdatedAt": "2026-08-13T14:39:27Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -761,7 +802,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:37:10Z",
+      "commitUpdatedAt": "2026-08-13T14:36:04Z",
+      "metadataUpdatedAt": "2026-08-13T14:37:10Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -782,7 +824,8 @@
         "kimi-webbridge",
         "tool"
       ],
-      "updatedAt": "2026-08-13T14:03:38Z",
+      "commitUpdatedAt": "2026-08-13T14:36:01Z",
+      "metadataUpdatedAt": "2026-08-13T14:03:38Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -803,7 +846,8 @@
         "dsh-plugin",
         "scheduled-tasks"
       ],
-      "updatedAt": "2026-08-13T14:39:10Z",
+      "commitUpdatedAt": "2026-08-13T14:35:53Z",
+      "metadataUpdatedAt": "2026-08-13T14:39:10Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -820,7 +864,8 @@
         "launcher",
         "windows"
       ],
-      "updatedAt": "2026-08-13T14:38:06Z",
+      "commitUpdatedAt": "2026-08-13T14:35:18Z",
+      "metadataUpdatedAt": "2026-08-13T14:38:06Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -848,7 +893,8 @@
         "text-only-llm",
         "vision-transformer"
       ],
-      "updatedAt": "2026-08-13T14:48:18Z",
+      "commitUpdatedAt": "2026-08-13T14:35:12Z",
+      "metadataUpdatedAt": "2026-08-13T14:48:18Z",
       "stars": 617,
       "archived": false,
       "defaultBranch": "main"
@@ -863,7 +909,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:35:38Z",
+      "commitUpdatedAt": "2026-08-13T14:35:08Z",
+      "metadataUpdatedAt": "2026-08-13T14:35:38Z",
       "stars": 16,
       "archived": false,
       "defaultBranch": "master"
@@ -877,7 +924,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:34:52Z",
+      "commitUpdatedAt": "2026-08-13T14:33:58Z",
+      "metadataUpdatedAt": "2026-08-13T14:34:52Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -894,7 +942,8 @@
         "mobile-automation",
         "mobile-control"
       ],
-      "updatedAt": "2026-08-13T14:36:19Z",
+      "commitUpdatedAt": "2026-08-13T14:33:08Z",
+      "metadataUpdatedAt": "2026-08-13T14:36:19Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -911,7 +960,8 @@
         "deepseek-harness",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:36:34Z",
+      "commitUpdatedAt": "2026-08-13T14:33:05Z",
+      "metadataUpdatedAt": "2026-08-13T14:36:34Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -928,7 +978,8 @@
         "dsh-plugin",
         "web-ui"
       ],
-      "updatedAt": "2026-08-13T14:48:32Z",
+      "commitUpdatedAt": "2026-08-13T14:32:58Z",
+      "metadataUpdatedAt": "2026-08-13T14:48:32Z",
       "stars": 227,
       "archived": false,
       "defaultBranch": "main"
@@ -944,7 +995,8 @@
         "dsh-plugin",
         "openai-codex"
       ],
-      "updatedAt": "2026-08-13T14:34:57Z",
+      "commitUpdatedAt": "2026-08-13T14:32:43Z",
+      "metadataUpdatedAt": "2026-08-13T14:34:57Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -959,7 +1011,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:47:21Z",
+      "commitUpdatedAt": "2026-08-13T14:32:37Z",
+      "metadataUpdatedAt": "2026-08-13T14:47:21Z",
       "stars": 40,
       "archived": false,
       "defaultBranch": "main"
@@ -979,7 +1032,8 @@
         "openapi",
         "swagger"
       ],
-      "updatedAt": "2026-08-13T14:45:33Z",
+      "commitUpdatedAt": "2026-08-13T14:32:36Z",
+      "metadataUpdatedAt": "2026-08-13T14:45:33Z",
       "stars": 3,
       "archived": false,
       "defaultBranch": "main"
@@ -993,7 +1047,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:33:54Z",
+      "commitUpdatedAt": "2026-08-13T14:32:26Z",
+      "metadataUpdatedAt": "2026-08-13T14:33:54Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -1008,7 +1063,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:35:13Z",
+      "commitUpdatedAt": "2026-08-13T14:32:02Z",
+      "metadataUpdatedAt": "2026-08-13T14:35:13Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1022,7 +1078,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:35:21Z",
+      "commitUpdatedAt": "2026-08-13T14:29:38Z",
+      "metadataUpdatedAt": "2026-08-13T14:35:21Z",
       "stars": 9,
       "archived": false,
       "defaultBranch": "main"
@@ -1036,7 +1093,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:33:57Z",
+      "commitUpdatedAt": "2026-08-13T14:29:38Z",
+      "metadataUpdatedAt": "2026-08-13T14:33:57Z",
       "stars": 14,
       "archived": false,
       "defaultBranch": "main"
@@ -1050,7 +1108,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:47:38Z",
+      "commitUpdatedAt": "2026-08-13T14:29:38Z",
+      "metadataUpdatedAt": "2026-08-13T14:47:38Z",
       "stars": 47,
       "archived": false,
       "defaultBranch": "main"
@@ -1068,7 +1127,8 @@
         "tutorial",
         "typescript"
       ],
-      "updatedAt": "2026-08-13T14:31:09Z",
+      "commitUpdatedAt": "2026-08-13T14:27:04Z",
+      "metadataUpdatedAt": "2026-08-13T14:31:09Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1086,7 +1146,8 @@
         "dsh-plugin",
         "tui"
       ],
-      "updatedAt": "2026-08-13T14:31:01Z",
+      "commitUpdatedAt": "2026-08-13T14:25:47Z",
+      "metadataUpdatedAt": "2026-08-13T14:31:01Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1103,7 +1164,8 @@
         "deepseek-harness",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:26:56Z",
+      "commitUpdatedAt": "2026-08-13T14:25:07Z",
+      "metadataUpdatedAt": "2026-08-13T14:26:56Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1117,7 +1179,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:25:27Z",
+      "commitUpdatedAt": "2026-08-13T14:24:23Z",
+      "metadataUpdatedAt": "2026-08-13T14:25:27Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1131,7 +1194,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:28:32Z",
+      "commitUpdatedAt": "2026-08-13T14:24:04Z",
+      "metadataUpdatedAt": "2026-08-13T14:28:32Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1163,7 +1227,8 @@
         "opencode",
         "python"
       ],
-      "updatedAt": "2026-08-13T14:27:30Z",
+      "commitUpdatedAt": "2026-08-13T14:22:46Z",
+      "metadataUpdatedAt": "2026-08-13T14:27:30Z",
       "stars": 15,
       "archived": false,
       "defaultBranch": "main"
@@ -1181,7 +1246,8 @@
         "dsh-repository-plugin",
         "pet"
       ],
-      "updatedAt": "2026-08-13T14:31:18Z",
+      "commitUpdatedAt": "2026-08-13T14:22:20Z",
+      "metadataUpdatedAt": "2026-08-13T14:31:18Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -1198,7 +1264,8 @@
         "plugin",
         "ui"
       ],
-      "updatedAt": "2026-08-13T14:23:11Z",
+      "commitUpdatedAt": "2026-08-13T14:22:16Z",
+      "metadataUpdatedAt": "2026-08-13T14:23:11Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -1215,7 +1282,8 @@
         "plugin",
         "ui"
       ],
-      "updatedAt": "2026-08-13T14:26:47Z",
+      "commitUpdatedAt": "2026-08-13T14:22:13Z",
+      "metadataUpdatedAt": "2026-08-13T14:26:47Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -1232,7 +1300,8 @@
         "plugin",
         "ui"
       ],
-      "updatedAt": "2026-08-13T14:26:40Z",
+      "commitUpdatedAt": "2026-08-13T14:22:09Z",
+      "metadataUpdatedAt": "2026-08-13T14:26:40Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -1252,7 +1321,8 @@
         "plugin-management",
         "ui"
       ],
-      "updatedAt": "2026-08-13T14:45:35Z",
+      "commitUpdatedAt": "2026-08-13T14:22:05Z",
+      "metadataUpdatedAt": "2026-08-13T14:45:35Z",
       "stars": 6,
       "archived": false,
       "defaultBranch": "main"
@@ -1266,7 +1336,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:45:32Z",
+      "commitUpdatedAt": "2026-08-13T14:20:43Z",
+      "metadataUpdatedAt": "2026-08-13T14:45:32Z",
       "stars": 3,
       "archived": false,
       "defaultBranch": "main"
@@ -1281,7 +1352,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:44:59Z",
+      "commitUpdatedAt": "2026-08-13T14:20:42Z",
+      "metadataUpdatedAt": "2026-08-13T14:44:59Z",
       "stars": 4,
       "archived": false,
       "defaultBranch": "main"
@@ -1298,7 +1370,8 @@
         "messaging",
         "onlyne"
       ],
-      "updatedAt": "2026-08-13T14:24:23Z",
+      "commitUpdatedAt": "2026-08-13T14:20:03Z",
+      "metadataUpdatedAt": "2026-08-13T14:24:23Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1316,7 +1389,8 @@
         "regression-testing",
         "statistics"
       ],
-      "updatedAt": "2026-08-13T14:22:26Z",
+      "commitUpdatedAt": "2026-08-13T14:18:47Z",
+      "metadataUpdatedAt": "2026-08-13T14:22:26Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1334,7 +1408,8 @@
         "dsh-plugin",
         "port"
       ],
-      "updatedAt": "2026-08-13T14:21:55Z",
+      "commitUpdatedAt": "2026-08-13T14:18:17Z",
+      "metadataUpdatedAt": "2026-08-13T14:21:55Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1352,7 +1427,8 @@
         "git-bisect",
         "troubleshooting"
       ],
-      "updatedAt": "2026-08-13T14:21:43Z",
+      "commitUpdatedAt": "2026-08-13T14:18:13Z",
+      "metadataUpdatedAt": "2026-08-13T14:21:43Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1370,7 +1446,8 @@
         "pixelmatch",
         "visual-testing"
       ],
-      "updatedAt": "2026-08-13T14:23:35Z",
+      "commitUpdatedAt": "2026-08-13T14:18:06Z",
+      "metadataUpdatedAt": "2026-08-13T14:23:35Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1387,7 +1464,8 @@
         "dsh-plugin",
         "memory"
       ],
-      "updatedAt": "2026-08-13T14:20:00Z",
+      "commitUpdatedAt": "2026-08-13T14:17:20Z",
+      "metadataUpdatedAt": "2026-08-13T14:20:00Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "master"
@@ -1406,7 +1484,8 @@
         "plugin",
         "worktree"
       ],
-      "updatedAt": "2026-08-13T14:21:57Z",
+      "commitUpdatedAt": "2026-08-13T14:16:25Z",
+      "metadataUpdatedAt": "2026-08-13T14:21:57Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1423,7 +1502,8 @@
         "dsh-plugin",
         "human-in-the-loop"
       ],
-      "updatedAt": "2026-08-13T14:17:45Z",
+      "commitUpdatedAt": "2026-08-13T14:13:28Z",
+      "metadataUpdatedAt": "2026-08-13T14:17:45Z",
       "stars": 4,
       "archived": false,
       "defaultBranch": "main"
@@ -1437,7 +1517,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:15:55Z",
+      "commitUpdatedAt": "2026-08-13T14:13:22Z",
+      "metadataUpdatedAt": "2026-08-13T14:15:55Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1452,7 +1533,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:35:21Z",
+      "commitUpdatedAt": "2026-08-13T14:12:44Z",
+      "metadataUpdatedAt": "2026-08-13T14:35:21Z",
       "stars": 21,
       "archived": false,
       "defaultBranch": "main"
@@ -1467,7 +1549,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:14:11Z",
+      "commitUpdatedAt": "2026-08-13T14:12:40Z",
+      "metadataUpdatedAt": "2026-08-13T14:14:11Z",
       "stars": 17,
       "archived": false,
       "defaultBranch": "main"
@@ -1482,7 +1565,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:44:50Z",
+      "commitUpdatedAt": "2026-08-13T14:12:38Z",
+      "metadataUpdatedAt": "2026-08-13T14:44:50Z",
       "stars": 25,
       "archived": false,
       "defaultBranch": "main"
@@ -1497,7 +1581,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:18:27Z",
+      "commitUpdatedAt": "2026-08-13T14:12:35Z",
+      "metadataUpdatedAt": "2026-08-13T14:18:27Z",
       "stars": 18,
       "archived": false,
       "defaultBranch": "main"
@@ -1511,7 +1596,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:18:30Z",
+      "commitUpdatedAt": "2026-08-13T14:12:27Z",
+      "metadataUpdatedAt": "2026-08-13T14:18:30Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "master"
@@ -1530,7 +1616,8 @@
         "tool",
         "ui"
       ],
-      "updatedAt": "2026-08-13T14:40:15Z",
+      "commitUpdatedAt": "2026-08-13T14:11:55Z",
+      "metadataUpdatedAt": "2026-08-13T14:40:15Z",
       "stars": 3,
       "archived": false,
       "defaultBranch": "main"
@@ -1550,7 +1637,8 @@
         "plugin-marketplace",
         "plugin-registry"
       ],
-      "updatedAt": "2026-08-13T14:11:35Z",
+      "commitUpdatedAt": "2026-08-13T14:09:05Z",
+      "metadataUpdatedAt": "2026-08-13T14:11:35Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1564,7 +1652,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:11:03Z",
+      "commitUpdatedAt": "2026-08-13T14:07:55Z",
+      "metadataUpdatedAt": "2026-08-13T14:11:03Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1578,7 +1667,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:09:27Z",
+      "commitUpdatedAt": "2026-08-13T14:07:42Z",
+      "metadataUpdatedAt": "2026-08-13T14:09:27Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1592,7 +1682,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:08:54Z",
+      "commitUpdatedAt": "2026-08-13T14:07:01Z",
+      "metadataUpdatedAt": "2026-08-13T14:08:54Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1610,7 +1701,8 @@
         "dsh-plugin",
         "plugins"
       ],
-      "updatedAt": "2026-08-13T14:33:29Z",
+      "commitUpdatedAt": "2026-08-13T14:06:53Z",
+      "metadataUpdatedAt": "2026-08-13T14:33:29Z",
       "stars": 5,
       "archived": false,
       "defaultBranch": "main"
@@ -1624,7 +1716,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:07:21Z",
+      "commitUpdatedAt": "2026-08-13T14:06:42Z",
+      "metadataUpdatedAt": "2026-08-13T14:07:21Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1638,7 +1731,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:09:37Z",
+      "commitUpdatedAt": "2026-08-13T14:06:28Z",
+      "metadataUpdatedAt": "2026-08-13T14:09:37Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -1652,7 +1746,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:09:19Z",
+      "commitUpdatedAt": "2026-08-13T14:06:16Z",
+      "metadataUpdatedAt": "2026-08-13T14:09:19Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -1666,7 +1761,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:10:44Z",
+      "commitUpdatedAt": "2026-08-13T14:06:04Z",
+      "metadataUpdatedAt": "2026-08-13T14:10:44Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1680,7 +1776,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:07:33Z",
+      "commitUpdatedAt": "2026-08-13T14:05:26Z",
+      "metadataUpdatedAt": "2026-08-13T14:07:33Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1698,7 +1795,8 @@
         "dshx",
         "ego-lite"
       ],
-      "updatedAt": "2026-08-13T14:19:19Z",
+      "commitUpdatedAt": "2026-08-13T14:04:32Z",
+      "metadataUpdatedAt": "2026-08-13T14:19:19Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "master"
@@ -1716,7 +1814,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:40:42Z",
+      "commitUpdatedAt": "2026-08-13T14:03:40Z",
+      "metadataUpdatedAt": "2026-08-13T14:40:42Z",
       "stars": 13,
       "archived": false,
       "defaultBranch": "main"
@@ -1731,7 +1830,8 @@
         "deepseek-harness",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:25:01Z",
+      "commitUpdatedAt": "2026-08-13T14:02:52Z",
+      "metadataUpdatedAt": "2026-08-13T14:25:01Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -1747,7 +1847,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:03:53Z",
+      "commitUpdatedAt": "2026-08-13T14:01:44Z",
+      "metadataUpdatedAt": "2026-08-13T14:03:53Z",
       "stars": 5,
       "archived": false,
       "defaultBranch": "main"
@@ -1761,7 +1862,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:01:49Z",
+      "commitUpdatedAt": "2026-08-13T14:00:30Z",
+      "metadataUpdatedAt": "2026-08-13T14:01:49Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1776,7 +1878,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:00:42Z",
+      "commitUpdatedAt": "2026-08-13T14:00:19Z",
+      "metadataUpdatedAt": "2026-08-13T14:00:42Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1791,7 +1894,8 @@
         "dsh-ecosystem",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:39:42Z",
+      "commitUpdatedAt": "2026-08-13T13:58:54Z",
+      "metadataUpdatedAt": "2026-08-13T14:39:42Z",
       "stars": 48,
       "archived": false,
       "defaultBranch": "main"
@@ -1808,7 +1912,8 @@
         "dsh-auto-approval",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:57:30Z",
+      "commitUpdatedAt": "2026-08-13T13:55:58Z",
+      "metadataUpdatedAt": "2026-08-13T13:57:30Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -1826,7 +1931,8 @@
         "memory",
         "nowledge-mem"
       ],
-      "updatedAt": "2026-08-13T13:56:31Z",
+      "commitUpdatedAt": "2026-08-13T13:54:56Z",
+      "metadataUpdatedAt": "2026-08-13T13:56:31Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -1841,7 +1947,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:55:40Z",
+      "commitUpdatedAt": "2026-08-13T13:54:04Z",
+      "metadataUpdatedAt": "2026-08-13T13:55:40Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -1856,7 +1963,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:43:43Z",
+      "commitUpdatedAt": "2026-08-13T13:53:58Z",
+      "metadataUpdatedAt": "2026-08-13T14:43:43Z",
       "stars": 5,
       "archived": false,
       "defaultBranch": "main"
@@ -1871,7 +1979,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:02:58Z",
+      "commitUpdatedAt": "2026-08-13T13:53:51Z",
+      "metadataUpdatedAt": "2026-08-13T14:02:58Z",
       "stars": 3,
       "archived": false,
       "defaultBranch": "main"
@@ -1886,7 +1995,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:02:59Z",
+      "commitUpdatedAt": "2026-08-13T13:53:44Z",
+      "metadataUpdatedAt": "2026-08-13T14:02:59Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -1901,7 +2011,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:02:56Z",
+      "commitUpdatedAt": "2026-08-13T13:53:38Z",
+      "metadataUpdatedAt": "2026-08-13T14:02:56Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -1916,7 +2027,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:02:55Z",
+      "commitUpdatedAt": "2026-08-13T13:53:31Z",
+      "metadataUpdatedAt": "2026-08-13T14:02:55Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -1934,7 +2046,8 @@
         "secret-scanning",
         "security"
       ],
-      "updatedAt": "2026-08-13T14:45:15Z",
+      "commitUpdatedAt": "2026-08-13T13:53:26Z",
+      "metadataUpdatedAt": "2026-08-13T14:45:15Z",
       "stars": 5,
       "archived": false,
       "defaultBranch": "main"
@@ -1948,7 +2061,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:54:25Z",
+      "commitUpdatedAt": "2026-08-13T13:53:11Z",
+      "metadataUpdatedAt": "2026-08-13T13:54:25Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1962,7 +2076,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:54:24Z",
+      "commitUpdatedAt": "2026-08-13T13:53:00Z",
+      "metadataUpdatedAt": "2026-08-13T13:54:24Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -1980,7 +2095,8 @@
         "health-check",
         "zstd"
       ],
-      "updatedAt": "2026-08-13T14:45:27Z",
+      "commitUpdatedAt": "2026-08-13T13:52:57Z",
+      "metadataUpdatedAt": "2026-08-13T14:45:27Z",
       "stars": 5,
       "archived": false,
       "defaultBranch": "main"
@@ -1994,7 +2110,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:54:14Z",
+      "commitUpdatedAt": "2026-08-13T13:52:43Z",
+      "metadataUpdatedAt": "2026-08-13T13:54:14Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2012,7 +2129,8 @@
         "dsh-plugin",
         "skill"
       ],
-      "updatedAt": "2026-08-13T14:44:46Z",
+      "commitUpdatedAt": "2026-08-13T13:52:39Z",
+      "metadataUpdatedAt": "2026-08-13T14:44:46Z",
       "stars": 3,
       "archived": false,
       "defaultBranch": "main"
@@ -2030,7 +2148,8 @@
         "linting",
         "plugin-health"
       ],
-      "updatedAt": "2026-08-13T14:44:51Z",
+      "commitUpdatedAt": "2026-08-13T13:52:09Z",
+      "metadataUpdatedAt": "2026-08-13T14:44:51Z",
       "stars": 5,
       "archived": false,
       "defaultBranch": "main"
@@ -2048,7 +2167,8 @@
         "toolkit",
         "zero-dependency"
       ],
-      "updatedAt": "2026-08-13T14:44:25Z",
+      "commitUpdatedAt": "2026-08-13T13:52:06Z",
+      "metadataUpdatedAt": "2026-08-13T14:44:25Z",
       "stars": 6,
       "archived": false,
       "defaultBranch": "main"
@@ -2065,7 +2185,8 @@
         "json-schema",
         "validation"
       ],
-      "updatedAt": "2026-08-13T13:52:44Z",
+      "commitUpdatedAt": "2026-08-13T13:51:37Z",
+      "metadataUpdatedAt": "2026-08-13T13:52:44Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -2081,7 +2202,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:46:50Z",
+      "commitUpdatedAt": "2026-08-13T13:51:07Z",
+      "metadataUpdatedAt": "2026-08-13T14:46:50Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -2099,7 +2221,8 @@
         "dsh-plugin",
         "statistics"
       ],
-      "updatedAt": "2026-08-13T13:52:17Z",
+      "commitUpdatedAt": "2026-08-13T13:51:06Z",
+      "metadataUpdatedAt": "2026-08-13T13:52:17Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -2117,7 +2240,8 @@
         "time",
         "timezone"
       ],
-      "updatedAt": "2026-08-13T13:51:51Z",
+      "commitUpdatedAt": "2026-08-13T13:51:03Z",
+      "metadataUpdatedAt": "2026-08-13T13:51:51Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -2134,7 +2258,8 @@
         "redos-protection",
         "regex"
       ],
-      "updatedAt": "2026-08-13T13:51:52Z",
+      "commitUpdatedAt": "2026-08-13T13:50:45Z",
+      "metadataUpdatedAt": "2026-08-13T13:51:52Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -2148,7 +2273,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:45:39Z",
+      "commitUpdatedAt": "2026-08-13T13:50:18Z",
+      "metadataUpdatedAt": "2026-08-13T14:45:39Z",
       "stars": 18,
       "archived": false,
       "defaultBranch": "main"
@@ -2167,7 +2293,8 @@
         "machine-learning",
         "typescript"
       ],
-      "updatedAt": "2026-08-13T13:51:53Z",
+      "commitUpdatedAt": "2026-08-13T13:49:55Z",
+      "metadataUpdatedAt": "2026-08-13T13:51:53Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -2184,7 +2311,8 @@
         "html-conversion",
         "markdown"
       ],
-      "updatedAt": "2026-08-13T13:50:42Z",
+      "commitUpdatedAt": "2026-08-13T13:49:15Z",
+      "metadataUpdatedAt": "2026-08-13T13:50:42Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -2202,7 +2330,8 @@
         "json",
         "query"
       ],
-      "updatedAt": "2026-08-13T13:50:14Z",
+      "commitUpdatedAt": "2026-08-13T13:49:12Z",
+      "metadataUpdatedAt": "2026-08-13T13:50:14Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -2220,7 +2349,8 @@
         "encoding",
         "hash"
       ],
-      "updatedAt": "2026-08-13T13:50:39Z",
+      "commitUpdatedAt": "2026-08-13T13:48:55Z",
+      "metadataUpdatedAt": "2026-08-13T13:50:39Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -2235,7 +2365,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:50:33Z",
+      "commitUpdatedAt": "2026-08-13T13:48:49Z",
+      "metadataUpdatedAt": "2026-08-13T13:50:33Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2253,7 +2384,8 @@
         "dsh-plugin",
         "unified-diff"
       ],
-      "updatedAt": "2026-08-13T13:50:20Z",
+      "commitUpdatedAt": "2026-08-13T13:48:37Z",
+      "metadataUpdatedAt": "2026-08-13T13:50:20Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -2271,7 +2403,8 @@
         "dsh-plugin",
         "rfc4180"
       ],
-      "updatedAt": "2026-08-13T13:50:24Z",
+      "commitUpdatedAt": "2026-08-13T13:48:34Z",
+      "metadataUpdatedAt": "2026-08-13T13:50:24Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -2289,7 +2422,8 @@
         "expression-evaluator",
         "math"
       ],
-      "updatedAt": "2026-08-13T13:49:57Z",
+      "commitUpdatedAt": "2026-08-13T13:48:16Z",
+      "metadataUpdatedAt": "2026-08-13T13:49:57Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -2303,7 +2437,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:49:15Z",
+      "commitUpdatedAt": "2026-08-13T13:47:39Z",
+      "metadataUpdatedAt": "2026-08-13T13:49:15Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2317,7 +2452,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:48:49Z",
+      "commitUpdatedAt": "2026-08-13T13:47:33Z",
+      "metadataUpdatedAt": "2026-08-13T13:48:49Z",
       "stars": 3,
       "archived": false,
       "defaultBranch": "main"
@@ -2350,7 +2486,8 @@
         "youtube",
         "zhihu"
       ],
-      "updatedAt": "2026-08-13T14:48:24Z",
+      "commitUpdatedAt": "2026-08-13T13:43:01Z",
+      "metadataUpdatedAt": "2026-08-13T14:48:24Z",
       "stars": 1801,
       "archived": false,
       "defaultBranch": "main"
@@ -2369,7 +2506,8 @@
         "portable",
         "windows"
       ],
-      "updatedAt": "2026-08-13T13:42:32Z",
+      "commitUpdatedAt": "2026-08-13T14:05:47Z",
+      "metadataUpdatedAt": "2026-08-13T13:42:32Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2387,7 +2525,8 @@
         "dsh-plugin",
         "openbiliclaw"
       ],
-      "updatedAt": "2026-08-13T14:29:51Z",
+      "commitUpdatedAt": "2026-08-13T13:38:35Z",
+      "metadataUpdatedAt": "2026-08-13T14:29:51Z",
       "stars": 4,
       "archived": false,
       "defaultBranch": "main"
@@ -2403,7 +2542,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:54:16Z",
+      "commitUpdatedAt": "2026-08-13T13:38:31Z",
+      "metadataUpdatedAt": "2026-08-13T13:54:16Z",
       "stars": 8,
       "archived": false,
       "defaultBranch": "main"
@@ -2429,7 +2569,8 @@
         "spec-driven",
         "subagents"
       ],
-      "updatedAt": "2026-08-13T14:05:34Z",
+      "commitUpdatedAt": "2026-08-13T13:35:48Z",
+      "metadataUpdatedAt": "2026-08-13T14:05:34Z",
       "stars": 37,
       "archived": false,
       "defaultBranch": "main"
@@ -2450,7 +2591,8 @@
         "session-search",
         "typescript"
       ],
-      "updatedAt": "2026-08-13T13:35:41Z",
+      "commitUpdatedAt": "2026-08-13T13:33:42Z",
+      "metadataUpdatedAt": "2026-08-13T13:35:41Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2473,7 +2615,8 @@
         "plugins",
         "scaffold"
       ],
-      "updatedAt": "2026-08-13T13:43:47Z",
+      "commitUpdatedAt": "2026-08-13T13:32:56Z",
+      "metadataUpdatedAt": "2026-08-13T13:43:47Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2488,7 +2631,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:21:32Z",
+      "commitUpdatedAt": "2026-08-13T13:30:36Z",
+      "metadataUpdatedAt": "2026-08-13T14:21:32Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -2502,7 +2646,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:31:47Z",
+      "commitUpdatedAt": "2026-08-13T13:29:37Z",
+      "metadataUpdatedAt": "2026-08-13T13:31:47Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2516,7 +2661,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:31:38Z",
+      "commitUpdatedAt": "2026-08-13T13:29:34Z",
+      "metadataUpdatedAt": "2026-08-13T13:31:38Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2530,7 +2676,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:31:44Z",
+      "commitUpdatedAt": "2026-08-13T13:29:31Z",
+      "metadataUpdatedAt": "2026-08-13T13:31:44Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2546,7 +2693,8 @@
         "dsh-plugin",
         "openmaic"
       ],
-      "updatedAt": "2026-08-13T13:54:17Z",
+      "commitUpdatedAt": "2026-08-13T13:27:52Z",
+      "metadataUpdatedAt": "2026-08-13T13:54:17Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -2561,7 +2709,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:43:07Z",
+      "commitUpdatedAt": "2026-08-13T13:24:44Z",
+      "metadataUpdatedAt": "2026-08-13T14:43:07Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -2576,7 +2725,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:23:44Z",
+      "commitUpdatedAt": "2026-08-13T13:22:19Z",
+      "metadataUpdatedAt": "2026-08-13T13:23:44Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2595,7 +2745,8 @@
         "dsh-plugin",
         "nodejs"
       ],
-      "updatedAt": "2026-08-13T13:20:41Z",
+      "commitUpdatedAt": "2026-08-13T13:19:16Z",
+      "metadataUpdatedAt": "2026-08-13T13:20:41Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2615,7 +2766,8 @@
         "session-management",
         "typescript"
       ],
-      "updatedAt": "2026-08-13T13:19:47Z",
+      "commitUpdatedAt": "2026-08-13T13:18:40Z",
+      "metadataUpdatedAt": "2026-08-13T13:19:47Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2634,7 +2786,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:20:04Z",
+      "commitUpdatedAt": "2026-08-13T13:18:36Z",
+      "metadataUpdatedAt": "2026-08-13T13:20:04Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2653,7 +2806,8 @@
         "github-actions",
         "workflow-automation"
       ],
-      "updatedAt": "2026-08-13T13:21:17Z",
+      "commitUpdatedAt": "2026-08-13T13:18:33Z",
+      "metadataUpdatedAt": "2026-08-13T13:21:17Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2672,7 +2826,8 @@
         "mcp",
         "typescript"
       ],
-      "updatedAt": "2026-08-13T13:20:03Z",
+      "commitUpdatedAt": "2026-08-13T13:18:30Z",
+      "metadataUpdatedAt": "2026-08-13T13:20:03Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2691,7 +2846,8 @@
         "react",
         "typescript"
       ],
-      "updatedAt": "2026-08-13T13:20:17Z",
+      "commitUpdatedAt": "2026-08-13T13:18:27Z",
+      "metadataUpdatedAt": "2026-08-13T13:20:17Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2711,7 +2867,8 @@
         "plugin-marketplace",
         "registry"
       ],
-      "updatedAt": "2026-08-13T13:57:32Z",
+      "commitUpdatedAt": "2026-08-13T13:18:23Z",
+      "metadataUpdatedAt": "2026-08-13T13:57:32Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -2731,7 +2888,8 @@
         "profile-management",
         "runtime"
       ],
-      "updatedAt": "2026-08-13T13:20:56Z",
+      "commitUpdatedAt": "2026-08-13T13:18:16Z",
+      "metadataUpdatedAt": "2026-08-13T13:20:56Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2745,7 +2903,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:19:08Z",
+      "commitUpdatedAt": "2026-08-13T13:17:11Z",
+      "metadataUpdatedAt": "2026-08-13T13:19:08Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2760,7 +2919,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:16:02Z",
+      "commitUpdatedAt": "2026-08-13T13:14:21Z",
+      "metadataUpdatedAt": "2026-08-13T13:16:02Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2774,7 +2934,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:58:34Z",
+      "commitUpdatedAt": "2026-08-13T13:14:19Z",
+      "metadataUpdatedAt": "2026-08-13T13:58:34Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -2788,7 +2949,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:54:24Z",
+      "commitUpdatedAt": "2026-08-13T13:11:37Z",
+      "metadataUpdatedAt": "2026-08-13T13:54:24Z",
       "stars": 5,
       "archived": false,
       "defaultBranch": "main"
@@ -2802,7 +2964,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:54:33Z",
+      "commitUpdatedAt": "2026-08-13T13:11:34Z",
+      "metadataUpdatedAt": "2026-08-13T13:54:33Z",
       "stars": 5,
       "archived": false,
       "defaultBranch": "main"
@@ -2816,7 +2979,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:45:47Z",
+      "commitUpdatedAt": "2026-08-13T13:11:31Z",
+      "metadataUpdatedAt": "2026-08-13T14:45:47Z",
       "stars": 11,
       "archived": false,
       "defaultBranch": "main"
@@ -2830,7 +2994,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:18:52Z",
+      "commitUpdatedAt": "2026-08-13T13:11:22Z",
+      "metadataUpdatedAt": "2026-08-13T13:18:52Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -2847,7 +3012,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:07:28Z",
+      "commitUpdatedAt": "2026-08-13T13:07:04Z",
+      "metadataUpdatedAt": "2026-08-13T13:07:28Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2867,7 +3033,8 @@
         "dsh-plugin",
         "dsh-repository-plugin"
       ],
-      "updatedAt": "2026-08-13T13:16:28Z",
+      "commitUpdatedAt": "2026-08-13T13:06:07Z",
+      "metadataUpdatedAt": "2026-08-13T13:16:28Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -2882,7 +3049,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:06:51Z",
+      "commitUpdatedAt": "2026-08-13T13:05:59Z",
+      "metadataUpdatedAt": "2026-08-13T13:06:51Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2899,7 +3067,8 @@
         "fallbacks",
         "subagents"
       ],
-      "updatedAt": "2026-08-13T13:07:28Z",
+      "commitUpdatedAt": "2026-08-13T13:05:46Z",
+      "metadataUpdatedAt": "2026-08-13T13:07:28Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2916,7 +3085,8 @@
         "deepseek-harness",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:05:25Z",
+      "commitUpdatedAt": "2026-08-13T13:05:08Z",
+      "metadataUpdatedAt": "2026-08-13T14:05:25Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -2934,7 +3104,8 @@
         "dsh-plugin",
         "oh-my-dsh"
       ],
-      "updatedAt": "2026-08-13T14:13:13Z",
+      "commitUpdatedAt": "2026-08-13T13:04:56Z",
+      "metadataUpdatedAt": "2026-08-13T14:13:13Z",
       "stars": 8,
       "archived": false,
       "defaultBranch": "main"
@@ -2948,7 +3119,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:46:34Z",
+      "commitUpdatedAt": "2026-08-13T13:04:33Z",
+      "metadataUpdatedAt": "2026-08-13T14:46:34Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -2966,7 +3138,8 @@
         "qq2006",
         "theme"
       ],
-      "updatedAt": "2026-08-13T14:33:12Z",
+      "commitUpdatedAt": "2026-08-13T13:04:31Z",
+      "metadataUpdatedAt": "2026-08-13T14:33:12Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -2981,7 +3154,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:54:41Z",
+      "commitUpdatedAt": "2026-08-13T13:02:10Z",
+      "metadataUpdatedAt": "2026-08-13T13:54:41Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -2997,7 +3171,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:02:18Z",
+      "commitUpdatedAt": "2026-08-13T13:06:38Z",
+      "metadataUpdatedAt": "2026-08-13T13:02:18Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3013,7 +3188,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:49:05Z",
+      "commitUpdatedAt": "2026-08-13T13:00:21Z",
+      "metadataUpdatedAt": "2026-08-13T14:49:05Z",
       "stars": 24356,
       "archived": false,
       "defaultBranch": "master"
@@ -3041,7 +3217,8 @@
         "native-apps",
         "typescript"
       ],
-      "updatedAt": "2026-08-13T14:20:48Z",
+      "commitUpdatedAt": "2026-08-13T12:54:35Z",
+      "metadataUpdatedAt": "2026-08-13T14:20:48Z",
       "stars": 5,
       "archived": false,
       "defaultBranch": "main"
@@ -3063,7 +3240,8 @@
         "turn-rewind",
         "workspace-safety"
       ],
-      "updatedAt": "2026-08-13T14:12:11Z",
+      "commitUpdatedAt": "2026-08-13T12:37:02Z",
+      "metadataUpdatedAt": "2026-08-13T14:12:11Z",
       "stars": 15,
       "archived": false,
       "defaultBranch": "main"
@@ -3093,7 +3271,8 @@
         "vision-language-model",
         "vision-tools"
       ],
-      "updatedAt": "2026-08-13T14:48:41Z",
+      "commitUpdatedAt": "2026-08-13T12:36:49Z",
+      "metadataUpdatedAt": "2026-08-13T14:48:41Z",
       "stars": 85,
       "archived": false,
       "defaultBranch": "main"
@@ -3109,7 +3288,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:46:06Z",
+      "commitUpdatedAt": "2026-08-13T12:33:47Z",
+      "metadataUpdatedAt": "2026-08-13T13:46:06Z",
       "stars": 11,
       "archived": false,
       "defaultBranch": "main"
@@ -3137,7 +3317,8 @@
         "react",
         "typescript"
       ],
-      "updatedAt": "2026-08-13T14:37:30Z",
+      "commitUpdatedAt": "2026-08-13T12:27:31Z",
+      "metadataUpdatedAt": "2026-08-13T14:37:30Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "dev"
@@ -3151,7 +3332,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:56:30Z",
+      "commitUpdatedAt": "2026-08-13T12:26:18Z",
+      "metadataUpdatedAt": "2026-08-13T12:56:30Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3165,7 +3347,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:56:28Z",
+      "commitUpdatedAt": "2026-08-13T12:26:15Z",
+      "metadataUpdatedAt": "2026-08-13T12:56:28Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3179,7 +3362,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:56:26Z",
+      "commitUpdatedAt": "2026-08-13T12:26:11Z",
+      "metadataUpdatedAt": "2026-08-13T12:56:26Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3193,7 +3377,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:56:25Z",
+      "commitUpdatedAt": "2026-08-13T12:26:07Z",
+      "metadataUpdatedAt": "2026-08-13T12:56:25Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3207,7 +3392,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:56:21Z",
+      "commitUpdatedAt": "2026-08-13T12:26:03Z",
+      "metadataUpdatedAt": "2026-08-13T12:56:21Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3221,7 +3407,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:27:01Z",
+      "commitUpdatedAt": "2026-08-13T12:25:59Z",
+      "metadataUpdatedAt": "2026-08-13T14:27:01Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "master"
@@ -3235,7 +3422,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:56:14Z",
+      "commitUpdatedAt": "2026-08-13T12:25:53Z",
+      "metadataUpdatedAt": "2026-08-13T12:56:14Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3249,7 +3437,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:56:11Z",
+      "commitUpdatedAt": "2026-08-13T12:25:47Z",
+      "metadataUpdatedAt": "2026-08-13T12:56:11Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3263,7 +3452,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:56:08Z",
+      "commitUpdatedAt": "2026-08-13T12:25:39Z",
+      "metadataUpdatedAt": "2026-08-13T12:56:08Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3277,7 +3467,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:56:05Z",
+      "commitUpdatedAt": "2026-08-13T12:25:32Z",
+      "metadataUpdatedAt": "2026-08-13T12:56:05Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3291,7 +3482,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:56:02Z",
+      "commitUpdatedAt": "2026-08-13T12:25:29Z",
+      "metadataUpdatedAt": "2026-08-13T12:56:02Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3305,7 +3497,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:56:00Z",
+      "commitUpdatedAt": "2026-08-13T12:25:10Z",
+      "metadataUpdatedAt": "2026-08-13T12:56:00Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -3320,7 +3513,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:45:57Z",
+      "commitUpdatedAt": "2026-08-13T12:22:53Z",
+      "metadataUpdatedAt": "2026-08-13T13:45:57Z",
       "stars": 13,
       "archived": false,
       "defaultBranch": "main"
@@ -3336,7 +3530,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:14:56Z",
+      "commitUpdatedAt": "2026-08-13T11:43:24Z",
+      "metadataUpdatedAt": "2026-08-13T13:14:56Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -3352,7 +3547,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:20:50Z",
+      "commitUpdatedAt": "2026-08-13T11:09:13Z",
+      "metadataUpdatedAt": "2026-08-13T13:20:50Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -3373,7 +3569,8 @@
         "self-heal",
         "snapshot-ab"
       ],
-      "updatedAt": "2026-08-13T14:36:08Z",
+      "commitUpdatedAt": "2026-08-13T10:58:44Z",
+      "metadataUpdatedAt": "2026-08-13T14:36:08Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -3388,7 +3585,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:29:21Z",
+      "commitUpdatedAt": "2026-08-13T10:21:06Z",
+      "metadataUpdatedAt": "2026-08-13T14:29:21Z",
       "stars": 9,
       "archived": false,
       "defaultBranch": "main"
@@ -3411,7 +3609,8 @@
         "terminal",
         "tui"
       ],
-      "updatedAt": "2026-08-13T14:26:20Z",
+      "commitUpdatedAt": "2026-08-13T09:58:12Z",
+      "metadataUpdatedAt": "2026-08-13T14:26:20Z",
       "stars": 69,
       "archived": false,
       "defaultBranch": "main"
@@ -3427,7 +3626,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:43:00Z",
+      "commitUpdatedAt": "2026-08-13T09:29:29Z",
+      "metadataUpdatedAt": "2026-08-13T13:43:00Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -3441,7 +3641,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:04:59Z",
+      "commitUpdatedAt": "2026-08-13T09:26:19Z",
+      "metadataUpdatedAt": "2026-08-13T13:04:59Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3455,7 +3656,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:04:56Z",
+      "commitUpdatedAt": "2026-08-13T09:25:53Z",
+      "metadataUpdatedAt": "2026-08-13T13:04:56Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3469,7 +3671,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:04:54Z",
+      "commitUpdatedAt": "2026-08-13T09:25:48Z",
+      "metadataUpdatedAt": "2026-08-13T13:04:54Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -3488,7 +3691,8 @@
         "side-conversation",
         "sidechain"
       ],
-      "updatedAt": "2026-08-13T13:14:16Z",
+      "commitUpdatedAt": "2026-08-13T08:32:04Z",
+      "metadataUpdatedAt": "2026-08-13T13:14:16Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3502,7 +3706,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:32:03Z",
+      "commitUpdatedAt": "2026-08-13T07:54:45Z",
+      "metadataUpdatedAt": "2026-08-13T13:32:03Z",
       "stars": 3,
       "archived": false,
       "defaultBranch": "main"
@@ -3517,7 +3722,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:54:22Z",
+      "commitUpdatedAt": "2026-08-13T07:50:29Z",
+      "metadataUpdatedAt": "2026-08-13T13:54:22Z",
       "stars": 6,
       "archived": false,
       "defaultBranch": "main"
@@ -3537,7 +3743,8 @@
         "task-management",
         "track"
       ],
-      "updatedAt": "2026-08-13T14:35:52Z",
+      "commitUpdatedAt": "2026-08-13T07:32:12Z",
+      "metadataUpdatedAt": "2026-08-13T14:35:52Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -3555,7 +3762,8 @@
         "math",
         "proof-verification"
       ],
-      "updatedAt": "2026-08-13T13:08:29Z",
+      "commitUpdatedAt": "2026-08-13T07:24:43Z",
+      "metadataUpdatedAt": "2026-08-13T13:08:29Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -3571,7 +3779,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:09:15Z",
+      "commitUpdatedAt": "2026-08-13T06:44:26Z",
+      "metadataUpdatedAt": "2026-08-13T13:09:15Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -3586,7 +3795,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:45:55Z",
+      "commitUpdatedAt": "2026-08-13T06:41:05Z",
+      "metadataUpdatedAt": "2026-08-13T14:45:55Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -3600,7 +3810,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:16:13Z",
+      "commitUpdatedAt": "2026-08-13T06:26:46Z",
+      "metadataUpdatedAt": "2026-08-13T13:16:13Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -3614,7 +3825,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:55:33Z",
+      "commitUpdatedAt": "2026-08-13T06:26:45Z",
+      "metadataUpdatedAt": "2026-08-13T12:55:33Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -3628,7 +3840,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:57:36Z",
+      "commitUpdatedAt": "2026-08-13T06:26:44Z",
+      "metadataUpdatedAt": "2026-08-13T12:57:36Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -3658,7 +3871,8 @@
         "sqlite",
         "typescript"
       ],
-      "updatedAt": "2026-08-13T13:12:23Z",
+      "commitUpdatedAt": "2026-08-13T05:49:13Z",
+      "metadataUpdatedAt": "2026-08-13T13:12:23Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -3673,7 +3887,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:27:35Z",
+      "commitUpdatedAt": "2026-08-13T04:52:05Z",
+      "metadataUpdatedAt": "2026-08-13T14:27:35Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -3688,7 +3903,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:58:41Z",
+      "commitUpdatedAt": "2026-08-13T04:52:03Z",
+      "metadataUpdatedAt": "2026-08-13T12:58:41Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -3704,7 +3920,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:08:46Z",
+      "commitUpdatedAt": "2026-08-13T04:47:29Z",
+      "metadataUpdatedAt": "2026-08-13T13:08:46Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "master"
@@ -3721,7 +3938,8 @@
         "dsh-plugin",
         "paseo"
       ],
-      "updatedAt": "2026-08-13T13:08:09Z",
+      "commitUpdatedAt": "2026-08-13T04:43:05Z",
+      "metadataUpdatedAt": "2026-08-13T13:08:09Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -3741,7 +3959,8 @@
         "multi-agent",
         "workflow"
       ],
-      "updatedAt": "2026-08-13T14:44:22Z",
+      "commitUpdatedAt": "2026-08-13T04:20:49Z",
+      "metadataUpdatedAt": "2026-08-13T14:44:22Z",
       "stars": 28,
       "archived": false,
       "defaultBranch": "main"
@@ -3756,7 +3975,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:56:34Z",
+      "commitUpdatedAt": "2026-08-13T02:58:17Z",
+      "metadataUpdatedAt": "2026-08-13T13:56:34Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -3772,7 +3992,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:41:42Z",
+      "commitUpdatedAt": "2026-08-13T02:48:51Z",
+      "metadataUpdatedAt": "2026-08-13T13:41:42Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -3787,7 +4008,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:28:09Z",
+      "commitUpdatedAt": "2026-08-13T02:26:59Z",
+      "metadataUpdatedAt": "2026-08-13T14:28:09Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -3802,7 +4024,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:11:19Z",
+      "commitUpdatedAt": "2026-08-13T02:26:54Z",
+      "metadataUpdatedAt": "2026-08-13T13:11:19Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -3817,7 +4040,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:11:18Z",
+      "commitUpdatedAt": "2026-08-13T02:26:42Z",
+      "metadataUpdatedAt": "2026-08-13T13:11:18Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "master"
@@ -3832,7 +4056,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:11:17Z",
+      "commitUpdatedAt": "2026-08-13T02:26:38Z",
+      "metadataUpdatedAt": "2026-08-13T13:11:17Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -3847,7 +4072,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:34:29Z",
+      "commitUpdatedAt": "2026-08-13T02:26:29Z",
+      "metadataUpdatedAt": "2026-08-13T14:34:29Z",
       "stars": 3,
       "archived": false,
       "defaultBranch": "main"
@@ -3872,7 +4098,8 @@
         "observability",
         "runtime-debugging"
       ],
-      "updatedAt": "2026-08-13T13:09:42Z",
+      "commitUpdatedAt": "2026-08-13T00:48:09Z",
+      "metadataUpdatedAt": "2026-08-13T13:09:42Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -3887,7 +4114,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:59:12Z",
+      "commitUpdatedAt": "2026-08-12T20:17:02Z",
+      "metadataUpdatedAt": "2026-08-13T13:59:12Z",
       "stars": 3,
       "archived": false,
       "defaultBranch": "main"
@@ -3902,7 +4130,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:25:51Z",
+      "commitUpdatedAt": "2026-08-12T18:36:15Z",
+      "metadataUpdatedAt": "2026-08-13T13:25:51Z",
       "stars": 3,
       "archived": false,
       "defaultBranch": "main"
@@ -3917,7 +4146,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:44:18Z",
+      "commitUpdatedAt": "2026-08-12T18:27:47Z",
+      "metadataUpdatedAt": "2026-08-13T13:44:18Z",
       "stars": 6,
       "archived": false,
       "defaultBranch": "main"
@@ -3931,7 +4161,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:53:06Z",
+      "commitUpdatedAt": "2026-08-12T16:13:57Z",
+      "metadataUpdatedAt": "2026-08-13T13:53:06Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -3955,7 +4186,8 @@
         "shadow-nexus",
         "vision-mcp"
       ],
-      "updatedAt": "2026-08-13T14:42:28Z",
+      "commitUpdatedAt": "2026-08-12T16:06:16Z",
+      "metadataUpdatedAt": "2026-08-13T14:42:28Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -3971,7 +4203,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:07:46Z",
+      "commitUpdatedAt": "2026-08-12T13:44:47Z",
+      "metadataUpdatedAt": "2026-08-13T13:07:46Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -3986,7 +4219,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:58:44Z",
+      "commitUpdatedAt": "2026-08-12T13:23:07Z",
+      "metadataUpdatedAt": "2026-08-13T12:58:44Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -4006,7 +4240,8 @@
         "tracing",
         "yitrace"
       ],
-      "updatedAt": "2026-08-13T12:58:43Z",
+      "commitUpdatedAt": "2026-08-12T13:18:45Z",
+      "metadataUpdatedAt": "2026-08-13T12:58:43Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -4021,7 +4256,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:58:41Z",
+      "commitUpdatedAt": "2026-08-12T13:18:45Z",
+      "metadataUpdatedAt": "2026-08-13T12:58:41Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -4036,7 +4272,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:58:42Z",
+      "commitUpdatedAt": "2026-08-12T13:18:45Z",
+      "metadataUpdatedAt": "2026-08-13T12:58:42Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -4050,7 +4287,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:15:23Z",
+      "commitUpdatedAt": "2026-08-12T07:12:36Z",
+      "metadataUpdatedAt": "2026-08-13T13:15:23Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -4064,7 +4302,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:15:25Z",
+      "commitUpdatedAt": "2026-08-12T07:03:13Z",
+      "metadataUpdatedAt": "2026-08-13T13:15:25Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -4078,7 +4317,8 @@
       "topics": [
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:15:26Z",
+      "commitUpdatedAt": "2026-08-12T06:59:40Z",
+      "metadataUpdatedAt": "2026-08-13T13:15:26Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -4093,7 +4333,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:58:46Z",
+      "commitUpdatedAt": "2026-08-12T03:20:13Z",
+      "metadataUpdatedAt": "2026-08-13T12:58:46Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -4119,7 +4360,8 @@
         "vibe-coding",
         "vibecoding"
       ],
-      "updatedAt": "2026-08-13T13:14:36Z",
+      "commitUpdatedAt": "2026-08-11T19:07:42Z",
+      "metadataUpdatedAt": "2026-08-13T13:14:36Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -4135,7 +4377,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:22:26Z",
+      "commitUpdatedAt": "2026-08-11T06:39:42Z",
+      "metadataUpdatedAt": "2026-08-13T14:22:26Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -4151,7 +4394,8 @@
         "dsh-plugin",
         "sandbox"
       ],
-      "updatedAt": "2026-08-13T13:06:00Z",
+      "commitUpdatedAt": "2026-08-11T06:32:44Z",
+      "metadataUpdatedAt": "2026-08-13T13:06:00Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -4167,7 +4411,8 @@
         "dsh-plugin",
         "mcp"
       ],
-      "updatedAt": "2026-08-13T14:47:09Z",
+      "commitUpdatedAt": "2026-08-10T13:37:41Z",
+      "metadataUpdatedAt": "2026-08-13T14:47:09Z",
       "stars": 16,
       "archived": false,
       "defaultBranch": "main"
@@ -4182,7 +4427,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T12:58:44Z",
+      "commitUpdatedAt": "2026-08-09T13:20:14Z",
+      "metadataUpdatedAt": "2026-08-13T12:58:44Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -4198,7 +4444,8 @@
         "dsh-plugin",
         "sandbox"
       ],
-      "updatedAt": "2026-08-13T13:05:28Z",
+      "commitUpdatedAt": "2026-08-09T12:07:40Z",
+      "metadataUpdatedAt": "2026-08-13T13:05:28Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -4214,7 +4461,8 @@
         "dsh-plugin",
         "sandbox"
       ],
-      "updatedAt": "2026-08-13T13:05:49Z",
+      "commitUpdatedAt": "2026-08-09T11:00:00Z",
+      "metadataUpdatedAt": "2026-08-13T13:05:49Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -4229,7 +4477,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:01:19Z",
+      "commitUpdatedAt": "2026-08-09T10:59:57Z",
+      "metadataUpdatedAt": "2026-08-13T13:01:19Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -4244,7 +4493,8 @@
         "dsh",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T13:04:14Z",
+      "commitUpdatedAt": "2026-08-09T10:59:54Z",
+      "metadataUpdatedAt": "2026-08-13T13:04:14Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -4260,7 +4510,8 @@
         "dsh-plugin",
         "qwen"
       ],
-      "updatedAt": "2026-08-13T13:03:40Z",
+      "commitUpdatedAt": "2026-08-09T10:59:51Z",
+      "metadataUpdatedAt": "2026-08-13T13:03:40Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "main"
@@ -4275,7 +4526,8 @@
         "deepseek-harness",
         "dsh-plugin"
       ],
-      "updatedAt": "2026-08-13T14:46:47Z",
+      "commitUpdatedAt": "2026-08-08T09:01:52Z",
+      "metadataUpdatedAt": "2026-08-13T14:46:47Z",
       "stars": 2,
       "archived": false,
       "defaultBranch": "main"
@@ -4293,7 +4545,8 @@
         "papers",
         "zotero"
       ],
-      "updatedAt": "2026-08-13T13:14:15Z",
+      "commitUpdatedAt": "2026-08-08T06:06:20Z",
+      "metadataUpdatedAt": "2026-08-13T13:14:15Z",
       "stars": 1,
       "archived": false,
       "defaultBranch": "main"
@@ -4311,7 +4564,8 @@
         "typescript",
         "zotero"
       ],
-      "updatedAt": "2026-08-13T13:08:31Z",
+      "commitUpdatedAt": "2026-08-07T03:53:17Z",
+      "metadataUpdatedAt": "2026-08-13T13:08:31Z",
       "stars": 0,
       "archived": false,
       "defaultBranch": "master"
@@ -4330,7 +4584,8 @@
         "macos",
         "swift"
       ],
-      "updatedAt": "2026-08-13T14:49:15Z",
+      "commitUpdatedAt": "2026-07-08T09:37:30Z",
+      "metadataUpdatedAt": "2026-08-13T14:49:15Z",
       "stars": 1002,
       "archived": false,
       "defaultBranch": "main"

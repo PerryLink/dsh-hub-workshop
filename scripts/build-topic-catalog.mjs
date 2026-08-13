@@ -78,7 +78,7 @@ function topicEntry(repository) {
     repository: repository.html_url,
     repositoryPath: '',
     ref: repository.default_branch || 'main',
-    updatedAt: repository.updated_at,
+    updatedAt: repository.pushed_at || repository.updated_at,
     license: '见仓库',
     status: 'discovery',
     compatibility: '通过 GitHub dsh-plugin Topic 公开发现；尚未经过 Workshop 兼容审核。',
@@ -94,6 +94,8 @@ function topicEntry(repository) {
       source: 'github-topic',
       topic: 'dsh-plugin',
       stars: repository.stargazers_count,
+      commitUpdatedAt: repository.pushed_at || repository.updated_at,
+      metadataUpdatedAt: repository.updated_at,
       archived: repository.archived,
     },
   }
@@ -101,7 +103,21 @@ function topicEntry(repository) {
 
 function migratedOldEntry(oldEntry, repository) {
   const reviewed = reviewedById.get(oldEntry.id)
-  if (reviewed) return reviewed
+  if (reviewed) {
+    return {
+      ...reviewed,
+      updatedAt: repository.pushed_at || repository.updated_at,
+      discovery: {
+        ...(reviewed.discovery || {}),
+        source: 'github-topic-reviewed',
+        topic: 'dsh-plugin',
+        stars: repository.stargazers_count,
+        commitUpdatedAt: repository.pushed_at || repository.updated_at,
+        metadataUpdatedAt: repository.updated_at,
+        archived: repository.archived,
+      },
+    }
+  }
   return {
     id: oldEntry.id,
     name: oldEntry.name,
@@ -116,7 +132,7 @@ function migratedOldEntry(oldEntry, repository) {
     repository: repository.html_url,
     repositoryPath: oldEntry.repositoryPath || '',
     ref: repository.default_branch || 'main',
-    updatedAt: repository.updated_at,
+    updatedAt: repository.pushed_at || repository.updated_at,
     version: oldEntry.version,
     license: oldEntry.license || '见仓库',
     status: 'discovery',
@@ -133,6 +149,10 @@ function migratedOldEntry(oldEntry, repository) {
       source: 'archive-and-github-topic',
       topic: 'dsh-plugin',
       archivedCatalogId: oldEntry.id,
+      stars: repository.stargazers_count,
+      commitUpdatedAt: repository.pushed_at || repository.updated_at,
+      metadataUpdatedAt: repository.updated_at,
+      archived: repository.archived,
     },
   }
 }
@@ -195,7 +215,8 @@ const topicSnapshot = {
     description: sanitizePublicText(repository.description || ''),
     language: repository.language,
     topics: publicTopics(repository),
-    updatedAt: repository.updated_at,
+    commitUpdatedAt: repository.pushed_at || repository.updated_at,
+    metadataUpdatedAt: repository.updated_at,
     stars: repository.stargazers_count,
     archived: repository.archived,
     defaultBranch: repository.default_branch || 'main',

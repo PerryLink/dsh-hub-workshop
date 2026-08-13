@@ -1,16 +1,751 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
-  <title>开发者指南 · DSH Hub Workshop</title>
-  <link rel="stylesheet" href="assets/styles.css">
-  
-</head>
-<body>
-  <header class="site-header"><a class="brand" href="./">DSH Hub Workshop</a><nav class="primary-nav" aria-label="主导航"><a href="./">项目</a><a href="developer-guide.html">开发者</a><a href="contributing.html">收录</a></nav></header>
-  <main class="page-shell"><section class="section-shell prose"><p class="eyebrow">公开边界</p><h1>开发者指南</h1><p>以公开仓库、不可变提交和最小声明接入市场；不需要复制内部宿主实现。</p><h2>当前原则</h2><ul><li>来源固定到公开仓库和不可变提交。</li><li>作者、许可、兼容与权限未知时保持未知。</li><li>自动扫描只形成审查事实，不代表安全背书。</li><li>没有公开安装契约的项目只提供接入说明。</li></ul><p><a class="primary-action" href="./">返回项目目录</a></p></section></main>
-  <footer class="site-footer"><strong>DSH Hub Workshop</strong><p>只展示明确允许公开的项目事实；未知能力保持未知。</p></footer>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#f7f7f5">
+    <title>插件开发与市场指南 - DSH Hub Workshop</title>
+    <link rel="icon" href="assets/atlas-symbol.png">
+    <link rel="stylesheet" href="assets/styles.css?v=20260809-ai-integration-v11">
+    <script src="assets/site.js?v=20260809-ai-integration-v11" data-i18n-src="assets/i18n.json?v=20260809-ai-integration-v11" defer></script>
+  </head>
+  <body data-title-zh="插件开发与市场指南" data-title-en="Plugin Development and Marketplace Guide">
+    <header class="site-header">
+      <a class="wordmark" href="./" aria-label="DSH Hub Workshop 首页" data-i18n-aria-label="site.homeLabel">
+        <img class="wordmark-mark" src="assets/atlas-symbol.png" alt="" width="34" height="34">
+        <span>DSH Hub Workshop</span>
+      </a>
+      <nav class="site-nav" aria-label="主导航" data-i18n-aria-label="site.navLabel">
+        <a href="./#discover" data-i18n="nav.discover">发现</a>
+        <a href="configurations.html" data-i18n="nav.configurations">配置</a>
+        <a href="./#community" data-i18n="nav.community">讨论</a>
+        <a href="./#catalog" data-i18n="nav.projects">项目</a>
+        <a href="developer-guide.html" aria-current="page" data-i18n="nav.developers">开发者</a>
+        <a href="publish.html" data-i18n="nav.publish">发布</a>
+      </nav>
+      <div class="site-actions">
+        <div class="locale-switch" aria-label="语言" data-i18n-aria-label="site.languageLabel">
+          <button type="button" data-set-locale="zh" aria-pressed="true">中</button>
+          <span aria-hidden="true">/</span>
+          <button type="button" data-set-locale="en" aria-pressed="false">EN</button>
+        </div>
+        <button class="theme-toggle" type="button" data-theme-toggle>
+          <span class="visually-hidden" data-theme-label>暗色</span>
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="3.5"></circle>
+            <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"></path>
+          </svg>
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 15.4A8 8 0 0 1 8.6 4a8.1 8.1 0 1 0 11.4 11.4Z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+    <main class="doc-shell">
+      <div data-locale-content="zh">
+<h1>插件开发与市场指南</h1>
+<p>这份指南面向希望把 Skill、MCP、Cordis 扩展、Web UI 或其他社区项目放进 DSH Hub Workshop 的开发者。目标有两个：</p>
+<ol>
+<li><strong>少量修改就能进入市场发现</strong>：第三方项目不需要改变现有分发方式，也不要求发布 npm 包。</li>
+<li><strong>讲清官方接入路径</strong>：复用官方 Profile Bundle、Repository Plugin、Agent Preset 与 Cordis SDK；其中前两种可由 OMDSH 提供安装与 generation 恢复。</li>
+</ol>
+<p>市场准入、协议归属和管理能力是三个维度。Cordis 虽然来自上游开源项目，但在官方 Harness 中已经被 vendor、固定并作为 SDK 底层插件模型维护，因此普通 Cordis 插件应标记为“官方 SDK 接入”，不能与 Fabric、旧 dshx / Marisa 等第三方格式混为一类。普通 Cordis 插件仍属于“引导接入”，只有发布为 Profile Bundle 后才进入 OMDSH 的事务安装与 generation 恢复。</p>
+<h2>五分钟最短路径</h2>
+<p>如果项目已经能用，通常只需要：</p>
+<ol>
+<li>在仓库中保留实际可运行的代码或静态资产；</li>
+<li>README 写清用途、当前安装方式、依赖、权限和已知限制；</li>
+<li>添加许可说明，或明确标注私有测试/未声明许可边界；</li>
+<li>选择一个准备接受审核的 40 位 Git commit；</li>
+<li>在 <a href="publish.html">Author Studio</a> 生成 submission manifest，并提交<a href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=extension-submission.yml">扩展收录申请</a>。</li>
+</ol>
+<p>这条路径不要求改造项目结构。自动化只读取固定 commit，不执行项目代码。扫描完整且没有高风险信号的项目可进入低风险收录流程；其余项目会保留在待审核或待修复清单。</p>
+<p><a data-localized-anchor="ai-integration-prompt"></a></p>
+<h2>让 AI 帮你完成最小接入</h2>
+<p>如果项目已经存在，可以把下面的 Prompt 交给能访问仓库的编码 AI。它会先判断项目的真实形态，再做最小改动；<strong>不会为了获得安装按钮强行改造成 Profile Bundle，也不会直接修改 DSH Hub Workshop 的 Catalog、Registry 或生成文件。</strong></p>
+<p>推荐流程是：AI 修改并验证作者仓库 → 作者审阅后提交 commit → 在 <a href="publish.html">Author Studio</a> 填写或核对事实 → GitHub 自动扫描与收录。AI 的报告是填写辅助，不是 submission manifest，也不代表安全审核或官方认证。</p>
+<div class="doc-prompt-actions"><button type="button" class="doc-copy-prompt" data-copy-next-code data-copy-label="复制给 AI" data-copy-success="已复制">复制给 AI</button></div>
+
+<pre><code class="language-text">你正在当前插件仓库中工作。请在不重写项目核心、不增加第二套 Loader 或常驻 daemon、不把第三方格式伪装成官方协议的前提下，以最小修改让它可以接入 DSH Hub Workshop。
+
+工作前：
+- 完整读取仓库内适用的 AGENTS.md、README、许可文件、package manifest、lockfile、入口、构建配置和测试。
+- 不输出或提交 Token、密钥、私有链接、个人绝对路径及本机配置。
+- 不执行来历不明的安装脚本、远程脚本或二进制；需要执行现有项目命令时，先判断其用途和风险。
+
+按以下顺序工作：
+
+1. 先审计，暂不修改。报告项目根目录、实际功能、入口、构建与测试方式、依赖、权限、网络/文件/Shell/native 能力、外部副作用、许可和当前安装方式。
+
+2. 只根据仓库中可验证的事实选择一种接入形态：
+   - 官方 Profile Bundle：仅当项目真实提供 dsh.bundle.patch、可解析的 cordis.patch.yml，以及禁用安装脚本后仍可使用的已提交运行时制品时选择。
+   - 官方 Repository Plugin：仅当项目真实提供 .dsh-plugin/package.json，并通过 dsh.skills 等官方配置声明静态内容时选择。
+   - 官方 Agent Preset：仅当项目真实提供 agent.cordis.yml 时选择；它是会话级组合，当前只做固定来源与接入说明，不获得自动导入或 generation 恢复。
+   - 官方 Cordis SDK 接入：项目遵循官方 ctx/effect/fiber/dispose 生命周期，但尚未发布为 Profile Bundle。
+   - 第三方接入：Skill、MCP、Fabric、旧 dshx / Marisa、源码补丁或其他现有格式只保留发现与接入说明。
+   无法确认时选择“第三方接入”。无缝安装是可选能力，不是市场准入门槛。
+
+3. 实施最小改动：
+   - 在 README 补齐用途、项目边界、安装/接入方式、兼容性、依赖、权限、测试、已知限制、是否需要重启，以及不能被 generation 恢复的外部副作用。
+   - 补充或明确许可边界；无法确认的信息写“未知/未声明”，不要猜测。
+   - 固定生产依赖并保留受支持的 lockfile。lifecycle script、native 制品和动态下载只有在功能确实需要时才保留，并明确披露。
+   - 可选添加仓库内的图标、封面和最多 4 张截图；不要从 README 猜测市场图片。
+   - 只有仓库天然符合相应官方契约时，才新增或修正 .dsh-plugin、package.json、cordis.patch.yml 和预构建运行时文件。不要为了显示安装按钮包装任意 MCP、源码工具或第三方管理器。
+   - 不修改 dsh-hub 的 catalog.json、registry*.json、workshop*.json、生成页面或签名文件；这些由 Author Studio、扫描器和 CI 生成。
+
+4. 使用仓库已有的 test、lint、typecheck、build 和最小启动/关闭测试验证。不要为了让测试通过而降低安全边界。如果必须依赖未公开或无法核验的 Harness 内部 API，请停止改造并说明阻塞点。
+
+5. 最终只输出：
+   - 选择的接入形态及证据；
+   - 修改文件与原因；
+   - 已运行的检查及结果；
+   - 权限、外部副作用和剩余风险；
+   - 建议填写到 Author Studio 的 Project、Release、兼容性、管理方式和声明字段；
+   - 需要作者人工确认的事项。
+
+不要虚构版本、兼容性、下载量、作者、许可证或回滚能力。不要自行 commit、push、创建 Release 或提交市场；完成本地修改和验证后等待作者审阅。作者确认后应创建一个固定 commit，并在 https://hub.0.org.cn/publish.html 生成正式 submission manifest。
+</code></pre>
+<p>这段 Prompt 故意不要求 AI 生成最终 JSON：项目事实可能在修改过程中变化，而 commit 只有作者确认后才固定。Author Studio 才是 submission manifest 的唯一生成入口，市场构建流水线再从该 manifest 投影 Catalog、Registry 和 Workshop 展示数据。</p>
+<h2>Workshop 如何识别扩展形态</h2>
+<table>
+<thead>
+<tr>
+<th>项目的实际形态</th>
+<th>市场标记</th>
+<th>DSH Hub Workshop / OMDSH 的行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>官方 Profile Bundle</td>
+<td>事务托管</td>
+<td>在 candidate Profile 中安装和校验</td>
+</tr>
+<tr>
+<td>官方 Repository Plugin</td>
+<td>配置托管</td>
+<td>在 candidate Profile 中管理固定来源配置</td>
+</tr>
+<tr>
+<td>官方 Agent Preset</td>
+<td>官方会话配置</td>
+<td>展示固定来源与组合说明；当前不由 OMDSH 自动导入</td>
+</tr>
+<tr>
+<td>官方 Cordis 插件</td>
+<td>官方 SDK 接入</td>
+<td>使用 <code>dsh-sdk create</code> 或 <code>cordis.yml</code> 挂载；当前不由 OMDSH 自动安装</td>
+</tr>
+<tr>
+<td>未封装为 Repository Plugin 的 Skill / MCP</td>
+<td>第三方接入</td>
+<td>展示固定来源、版本、兼容性和风险事实</td>
+</tr>
+<tr>
+<td>Fabric、深层 Hook、旧 dshx / Marisa 或源码补丁</td>
+<td>第三方接入</td>
+<td>仅作兼容性说明，不调用其工具或执行安装</td>
+</tr>
+</tbody></table>
+<p>以项目真实形态为准。不要为了显示安装按钮而伪造 Profile Bundle、Repository Plugin 或回滚能力。</p>
+<h2>让 Agent 理解插件生态</h2>
+<p>Harness Agent 不需要抓取网页或执行第三方仓库代码。它可以读取三个有边界的静态接口：<a href="api/v1/plugin-types.json"><code>plugin-types.json</code></a> 用于理解分类，<a href="api/v1/plugins.json"><code>plugins.json</code></a> 用于解释项目用途，<a href="api/v1/ecosystem.json"><code>ecosystem.json</code></a> 用于分析固定 Release 的依赖声明、运行证据和已发布组合。</p>
+<p><code>ecosystem.json</code> 绑定同一份签名 Registry snapshot，但不包含安装命令、adapter spec、验证者身份或秘密。Agent 只能从声明过的 <code>relations</code>、成功 Run Record 和组合 <code>useCases</code> 确定性地回答依赖、兼容性与任务推荐；缺少事实时必须回答“未知”。修复只允许返回不可执行的差异预览，真正应用仍由 OMDSH candidate、官方 Profile/Bundle 校验和用户确认完成。</p>
+<h2>编写一个 Skill</h2>
+<p>最小 Skill 只需要一个目录和 <code>SKILL.md</code>：</p>
+<pre><code class="language-text">my-skill/
+└── SKILL.md
+</code></pre>
+<pre><code class="language-markdown">---
+name: session-summary
+description: 当用户要求整理会话时，生成带结论、证据和后续行动的结构化摘要。
+---
+
+# Session Summary
+
+1. 先提取已经确认的结论。
+2. 区分事实、推断和未解决问题。
+3. 最后列出可执行的后续行动。
+</code></pre>
+<p>建议遵循这些规则：</p>
+<ul>
+<li><code>name</code> 使用稳定、可辨识的短 ID；</li>
+<li><code>description</code> 说明什么时候应该触发，而不只是重复名称；</li>
+<li>指令写清输入、输出、失败边界和禁止事项；</li>
+<li>不在 Skill 中嵌入 Token、成员名单、个人绝对路径或私有链接；</li>
+<li>外部脚本、模板和资源使用相对路径，并在固定 commit 中一起提交；</li>
+<li>对文件写入、Shell、网络、会话数据和凭据访问做显式说明。</li>
+</ul>
+<p>如果这个 Skill 本身选择按官方 Repository Plugin 发布，最小结构是：</p>
+<pre><code class="language-text">.dsh-plugin/
+├── package.json
+└── skills/
+    └── session-summary/
+        └── SKILL.md
+</code></pre>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;session-summary&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;private&quot;: true,
+  &quot;description&quot;: &quot;Structured session summary Skill&quot;,
+  &quot;dsh&quot;: {
+    &quot;skills&quot;: [&quot;skills&quot;]
+  }
+}
+</code></pre>
+<p>静态 Skill 不需要安装脚本或构建步骤。市场 Release 会固定到类似下面的来源：</p>
+<pre><code class="language-text">github:owner/repository#&lt;40位commit&gt;&amp;path:/.dsh-plugin
+</code></pre>
+<h2>编写 MCP</h2>
+<p>MCP 继续遵循 MCP 自己的协议和进程边界，DSH Hub Workshop 不发明另一套 MCP SDK。开发时至少保证：</p>
+<ul>
+<li>使用可复现的启动命令，并能在标准输入输出关闭时正常退出；</li>
+<li>在 README 中列出工具、资源、环境变量和网络目标；</li>
+<li>凭据只通过环境变量或本机配置传入，不进入仓库和 submission；</li>
+<li>固定生产依赖并提交受支持的 lockfile；</li>
+<li>对文件系统、子进程、网络、数据库和外部 API 写操作说明风险；</li>
+<li>提供最小协议冒烟测试和失败退出测试。</li>
+</ul>
+<p>已有 MCP 统一以“第三方接入”收录。Workshop 只展示固定来源和兼容事实，不代为启动 MCP、调用第三方管理器或执行项目命令。</p>
+<h2>编写 Cordis / Web UI 扩展</h2>
+<p>运行时扩展继续使用官方 Cordis 生命周期：通过 <code>ctx</code> 获取服务，在 effect/fiber 中注册资源，并在 dispose 时解除监听、定时器和 UI 注入。插件自己的外部副作用仍由插件负责；generation 恢复只能恢复 Profile 制品和配置选择，不能撤销已经发送的消息、数据库写入或远程 API 操作。</p>
+<p>在自定义 Harness SDK 项目中，普通 Cordis 插件可以使用官方入口安装并挂载：</p>
+<pre><code class="language-sh">dsh-sdk create github:owner/repository#&lt;40位commit&gt;
+</code></pre>
+<p>也可以把已经安装的依赖显式写入 <code>cordis.yml</code>。这条路径使用官方 SDK 和官方 Cordis Loader，但不会自动进入发行版 Profile 的 Bundle 启用集合，也不获得 OMDSH 的 candidate generation 恢复。多包仓库还需要提供包管理器能够直接解析的固定来源。</p>
+<p>如果扩展本身按官方 Profile Bundle 发布，OMDSH 可以提供无缝安装。最小结构是：</p>
+<pre><code class="language-text">my-extension/
+├── package.json
+├── cordis.patch.yml
+└── index.js
+</code></pre>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;@owner/session-notes&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;type&quot;: &quot;module&quot;,
+  &quot;main&quot;: &quot;./index.js&quot;,
+  &quot;exports&quot;: {
+    &quot;.&quot;: &quot;./index.js&quot;,
+    &quot;./cordis.patch.yml&quot;: &quot;./cordis.patch.yml&quot;
+  },
+  &quot;files&quot;: [&quot;index.js&quot;, &quot;cordis.patch.yml&quot;],
+  &quot;dsh&quot;: {
+    &quot;bundle&quot;: {
+      &quot;patch&quot;: &quot;./cordis.patch.yml&quot;
+    }
+  }
+}
+</code></pre>
+<pre><code class="language-yaml">- insert:
+    - id: owner-session-notes
+      name: &#39;@owner/session-notes&#39;
+</code></pre>
+<p>无缝安装要求固定 commit 或精确版本，并且在禁用安装脚本时仍可运行。因此请提交运行时 JavaScript 和必要静态资产，不要依赖用户安装时执行 <code>prepare</code>、<code>postinstall</code> 或下载远程二进制。可以参考公开的 <a href="https://github.com/omdsh-dev/plugin-template">插件模板</a>。</p>
+<h2>分享官方 Agent Preset</h2>
+<p>Agent Preset 是官方的会话级 Agent 组合，不是 Profile Bundle，也不是新的插件 Loader。仓库可以把 <code>agent.cordis.yml</code>、可选的 <code>preset.yml</code>、本地 Skill 与资源作为一个可审阅目录提交；组合引用的包仍必须能在目标 Harness 中解析，文件中不得包含 Token、私人路径或机器专属配置。</p>
+<p>当前 Workshop 只记录固定 commit、用途、所需插件和接入说明，<strong>不把外部 Preset 自动写入</strong>用户的本机 roster，也不把任意组合文本放进签名 Registry。官方尚未提供稳定的外部导入契约，因此这类项目保持引导接入；等上游提供导入边界后，再增加一个窄 adapter，而不是让 Recipe 或 WorkshopBridge 直接写目录。Recipe 继续只组合固定 Project/Release，Preset 的挂载、Skill 分层和失败保护继续由官方 Harness 负责。</p>
+<p><a data-localized-anchor="community-distributions"></a></p>
+<h2>发布社区整合包</h2>
+<p>整合包类似 Minecraft Modpack：它不是新 Loader，而是一个有版本、用途、文档、兼容范围和更新通道的长期组合。Oh My DSH 是社区维护的旗舰整合包；DSH Hub 是允许不同维护者发布许多整合包的中立平台。</p>
+<p>在 <a href="publish.html?type=distribution">Author Studio</a> 选择“整合包 / 发行版”，只需填写双语名称和用途，并从已通过收录门禁的事务型 Profile Bundle Release 中选择组件。Studio 会生成严格的 <code>omdsh-distribution/v1</code> 纯数据 manifest；作者把它提交到自己的 GitHub 仓库，再用 40 位固定 commit 和相对 JSON 路径发起<a href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=distribution-submission.yml">整合包收录申请</a>。</p>
+<p>现有收录流水线只读取该固定 commit 下的一份、最大 64 KiB 的 JSON，并检查所有 Project/Release 是否真实存在、处于 active 且已经 auto-listed 或 reviewed，并支持单 candidate 事务应用；<code>review-required</code> 与 <code>blocked</code> 仍会失败关闭。它不扫描或执行投稿仓库代码。验证通过后只生成一个草稿 Recipe 候选 PR，由维护者审阅，不自动合并。</p>
+<p>整合包本身不会获得新的 Registry 权限，也不能携带安装命令、包 spec、脚本、Token、本机路径或任意配置。每个组件保留自身 Release 的审核、风险和安装能力。当前 Recipe v1 只投影该发行版的当前版本，历史版本继续由维护仓库保存；应用仍走“用户审阅差异 → OMDSH candidate → 官方 Profile/Bundle 校验 → 用户确认切换”。</p>
+<p>如果只是分享一个固定列表而不准备长期维护品牌、兼容性和升级，请使用合集；如果要分享一个独立能力，请发布项目。</p>
+<h2>市场准入标准</h2>
+<h3>最低准入：允许被发现</h3>
+<p>项目至少需要满足：</p>
+<ul>
+<li>固定到可读取的 40 位 commit，并且该 commit 包含实际实现；</li>
+<li>有独立、可辨识的项目边界，不是空仓库、概念计划或无法拆分的代码集合；</li>
+<li>README 说明用途、现有接入方式、依赖、权限和已知限制；</li>
+<li>不包含明文密钥、用户私有数据或要求用户粘贴长期 Token 的安装命令；</li>
+<li>没有未处置的 Critical 漏洞或明确恶意行为；</li>
+<li>作者、许可、版本和兼容性无法核实时保持未知，不编造事实。</li>
+</ul>
+<p>未声明许可的项目可以被索引为 <code>Not declared</code>，但使用和再分发权利可能受限。补充标准许可证能显著降低用户和维护者的判断成本。</p>
+<h3>自动收录与人工复核</h3>
+<table>
+<thead>
+<tr>
+<th>扫描事实</th>
+<th>处理方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>固定来源、扫描完整、无高风险信号</td>
+<td>可形成低风险自动收录候选</td>
+</tr>
+<tr>
+<td>文件/Shell/网络/凭据等权限与功能一致</td>
+<td>复核用途后可收录，并保留风险标签</td>
+</tr>
+<tr>
+<td>native、lifecycle script、动态下载、可信发布者申请</td>
+<td>进入人工复核</td>
+</tr>
+<tr>
+<td>依赖未锁定、扫描截断、结构不完整</td>
+<td><code>needs-fix</code>，补齐后重审</td>
+</tr>
+<tr>
+<td>Critical 漏洞或明确恶意行为</td>
+<td><code>blocked</code></td>
+</tr>
+</tbody></table>
+<p>静态扫描通过不等于安全担保。收录只表示项目可以在市场中被发现；它不会自动启用插件，也不会扩大 Harness 权限。</p>
+<h3>推荐准入：获得无缝安装</h3>
+<p>无缝安装是推荐能力，不是市场硬门槛。只有项目实际发布为官方 Profile Bundle 或 Repository Plugin 时，才显示“使用 OMDSH 安装”。普通 Cordis 插件显示“官方 SDK 接入”，第三方格式显示“第三方接入”。获得 OMDSH 托管的项目还应满足：</p>
+<ul>
+<li>使用官方 Profile Bundle 或 Repository Plugin 契约；</li>
+<li>Release 使用不可变 spec，不使用浮动分支；</li>
+<li>包名和项目 ID 稳定，更新形成新的显式 Release；</li>
+<li>安装脚本默认禁用，依赖和运行时制品可复现；</li>
+<li>权限、兼容范围、是否需要重启以及外部副作用如实声明；</li>
+<li>安装、更新、禁用和卸载在 candidate Profile 中通过配置校验；</li>
+<li>不宣称能够回滚数据库、网络请求或其他插件外部副作用。</li>
+</ul>
+<p>OMDSH 只负责 candidate generation、签名 Registry 校验和跨重启 generation 恢复；实际加载仍由官方 Profile、Bundle、Repository Plugin 和 Cordis 完成。</p>
+<h3>可选：添加“已跑通”记录</h3>
+<p>“已跑通”不影响收录、风险等级或安装权限，只把项目声明与真实运行结果分开。验证者固定一个 Workshop Release，在明确的 DSH snapshot、Profile 和平台中完成安装、等待 runtime ready，并执行一个有名称的真实任务；随后把不含密钥和私人数据的 GitHub Actions、Issue 或 PR 作为证据，向 <a href="run-records.json"><code>run-records.json</code></a> 提交一条符合 <a href="run-records.schema.json"><code>run-records.schema.json</code></a> 的记录。</p>
+<p>第二位验证者必须使用相同 Release 和环境重新运行，并用 <code>reproduces</code> 指向第一条记录。只有这样页面才显示“第二位验证者已复现”。失败尝试继续留在对应 GitHub Issue 中，不会被包装成成功记录，也不会因此阻止项目被发现。</p>
+<h3>可选：声明结构化依赖</h3>
+<p>结构化依赖不影响项目被发现，也不要求作者学习新的 Loader。作者只需在 README 和 Author Studio 中如实说明必需/可选依赖；维护者审核时可以把它们映射为 Catalog 中的固定 Release 关系：</p>
+<pre><code class="language-json">{
+  &quot;relations&quot;: {
+    &quot;required&quot;: [{ &quot;projectId&quot;: &quot;provider&quot;, &quot;releaseId&quot;: &quot;provider@1.0.0&quot; }],
+    &quot;optional&quot;: []
+  }
+}
+</code></pre>
+<p>关系必须指向已经存在的 Project/Release，不能指向浮动分支，也不能自依赖或在必需/可选列表中重复。省略 <code>relations</code> 表示“尚未声明”，显式空数组才表示作者声明当前版本没有对应依赖。它只用于 Workshop 解释组合条件，不会进入 Registry、自动安装依赖或扩大执行权限。</p>
+<p>项目页的“组合就绪度”只从这份声明、当前 Release 的成功 Run Record 和已发布合集派生。页面给出的下一步是确定性缺口提示，不会调用模型、修改仓库或自动生成 Recipe。</p>
+<h3>组合预检、推荐与修复候选</h3>
+<p>配置页会在用户展开“组合检查”时，用当前 Workshop/Recipe 静态数据核对固定 Release 是否可用、必需依赖是否包含、是否存在依赖环、是否有成功 Run Record，以及恢复和外部副作用边界。<code>not-declared</code> 始终显示为“证据待补”，不会被解释成“没有依赖”。推荐只按这些已知事实排序，不读取仓库、不调用模型，也不增加 Registry 权限。</p>
+<p>自动修复目前只生成不可执行的 <code>repairPreview</code>：仅当一个已经声明的必需依赖指向现有、可用的固定 Release，而组合漏掉它时，才预览需要补入的 Project/Release。它不会修代码、选择浮动版本、修改作者仓库或写入当前 Profile。后续 Runtime 接入仍必须遵循“用户审阅差异 → OMDSH candidate → 官方 Profile/Bundle 校验 → 用户确认切换”的路径；外部文件、数据库和网络副作用不在代际恢复范围内。</p>
+<h3>可选：声明组合适用任务</h3>
+<p>合集或 Recipe 维护者可以为一个固定组合声明 1-5 个双语 <code>useCases</code>：</p>
+<pre><code class="language-json">{
+  &quot;useCases&quot;: [
+    {
+      &quot;id&quot;: &quot;customize-web-interface&quot;,
+      &quot;title&quot;: &quot;定制 Web 界面&quot;,
+      &quot;translations&quot;: { &quot;en&quot;: &quot;Customize the Web interface&quot; }
+    }
+  ]
+}
+</code></pre>
+<p>配置页只匹配这些明确声明的标题和 ID。相同任务可以对应多个组合，单个组合内不能重复任务 ID。缺少 <code>useCases</code> 只表示尚未声明适用任务；系统不会从项目简介、标签或 README 推断，也不会调用模型、自动创建 Recipe 或授予安装权限。这些用途只进入 Workshop/Recipe 展示 feed，不进入签名 Registry。</p>
+<h2>Release 与更新建议</h2>
+<p>每个可发布版本建议包含：</p>
+<ul>
+<li>稳定的 Project ID；</li>
+<li>SemVer 版本和 stable/beta/nightly 通道；</li>
+<li>完整 40 位 commit；</li>
+<li>Harness/API 兼容范围；</li>
+<li>Changelog；</li>
+<li>必需与可选依赖；</li>
+<li>权限和外部副作用变化；</li>
+<li>可选的 GitHub Release。Workshop 收录不要求 npm 发布。</li>
+</ul>
+<p>不要从分支、tag 名称或 Git 历史猜测 Release。历史版本应由作者显式提交；有问题的 Release 使用 yank/revoke，而不是删除历史事实。</p>
+<h3>项目图标、封面与截图</h3>
+<p>媒体完全可选，不影响收录。作者可以在 Author Studio 中声明固定 commit 内、相对项目根目录的图标、封面和最多 4 张截图；系统只使用这些明确声明的路径，并检查文件存在、静态图片格式和体积，不会从 README 或仓库中猜图。发现卡片依次选择封面、第一张截图和图标，紧凑图标位依次选择图标和封面；没有媒体、私有图片不可访问或加载失败时，统一退回按插件类型与分类生成的默认封面。当前支持小写扩展名的 PNG、JPEG、WebP 和 AVIF，单张不超过 2 MiB、总计不超过 8 MiB。发布新版本时，Author Studio 会带出当前路径；继续使用的图片会在新 commit 中重新核验，清空字段则移除项目媒体。</p>
+<h2>社区与竞品参考</h2>
+<table>
+<thead>
+<tr>
+<th>社区</th>
+<th>值得复用的部分</th>
+<th>DSH Hub Workshop 的取舍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Steam Workshop</td>
+<td>统一发现、订阅/取消订阅、合集、作者页面，以及宿主内外一致的 Workshop 入口</td>
+<td>复用体验模型；不自建文件托管、评分和 Steam 式下载客户端</td>
+</tr>
+<tr>
+<td>CurseForge</td>
+<td>Project、File/Release、兼容版本、Mod Loader、依赖关系和发布通道</td>
+<td>复用严谨数据模型；Release 固定到 Git commit，不伪造下载量或历史版本</td>
+</tr>
+<tr>
+<td>Koishi</td>
+<td>插件模块化、生命周期/服务约定、开发与发布指南、控制台市场安装</td>
+<td>学习低门槛开发与宿主内管理；不要求社区插件迁移到新的 Loader 或统一包仓库</td>
+</tr>
+<tr>
+<td>VS Code Marketplace</td>
+<td>manifest、可打包制品、发布前自动检查、稳定 publisher/project 身份</td>
+<td>学习结构化声明和自动预检；当前继续复用 GitHub 身份与 Release，不增加账号系统</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td>仓库、身份、Release、Issue、Discussion 和 Reaction</td>
+<td>直接作为社区基础设施，避免自建评论、身份、文件 CDN 和审核后台</td>
+</tr>
+<tr>
+<td>pi.dev/packages</td>
+<td>简单、目录优先的发现体验</td>
+<td>保留轻量搜索入口，同时补足安装能力和风险边界</td>
+</tr>
+</tbody></table>
+<p>采用这些参考后，最终分工仍然是：<strong>Steam 式发现体验、CurseForge 式项目/版本模型、GitHub 社区基础设施、官方 Harness 安装与生命周期、OMDSH 的审核和事务补充。</strong></p>
+<p>没有照搬的部分同样重要：当前不需要常驻 daemon、第二套 Loader、独立账户、评论数据库、下载 CDN、评分系统或强制 npm 发布。只有跨设备订阅确有需求时，才考虑增加只同步 Project/Release/Collection ID 的可选服务。</p>
+<h2>参考资料</h2>
+<ul>
+<li><a href="https://partner.steamgames.com/doc/features/workshop">Steam Workshop 概览</a></li>
+<li><a href="https://partner.steamgames.com/doc/features/workshop/implementation">Steam Workshop 实现指南</a></li>
+<li><a href="https://docs.curseforge.com/rest-api/">CurseForge for Studios API</a></li>
+<li><a href="https://koishi.chat/zh-CN/guide/plugin/">Koishi：认识插件</a></li>
+<li><a href="https://koishi.chat/zh-CN/guide/develop/publish.html">Koishi：发布插件</a></li>
+<li><a href="https://koishi.chat/zh-CN/manual/usage/market.html">Koishi：安装和配置插件</a></li>
+<li><a href="https://code.visualstudio.com/api/references/extension-manifest">VS Code Extension Manifest</a></li>
+<li><a href="https://code.visualstudio.com/api/working-with-extensions/publishing-extension">VS Code：Publishing Extensions</a></li>
+</ul>
+<h2>提交前检查清单</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 项目在固定 commit 上可以读取并复现；</li>
+<li><input disabled="" type="checkbox"> README、许可、兼容性和权限说明完整；</li>
+<li><input disabled="" type="checkbox"> 没有密钥、个人路径或私有数据；</li>
+<li><input disabled="" type="checkbox"> 生产依赖已固定，安装脚本和 native 能力已声明；</li>
+<li><input disabled="" type="checkbox"> 选择的安装能力与真实制品一致；</li>
+<li><input disabled="" type="checkbox"> 无缝安装失败不会覆盖 current Profile；</li>
+<li><input disabled="" type="checkbox"> 外部副作用没有被描述成“完全可回滚”；</li>
+<li><input disabled="" type="checkbox"> 已通过 Author Studio 生成 submission manifest。</li>
+</ul>
+
+</div>
+
+<div data-locale-content="en" hidden>
+<h1>Plugin Development and Marketplace Guide</h1>
+<p>This guide is for authors who want to publish a Skill, MCP server, Cordis extension, Web UI, or another community project in DSH Hub Workshop. It has two goals:</p>
+<ol>
+<li><strong>Discovery with minimal changes.</strong> Third-party projects keep their existing distribution format, and npm publication is not required.</li>
+<li><strong>A clear official integration path.</strong> Reuse official Profile Bundle, Repository Plugin, Agent Preset, and Cordis SDK behavior. OMDSH adds installation and generation recovery to the first two.</li>
+</ol>
+<p>Marketplace admission, protocol origin, and management capability are separate dimensions. Cordis began as an upstream open-source project, but official Harness vendors, pins, and maintains it as the SDK&#39;s underlying plugin model. An ordinary Cordis plugin is therefore an official SDK integration, not a Fabric, legacy dshx / Marisa, or other third-party format. It remains guided until it ships as a Profile Bundle, at which point OMDSH can provide transactional installation and generation recovery.</p>
+<h2>Five-minute path</h2>
+<p>For an existing working project:</p>
+<ol>
+<li>Keep the runnable implementation or static assets in the repository.</li>
+<li>Document purpose, current installation, dependencies, permissions, and known limitations.</li>
+<li>State the license or explicitly undeclared license boundary.</li>
+<li>Select one full 40-character Git commit for review.</li>
+<li>Generate a submission manifest in <a href="publish.html">Author Studio</a>, then open an <a href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=extension-submission.yml">extension submission</a>.</li>
+</ol>
+<p>This path requires no format conversion. Automation reads the pinned commit without executing project code. Complete low-risk results can enter the low-risk admission path; other results remain in review or needs-fix.</p>
+<p><a data-localized-anchor="ai-integration-prompt"></a></p>
+<h2>Let AI prepare the minimum integration</h2>
+<p>Give the prompt below to a coding AI that can access an existing project repository. It first identifies the project&#39;s real format, then makes the smallest necessary changes. <strong>It must not force a Profile Bundle merely to obtain an install button or directly edit DSH Hub Workshop Catalog, Registry, or generated artifacts.</strong></p>
+<p>The intended flow is: AI updates and validates the author&#39;s repository → the author reviews and commits it → <a href="publish.html">Author Studio</a> records or confirms the facts → GitHub automation scans and admits it. The AI report assists form completion; it is neither a submission manifest nor a security review or official certification.</p>
+<div class="doc-prompt-actions"><button type="button" class="doc-copy-prompt" data-copy-next-code data-copy-label="Copy for AI" data-copy-success="Copied">Copy for AI</button></div>
+
+<pre><code class="language-text">You are working in the current plugin repository. Make the minimum changes needed for DSH Hub Workshop integration without rewriting the core project, adding a second Loader or persistent daemon, or presenting a third-party format as an official protocol.
+
+Before editing:
+- Read every applicable AGENTS.md, README, license file, package manifest, lockfile, entry point, build configuration, and test.
+- Never print or commit tokens, secrets, private URLs, personal absolute paths, or machine-local configuration.
+- Do not run untrusted install scripts, remote scripts, or binaries. Assess the purpose and risk before running an existing project command.
+
+Work in this order:
+
+1. Audit first without editing. Report the project root, real purpose, entry points, build and test commands, dependencies, permissions, network/file/Shell/native capabilities, external side effects, license, and current installation path.
+
+2. Choose exactly one integration form from verifiable repository evidence:
+   - Official Profile Bundle: choose only when the project actually provides dsh.bundle.patch, a resolvable cordis.patch.yml, and committed runtime artifacts that work with install scripts disabled.
+   - Official Repository Plugin: choose only when the project actually provides .dsh-plugin/package.json and declares static content through official configuration such as dsh.skills.
+   - Official Agent Preset: choose only when the project actually provides agent.cordis.yml. It is a per-session composition; current support is pinned-source guidance without automatic import or generation recovery.
+   - Official Cordis SDK integration: the project follows official ctx/effect/fiber/dispose lifecycle behavior but is not published as a Profile Bundle.
+   - Third-party integration: Skill, MCP, Fabric, legacy dshx / Marisa, source patch, or another existing format remains discovery and integration guidance only.
+   When evidence is insufficient, choose Third-party integration. Seamless installation is optional, not an admission requirement.
+
+3. Make only the minimum changes:
+   - Document purpose, project boundary, install/integration path, compatibility, dependencies, permissions, testing, known limitations, restart requirement, and external side effects that generation recovery cannot undo.
+   - Add or clarify the license boundary. Record unverifiable facts as unknown or undeclared; never guess.
+   - Pin production dependencies and keep a supported lockfile. Retain lifecycle scripts, native artifacts, or dynamic downloads only when the feature truly requires them, and disclose them explicitly.
+   - Optionally add a repository-local icon, cover, and up to four screenshots. Do not infer marketplace media from README content.
+   - Add or correct .dsh-plugin, package.json, cordis.patch.yml, and prebuilt runtime files only when the repository naturally satisfies the corresponding official contract. Never wrap an arbitrary MCP server, source tool, or third-party manager merely to expose an install button.
+   - Never edit dsh-hub catalog.json, registry*.json, workshop*.json, generated pages, or signatures. Author Studio, the scanner, and CI own those artifacts.
+
+4. Validate with the repository&#39;s existing test, lint, typecheck, build, and minimum startup/shutdown checks. Do not weaken a safety boundary to make tests pass. Stop and report a blocker if the change requires a private or unverifiable Harness internal API.
+
+5. In the final response, report only:
+   - the selected integration form and supporting evidence;
+   - changed files and reasons;
+   - checks run and their results;
+   - permissions, external side effects, and residual risks;
+   - proposed Author Studio Project, Release, compatibility, management, and declaration fields;
+   - decisions that still require author confirmation.
+
+Do not invent versions, compatibility, download counts, authorship, licenses, or rollback capability. Do not commit, push, create a Release, or submit to the marketplace. Finish local edits and validation, then wait for author review. After approval, the author should create one pinned commit and generate the formal submission manifest at https://hub.0.org.cn/publish.html.
+</code></pre>
+<p>The prompt intentionally does not ask AI to generate final JSON. Repository facts may change during adaptation, and the commit is not fixed until the author approves it. Author Studio remains the sole submission-manifest entry point; the marketplace build then projects that manifest into Catalog, Registry, and Workshop presentation data.</p>
+<h2>How Workshop identifies extension formats</h2>
+<table>
+<thead>
+<tr>
+<th>Actual project format</th>
+<th>Marketplace label</th>
+<th>DSH Hub Workshop / OMDSH behavior</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Official Profile Bundle</td>
+<td>Transactional</td>
+<td>Install and validate inside a candidate Profile</td>
+</tr>
+<tr>
+<td>Official Repository Plugin</td>
+<td>Configuration managed</td>
+<td>Manage pinned-source configuration inside a candidate Profile</td>
+</tr>
+<tr>
+<td>Official Agent Preset</td>
+<td>Official session configuration</td>
+<td>Show pinned source and composition guidance; OMDSH does not import it automatically yet</td>
+</tr>
+<tr>
+<td>Official Cordis plugin</td>
+<td>Official SDK integration</td>
+<td>Mount with <code>dsh-sdk create</code> or <code>cordis.yml</code>; OMDSH does not install it automatically yet</td>
+</tr>
+<tr>
+<td>Skill / MCP not packaged as a Repository Plugin</td>
+<td>Third-party integration</td>
+<td>Show pinned source, version, compatibility, and risk facts</td>
+</tr>
+<tr>
+<td>Fabric, deep hook, legacy dshx / Marisa, or source patch</td>
+<td>Third-party integration</td>
+<td>Compatibility guidance only; no tool invocation or installation</td>
+</tr>
+</tbody></table>
+<p>Report the project&#39;s actual format. Never fabricate a Profile Bundle, Repository Plugin, or rollback claim merely to display an install button.</p>
+<h2>Letting an Agent understand the plugin ecosystem</h2>
+<p>A Harness Agent does not need to scrape pages or execute third-party repository code. It can read three bounded static endpoints: <a href="api/v1/plugin-types.json"><code>plugin-types.json</code></a> for taxonomy, <a href="api/v1/plugins.json"><code>plugins.json</code></a> for project purpose, and <a href="api/v1/ecosystem.json"><code>ecosystem.json</code></a> for pinned-Release relations, run evidence, and published compositions.</p>
+<p><code>ecosystem.json</code> is bound to the same signed Registry snapshot but carries no install command, adapter spec, verifier identity, or secret. Agents may derive dependency answers, compatibility evidence, and task recommendations only from declared <code>relations</code>, successful Run Records, and composition <code>useCases</code>; missing facts stay unknown. Repairs remain non-executable previews. Actual application still requires an OMDSH candidate, official Profile/Bundle validation, and user confirmation.</p>
+<h2>Writing a Skill</h2>
+<p>A minimal Skill contains one <code>SKILL.md</code>:</p>
+<pre><code class="language-text">my-skill/
+└── SKILL.md
+</code></pre>
+<pre><code class="language-markdown">---
+name: session-summary
+description: Produce a structured summary with conclusions, evidence, and next actions when a user asks to summarize a session.
+---
+
+# Session Summary
+
+1. Extract confirmed conclusions first.
+2. Separate facts, inferences, and unresolved questions.
+3. End with executable next actions.
+</code></pre>
+<p>Use a stable short ID, describe the trigger in <code>description</code>, document input/output/failure boundaries, keep secrets and private paths out of instructions, commit referenced assets, and disclose file, Shell, network, session, or credential access.</p>
+<p>If the Skill itself is published as an official Repository Plugin, its minimum structure is:</p>
+<pre><code class="language-text">.dsh-plugin/
+├── package.json
+└── skills/
+    └── session-summary/
+        └── SKILL.md
+</code></pre>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;session-summary&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;private&quot;: true,
+  &quot;description&quot;: &quot;Structured session summary Skill&quot;,
+  &quot;dsh&quot;: {
+    &quot;skills&quot;: [&quot;skills&quot;]
+  }
+}
+</code></pre>
+<p>A static Skill needs no install or build script. Its Release source is pinned as:</p>
+<pre><code class="language-text">github:owner/repository#&lt;40-character-commit&gt;&amp;path:/.dsh-plugin
+</code></pre>
+<h2>Writing an MCP server</h2>
+<p>MCP keeps its own protocol and process boundary; Workshop does not introduce another MCP SDK. Provide a reproducible command, clean stdio shutdown, documented tools/resources/environment variables/network destinations, environment-based credentials, pinned production dependencies and a supported lockfile, permission disclosures, and protocol/failure smoke tests.</p>
+<p>An existing MCP is listed as a third-party integration. Workshop shows its pinned source and compatibility facts, but does not start the MCP, invoke a third-party manager, or execute project commands.</p>
+<h2>Writing a Cordis / Web UI extension</h2>
+<p>Use official Cordis lifecycle behavior: obtain services from <code>ctx</code>, register resources through effects/fibers, and remove listeners, timers, and UI injection on dispose. The plugin remains responsible for external effects. Generation recovery restores Profile artifacts and configuration selection, not messages already sent, database writes, or remote API actions.</p>
+<p>Inside a custom Harness SDK project, an ordinary Cordis plugin can use the official installation and mount entry:</p>
+<pre><code class="language-sh">dsh-sdk create github:owner/repository#&lt;40-character-commit&gt;
+</code></pre>
+<p>An already installed dependency may also be mounted explicitly in <code>cordis.yml</code>. This uses the official SDK and Cordis Loader, but it does not automatically join a distribution Profile&#39;s enabled Bundle set or gain OMDSH candidate-generation recovery. A monorepo must additionally provide a package-manager source that resolves the selected package directly.</p>
+<p>When an extension itself is published as an official Profile Bundle, OMDSH can provide seamless installation. The minimum structure is:</p>
+<pre><code class="language-text">my-extension/
+├── package.json
+├── cordis.patch.yml
+└── index.js
+</code></pre>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;@owner/session-notes&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;type&quot;: &quot;module&quot;,
+  &quot;main&quot;: &quot;./index.js&quot;,
+  &quot;exports&quot;: {
+    &quot;.&quot;: &quot;./index.js&quot;,
+    &quot;./cordis.patch.yml&quot;: &quot;./cordis.patch.yml&quot;
+  },
+  &quot;files&quot;: [&quot;index.js&quot;, &quot;cordis.patch.yml&quot;],
+  &quot;dsh&quot;: {
+    &quot;bundle&quot;: {
+      &quot;patch&quot;: &quot;./cordis.patch.yml&quot;
+    }
+  }
+}
+</code></pre>
+<pre><code class="language-yaml">- insert:
+    - id: owner-session-notes
+      name: &#39;@owner/session-notes&#39;
+</code></pre>
+<p>Seamless installation requires an immutable commit or exact version and must work with install scripts disabled. Commit runnable JavaScript and static assets; do not depend on install-time <code>prepare</code>, <code>postinstall</code>, or remote binary downloads. See the public <a href="https://github.com/omdsh-dev/plugin-template">plugin template</a>.</p>
+<h2>Sharing an official Agent Preset</h2>
+<p>An Agent Preset is an official per-session Agent composition, not a Profile Bundle or another plugin Loader. A repository may commit one reviewable directory containing <code>agent.cordis.yml</code>, optional <code>preset.yml</code>, local Skills, and assets. Every referenced package must still resolve in the target Harness, and the files must contain no token, private path, or machine-specific configuration.</p>
+<p>Workshop currently records only the pinned commit, purpose, required plugins, and integration guidance. It <strong>does not automatically write an external Preset</strong> into the user&#39;s local roster or place arbitrary composition text in the signed Registry. The official Harness does not yet expose a stable external-import contract, so this remains guided. Once upstream defines that boundary, OMDSH can add one narrow adapter instead of letting Recipe or WorkshopBridge write directories directly. Recipes continue to compose pinned Projects/Releases; official Harness remains responsible for Preset mounting, Skill layering, and mount-failure protection.</p>
+<p><a data-localized-anchor="community-distributions"></a></p>
+<h2>Publishing a community modpack</h2>
+<p>A modpack works like a Minecraft modpack: it is not a new Loader, but a maintained composition with a version, purpose, documentation, compatibility range, and update channel. Oh My DSH is the community&#39;s flagship distribution; DSH Hub is the neutral platform where many maintainers can publish different modpacks.</p>
+<p>Choose “Modpack / Distribution” in <a href="publish.html?type=distribution">Author Studio</a>, enter bilingual identity and use cases, and select components from transactional Profile Bundle Releases that have passed admission. Studio generates a strict, data-only <code>omdsh-distribution/v1</code> manifest. Commit it to your own GitHub repository, then open a <a href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=distribution-submission.yml">modpack submission</a> with the full 40-character commit and relative JSON path.</p>
+<p>The existing intake workflow reads only that one JSON file, bounded to 64 KiB, and verifies that every exact Project/Release exists, is active, is either auto-listed or reviewed, and supports single-candidate transactional application. <code>review-required</code> and <code>blocked</code> fail closed. It neither scans nor executes repository code. A valid submission creates one draft Recipe candidate PR for maintainer review and is never auto-merged.</p>
+<p>A modpack gains no new Registry authority and cannot carry install commands, package specs, scripts, tokens, local paths, or arbitrary configuration. Each component keeps the review, risk, and installation capability of its Release. Recipe v1 projects only the current distribution version; history stays in the maintainer repository. Applying still follows “user reviews the diff → OMDSH candidate → official Profile/Bundle validation → user confirms the switch.”</p>
+<p>Use a Collection for a lightweight pinned list without a long-term branding, compatibility, and upgrade commitment. Publish a Project for one independent capability.</p>
+<h2>Marketplace admission</h2>
+<h3>Minimum admission: discovery</h3>
+<p>A project needs a readable full commit containing a real implementation, an independent project boundary, purpose/integration/dependency/permission documentation, no embedded secrets or long-lived-token install commands, no unresolved Critical vulnerability or clear malicious behavior, and honest unknown values when authorship, license, version, or compatibility cannot be verified.</p>
+<p>An undeclared license may be indexed as <code>Not declared</code>, but use and redistribution rights remain uncertain. Adding a standard license substantially reduces review cost.</p>
+<h3>Automated admission and review</h3>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pinned source, complete scan, no elevated signal</td>
+<td>Low-risk automatic admission candidate</td>
+</tr>
+<tr>
+<td>File/Shell/network/credential access matches the feature</td>
+<td>Admit after purpose review and retain the risk label</td>
+</tr>
+<tr>
+<td>Native code, lifecycle script, dynamic download, trusted-publisher request</td>
+<td>Maintainer review</td>
+</tr>
+<tr>
+<td>Unpinned dependency, truncated scan, incomplete structure</td>
+<td><code>needs-fix</code>, then rescan</td>
+</tr>
+<tr>
+<td>Critical vulnerability or clear malicious behavior</td>
+<td><code>blocked</code></td>
+</tr>
+</tbody></table>
+<p>A clean static scan is not a safety guarantee. Admission means discoverability, not automatic activation or expanded Harness permissions.</p>
+<h3>Recommended admission: seamless installation</h3>
+<p>Seamless installation is recommended, not mandatory. “Install with OMDSH” appears only when the project actually ships an official Profile Bundle or Repository Plugin. An ordinary Cordis plugin shows “Official SDK integration,” while other formats show “Third-party integration.” OMDSH-managed projects must pin an immutable spec, keep Project ID and package name stable, publish explicit Releases, work with install scripts disabled, disclose permissions/compatibility/restart/external effects, validate install/update/disable/remove inside a candidate Profile, and never promise rollback of database, network, or other external effects.</p>
+<p>OMDSH provides candidate generation, signed Registry verification, and cross-restart generation recovery. Official Profile, Bundle, Repository Plugin, and Cordis remain the execution layer.</p>
+<h3>Optional: add a successful run record</h3>
+<p>A successful run does not change admission, risk, or installation authority. It only separates project-declared compatibility from observed behavior. Pin one Workshop Release, install it under an explicit DSH snapshot, Profile, and platform, wait for runtime-ready, and complete one named real task. Then submit one <a href="run-records.json"><code>run-records.json</code></a> entry matching <a href="run-records.schema.json"><code>run-records.schema.json</code></a>, linking a GitHub Actions run, Issue, or PR that contains no secrets or private data.</p>
+<p>A second verifier reruns the same Release and environment and points <code>reproduces</code> at the first record. Only then does Workshop show “Reproduced by a second verifier.” Failed attempts remain in the linked GitHub Issue; they are not relabeled as successful records and do not block discovery.</p>
+<h3>Composition preflight, recommendations, and repair candidates</h3>
+<p>When opened, the setup-page composition check uses the existing static Workshop and Recipe data to verify pinned Release availability, inclusion of declared required relations, dependency cycles, successful Run Records, recovery scope, and the external-effect boundary. <code>not-declared</code> always remains missing evidence; it is never interpreted as “no dependencies.” Recommendations are ordered only from these known facts. They do not read repositories, call a model, or expand Registry authority.</p>
+<p>Automatic repair currently stops at a non-executable <code>repairPreview</code>. A preview is generated only when a declared required relation targets an existing, available, pinned Release that is missing from the composition. It never repairs code, selects a floating version, edits an author repository, or writes to the current Profile. A future Runtime integration must keep the path “user reviews the diff → OMDSH candidate → official Profile/Bundle validation → user confirms the switch.” Generation recovery cannot undo external file, database, or network effects.</p>
+<h3>Optional: declare composition tasks</h3>
+<p>Collection and Recipe maintainers may declare 1-5 bilingual <code>useCases</code> for a pinned composition:</p>
+<pre><code class="language-json">{
+  &quot;useCases&quot;: [
+    {
+      &quot;id&quot;: &quot;customize-web-interface&quot;,
+      &quot;title&quot;: &quot;定制 Web 界面&quot;,
+      &quot;translations&quot;: { &quot;en&quot;: &quot;Customize the Web interface&quot; }
+    }
+  ]
+}
+</code></pre>
+<p>The setup page matches only these explicit titles and IDs. One task may map to multiple compositions, while duplicate task IDs inside one composition are rejected. Missing <code>useCases</code> means the task is not declared. Workshop does not infer tasks from descriptions, tags, or README content, call a model, create Recipes, or grant installation authority. Task intents remain in Workshop and Recipe presentation feeds and never enter the signed Registry.</p>
+<h2>Release guidance</h2>
+<p>Each release should provide a stable Project ID, SemVer and stable/beta/nightly channel, full commit, Harness/API compatibility, changelog, required/optional relations, permission changes, and optionally a GitHub Release. npm publication is not required for Workshop admission.</p>
+<p>Never infer releases from branches, tag names, or Git history. Authors declare real history explicitly; problematic releases are yanked or revoked rather than erased.</p>
+<h3>Project icons, covers, and screenshots</h3>
+<p>Media is optional and does not affect admission. Author Studio accepts an icon, cover, and up to four screenshot paths relative to the project root at the fixed commit. Workshop uses only these explicit paths, verifies that they exist with a supported static image format and size, and never guesses images from README content. Discovery cards prefer the cover, then the first screenshot, then the icon; compact icon slots prefer the icon, then the cover. Missing, inaccessible, or broken media falls back to a generated cover based on the extension kind and category. PNG, JPEG, WebP, and AVIF with lowercase extensions are supported, with a 2 MiB per-file and 8 MiB total limit. For a new release, Author Studio carries the current paths forward so retained media is reverified at the new commit; clearing the fields removes the project media.</p>
+<h2>Community references</h2>
+<table>
+<thead>
+<tr>
+<th>Community</th>
+<th>What to reuse</th>
+<th>DSH Hub Workshop choice</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Steam Workshop</td>
+<td>Unified discovery, subscribe/unsubscribe, collections, authors, and host-integrated access</td>
+<td>Reuse the experience, not a new file host, rating service, or download client</td>
+</tr>
+<tr>
+<td>CurseForge</td>
+<td>Project, File/Release, compatible versions, loaders, relations, and release channels</td>
+<td>Reuse the rigorous data model; pin releases to Git commits and fabricate no metrics or history</td>
+</tr>
+<tr>
+<td>Koishi</td>
+<td>Modular plugins, lifecycle/service conventions, development/publishing guides, and in-console marketplace</td>
+<td>Learn low-friction development and host management without requiring a new Loader or package repository</td>
+</tr>
+<tr>
+<td>VS Code Marketplace</td>
+<td>Manifest, package artifact, pre-publication checks, and stable publisher/project identity</td>
+<td>Use structured declarations and automated preflight while keeping GitHub identity and releases</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td>Repository, identity, Release, Issue, Discussion, and Reaction</td>
+<td>Use it directly instead of building identity, comments, file CDN, and moderation services</td>
+</tr>
+<tr>
+<td>pi.dev/packages</td>
+<td>Simple directory-first discovery</td>
+<td>Keep lightweight search while adding honest install and risk boundaries</td>
+</tr>
+</tbody></table>
+<p>The resulting model is: <strong>Steam-like discovery, CurseForge-like project and release data, GitHub community infrastructure, official Harness installation and lifecycle, and OMDSH review plus transactional supplements.</strong></p>
+<p>The system intentionally avoids a daemon, second Loader, account system, comment database, download CDN, ratings service, and mandatory npm publication. Optional cross-device synchronization should be considered only when real demand exists, and it should synchronize Project/Release/Collection IDs rather than become an installation authority.</p>
+<h2>References</h2>
+<ul>
+<li><a href="https://partner.steamgames.com/doc/features/workshop">Steam Workshop Overview</a></li>
+<li><a href="https://partner.steamgames.com/doc/features/workshop/implementation">Steam Workshop Implementation Guide</a></li>
+<li><a href="https://docs.curseforge.com/rest-api/">CurseForge for Studios API</a></li>
+<li><a href="https://koishi.chat/zh-CN/guide/plugin/">Koishi: Understanding Plugins</a></li>
+<li><a href="https://koishi.chat/zh-CN/guide/develop/publish.html">Koishi: Publishing Plugins</a></li>
+<li><a href="https://koishi.chat/zh-CN/manual/usage/market.html">Koishi: Installing and Configuring Plugins</a></li>
+<li><a href="https://code.visualstudio.com/api/references/extension-manifest">VS Code Extension Manifest</a></li>
+<li><a href="https://code.visualstudio.com/api/working-with-extensions/publishing-extension">VS Code: Publishing Extensions</a></li>
+</ul>
+<h2>Pre-submission checklist</h2>
+<ul>
+<li><input disabled="" type="checkbox"> The project is readable and reproducible at a fixed commit.</li>
+<li><input disabled="" type="checkbox"> README, license boundary, compatibility, and permissions are documented.</li>
+<li><input disabled="" type="checkbox"> No secrets, private paths, or private data are present.</li>
+<li><input disabled="" type="checkbox"> Production dependencies are pinned; install scripts and native capabilities are declared.</li>
+<li><input disabled="" type="checkbox"> Claimed installation capability matches the actual artifact.</li>
+<li><input disabled="" type="checkbox"> A failed seamless install cannot replace the current Profile.</li>
+<li><input disabled="" type="checkbox"> External effects are not described as fully reversible.</li>
+<li><input disabled="" type="checkbox"> Author Studio generated the submission manifest.</li>
+</ul>
+
+</div>
+
+    </main>
+    <footer class="site-footer doc-footer">
+      <a class="footer-brand" href="./">DSH Hub Workshop</a>
+      <p data-i18n="footer.notice">DSH Hub Workshop 只做索引，不对插件内容做安全担保。是否信任与安装，请自行核验。</p>
+      <div class="footer-links">
+        <a href="./" data-i18n="nav.catalog">插件</a>
+        <a href="catalog.json">JSON API</a>
+        <a href="https://github.com/omdsh-dev/dsh-hub-workshop">GitHub</a>
+      </div>
+    </footer>
+  </body>
 </html>

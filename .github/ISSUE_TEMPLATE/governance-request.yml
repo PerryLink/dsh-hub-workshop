@@ -1,0 +1,61 @@
+name: 治理申请 / Governance request
+description: Release 撤回或撤销、Project 归档或所有权转移。
+title: "[Governance] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        治理操作保留历史，也不会远程卸载用户机器上的代码。安全撤销会阻止新的 Registry 安装；所有权转移始终需要人工审核。
+  - type: dropdown
+    id: action
+    attributes:
+      label: 操作 / Action
+      options:
+        - Yank historical Release
+        - Revoke Release for security
+        - Restore Release metadata
+        - Deprecate Project
+        - Archive Project
+        - Restore Project
+        - Transfer Project ownership
+    validations:
+      required: true
+  - type: input
+    id: project
+    attributes:
+      label: Project ID
+    validations:
+      required: true
+  - type: input
+    id: release
+    attributes:
+      label: Release version
+      description: Project 生命周期操作可留空。
+  - type: textarea
+    id: notice
+    attributes:
+      label: 公开说明 / Public notice
+      description: 会展示给用户；请勿包含凭据、私有配置或未公开漏洞细节。
+    validations:
+      required: true
+  - type: input
+    id: successor
+    attributes:
+      label: Successor Project ID
+      description: 仅弃用、归档或迁移时填写。
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 审核证据 / Review evidence
+      description: 安全公告、当前作者确认、接收方确认、仓库权限或迁移 PR。
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: 确认 / Confirmations
+      options:
+        - label: 我理解该操作不会删除历史或自动撤销外部副作用。
+          required: true
+        - label: 我确认公开说明不包含敏感信息。
+          required: true

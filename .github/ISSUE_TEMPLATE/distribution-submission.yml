@@ -1,0 +1,48 @@
+name: 整合包收录申请 / Modpack submission
+description: 提交一个只引用 Workshop 固定 Release 的公开整合包。
+title: "[Distribution] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请先在 [Author Studio](https://hub.omdsh.dev/publish.html?type=distribution) 生成 `omdsh-distribution/v1` 清单，提交到公开仓库，再填写固定来源。整合包不会提升组件的安装权限；只有已经进入 Registry 的固定 Release 才能成为可安装组件。
+  - type: input
+    id: repository
+    attributes:
+      label: 维护仓库 / Maintainer repository
+      placeholder: https://github.com/owner/my-dsh
+    validations:
+      required: true
+  - type: input
+    id: ref
+    attributes:
+      label: 完整 commit SHA / Full commit SHA
+      description: 必须是 40 位不可变 commit，不能使用分支或浮动标签。
+      placeholder: 0123456789abcdef0123456789abcdef01234567
+    validations:
+      required: true
+  - type: input
+    id: manifest_path
+    attributes:
+      label: Manifest 路径 / Manifest path
+      placeholder: distributions/my-dsh.json
+    validations:
+      required: true
+  - type: textarea
+    id: compatibility_evidence
+    attributes:
+      label: 兼容性与运行证据 / Compatibility and run evidence
+      description: 说明真实运行过的 DSH 版本、Profile、平台和任务；未实测时明确写未知。
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: 提交确认 / Confirmations
+      options:
+        - label: 清单只引用 Workshop 已存在的固定 Release，不包含脚本、命令、Token、本机路径或任意配置。
+          required: true
+        - label: 我理解 Profile 代际恢复不撤销数据库、网络、文件系统或其他外部副作用。
+          required: true
+        - label: 我理解收录不代表官方背书，也不会提升任何组件的安装权限或信任等级。
+          required: true

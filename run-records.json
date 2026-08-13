@@ -1,0 +1,35 @@
+{
+  "$schema": "./run-records.schema.json",
+  "schema": "omdsh-workshop-run-records/v1",
+  "updatedAt": "2026-08-10T00:00:00.000Z",
+  "records": [
+    {
+      "id": "dsh-web-skins-0809-macos-arm64-mattheliu",
+      "projectId": "dsh-web-skins",
+      "releaseId": "dsh-web-skins@0.1.0",
+      "environment": {
+        "harnessSnapshot": "snapshot-20260809T140917Z-a6bb5a95ba",
+        "profile": "web",
+        "platform": "macOS 15.5 arm64 · Node.js 24.3.0"
+      },
+      "checks": {
+        "install": "passed",
+        "ready": "passed",
+        "task": {
+          "result": "passed",
+          "title": "在设置中选择“极光”并确认页面应用 aurora 皮肤",
+          "translations": {
+            "en": "Selected Aurora in Settings and confirmed that the page applied the aurora skin"
+          }
+        }
+      },
+      "verifier": {
+        "github": "mattheliu",
+        "role": "author"
+      },
+      "verifiedAt": "2026-08-09T17:13:04.000Z",
+      "evidenceUrl": "https://github.com/dsh-external/dsh-skins/pull/1#issuecomment-5232729661",
+      "reproduces": null
+    }
+  ]
+}

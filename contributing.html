@@ -1,16 +1,349 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
-  <title>市场收录 · DSH Hub Workshop</title>
-  <link rel="stylesheet" href="assets/styles.css">
-  
-</head>
-<body>
-  <header class="site-header"><a class="brand" href="./">DSH Hub Workshop</a><nav class="primary-nav" aria-label="主导航"><a href="./">项目</a><a href="developer-guide.html">开发者</a><a href="contributing.html">收录</a></nav></header>
-  <main class="page-shell"><section class="section-shell prose"><p class="eyebrow">公开边界</p><h1>市场收录</h1><p>提交公开项目说明和固定来源；自动化负责格式检查，维护者只处理高风险或事实冲突。</p><h2>当前原则</h2><ul><li>来源固定到公开仓库和不可变提交。</li><li>作者、许可、兼容与权限未知时保持未知。</li><li>自动扫描只形成审查事实，不代表安全背书。</li><li>没有公开安装契约的项目只提供接入说明。</li></ul><p><a class="primary-action" href="./">返回项目目录</a></p></section></main>
-  <footer class="site-footer"><strong>DSH Hub Workshop</strong><p>只展示明确允许公开的项目事实；未知能力保持未知。</p></footer>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#f7f7f5">
+    <title>收录插件 - DSH Hub Workshop</title>
+    <link rel="icon" href="assets/atlas-symbol.png">
+    <link rel="stylesheet" href="assets/styles.css?v=20260809-ai-integration-v11">
+    <script src="assets/site.js?v=20260809-ai-integration-v11" data-i18n-src="assets/i18n.json?v=20260809-ai-integration-v11" defer></script>
+  </head>
+  <body data-title-zh="收录插件" data-title-en="Submit a Plugin">
+    <header class="site-header">
+      <a class="wordmark" href="./" aria-label="DSH Hub Workshop 首页" data-i18n-aria-label="site.homeLabel">
+        <img class="wordmark-mark" src="assets/atlas-symbol.png" alt="" width="34" height="34">
+        <span>DSH Hub Workshop</span>
+      </a>
+      <nav class="site-nav" aria-label="主导航" data-i18n-aria-label="site.navLabel">
+        <a href="./#discover" data-i18n="nav.discover">发现</a>
+        <a href="configurations.html" data-i18n="nav.configurations">配置</a>
+        <a href="./#community" data-i18n="nav.community">讨论</a>
+        <a href="./#catalog" data-i18n="nav.projects">项目</a>
+        <a href="developer-guide.html" aria-current="page" data-i18n="nav.developers">开发者</a>
+        <a href="publish.html" data-i18n="nav.publish">发布</a>
+      </nav>
+      <div class="site-actions">
+        <div class="locale-switch" aria-label="语言" data-i18n-aria-label="site.languageLabel">
+          <button type="button" data-set-locale="zh" aria-pressed="true">中</button>
+          <span aria-hidden="true">/</span>
+          <button type="button" data-set-locale="en" aria-pressed="false">EN</button>
+        </div>
+        <button class="theme-toggle" type="button" data-theme-toggle>
+          <span class="visually-hidden" data-theme-label>暗色</span>
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="3.5"></circle>
+            <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"></path>
+          </svg>
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 15.4A8 8 0 0 1 8.6 4a8.1 8.1 0 1 0 11.4 11.4Z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+    <main class="doc-shell">
+      <div data-locale-content="zh">
+<h1>向 DSH Hub Workshop 提交插件</h1>
+<p>DSH Hub Workshop 是插件实体索引，不要求作者把源码搬进本仓库。大多数贡献只需要给 <code>catalog.json</code> 增加一条经过核对的元数据。</p>
+<p>第一次开发或接入插件，请先阅读<a href="developer-guide.html">插件开发与市场指南</a>。它说明 Skill、MCP、Cordis/Profile Bundle 的最短开发路径、市场准入标准，以及官方/OMDSH 托管与第三方接入的边界。</p>
+<h2>快速提交</h2>
+<p>不熟悉目录结构也可以提交，推荐按经验选择一条路径：</p>
+<ol>
+<li><strong>Author Studio + 收录申请 Issue（推荐）</strong>：在 <a href="publish.html">Author Studio</a> 选择“创建项目”或“新增 Release”；已经出现在“待审核”的项目也可以从候选详情点击“申请正式收录”。页面会带入可核验的固定来源，但不会替作者猜测身份、许可、兼容性、权限或测试。生成 <code>omdsh-workshop-submission/v1</code> 后，再粘贴到<a href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=extension-submission.yml">扩展收录申请</a>。提交人不需要理解 <code>catalog.json</code>、Registry 或生成文件。</li>
+<li><strong>直接 PR</strong>：熟悉本仓库的贡献者可以按下方格式修改源数据、生成产物并提交 PR，适合一次更新多个条目或维护已有条目。</li>
+</ol>
+<p>Issue 只是收录申请，不等于已经通过审核，也不代表 DSH Hub Workshop 为第三方代码提供安全背书。自动化只读取固定 commit，不执行投稿代码，并复用一条候选分支和一个 PR。Critical 漏洞会阻止收录；高风险权限、native code、安装脚本、作者身份不一致和可信发布者请求进入 Draft PR 人工审核；扫描完整且没有高风险信号的条目形成普通 PR。扫描或外部漏洞服务不可用时保守地停在审核队列。</p>
+<p><code>requiresFabric</code>、<code>deepHook</code> 和 <code>restartRequired</code> 必须按 Release 如实声明；深层 Hook 必须同时声明 Fabric。它们只影响兼容提示，不授权 DSH Hub Workshop 或 Runtime 调用 Fabric。Release 撤回、Project 归档和所有权转移使用 <a href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=governance-request.yml">Governance Issue</a>，不通过普通新增 Release 自动化完成。</p>
+<p>普通市场收录只判断项目当前的真实形态，不要求具备事务回滚。项目实际使用官方 Profile Bundle 时，维护者才核对不可变安装 spec 并标记“事务托管”。最小结构只有 <code>package.json#dsh.bundle</code> 和 <code>cordis.patch.yml</code>，不需要第二套 Loader；patch 如果加载 Bundle 自身，还必须提交其运行时入口，因为安装脚本始终保持禁用。示例仓库进入 <code>main</code> 前不会被文档或市场标成可安装模板。</p>
+<p>提交前请确保目标 commit 对维护者可读。不要在 Issue、PR、安装命令或示例配置中粘贴 Token、密钥、成员名单、个人路径或私有配置。</p>
+<h2>收录条件</h2>
+<p>条目必须满足：</p>
+<ul>
+<li>有实际代码或静态 Skill/MCP 资产，不是空仓库、概念 README 或候选计划；</li>
+<li>README 写清用途、安装步骤、依赖和已知限制；</li>
+<li>有固定的 40 位 commit 供审查与追溯；</li>
+<li>安装命令不包含 token、个人路径或其它敏感数据；</li>
+<li>插件许可或未声明许可边界有明确说明；</li>
+<li>类型和状态不夸大实际成熟度；分类只是可选导航标签。</li>
+</ul>
+<p>一个仓库包含多个独立可安装包时，请拆成多条；同一实现仅有中英文 README 时，不要重复收录。</p>
+<h2>候选发现、拆分与去重</h2>
+<p>组织仓库可以先进入 <code>candidates-v1.json</code> 的“待审核”页，不需要作者先写 Catalog PR。候选只代表固定 commit 上发现了相关仓库或声明，不携带安装命令，也不进入 Runtime Registry。</p>
+<ul>
+<li>默认一个仓库折叠成一个候选；<code>package.json</code> 数量不会被当成插件数量。</li>
+<li>只有维护源显式选择 <code>split: declared</code>，且每个子目录都有独立 <code>dsh.plugin.json</code>、<code>dsh.bundle</code>、<code>SKILL.md</code> 或 MCP 清单时才拆分。</li>
+<li>“发现候选”“可独立安装”“可事务安装”是三个不同结论。<code>dsh.plugin.json</code> 只证明插件运行清单，不代表官方 Repository Plugin 可以安装；只有真实存在的 <code>.dsh-plugin/package.json</code> 才是 Repository Plugin 适配器证据。Profile Bundle 必须有真实 patch，patch 加载自身时还必须有已提交的运行时入口。Profile Bundle 与 Repository Plugin 在审核完成前仍没有安装按钮。</li>
+<li>去重键是 <code>repository + source path</code>。正式 Catalog 优先于作者 submission，作者 submission 优先于独立源仓库；合集中的 vendored 副本只引用原 Project，不再生成项目卡。</li>
+<li>fork、移植或替代实现不按名称合并，使用显式关系表达；不同作者的同名项目继续独立展示。</li>
+</ul>
+<p>维护者可以用 <code>pnpm candidate:promote -- --id &lt;candidate-id&gt;</code> 查看预填草稿和缺失声明，或用 <code>--batch auto-listed</code> 查看低风险批次。命令默认 dry-run；只有完整 manifest 通过 <code>repository + path + ref</code> 精确匹配并再次扫描后，显式添加 <code>--apply</code> 才会改写 <code>catalog.json</code>。这条路径直接复用普通 Submission 的 schema、扫描器和 Catalog 应用函数，不是第二套审核入口。批量处理应使用一个滚动 PR，而不是为发现列表自动创建大量机器人 PR。</p>
+<p>组织维护者代审批次使用两步、无后台流程：<code>pnpm candidate:audit</code> 通过临时 Git partial clone 读取固定 commit，并在结束后删除临时仓库；<code>candidate-audit-v1.json</code> 保存客观证据，<code>candidate-review-decisions.json</code> 只保存需要人工判断的放行、修复或阻断结论。<code>pnpm candidate:admit</code> 默认预览，明确添加 <code>--apply</code> 后才把低风险自动结果和人工放行项写入 Catalog。没有可核验作者时显示 <code>anonymous</code>；未声明许可时如实显示 <code>Not declared</code>，不会编造版本、兼容性或发布历史。第三方接入可以长期保留，只获得“查看接入说明”；只有完整官方 Profile Bundle 才获得事务安装。</p>
+<h2>添加条目</h2>
+<p>在 <code>catalog.json#packages</code> 添加对象。完整约束见 <a href="catalog.schema.json">catalog.schema.json</a>。</p>
+<p>最小示例：</p>
+<pre><code class="language-jsonc">{
+  &quot;id&quot;: &quot;session-notes&quot;,
+  &quot;name&quot;: &quot;Session Notes&quot;,
+  &quot;description&quot;: &quot;把会话摘要保存为可检索的项目笔记。&quot;,
+  &quot;kind&quot;: &quot;extension&quot;,
+  &quot;tags&quot;: [&quot;sessions&quot;, &quot;notes&quot;],
+  &quot;author&quot;: {
+    &quot;name&quot;: &quot;your-github-login&quot;,
+    &quot;url&quot;: &quot;https://github.com/your-github-login&quot;
+  },
+  &quot;repository&quot;: &quot;https://github.com/your-github-login/session-notes&quot;,
+  &quot;ref&quot;: &quot;0123456789abcdef0123456789abcdef01234567&quot;,
+  &quot;updatedAt&quot;: &quot;2026-08-05T03:22:38Z&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;license&quot;: &quot;BSD-3-Clause&quot;,
+  &quot;status&quot;: &quot;beta&quot;,
+  &quot;compatibility&quot;: &quot;Marisa/dshx · DSH &gt;=0.0.1&quot;,
+  &quot;install&quot;: {
+    &quot;type&quot;: &quot;marisa&quot;,
+    &quot;label&quot;: &quot;第三方接入&quot;,
+    &quot;command&quot;: &quot;仅记录固定来源与兼容事实；不执行第三方命令。&quot;,
+    &quot;note&quot;: &quot;旧 dshx / Marisa 形态不是官方安装后端。&quot;
+  }
+}
+</code></pre>
+<h2>枚举值</h2>
+<p><code>kind</code>：</p>
+<ul>
+<li><code>skill</code> / <code>mcp</code>：静态或独立能力；</li>
+<li><code>extension</code>：DSH/Cordis 运行时插件；</li>
+<li><code>channel</code>：聊天与远程入口；</li>
+<li><code>ui</code>：TUI/Web 界面扩展；</li>
+<li><code>adapter</code>：外部协议或客户端适配；</li>
+<li><code>manager</code>：插件生命周期基础设施；</li>
+<li><code>toolkit</code>：补丁、移植或辅助工具集合。</li>
+</ul>
+<p><code>category</code> 是可选的 DSH Hub Workshop 导航标签：<code>workflow</code>、<code>developer-tools</code>、<code>channels</code>、<code>interface</code>、<code>platform</code>、<code>safety</code>、<code>memory</code>、<code>infrastructure</code>、<code>fun</code>。它不会进入 Runtime Registry，也不参与收录或信任判断。</p>
+<p><code>status</code>：</p>
+<ul>
+<li><code>verified</code>：声明的分发结构和主要验证证据已核对；</li>
+<li><code>beta</code>：可用，但仍跟随公开 DSH 兼容基线快速变化；</li>
+<li><code>prototype</code>：验证想法的原型，不应被误解为稳定产品。</li>
+</ul>
+<p><code>install.type</code>：<code>profile-bundle</code>、<code>repository-plugin</code>、<code>marisa</code>、<code>plugin-registry</code>、<code>source</code>、<code>manual</code>、<code>npm</code>、<code>script</code>。后六项只是私有 Catalog 中保留的历史兼容事实，不是官方 Harness 契约；公开页面统一显示为“第三方接入”，Runtime 也不会把它们解析为安装适配器。</p>
+<p><code>registry</code> 由自动化或维护者根据扫描事实填写，作者不应自行声明“低风险”或“可信发布者”。只有真正由官方 Profile 管理、且有精确不可变包版本的条目才可声明：</p>
+<pre><code class="language-json">{
+  &quot;registry&quot;: {
+    &quot;listing&quot;: &quot;reviewed&quot;,
+    &quot;risk&quot;: &quot;low&quot;,
+    &quot;vulnerabilityScan&quot;: &quot;passed&quot;,
+    &quot;permissions&quot;: &quot;reviewed&quot;,
+    &quot;nativeCode&quot;: &quot;absent&quot;,
+    &quot;installScripts&quot;: &quot;absent&quot;,
+    &quot;trustedPublisher&quot;: &quot;unknown&quot;,
+    &quot;profileBundle&quot;: {
+      &quot;packageName&quot;: &quot;@example/session-notes&quot;,
+      &quot;spec&quot;: &quot;1.2.3&quot;
+    }
+  }
+}
+</code></pre>
+<p>Registry 不携带 <code>install.command</code>。Harness 只把条目 ID 发给本机 Runtime，由 Runtime 重新解析 <code>packageName</code> 和精确 <code>spec</code>。公开的 <code>index.json</code> / <code>docs/catalog.json</code> 也会把审核源中的历史命令净化为 OMDSH <code>install</code> 或只读 <code>inspect</code>；第三方命令不会成为公开操作入口。</p>
+<h2>Repository Plugin 额外要求</h2>
+<p>静态条目需提供固定来源：</p>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;repository-plugin&quot;,
+  &quot;source&quot;: &quot;github:owner/repo#&lt;40位commit&gt;&amp;path:/plugins/example/.dsh-plugin&quot;,
+  &quot;label&quot;: &quot;复制配置&quot;,
+  &quot;command&quot;: &quot;完整 YAML 配置&quot;
+}
+</code></pre>
+<p>如果插件托管在 dsh-hub 自己的 <code>plugins/</code> 下，CI 还会检查：</p>
+<ul>
+<li><code>.dsh-plugin/package.json#dsh</code> 与官方 schema 对齐；</li>
+<li>Skill 根位于包内，<code>SKILL.md</code> frontmatter 合法；</li>
+<li>MCP 文档合法且资产不越界；</li>
+<li><code>prepare.js</code> 与生命周期声明存在。</li>
+</ul>
+<h2>本地校验</h2>
+<pre><code class="language-sh">pnpm install
+pnpm build
+pnpm catalog:build
+pnpm validate
+node --check docs/assets/app.js
+</code></pre>
+<p>提交中应同时包含：</p>
+<ul>
+<li><code>catalog.json</code>；</li>
+<li>自动生成的 <code>index.json</code>；</li>
+<li>自动生成的 <code>docs/catalog.json</code>；</li>
+<li>自动生成的 <code>registry-v1.json</code> 与 <code>docs/registry-v1.json</code>；</li>
+<li>自动生成的 <code>docs/plugins.md</code>。</li>
+</ul>
+<p>不要手改生成文件来绕过源数据评审。</p>
+<h2>评审清单</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 条目 id 唯一，描述可验证，不是营销口号</li>
+<li><input disabled="" type="checkbox"> 作者和仓库链接正确</li>
+<li><input disabled="" type="checkbox"> <code>ref</code> 是条目实际核对过的 commit</li>
+<li><input disabled="" type="checkbox"> 安装方式与 README 一致</li>
+<li><input disabled="" type="checkbox"> 兼容范围、前置服务、凭据要求和补丁基线已说明</li>
+<li><input disabled="" type="checkbox"> 许可或未声明许可边界明确</li>
+<li><input disabled="" type="checkbox"> <code>pnpm validate</code> 全绿</li>
+</ul>
+
+</div>
+
+<div data-locale-content="en" hidden>
+<h1>Submit a Plugin to DSH Hub Workshop</h1>
+<p>DSH Hub Workshop indexes installable plugin packages. Authors do not need to move source code into this repository. Most contributions only add one verified metadata entry to <code>catalog.json</code>.</p>
+<p>If this is your first extension or submission, start with the <a href="developer-guide.html">Plugin Development and Marketplace Guide</a>. It covers the shortest Skill, MCP, and Cordis/Profile Bundle paths, admission rules, and the boundary between official/OMDSH management and third-party integration.</p>
+<h2>Quick Submission</h2>
+<p>You can contribute without learning the catalog schema. Choose the path that fits your experience:</p>
+<ol>
+<li><strong>Author Studio + Submission Issue (recommended):</strong> use <a href="publish.html">Author Studio</a> to create a Project or add an immutable Release. Projects already shown under Pending Review can start from <strong>Apply for listing</strong> in the candidate detail. The page carries forward verifiable pinned-source facts but never guesses identity, license, compatibility, permissions, or test evidence. Paste the generated <code>omdsh-workshop-submission/v1</code> into the <a href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=extension-submission.yml">extension submission form</a>. Authors do not need to understand <code>catalog.json</code>, Registry, or generated files.</li>
+<li><strong>Direct PR:</strong> contributors familiar with this repository can update the source data and generated artifacts below. This works well for multiple entries or maintenance of an existing entry.</li>
+</ol>
+<p>An Issue is only a submission request: it is not acceptance and does not mean DSH Hub Workshop endorses third-party code as safe. Automation reads the fixed commit without executing submitted code and reuses one candidate branch and one PR. Critical vulnerabilities block listing. Elevated permissions, native code, lifecycle scripts, author-identity mismatches, and trusted-publisher requests produce a Draft PR for human review. Complete low-risk facts produce a normal PR. Scanner or external vulnerability-service failures fail closed into review.</p>
+<p>Declare <code>requiresFabric</code>, <code>deepHook</code>, and <code>restartRequired</code> per Release; deep hooks require Fabric. These facts affect compatibility messaging only and never authorize DSH Hub Workshop or Runtime to invoke Fabric. Use a <a href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=governance-request.yml">Governance Issue</a> for Release removal, Project archival, or ownership transfer rather than the ordinary Release automation.</p>
+<p>Ordinary catalog listing reports the project&#39;s current form and does not require transactional rollback. Maintainers verify an immutable install spec and label the project transactional only when it actually uses an official Profile Bundle. Its minimum structure is <code>package.json#dsh.bundle</code> and <code>cordis.patch.yml</code>, without a second Loader. If the patch loads the Bundle package itself, its runtime entry must also be committed because install scripts always remain disabled. An example repository is not advertised as installable until that structure reaches its default branch.</p>
+<p>Make sure maintainers can read the pinned commit. Never paste tokens, keys, member lists, personal paths, private configuration, or other sensitive data into an Issue, PR, install command, or example configuration.</p>
+<h2>Entry Requirements</h2>
+<p>Every entry must:</p>
+<ul>
+<li>Contain working code or static Skill/MCP assets, not an empty repository, concept README, or proposal.</li>
+<li>Document its purpose, installation, dependencies, and known limits in the README.</li>
+<li>Pin a full 40-character commit for review and traceability.</li>
+<li>Keep tokens, personal paths, and other sensitive data out of install commands.</li>
+<li>State its license or explicitly undeclared license boundary clearly.</li>
+<li>Use a type and status that match its actual maturity. Category is only an optional navigation label.</li>
+</ul>
+<p>Create separate entries when one repository contains multiple independently installable packages. Do not duplicate an implementation only because it has both Chinese and English READMEs.</p>
+<h2>Candidate discovery, splitting, and deduplication</h2>
+<p>Organization repositories may first appear under Pending Review through <code>candidates-v1.json</code>; authors do not need to prepare a Catalog PR just to be discovered. A candidate records evidence at a pinned commit, carries no install command, and never enters Runtime Registry.</p>
+<ul>
+<li>One repository is folded into one candidate by default. A count of <code>package.json</code> files is not a plugin count.</li>
+<li>Splitting requires an explicit <code>split: declared</code> source policy and an independent <code>dsh.plugin.json</code>, <code>dsh.bundle</code>, <code>SKILL.md</code>, or MCP manifest for every child.</li>
+<li>Discovery, independent installation, and transactional installation are separate conclusions. <code>dsh.plugin.json</code> proves a plugin runtime manifest, not an installable official Repository Plugin. Only an actual <code>.dsh-plugin/package.json</code> is Repository Plugin adapter evidence. A Profile Bundle needs a real patch and, when that patch loads the Bundle itself, a committed runtime entry. Neither Profile Bundle nor Repository Plugin candidates receive an install action before admission review.</li>
+<li>The deduplication key is <code>repository + source path</code>. Formal Catalog wins over author submission, which wins over a canonical source repository; vendored collection copies reference the original Project instead of creating new cards.</li>
+<li>Forks, ports, and replacements are never merged by a fuzzy name. Explicit relations describe them, and unrelated same-name projects remain separate.</li>
+</ul>
+<p>Maintainers can run <code>pnpm candidate:promote -- --id &lt;candidate-id&gt;</code> to inspect a prefilled draft and its missing attestations, or <code>--batch auto-listed</code> to inspect the low-risk queue. The command is dry-run by default. It writes <code>catalog.json</code> only when a complete manifest matches <code>repository + path + ref</code>, passes a fresh scan, and the operator explicitly adds <code>--apply</code>. This path reuses the ordinary Submission schema, scanner, and Catalog application function; it is not a second review system. Batch maintenance belongs in one rolling PR rather than a flood of automated PRs.</p>
+<p>Organization-maintainer batch review is a two-step, backend-free process. <code>pnpm candidate:audit</code> reads pinned commits through temporary Git partial clones and removes those clones when finished. <code>candidate-audit-v1.json</code> records objective evidence; <code>candidate-review-decisions.json</code> records only explicit approve, needs-fix, or block judgments. <code>pnpm candidate:admit</code> is a dry run unless <code>--apply</code> is present. Unknown authors remain <code>anonymous</code>, undeclared licenses remain <code>Not declared</code>, and the process never fabricates versions, compatibility, or release history. Third-party integrations may remain listed indefinitely and receive only an integration guide; transactional installation still requires a complete official Profile Bundle.</p>
+<h2>Add an Entry</h2>
+<p>Add an object to <code>catalog.json#packages</code>. See <a href="catalog.schema.json">catalog.schema.json</a> for the complete constraints.</p>
+<p>Minimal example:</p>
+<pre><code class="language-jsonc">{
+  &quot;id&quot;: &quot;session-notes&quot;,
+  &quot;name&quot;: &quot;Session Notes&quot;,
+  &quot;description&quot;: &quot;Saves session summaries as searchable project notes.&quot;,
+  &quot;kind&quot;: &quot;extension&quot;,
+  &quot;tags&quot;: [&quot;sessions&quot;, &quot;notes&quot;],
+  &quot;author&quot;: {
+    &quot;name&quot;: &quot;your-github-login&quot;,
+    &quot;url&quot;: &quot;https://github.com/your-github-login&quot;
+  },
+  &quot;repository&quot;: &quot;https://github.com/your-github-login/session-notes&quot;,
+  &quot;ref&quot;: &quot;0123456789abcdef0123456789abcdef01234567&quot;,
+  &quot;updatedAt&quot;: &quot;2026-08-05T03:22:38Z&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;license&quot;: &quot;BSD-3-Clause&quot;,
+  &quot;status&quot;: &quot;beta&quot;,
+  &quot;compatibility&quot;: &quot;Marisa/dshx, DSH &gt;=0.0.1&quot;,
+  &quot;install&quot;: {
+    &quot;type&quot;: &quot;marisa&quot;,
+    &quot;label&quot;: &quot;Third-party integration&quot;,
+    &quot;command&quot;: &quot;Records pinned-source and compatibility facts only; no third-party command is executed.&quot;,
+    &quot;note&quot;: &quot;Legacy dshx / Marisa is not an official installation backend.&quot;
+  }
+}
+</code></pre>
+<h2>Enumerated Values</h2>
+<p><code>kind</code>:</p>
+<ul>
+<li><code>skill</code> / <code>mcp</code>: static or standalone capabilities.</li>
+<li><code>extension</code>: a DSH/Cordis runtime plugin.</li>
+<li><code>channel</code>: a chat or remote entry point.</li>
+<li><code>ui</code>: a TUI/Web interface extension.</li>
+<li><code>adapter</code>: an external protocol or client adapter.</li>
+<li><code>manager</code>: plugin lifecycle infrastructure.</li>
+<li><code>toolkit</code>: a patch, port, or support-tool collection.</li>
+</ul>
+<p><code>category</code> is an optional DSH Hub Workshop navigation label: <code>workflow</code>, <code>developer-tools</code>, <code>channels</code>, <code>interface</code>, <code>platform</code>, <code>safety</code>, <code>memory</code>, <code>infrastructure</code>, <code>fun</code>. It is excluded from Runtime Registry and never affects listing or trust.</p>
+<p><code>status</code>:</p>
+<ul>
+<li><code>verified</code>: the declared distribution structure and primary verification evidence have been checked.</li>
+<li><code>beta</code>: usable, but still changing with the public DSH compatibility baseline.</li>
+<li><code>prototype</code>: validates an idea and should not be treated as stable software.</li>
+</ul>
+<p><code>install.type</code>: <code>profile-bundle</code>, <code>repository-plugin</code>, <code>marisa</code>, <code>plugin-registry</code>, <code>source</code>, <code>manual</code>, <code>npm</code>, <code>script</code>. The last six values are historical compatibility facts retained in the private Catalog, not official Harness contracts. Public pages label all of them as third-party integrations, and Runtime never resolves them as installation adapters.</p>
+<p>Automation or maintainers populate <code>registry</code> from scan facts. Authors must not self-assert low risk or trusted-publisher status. A Profile Bundle mapping is allowed only for a package managed by the official Profile tooling with an exact immutable version:</p>
+<pre><code class="language-json">{
+  &quot;registry&quot;: {
+    &quot;listing&quot;: &quot;reviewed&quot;,
+    &quot;risk&quot;: &quot;low&quot;,
+    &quot;vulnerabilityScan&quot;: &quot;passed&quot;,
+    &quot;permissions&quot;: &quot;reviewed&quot;,
+    &quot;nativeCode&quot;: &quot;absent&quot;,
+    &quot;installScripts&quot;: &quot;absent&quot;,
+    &quot;trustedPublisher&quot;: &quot;unknown&quot;,
+    &quot;profileBundle&quot;: {
+      &quot;packageName&quot;: &quot;@example/session-notes&quot;,
+      &quot;spec&quot;: &quot;1.2.3&quot;
+    }
+  }
+}
+</code></pre>
+<p>Registry never carries <code>install.command</code>. Harness sends only an entry ID to the local Runtime, which resolves the reviewed <code>packageName</code> and exact <code>spec</code> again. Public <code>index.json</code> / <code>docs/catalog.json</code> also sanitize historical audit commands into OMDSH <code>install</code> or read-only <code>inspect</code>; third-party commands never become public actions.</p>
+<h2>Extra Repository Plugin Requirements</h2>
+<p>Static entries must provide a pinned source:</p>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;repository-plugin&quot;,
+  &quot;source&quot;: &quot;github:owner/repo#&lt;40-character-commit&gt;&amp;path:/plugins/example/.dsh-plugin&quot;,
+  &quot;label&quot;: &quot;Copy configuration&quot;,
+  &quot;command&quot;: &quot;Complete YAML configuration&quot;
+}
+</code></pre>
+<p>For plugins hosted under this repository&#39;s <code>plugins/</code> directory, CI also checks:</p>
+<ul>
+<li><code>.dsh-plugin/package.json#dsh</code> against the official schema.</li>
+<li>The Skill root and <code>SKILL.md</code> frontmatter.</li>
+<li>MCP documentation and asset boundaries.</li>
+<li><code>prepare.js</code> and lifecycle declarations.</li>
+</ul>
+<h2>Local Validation</h2>
+<pre><code class="language-sh">pnpm install
+pnpm build
+pnpm catalog:build
+pnpm validate
+node --check docs/assets/app.js
+</code></pre>
+<p>A catalog change must include:</p>
+<ul>
+<li><code>catalog.json</code>.</li>
+<li>Generated <code>index.json</code>.</li>
+<li>Generated <code>docs/catalog.json</code>.</li>
+<li>Generated <code>registry-v1.json</code> and <code>docs/registry-v1.json</code>.</li>
+<li>Generated <code>docs/plugins.md</code>.</li>
+</ul>
+<p>Do not edit generated files to bypass source-data review.</p>
+<h2>Review Checklist</h2>
+<ul>
+<li><input disabled="" type="checkbox"> The entry id is unique, and its description is verifiable.</li>
+<li><input disabled="" type="checkbox"> Author and repository links are correct.</li>
+<li><input disabled="" type="checkbox"> <code>ref</code> is the commit that was actually reviewed.</li>
+<li><input disabled="" type="checkbox"> The install method matches the README.</li>
+<li><input disabled="" type="checkbox"> Compatibility, host services, credential requirements, and patch baselines are documented.</li>
+<li><input disabled="" type="checkbox"> License or explicitly undeclared license boundaries are clear.</li>
+<li><input disabled="" type="checkbox"> <code>pnpm validate</code> passes.</li>
+</ul>
+
+</div>
+
+    </main>
+    <footer class="site-footer doc-footer">
+      <a class="footer-brand" href="./">DSH Hub Workshop</a>
+      <p data-i18n="footer.notice">DSH Hub Workshop 只做索引，不对插件内容做安全担保。是否信任与安装，请自行核验。</p>
+      <div class="footer-links">
+        <a href="./" data-i18n="nav.catalog">插件</a>
+        <a href="catalog.json">JSON API</a>
+        <a href="https://github.com/omdsh-dev/dsh-hub-workshop">GitHub</a>
+      </div>
+    </footer>
+  </body>
 </html>

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/omdsh-dev/dsh-hub/blob/main/run-records.schema.json",
+  "title": "OMDSH Workshop run records",
+  "type": "object",
+  "required": ["schema", "updatedAt", "records"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schema": { "const": "omdsh-workshop-run-records/v1" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "records": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/record" }
+    }
+  },
+  "$defs": {
+    "record": {
+      "type": "object",
+      "required": ["id", "projectId", "releaseId", "environment", "checks", "verifier", "verifiedAt", "evidenceUrl", "reproduces"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "projectId": { "type": "string", "minLength": 1 },
+        "releaseId": { "type": "string", "minLength": 1 },
+        "environment": {
+          "type": "object",
+          "required": ["harnessSnapshot", "profile", "platform"],
+          "additionalProperties": false,
+          "properties": {
+            "harnessSnapshot": { "type": "string", "minLength": 1 },
+            "profile": { "type": "string", "minLength": 1 },
+            "platform": { "type": "string", "minLength": 1 }
+          }
+        },
+        "checks": {
+          "type": "object",
+          "required": ["install", "ready", "task"],
+          "additionalProperties": false,
+          "properties": {
+            "install": { "const": "passed" },
+            "ready": { "const": "passed" },
+            "task": {
+              "type": "object",
+              "required": ["result", "title", "translations"],
+              "additionalProperties": false,
+              "properties": {
+                "result": { "const": "passed" },
+                "title": { "type": "string", "minLength": 1 },
+                "translations": {
+                  "type": "object",
+                  "required": ["en"],
+                  "additionalProperties": false,
+                  "properties": { "en": { "type": "string", "minLength": 1 } }
+                }
+              }
+            }
+          }
+        },
+        "verifier": {
+          "type": "object",
+          "required": ["github", "role"],
+          "additionalProperties": false,
+          "properties": {
+            "github": { "type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$" },
+            "role": { "enum": ["author", "maintainer", "community"] }
+          }
+        },
+        "verifiedAt": { "type": "string", "format": "date-time" },
+        "evidenceUrl": { "type": "string", "format": "uri", "pattern": "^https://github\\.com/" },
+        "reproduces": { "type": ["string", "null"], "pattern": "^[a-z0-9][a-z0-9-]*$" }
+      }
+    }
+  }
+}

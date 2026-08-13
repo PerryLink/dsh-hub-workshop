@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/omdsh-dev/dsh-hub/blob/main/catalog.schema.json",
+  "title": "DSH Hub Catalog",
+  "type": "object",
+  "required": ["schema", "updatedAt", "packages"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schema": { "const": "dsh-hub-catalog/v0.2" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "packages": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/package" }
+    }
+  },
+  "$defs": {
+    "package": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "description",
+        "kind",
+        "tags",
+        "author",
+        "repository",
+        "ref",
+        "updatedAt",
+        "license",
+        "status",
+        "install"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*(/[a-z0-9][a-z0-9-]*)?$" },
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 12 },
+        "kind": {
+          "enum": ["skill", "mcp", "extension", "channel", "ui", "adapter", "manager", "toolkit"]
+        },
+        "category": {
+          "enum": ["workflow", "developer-tools", "channels", "interface", "platform", "safety", "memory", "infrastructure", "fun"]
+        },
+        "tags": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "author": {
+          "type": "object",
+          "required": ["name", "url"],
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string", "minLength": 1 },
+            "url": { "type": "string", "format": "uri" }
+          }
+        },
+        "repository": { "type": "string", "format": "uri", "pattern": "^https://github\\.com/" },
+        "repositoryPath": { "type": "string", "pattern": "^/" },
+        "ref": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "version": { "type": "string", "minLength": 1 },
+        "releases": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/release" }
+        },
+        "license": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["verified", "beta", "prototype"] },
+        "featured": { "type": "boolean" },
+        "compatibility": { "type": "string", "minLength": 1 },
+        "relations": { "$ref": "#/$defs/relations" },
+        "media": { "$ref": "#/$defs/media" },
+        "lifecycle": { "$ref": "#/$defs/lifecycle" },
+        "registry": { "$ref": "#/$defs/registry" },
+        "install": {
+          "type": "object",
+          "required": ["type", "label", "command"],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "enum": ["profile-bundle", "repository-plugin", "marisa", "plugin-registry", "source", "manual", "npm", "script"]
+            },
+            "label": { "type": "string", "minLength": 1 },
+            "command": { "type": "string", "minLength": 1 },
+            "protocol": {
+              "enum": ["harness-profile", "harness-repository", "harness-cordis", "third-party"]
+            },
+            "source": { "type": "string" },
+            "note": { "type": "string" }
+          }
+        }
+      }
+    },
+    "media": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "icon": { "$ref": "#/$defs/mediaPath" },
+        "cover": { "$ref": "#/$defs/mediaPath" },
+        "screenshots": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/mediaPath" }
+        }
+      }
+    },
+    "mediaPath": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*\\.(?:png|jpe?g|webp|avif)$"
+    },
+    "release": {
+      "type": "object",
+      "required": ["version", "ref", "updatedAt", "channel"],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "type": "string", "minLength": 1 },
+        "ref": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "channel": { "enum": ["stable", "beta", "nightly"] },
+        "state": { "enum": ["active", "yanked", "revoked"] },
+        "notice": { "type": "string", "minLength": 1 },
+        "compatibility": { "type": "string", "minLength": 1 },
+        "changelog": { "type": "string", "minLength": 1 },
+        "capabilities": { "$ref": "#/$defs/capabilities" },
+        "relations": { "$ref": "#/$defs/relations" },
+        "profileBundle": {
+          "type": "object",
+          "required": ["packageName", "spec"],
+          "additionalProperties": false,
+          "properties": {
+            "packageName": {
+              "type": "string",
+              "pattern": "^(@[a-z0-9][a-z0-9._-]*/)?[a-z0-9][a-z0-9._-]*$"
+            },
+            "spec": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "relations": {
+      "type": "object",
+      "required": ["required", "optional"],
+      "additionalProperties": false,
+      "properties": {
+        "required": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/relation" }
+        },
+        "optional": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/relation" }
+        }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "required": ["projectId", "releaseId"],
+      "additionalProperties": false,
+      "properties": {
+        "projectId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*(/[a-z0-9][a-z0-9-]*)?$" },
+        "releaseId": { "type": "string", "minLength": 3 }
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "required": ["requiresFabric", "deepHook", "restartRequired"],
+      "additionalProperties": false,
+      "properties": {
+        "requiresFabric": { "type": "boolean" },
+        "deepHook": { "type": "boolean" },
+        "restartRequired": { "type": "boolean" }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "required": ["state"],
+      "additionalProperties": false,
+      "properties": {
+        "state": { "enum": ["active", "deprecated", "archived"] },
+        "notice": { "type": "string", "minLength": 1 },
+        "successor": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*(/[a-z0-9][a-z0-9-]*)?$" }
+      }
+    },
+    "registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listing": { "enum": ["auto-listed", "review-required", "reviewed", "blocked"] },
+        "risk": { "enum": ["unknown", "low", "medium", "high", "critical"] },
+        "vulnerabilityScan": { "enum": ["unknown", "passed", "findings"] },
+        "permissions": { "enum": ["unknown", "declared", "reviewed"] },
+        "nativeCode": { "enum": ["unknown", "present", "absent"] },
+        "installScripts": { "enum": ["unknown", "present", "absent"] },
+        "trustedPublisher": { "enum": ["unknown", "requested", "verified"] },
+        "profileBundle": {
+          "type": "object",
+          "required": ["packageName", "spec"],
+          "additionalProperties": false,
+          "properties": {
+            "packageName": {
+              "type": "string",
+              "pattern": "^(@[a-z0-9][a-z0-9._-]*/)?[a-z0-9][a-z0-9._-]*$"
+            },
+            "spec": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    }
+  }
+}

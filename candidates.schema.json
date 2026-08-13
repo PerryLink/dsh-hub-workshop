@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/omdsh-dev/dsh-hub/blob/main/candidates.schema.json",
+  "title": "OMDSH Workshop Candidates",
+  "type": "object",
+  "required": ["schema", "generatedAt", "organization", "policy", "stats", "projects"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "omdsh-workshop-candidates/v1" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "organization": { "type": "string", "minLength": 1 },
+    "policy": { "type": "object" },
+    "stats": { "type": "object" },
+    "projects": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/project" }
+    }
+  },
+  "$defs": {
+    "project": {
+      "type": "object",
+      "required": ["id", "displayName", "summary", "kind", "category", "tags", "presentation", "author", "source", "updatedAt", "declaration", "review", "install", "deduplication"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^candidate:" },
+        "displayName": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["skill", "mcp", "extension", "channel", "ui", "adapter", "manager", "toolkit"] },
+        "category": { "enum": ["workflow", "developer-tools", "channels", "interface", "platform", "safety", "memory", "infrastructure", "fun"] },
+        "tags": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+        "presentation": { "enum": ["project", "collection", "incubator"] },
+        "author": { "type": "object" },
+        "source": {
+          "type": "object",
+          "required": ["repository", "ref", "path"],
+          "additionalProperties": false,
+          "properties": {
+            "repository": { "type": "string", "format": "uri" },
+            "ref": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+            "path": { "type": ["string", "null"] }
+          }
+        },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "declaration": { "type": "object" },
+        "review": { "type": "object" },
+        "install": {
+          "type": "object",
+          "required": ["mode", "reason", "possibleAdapter"],
+          "properties": {
+            "mode": { "const": "unavailable" },
+            "reason": { "const": "pending-review" },
+            "possibleAdapter": { "type": ["string", "null"] }
+          }
+        },
+        "deduplication": { "type": "object" }
+      }
+    }
+  }
+}

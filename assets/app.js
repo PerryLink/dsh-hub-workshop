@@ -12,7 +12,7 @@ const state = {
   channel: 'all',
   sort: 'featured',
   view: 'grid',
-  featuredMode: 'featured',
+  featuredMode: 'stars',
   authorsExpanded: false,
   scope: 'all',
   snapshot: '',
@@ -274,6 +274,14 @@ function omdshActionLabel(pkg) {
     : t('install.viewIntegrationGuide')
 }
 
+function projectStars(pkg) {
+  return Number(pkg.discovery?.stars || 0)
+}
+
+function commitUpdatedAt(pkg) {
+  return pkg.discovery?.commitUpdatedAt || pkg.updatedAt
+}
+
 function installBackend(pkg) {
   if (pkg.install.type === 'profile-bundle') return t('install.backend.officialProfile')
   if (pkg.install.type === 'repository-plugin') return t('install.backend.officialRepository')
@@ -515,7 +523,7 @@ function filteredPackages() {
 
   return packages.sort((a, b) => {
     if (state.sort === 'name') return packageText(a).name.localeCompare(packageText(b).name, locale() === 'zh' ? 'zh-CN' : 'en')
-    if (state.sort === 'updated') return new Date(b.updatedAt) - new Date(a.updatedAt)
+    if (state.sort === 'updated') return new Date(commitUpdatedAt(b)) - new Date(commitUpdatedAt(a))
     return Number(Boolean(b.featured)) - Number(Boolean(a.featured))
       || new Date(b.updatedAt) - new Date(a.updatedAt)
       || packageText(a).name.localeCompare(packageText(b).name, locale() === 'zh' ? 'zh-CN' : 'en')
@@ -529,7 +537,8 @@ function packageCard(pkg) {
   const visual = projectVisual(pkg, visualFormat)
   const version = pkg.version ? `v${pkg.version}` : pkg.ref.slice(0, 7)
   const { release } = projectRelease(pkg)
-  const installBlocked = ['blocked', 'review-required'].includes(release?.listing?.state)
+  const guided = installGroup(pkg.install.type) === 'guided'
+  const installBlocked = !guided && ['blocked', 'review-required'].includes(release?.listing?.state)
   return `
     <article class="package-card">
       <button class="package-thumb project-visual mark-${escapeHtml(pkg.category || 'uncategorized')}" type="button" data-media-state="${visual.state}" data-visual-format="${visualFormat}" data-open-package="${escapeHtml(pkg.id)}" aria-label="${escapeHtml(formatText('row.open', { name: copy.name }))}">
@@ -562,7 +571,13 @@ function packageCard(pkg) {
         </div>
       </div>
         <div class="package-card-footer">
-        ${installBlocked ? `<div class="install-preview install-preview-blocked"><span><strong>${escapeHtml(t('project.installUnavailable'))}</strong><code>${escapeHtml(factValue(release?.listing?.state || 'blocked'))}</code></span></div>` : `<button class="install-preview" type="button" data-copy-install="${escapeHtml(pkg.id)}">
+        ${installBlocked ? `<div class="install-preview install-preview-blocked"><span><strong>${escapeHtml(t('project.installUnavailable'))}</strong><code>${escapeHtml(factValue(release?.listing?.state || 'blocked'))}</code></span></div>` : guided ? `<a class="install-preview" href="${escapeHtml(detailUrl(pkg))}">
+          <span>
+            <strong>${escapeHtml(omdshActionLabel(pkg))}</strong>
+            <code>${escapeHtml(pkg.repository.replace('https://github.com/', ''))}</code>
+          </span>
+          <span class="copy-label">↗</span>
+        </a>` : `<button class="install-preview" type="button" data-copy-install="${escapeHtml(pkg.id)}">
           <span>
             <strong>${escapeHtml(omdshActionLabel(pkg))}</strong>
             <code>${escapeHtml(commandPreview(omdshCommand(pkg)))}</code>
@@ -808,7 +823,7 @@ function scrollFeatured(direction) {
 }
 
 function selectFeaturedPackages(packages, mode) {
-  const byRecency = (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+  const byRecency = (a, b) => new Date(commitUpdatedAt(b)) - new Date(commitUpdatedAt(a))
     || a.id.localeCompare(b.id)
   if (mode === 'recent') return [...packages].sort(byRecency)
 
@@ -817,10 +832,7 @@ function selectFeaturedPackages(packages, mode) {
     .sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)) || byRecency(a, b))
   if (mode === 'recoverable') return recoverable
 
-  const guidedFallback = packages
-    .filter((pkg) => pkg.featured && installGroup(pkg.install.type) !== 'transactional')
-    .sort(byRecency)
-  return [...recoverable, ...guidedFallback]
+  return [...packages].sort((a, b) => projectStars(b) - projectStars(a) || byRecency(a, b))
 }
 
 function renderFeatured() {
@@ -839,11 +851,11 @@ function renderFeatured() {
         <span class="featured-content">
           <span class="featured-meta">
             <span>${escapeHtml(kindLabel(pkg.kind))} · ${escapeHtml(managementLabel(pkg.install.type))}</span>
-            <time datetime="${escapeHtml(pkg.updatedAt)}">${escapeHtml(formatDate(pkg.updatedAt))}</time>
+            <time datetime="${escapeHtml(commitUpdatedAt(pkg))}">${escapeHtml(formatDate(commitUpdatedAt(pkg)))}</time>
           </span>
           <strong>${escapeHtml(copy.name)}</strong>
           <span class="featured-description">${escapeHtml(copy.description)}</span>
-          <span class="featured-author">${authorMark(pkg)}<span>${escapeHtml(authorDisplayName(pkg.author))}</span></span>
+          <span class="featured-author">${authorMark(pkg)}<span>${escapeHtml(authorDisplayName(pkg.author))}</span><span class="featured-stars">★ ${escapeHtml(projectStars(pkg))}</span></span>
         </span>
       </button>`
   }).join('')
@@ -1123,7 +1135,8 @@ function openPackage(id, updateHash = true, requestedTab = 'overview') {
   const { project, release } = projectRelease(pkg)
   const version = release?.version ? `v${release.version}` : pkg.ref.slice(0, 7)
   const boundary = managementBoundary(pkg.install.type)
-  const installBlocked = ['blocked', 'review-required'].includes(release?.listing?.state)
+  const guided = installGroup(pkg.install.type) === 'guided'
+  const installBlocked = !guided && ['blocked', 'review-required'].includes(release?.listing?.state)
   const detailVisual = projectVisual(pkg, 'cover', { decorative: false })
   const media = projectMedia(pkg)
   const runRecords = state.runRecords.filter((record) => record.projectId === pkg.id && record.releaseId === release?.id)
@@ -1171,7 +1184,14 @@ function openPackage(id, updateHash = true, requestedTab = 'overview') {
             <p>${escapeHtml(boundary.description)}</p>
           </div>
         </section>
-        ${installBlocked ? `<section class="install-panel install-unavailable"><div class="install-heading"><h3>${escapeHtml(t('project.installUnavailable'))}</h3><span>${escapeHtml(factValue(release?.listing?.state || 'blocked'))}</span></div><p>${escapeHtml(release?.notice || t('project.installUnavailableDescription'))}</p></section>` : `<section class="install-panel">
+        ${installBlocked ? `<section class="install-panel install-unavailable"><div class="install-heading"><h3>${escapeHtml(t('project.installUnavailable'))}</h3><span>${escapeHtml(factValue(release?.listing?.state || 'blocked'))}</span></div><p>${escapeHtml(release?.notice || t('project.installUnavailableDescription'))}</p></section>` : guided ? `<section class="install-panel">
+          <div class="install-heading">
+            <h3>${escapeHtml(omdshActionLabel(pkg))}</h3>
+            <span>${escapeHtml(integrationRequirement(pkg))}</span>
+          </div>
+          <p class="install-note">${escapeHtml(pkg.install.note || omdshInstallNote(pkg))}</p>
+          <a class="primary-action" href="${escapeHtml(detailUrl(pkg))}">${escapeHtml(t('row.source'))} ↗</a>
+        </section>` : `<section class="install-panel">
           <div class="install-heading">
             <h3>${escapeHtml(omdshActionLabel(pkg))}</h3>
             <span>${escapeHtml(managementLabel(pkg.install.type))} · ${escapeHtml(integrationRequirement(pkg))}</span>
