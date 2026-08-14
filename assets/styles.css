@@ -579,6 +579,30 @@ button { border-radius: 10px; }
 .publish-boundaries span,
 .publish-boundaries a { padding: 7px 10px; color: var(--muted); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; font-size: 10px; text-decoration: none; }
 .publish-boundaries a:hover { color: var(--accent); border-color: var(--accent); }
+.agent-submission-card {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  max-width: 860px;
+  margin-top: 30px;
+  padding: 18px;
+  background: color-mix(in srgb, var(--accent) 6%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--line));
+  border-radius: 14px;
+}
+.agent-submission-mark { display: grid; width: 40px; height: 40px; place-items: center; color: var(--accent); background: var(--accent-soft); border-radius: 10px; font-family: var(--mono); font-size: 17px; }
+.agent-submission-copy { display: grid; gap: 4px; min-width: 0; }
+.agent-submission-copy > p { max-width: 66ch; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
+.agent-submission-copy > p:first-child { color: var(--accent); font-size: 8px; font-weight: 720; letter-spacing: .11em; text-transform: uppercase; }
+.agent-submission-copy h2 { margin: 0; font-size: 14px; letter-spacing: -.02em; }
+.agent-submission-actions { display: grid; gap: 7px; min-width: 138px; }
+.agent-submission-actions button,
+.agent-submission-actions a { padding: 8px 11px; border-radius: 8px; font-size: 9px; font-weight: 680; text-align: center; text-decoration: none; }
+.agent-submission-actions button { color: var(--page); background: var(--accent); border: 1px solid var(--accent); cursor: pointer; }
+.agent-submission-actions a { color: var(--accent); background: var(--surface); border: 1px solid var(--line); }
+.agent-submission-actions button:hover,
+.agent-submission-actions a:hover { filter: brightness(.96); }
 .publish-mode-tabs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1290,6 +1314,12 @@ button { border-radius: 10px; }
   .project-discovery-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .project-discovery-stats div { grid-template-columns: 1fr; gap: 4px; }
   .organization-project-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 680px) {
+  .agent-submission-card { grid-template-columns: 36px minmax(0, 1fr); }
+  .agent-submission-mark { width: 34px; height: 34px; }
+  .agent-submission-actions { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 600px) {

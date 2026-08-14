@@ -22,8 +22,8 @@ The current official public baseline is `@deepseek-ai/dsh@0.1.0-rc.6`. It is an 
 pinned public commit submission
   → product-boundary filter (exclude core, infrastructure, distributions, directories, templates)
   → locate the actual root package or plugin subpackage
-  → manifest, declared entry, and DSH-specific registration validation
-  → pending-review intake record
+  → automated manifest, public repository, fixed commit, and declared-path preflight
+  → automated pending-review record and review PR
   → compatibility, permissions, and supply-chain review
   → mode-specific verification
   → assert one named capability was registered, invoked, and observed
@@ -43,6 +43,7 @@ Records use `intake.schema.json`, runtime evidence uses `intake-evidence.schema.
 ```bash
 npm run intake:validate -- /path/to/submission.json
 npm run intake:prepare -- /path/to/submission.json
+npm run intake:issue -- /path/to/github-event.json
 npm run intake:build
 npm run intake:evidence -- intake/records/project@version.json intake/evidence/project@version.json
 npm run intake:check
@@ -50,4 +51,4 @@ npm run baseline:verify
 npm run validate
 ```
 
-An issue never writes repository state automatically. A maintainer saves reviewed records under `intake/records/`, evidence under `intake/evidence/`, generates the queue, and submits the result through PR/CI. The commands do not clone a submitted repository, execute its scripts, or write Registry state automatically. Admission remains a separately reviewed maintainer change. Runtime evidence also records a structured `capability` assertion; executable modes cannot pass with load-only evidence.
+Author Studio carries the complete manifest into a GitHub Issue. After the Issue is created, the `intake` workflow checks the public repository, full commit, and declared path read-only. A successful preflight lets `github-actions[bot]` write a `pending-review` record on an isolated branch, rebuild the queue, and open a review PR. Automation does not clone the submitted repository, execute its scripts, approve the submission, or write Registry state. Human boundary review, evidence under `intake/evidence/`, and a separately reviewed admission change remain mandatory. Runtime evidence also records a structured `capability` assertion; executable modes cannot pass with load-only evidence.

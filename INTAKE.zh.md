@@ -22,8 +22,8 @@
 公开固定 commit 投稿
   → 产品边界筛选（排除主仓、基础设施、发行版、目录、模板）
   → 定位真正的根包或插件子包
-  → 校验 Manifest、声明入口和 DSH 专属注册路径（不执行投稿代码）
-  → 生成 pending-review Intake Record
+  → 自动校验 Manifest、公开仓库、固定 commit 和声明路径（不执行投稿代码）
+  → 自动生成 pending-review Intake Record 与审核 PR
   → 兼容性、权限与供应链审查（许可、原生代码、安装脚本、漏洞）
   → 分类型验证
       transactional → RC.6 完整生命周期
@@ -50,6 +50,9 @@ npm run intake:validate -- /path/to/submission.json
 # 生成待审核记录到标准输出；不会自动写入队列
 npm run intake:prepare -- /path/to/submission.json
 
+# CI 使用：从 GitHub Issue 解析清单并完成公开固定来源预检
+npm run intake:issue -- /path/to/github-event.json
+
 # 将 intake/records/*.json 确定性生成公开队列
 npm run intake:build
 
@@ -66,7 +69,7 @@ npm run baseline:verify
 npm run validate
 ```
 
-投稿 Issue 不会自动写仓库。维护者把确认过的记录保存到 `intake/records/`，把运行证据保存到 `intake/evidence/`，再生成队列并交给 PR/CI 审核。所有命令默认不克隆投稿仓库、不执行其脚本，也不自动写 Registry。正式入库仍须通过独立 admission 变更发布。
+Author Studio 会把完整清单直接带入 GitHub Issue。Issue 创建后，`intake` 工作流只读核验公开仓库、完整 commit 和声明路径；通过后，由 `github-actions[bot]` 在独立分支写入 `pending-review` 记录、重建队列并创建审核 PR。自动化不克隆投稿仓库、不执行其脚本、不批准投稿，也不写 Registry。维护者仍须在 PR 中完成人工边界审核；运行证据保存在 `intake/evidence/`，正式安装准入仍须通过独立 admission 变更发布。
 
 ## 证据最低要求
 

@@ -50,7 +50,8 @@
 <h2>快速提交</h2>
 <p>不熟悉目录结构也可以提交，推荐按经验选择一条路径：</p>
 <ol>
-<li><strong>Author Studio + 收录申请 Issue（推荐）</strong>：在 <a href="publish.html">Author Studio</a> 选择“创建项目”或“新增 Release”；已经出现在“待审核”的项目也可以从候选详情点击“申请正式收录”。页面会带入可核验的固定来源，但不会替作者猜测身份、许可、兼容性、权限或测试。生成 <code>omdsh-workshop-submission/v1</code> 后，再粘贴到<a href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=extension-submission.yml">扩展收录申请</a>。提交人不需要理解 <code>catalog.json</code>、Registry 或生成文件。</li>
+<li><strong>作者 Agent 自动投稿（推荐）</strong>：把<a href="agent-submission-prompt.zh.md">标准指令</a>交给能读取作者仓库的 Agent。它会核对公开固定 commit、生成并本地校验 <code>omdsh-workshop-submission/v1</code>，再展示目标、标题和完整正文；作者确认本次 GitHub 写入后，Agent 创建收录 Issue。提交人不需要手填表单，也不需要理解 <code>catalog.json</code>、Registry 或生成文件。</li>
+<li><strong>Author Studio（人工兜底）</strong>：在 <a href="publish.html">Author Studio</a> 选择“创建项目”或“新增 Release”；待审核候选也可从详情继续。页面自动生成清单并带入 Issue，但身份、许可、兼容性、权限和测试仍必须来自作者确认的事实。</li>
 <li><strong>直接 PR</strong>：熟悉本仓库的贡献者可以按下方格式修改源数据、生成产物并提交 PR，适合一次更新多个条目或维护已有条目。</li>
 </ol>
 <p>Issue 只是收录申请，不等于已经通过审核，也不代表 DSH Hub Workshop 为第三方代码提供安全背书。自动化只读取固定 commit，不执行投稿代码，并复用一条候选分支和一个 PR。Critical 漏洞会阻止收录；高风险权限、native code、安装脚本、作者身份不一致和可信发布者请求进入 Draft PR 人工审核；扫描完整且没有高风险信号的条目形成普通 PR。扫描或外部漏洞服务不可用时保守地停在审核队列。</p>
@@ -196,7 +197,8 @@ node --check docs/assets/app.js
 <h2>Quick Submission</h2>
 <p>You can contribute without learning the catalog schema. Choose the path that fits your experience:</p>
 <ol>
-<li><strong>Author Studio + Submission Issue (recommended):</strong> use <a href="publish.html">Author Studio</a> to create a Project or add an immutable Release. Projects already shown under Pending Review can start from <strong>Apply for listing</strong> in the candidate detail. The page carries forward verifiable pinned-source facts but never guesses identity, license, compatibility, permissions, or test evidence. Paste the generated <code>omdsh-workshop-submission/v1</code> into the <a href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=extension-submission.yml">extension submission form</a>. Authors do not need to understand <code>catalog.json</code>, Registry, or generated files.</li>
+<li><strong>Author-Agent submission (recommended):</strong> give the <a href="agent-submission-prompt.en.md">standard instruction</a> to an Agent that can read the author's repository. It verifies the public pinned commit, generates and locally validates <code>omdsh-workshop-submission/v1</code>, then shows the target, title, and complete body. After confirmation of that GitHub write, the Agent creates the submission Issue. Authors do not fill a form or learn <code>catalog.json</code>, Registry, or generated files.</li>
+<li><strong>Author Studio (manual fallback):</strong> use <a href="publish.html">Author Studio</a> to create a Project or add an immutable Release. A Pending Review candidate can continue from its detail page. The page generates the manifest and carries it into an Issue, but identity, license, compatibility, permissions, and test evidence must still be author-confirmed facts.</li>
 <li><strong>Direct PR:</strong> contributors familiar with this repository can update the source data and generated artifacts below. This works well for multiple entries or maintenance of an existing entry.</li>
 </ol>
 <p>An Issue is only a submission request: it is not acceptance and does not mean DSH Hub Workshop endorses third-party code as safe. Automation reads the fixed commit without executing submitted code and reuses one candidate branch and one PR. Critical vulnerabilities block listing. Elevated permissions, native code, lifecycle scripts, author-identity mismatches, and trusted-publisher requests produce a Draft PR for human review. Complete low-risk facts produce a normal PR. Scanner or external vulnerability-service failures fail closed into review.</p>

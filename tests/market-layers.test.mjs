@@ -7,11 +7,12 @@ const json = async (path) => JSON.parse(await readFile(new URL(path, root), 'utf
 
 test('market layers classify infrastructure and distributions separately from plugins', async () => {
   const layers = await json('market-layers.json')
-  assert.equal(layers.schema, 'omdsh-market-layers/v1')
-  assert.equal(layers.projects.length, 5)
-  assert.equal(layers.projects.filter((project) => project.layer === 'infrastructure').length, 4)
-  assert.equal(layers.projects.filter((project) => project.layer === 'distribution').length, 1)
-  assert.ok(layers.projects.every((project) => /^[0-9a-f]{40}$/.test(project.source.ref)))
+  assert.equal(layers.schema, 'omdsh-market-layers/v2')
+  assert.equal(layers.projects.length, layers.totals.projects)
+  assert.equal(layers.projects.filter((project) => project.layer === 'infrastructure').length, layers.totals.infrastructure)
+  assert.equal(layers.projects.filter((project) => project.layer === 'distribution').length, layers.totals.distribution)
+  assert.ok(layers.projects.filter((project) => project.review.state === 'curated').every((project) => /^[0-9a-f]{40}$/.test(project.source.ref)))
+  assert.ok(layers.projects.filter((project) => project.review.state === 'pending-review').every((project) => project.verification.state === 'unverified'))
   assert.ok(layers.projects.every((project) => project.registry.state === 'ineligible'))
 })
 
@@ -28,4 +29,11 @@ test('dsh-mygo is visible as infrastructure but excluded from plugin installatio
   for (const authority of [catalog.packages, inventory.projects, registry.entries]) {
     assert.equal(authority.some((entry) => entry.id === project.id), false)
   }
+})
+
+test('genuine ecosystem applications are visible while directories and core repositories stay out of plugin authority', async () => {
+  const layers = await json('market-layers.json')
+  assert.equal(layers.projects.find((entry) => entry.id === 'bruc3van/dsh-desktop')?.layer, 'infrastructure')
+  assert.equal(layers.projects.find((entry) => entry.id === 'jesse-njx/dsh-plugin-manager')?.layer, 'infrastructure')
+  assert.ok(layers.projects.every((entry) => entry.registry.state === 'ineligible'))
 })

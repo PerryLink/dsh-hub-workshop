@@ -1290,7 +1290,7 @@ function openMarketProject(pkg, updateHash = true, requestedTab = 'overview') {
         <p class="dialog-safety">${escapeHtml(t('market.safety'))}</p>
         <div class="dialog-source">
           <div>
-            <strong>${escapeHtml(t('dialog.fixedSource'))}</strong>
+            <strong>${escapeHtml(t(pkg.marketData?.verification?.state === 'unverified' ? 'market.sourceTitle' : 'dialog.fixedSource'))}</strong>
             <code>${escapeHtml(pkg.ref)}</code>
           </div>
           <a href="${escapeHtml(detailUrl(pkg))}">${escapeHtml(t('dialog.viewSource'))} ↗</a>
@@ -1405,7 +1405,7 @@ function openPackage(id, updateHash = true, requestedTab = 'overview') {
         <p class="dialog-safety">${escapeHtml(t('safety.short'))}</p>
         <div class="dialog-source">
           <div>
-            <strong>${escapeHtml(t('dialog.fixedSource'))}</strong>
+            <strong>${escapeHtml(t(release?.risk?.facts?.sourcePinned === true ? 'dialog.fixedSource' : 'market.sourceTitle'))}</strong>
             <code>${escapeHtml(release?.ref || pkg.ref)}</code>
           </div>
           <a href="${escapeHtml(project?.links?.repository || detailUrl(pkg))}">${escapeHtml(t('dialog.viewSource'))} ↗</a>

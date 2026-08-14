@@ -7,8 +7,8 @@
     <meta name="theme-color" content="#f7f7f5">
     <title>插件开发与市场指南 - DSH Hub Workshop</title>
     <link rel="icon" href="assets/atlas-symbol.png">
-    <link rel="stylesheet" href="assets/styles.css?v=20260809-ai-integration-v11">
-    <script src="assets/site.js?v=20260809-ai-integration-v11" data-i18n-src="assets/i18n.json?v=20260809-ai-integration-v11" defer></script>
+    <link rel="stylesheet" href="assets/styles.css?v=20260814-agent-submission-v1">
+    <script src="assets/site.js?v=20260814-agent-submission-v1" data-i18n-src="assets/i18n.json?v=20260814-agent-submission-v1" defer></script>
   </head>
   <body data-title-zh="插件开发与市场指南" data-title-en="Plugin Development and Marketplace Guide">
     <header class="site-header">
@@ -58,13 +58,13 @@
 <li>README 写清用途、当前安装方式、依赖、权限和已知限制；</li>
 <li>添加许可说明，或明确标注私有测试/未声明许可边界；</li>
 <li>选择一个准备接受审核的 40 位 Git commit；</li>
-<li>在 <a href="publish.html">Author Studio</a> 生成 submission manifest，并提交<a href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=extension-submission.yml">扩展收录申请</a>。</li>
+<li>把 <a href="agent-submission-prompt.zh.md">Agent 自动投稿指令</a>交给作者 Agent；它会生成并校验 manifest，展示完整 Issue，取得本次确认后提交。<a href="publish.html">Author Studio</a> 是人工兜底入口。</li>
 </ol>
 <p>这条路径不要求改造项目结构。自动化只读取固定 commit，不执行项目代码。扫描完整且没有高风险信号的项目可进入低风险收录流程；其余项目会保留在待审核或待修复清单。</p>
 <p><a data-localized-anchor="ai-integration-prompt"></a></p>
 <h2>让 AI 帮你完成最小接入</h2>
 <p>如果项目已经存在，可以把下面的 Prompt 交给能访问仓库的编码 AI。它会先判断项目的真实形态，再做最小改动；<strong>不会为了获得安装按钮强行改造成 Profile Bundle，也不会直接修改 DSH Hub Workshop 的 Catalog、Registry 或生成文件。</strong></p>
-<p>推荐流程是：AI 修改并验证作者仓库 → 作者审阅后提交 commit → 在 <a href="publish.html">Author Studio</a> 填写或核对事实 → GitHub 自动扫描与收录。AI 的报告是填写辅助，不是 submission manifest，也不代表安全审核或官方认证。</p>
+<p>推荐流程是：AI 修改并验证作者仓库 → 作者审阅并把固定 commit 推到公开远端 → Agent 生成、校验并展示申请 → 作者确认这一次 GitHub 写入 → Agent 创建 Issue → GitHub 自动化建立待审核 PR。Agent 生成的清单和自动预检都不代表安全审核或官方认证。</p>
 <div class="doc-prompt-actions"><button type="button" class="doc-copy-prompt" data-copy-next-code data-copy-label="复制给 AI" data-copy-success="已复制">复制给 AI</button></div>
 
 <pre><code class="language-text">你正在当前插件仓库中工作。请在不重写项目核心、不增加第二套 Loader 或常驻 daemon、不把第三方格式伪装成官方协议的前提下，以最小修改让它可以接入 DSH Hub Workshop。
@@ -104,9 +104,9 @@
    - 建议填写到 Author Studio 的 Project、Release、兼容性、管理方式和声明字段；
    - 需要作者人工确认的事项。
 
-不要虚构版本、兼容性、下载量、作者、许可证或回滚能力。不要自行 commit、push、创建 Release 或提交市场；完成本地修改和验证后等待作者审阅。作者确认后应创建一个固定 commit，并在 https://hub.0.org.cn/publish.html 生成正式 submission manifest。
+不要虚构版本、兼容性、下载量、作者、许可证或回滚能力。不要未经本次明确确认自行 commit、push 或创建 Release；完成本地修改和验证后等待作者审阅。公开远端已有固定 commit 后，读取 https://hub.omdsh.dev/agent-submission-prompt.zh.md，生成并校验正式 submission manifest；先展示 GitHub 账号、目标、Issue 标题与完整正文，取得作者对这一次写入的确认后再创建申请 Issue。
 </code></pre>
-<p>这段 Prompt 故意不要求 AI 生成最终 JSON：项目事实可能在修改过程中变化，而 commit 只有作者确认后才固定。Author Studio 才是 submission manifest 的唯一生成入口，市场构建流水线再从该 manifest 投影 Catalog、Registry 和 Workshop 展示数据。</p>
+<p>流程分为两个阶段：上面的 Prompt 负责最小接入和作者审阅；固定 commit 已公开后，<a href="agent-submission-prompt.zh.md">Agent 自动投稿指令</a>负责生成、校验并提交与 Issue #1 同结构的机器可读申请。作者不再手填表单，但 GitHub 写入前仍会看到完整内容并确认一次。Author Studio 保留为人工兜底入口。</p>
 <h2>Workshop 如何识别扩展形态</h2>
 <table>
 <thead>
@@ -410,7 +410,7 @@ description: 当用户要求整理会话时，生成带结论、证据和后续�
 <li><input disabled="" type="checkbox"> 选择的安装能力与真实制品一致；</li>
 <li><input disabled="" type="checkbox"> 无缝安装失败不会覆盖 current Profile；</li>
 <li><input disabled="" type="checkbox"> 外部副作用没有被描述成“完全可回滚”；</li>
-<li><input disabled="" type="checkbox"> 已通过 Author Studio 生成 submission manifest。</li>
+<li><input disabled="" type="checkbox"> 已由 Agent 或 Author Studio 生成并校验 submission manifest。</li>
 </ul>
 
 </div>
@@ -430,13 +430,13 @@ description: 当用户要求整理会话时，生成带结论、证据和后续�
 <li>Document purpose, current installation, dependencies, permissions, and known limitations.</li>
 <li>State the license or explicitly undeclared license boundary.</li>
 <li>Select one full 40-character Git commit for review.</li>
-<li>Generate a submission manifest in <a href="publish.html">Author Studio</a>, then open an <a href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=extension-submission.yml">extension submission</a>.</li>
+<li>Give the <a href="agent-submission-prompt.en.md">Agent submission instruction</a> to the author's Agent. It generates and validates the manifest, shows the complete Issue, and submits after operation-specific confirmation. <a href="publish.html">Author Studio</a> is the manual fallback.</li>
 </ol>
 <p>This path requires no format conversion. Automation reads the pinned commit without executing project code. Complete low-risk results can enter the low-risk admission path; other results remain in review or needs-fix.</p>
 <p><a data-localized-anchor="ai-integration-prompt"></a></p>
 <h2>Let AI prepare the minimum integration</h2>
 <p>Give the prompt below to a coding AI that can access an existing project repository. It first identifies the project&#39;s real format, then makes the smallest necessary changes. <strong>It must not force a Profile Bundle merely to obtain an install button or directly edit DSH Hub Workshop Catalog, Registry, or generated artifacts.</strong></p>
-<p>The intended flow is: AI updates and validates the author&#39;s repository → the author reviews and commits it → <a href="publish.html">Author Studio</a> records or confirms the facts → GitHub automation scans and admits it. The AI report assists form completion; it is neither a submission manifest nor a security review or official certification.</p>
+<p>The intended flow is: AI updates and validates the author&#39;s repository → the author reviews and pushes a pinned commit to the public remote → the Agent generates, validates, and shows the application → the author confirms that GitHub write → the Agent opens the Issue → GitHub automation creates a pending-review PR. Neither the manifest nor automated preflight is a security review or official certification.</p>
 <div class="doc-prompt-actions"><button type="button" class="doc-copy-prompt" data-copy-next-code data-copy-label="Copy for AI" data-copy-success="Copied">Copy for AI</button></div>
 
 <pre><code class="language-text">You are working in the current plugin repository. Make the minimum changes needed for DSH Hub Workshop integration without rewriting the core project, adding a second Loader or persistent daemon, or presenting a third-party format as an official protocol.
@@ -476,9 +476,9 @@ Work in this order:
    - proposed Author Studio Project, Release, compatibility, management, and declaration fields;
    - decisions that still require author confirmation.
 
-Do not invent versions, compatibility, download counts, authorship, licenses, or rollback capability. Do not commit, push, create a Release, or submit to the marketplace. Finish local edits and validation, then wait for author review. After approval, the author should create one pinned commit and generate the formal submission manifest at https://hub.0.org.cn/publish.html.
+Do not invent versions, compatibility, download counts, authorship, licenses, or rollback capability. Do not commit, push, or create a Release without operation-specific approval. Finish local edits and validation, then wait for author review. Once a pinned commit exists on the public remote, read https://hub.omdsh.dev/agent-submission-prompt.en.md, generate and validate the formal submission manifest, show the GitHub account, target, Issue title, and complete body, and create the submission Issue only after the author confirms that specific write.
 </code></pre>
-<p>The prompt intentionally does not ask AI to generate final JSON. Repository facts may change during adaptation, and the commit is not fixed until the author approves it. Author Studio remains the sole submission-manifest entry point; the marketplace build then projects that manifest into Catalog, Registry, and Workshop presentation data.</p>
+<p>The flow has two stages: this prompt handles minimum integration and author review; after the pinned commit is public, the <a href="agent-submission-prompt.en.md">Agent submission instruction</a> generates, validates, and submits the same machine-readable structure used by Issue #1. Authors no longer fill the form manually, while still seeing and confirming the complete GitHub write. Author Studio remains the manual fallback.</p>
 <h2>How Workshop identifies extension formats</h2>
 <table>
 <thead>
@@ -728,7 +728,7 @@ description: Produce a structured summary with conclusions, evidence, and next a
 <li><input disabled="" type="checkbox"> Claimed installation capability matches the actual artifact.</li>
 <li><input disabled="" type="checkbox"> A failed seamless install cannot replace the current Profile.</li>
 <li><input disabled="" type="checkbox"> External effects are not described as fully reversible.</li>
-<li><input disabled="" type="checkbox"> Author Studio generated the submission manifest.</li>
+<li><input disabled="" type="checkbox"> An Agent or Author Studio generated and validated the submission manifest.</li>
 </ul>
 
 </div>

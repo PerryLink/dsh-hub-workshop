@@ -14,7 +14,7 @@ test('topic audit stats match decisions and dsh-mygo cannot leak into plugin sur
     json('../api/v1/plugins.json'),
   ])
 
-  const decisions = Object.fromEntries(['exclude', 'include', 'review'].map((decision) => [
+  const decisions = Object.fromEntries(['exclude', 'include', 'market'].map((decision) => [
     decision,
     audit.repositories.filter((entry) => entry.decision === decision).length,
   ]))
@@ -25,7 +25,8 @@ test('topic audit stats match decisions and dsh-mygo cannot leak into plugin sur
   assert.deepEqual(audit.stats.reasons, reasons)
 
   const candidate = audit.repositories.find((entry) => entry.owner === 'omdsh-dev' && entry.name === 'dsh-mygo')
-  assert.equal(candidate.decision, 'exclude')
+  assert.equal(candidate.decision, 'market')
+  assert.equal(candidate.marketLayer, 'infrastructure')
   assert.equal(candidate.reasonCode, 'ecosystem-infrastructure')
   assert.equal(candidate.evidence.manualReview.inspectedCommit, '4566748646823f8e2123f6addcf22b55e305e740')
   assert.equal(candidate.evidence.manualReview.verificationLevel, 'static-public-source')
@@ -36,4 +37,12 @@ test('topic audit stats match decisions and dsh-mygo cannot leak into plugin sur
   assert.doesNotMatch(catalogText, /omdsh-dev\/dsh-mygo/)
   assert.equal(inventory.projects.some((entry) => entry.repository === 'https://github.com/omdsh-dev/dsh-mygo'), false)
   assert.equal(api.projects.some((entry) => entry.source?.repository === 'https://github.com/omdsh-dev/dsh-mygo'), false)
+
+  const modlens = audit.repositories.find((entry) => entry.owner === 'liustack' && entry.name === 'modlens')
+  assert.equal(modlens.decision, 'include')
+  assert.equal(modlens.qualification, 'verified')
+  const awesome = audit.repositories.find((entry) => entry.owner === '0xsline' && entry.name === 'awesome-deepseek-harness')
+  assert.equal(awesome.decision, 'exclude')
+  const core = audit.repositories.find((entry) => entry.owner === 'deepseek-ai' && entry.name === 'deepseek-harness')
+  assert.equal(core.decision, 'exclude')
 })

@@ -7,7 +7,7 @@
   "additionalProperties": false,
   "properties": {
     "$schema": { "type": "string" },
-    "schema": { "const": "omdsh-market-layers/v1" },
+    "schema": { "const": "omdsh-market-layers/v2" },
     "generatedAt": { "type": "string", "format": "date-time" },
     "policy": {
       "type": "object",
@@ -46,7 +46,7 @@
         "layer": { "enum": ["infrastructure", "distribution"] },
         "name": { "type": "string", "minLength": 1 },
         "description": { "type": "string", "minLength": 1 },
-        "kind": { "enum": ["manager", "toolkit"] },
+        "kind": { "enum": ["manager", "toolkit", "application", "collection", "integration"] },
         "category": { "enum": ["infrastructure", "platform"] },
         "tags": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
         "author": {
@@ -64,7 +64,7 @@
           "additionalProperties": false,
           "properties": {
             "repository": { "type": "string", "pattern": "^https://github\\.com/" },
-            "ref": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+            "ref": { "type": "string", "pattern": "^(?:[0-9a-f]{40}|[A-Za-z0-9._/-]+)$" },
             "path": { "type": ["string", "null"] }
           }
         },
@@ -78,7 +78,9 @@
           "additionalProperties": false,
           "properties": {
             "stars": { "type": "integer", "minimum": 0 },
-            "commitUpdatedAt": { "type": "string", "format": "date-time" }
+            "commitUpdatedAt": { "type": "string", "format": "date-time" },
+            "metadataUpdatedAt": { "type": "string", "format": "date-time" },
+            "archived": { "type": "boolean" }
           }
         },
         "review": {
@@ -86,8 +88,8 @@
           "required": ["state", "reason"],
           "additionalProperties": false,
           "properties": {
-            "state": { "const": "curated" },
-            "reason": { "enum": ["ecosystem-infrastructure", "community-distribution"] }
+            "state": { "enum": ["curated", "pending-review"] },
+            "reason": { "enum": ["ecosystem-infrastructure", "community-distribution", "dsh-integration"] }
           }
         },
         "verification": {
@@ -95,7 +97,7 @@
           "required": ["state", "evidence"],
           "additionalProperties": false,
           "properties": {
-            "state": { "enum": ["source-pinned", "static-reviewed"] },
+            "state": { "enum": ["source-pinned", "static-reviewed", "unverified"] },
             "evidence": { "type": "string", "minLength": 1 }
           }
         },

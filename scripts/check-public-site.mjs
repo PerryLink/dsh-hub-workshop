@@ -78,7 +78,7 @@ if (inventory.schema !== 'omdsh-workshop-verification-inventory/v1'
   || inventory.summary?.management?.guided !== catalog.packages.length - 11) {
   throw new Error('verification inventory must cover every Catalog project without claiming current-baseline verification or Registry admission')
 }
-if (topicAudit.schema !== 'omdsh-topic-plugin-audit/v1'
+if (topicAudit.schema !== 'omdsh-topic-plugin-audit/v2'
   || topicAudit.stats?.repositories !== topicRepositories.observedRepositoryCount
   || topicAudit.repositories.length !== topicRepositories.observedRepositoryCount
   || Object.values(topicAudit.stats?.decisions || {}).reduce((total, count) => total + count, 0) !== topicAudit.stats.repositories) {
@@ -90,9 +90,10 @@ const qualifiedRepositories = new Set(topicAudit.repositories
 const catalogRepositories = new Set(catalog.packages.map((entry) => new URL(entry.repository).pathname.split('/').filter(Boolean).slice(0, 2).join('/').toLocaleLowerCase('en-US')))
 if (catalog.packages.length !== catalog.stats?.packages
   || catalog.stats?.repositories !== catalogRepositories.size
-  || catalog.stats?.observedTopicRepositories !== 255
+  || catalog.stats?.observedTopicRepositories !== topicRepositories.observedRepositoryCount
   || catalog.stats?.qualifiedRepositories !== topicAudit.stats.decisions.include
-  || catalog.stats?.pendingRepositories !== topicAudit.stats.decisions.review
+  || catalog.stats?.pendingRepositories !== topicAudit.stats.pluginQualifications['pending-review']
+  || catalog.stats?.marketRepositories !== topicAudit.stats.decisions.market
   || catalog.stats?.excludedRepositories !== topicAudit.stats.decisions.exclude
   || catalog.stats?.reviewed !== 11
   || new Set(catalog.packages.map((entry) => entry.id)).size !== catalog.packages.length
@@ -114,21 +115,22 @@ if (pluginApi.schema !== 'omdsh-ai-plugins/v1'
 }
 const nonPluginIds = new Set(marketLayers.projects.map((project) => project.id))
 const pluginIds = new Set(catalog.packages.map((project) => project.id))
-if (marketLayers.schema !== 'omdsh-market-layers/v1'
-  || marketLayers.totals?.projects !== 5
-  || marketLayers.totals?.infrastructure !== 4
-  || marketLayers.totals?.distribution !== 1
+if (marketLayers.schema !== 'omdsh-market-layers/v2'
+  || marketLayers.totals?.projects !== marketLayers.projects.length
+  || marketLayers.totals?.infrastructure !== marketLayers.projects.filter((project) => project.layer === 'infrastructure').length
+  || marketLayers.totals?.distribution !== marketLayers.projects.filter((project) => project.layer === 'distribution').length
   || marketLayers.projects.length !== marketLayers.totals.projects
-  || marketLayers.projects.some((project) => !/^[0-9a-f]{40}$/.test(project.source?.ref || ''))
+  || marketLayers.projects.some((project) => project.review?.state === 'curated' && !/^[0-9a-f]{40}$/.test(project.source?.ref || ''))
+  || marketLayers.projects.some((project) => project.review?.state === 'pending-review' && project.verification?.state !== 'unverified')
   || marketLayers.projects.some((project) => project.registry?.state !== 'ineligible' || project.registry?.reason !== 'market-layer-not-plugin-install')
   || marketLayers.projects.some((project) => pluginIds.has(project.id))) {
-  throw new Error('non-plugin market layers must stay source-pinned, disjoint from the plugin Catalog, and ineligible for installation')
+  throw new Error('non-plugin market layers must preserve review facts, stay disjoint from the plugin Catalog, and remain ineligible for installation')
 }
 if (marketApi.schema !== 'omdsh-ai-market/v1'
   || marketApi.totals?.projects !== catalog.packages.length + marketLayers.projects.length
   || marketApi.totals?.plugin !== catalog.packages.length
-  || marketApi.totals?.infrastructure !== 4
-  || marketApi.totals?.distribution !== 1
+  || marketApi.totals?.infrastructure !== marketLayers.totals.infrastructure
+  || marketApi.totals?.distribution !== marketLayers.totals.distribution
   || marketApi.totals?.installable !== 0
   || marketApi.projects.length !== marketApi.totals.projects
   || marketApi.projects.filter((project) => project.layer !== 'plugin').some((project) => !nonPluginIds.has(project.id))) {
@@ -153,20 +155,19 @@ if (discovery.organization?.owner !== 'omdsh-dev'
   throw new Error('public organization discovery snapshot must contain 63 repositories and 62 projects')
 }
 if (discovery.topic?.name !== 'dsh-plugin'
-  || discovery.topic?.observedRepositoryCount !== 255
+  || discovery.topic?.observedRepositoryCount !== topicRepositories.observedRepositoryCount
   || discovery.topic?.status !== 'discovery-only') {
-  throw new Error('dsh-plugin Topic must remain a 255-repository discovery-only snapshot')
+  throw new Error('dsh-plugin Topic discovery summary must match the complete snapshot')
 }
 if (topicRepositories.schema !== 'dsh-topic-discovery/v1'
   || topicRepositories.topic !== 'dsh-plugin'
-  || topicRepositories.observedRepositoryCount !== 255
-  || topicRepositories.repositories.length !== 255
+  || topicRepositories.observedRepositoryCount !== topicRepositories.repositories.length
   || topicRepositories.status !== 'discovery-only') {
-  throw new Error('Topic repository snapshot must contain all 255 public discovery repositories')
+  throw new Error('Topic repository snapshot must contain every observed public discovery repository')
 }
 
 const builtFiles = await files(BUILD)
-if (builtFiles.length !== 50) throw new Error(`public build must contain exactly 50 files, received ${builtFiles.length}`)
+if (builtFiles.length !== 52) throw new Error(`public build must contain exactly 52 files, received ${builtFiles.length}`)
 for (const repository of repositories.repositories) {
   if (!/^https:\/\/github[.]com\/omdsh-dev\/[A-Za-z0-9._-]+$/.test(repository.url)) {
     throw new Error(`unapproved public repository URL: ${repository.url}`)
@@ -202,7 +203,7 @@ if (forbiddenPublicContent.test(contents)) {
   throw new Error('public site contains private-source, login, credential, or key material')
 }
 
-const [home, app, styles, configurations, developers, publish, contributing] = await Promise.all([
+const [home, app, styles, configurations, developers, publish, contributing, agentPromptZh, agentPromptEn] = await Promise.all([
   readFile(resolve(ROOT, 'index.html'), 'utf8'),
   readFile(resolve(ROOT, 'assets/app.js'), 'utf8'),
   readFile(resolve(ROOT, 'assets/styles.css'), 'utf8'),
@@ -210,6 +211,8 @@ const [home, app, styles, configurations, developers, publish, contributing] = a
   readFile(resolve(ROOT, 'developer-guide.html'), 'utf8'),
   readFile(resolve(ROOT, 'publish.html'), 'utf8'),
   readFile(resolve(ROOT, 'contributing.html'), 'utf8'),
+  readFile(resolve(ROOT, 'agent-submission-prompt.zh.md'), 'utf8'),
+  readFile(resolve(ROOT, 'agent-submission-prompt.en.md'), 'utf8'),
 ])
 for (const required of ['discover-stage', 'featured-tabs', 'market-layer-options', 'data-market-layer="infrastructure"', 'data-market-layer="distribution"', 'data-catalog-view="grid"', 'data-catalog-view="list"', 'catalog-pagination']) {
   if (!home.includes(required)) throw new Error(`restored Workshop layout is missing ${required}`)
@@ -229,6 +232,20 @@ if (!app.includes('selectSpotlightPackages')
   || !app.includes("pkg.discovery?.qualification === 'verified-plugin-contract'")
   || !app.includes('spotlight-project-stars')) {
   throw new Error('homepage spotlight must rank file-verified plugin contracts by GitHub stars')
+}
+if (!publish.includes('copy-agent-submission-prompt')
+  || !publish.includes('agent-submission-prompt.zh.md')
+  || !developers.includes('agent-submission-prompt.en.md')) {
+  throw new Error('Author Studio and developer guide must expose Agent submission instructions')
+}
+for (const prompt of [agentPromptZh, agentPromptEn]) {
+  if (!prompt.includes('omdsh-workshop-submission/v1')
+    || !prompt.includes('omdsh-dev/dsh-hub-workshop')
+    || !prompt.includes('scripts/intake.mjs validate')
+    || !prompt.includes('pending-review')
+    || !prompt.includes('40')) {
+    throw new Error('Agent submission instruction is missing an immutable-source, validation, or review boundary')
+  }
 }
 for (const [name, source, minimumLines, required] of [
   ['configurations', configurations, 150, 'configuration-task-finder'],

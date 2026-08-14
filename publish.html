@@ -8,9 +8,9 @@
     <meta name="description" content="为 DSH Hub Workshop 生成可审查的项目、版本与整合包 manifest。" data-i18n-content="publish.metaDescription">
     <title>Author Studio - DSH Hub Workshop</title>
     <link rel="icon" href="assets/atlas-symbol.png">
-    <link rel="stylesheet" href="assets/styles.css?v=20260809-author-studio-v14">
-    <script src="assets/site.js?v=20260809-author-studio-v14" data-i18n-src="assets/i18n.json?v=20260809-author-studio-v14" defer></script>
-    <script src="assets/publish.js?v=20260809-author-studio-v13" defer></script>
+    <link rel="stylesheet" href="assets/styles.css?v=20260814-agent-submission-v1">
+    <script src="assets/site.js?v=20260814-agent-submission-v1" data-i18n-src="assets/i18n.json?v=20260814-agent-submission-v1" defer></script>
+    <script src="assets/publish.js?v=20260814-agent-submission-v1" defer></script>
     <script src="assets/distribution-studio.js?v=20260811-distribution-studio-v1" defer></script>
   </head>
   <body data-title-key="publish.metaTitle">
@@ -40,15 +40,28 @@
       <header class="publish-intro">
         <p class="hero-kicker" data-i18n="publish.kicker">Workshop 作者工具</p>
         <h1 data-i18n="publish.title">把作品带到 Workshop。</h1>
-        <p data-i18n="publish.description">发布一个项目，或把已收录的固定 Release 组合成整合包；提交材料只在本机生成。</p>
+        <p data-i18n="publish.description">发布一个项目，或把已收录的固定 Release 组合成整合包；扩展申请会进入自动化预检。</p>
         <div class="publish-boundaries">
           <span data-i18n="publish.noToken">不读取 GitHub Token</span>
-          <span data-i18n="publish.noUpload">不上传文件</span>
+          <span data-i18n="publish.noUpload">只提交结构化清单</span>
           <span data-i18n="publish.noAutoTrust">不自动授予信任</span>
           <a href="developer-guide.html#ai-integration-prompt" data-i18n="publish.aiGuide">让 AI 帮我准备仓库</a>
           <a href="submission.schema.json" data-i18n="publish.schema">查看 v1 数据契约</a>
         </div>
       </header>
+
+      <section class="agent-submission-card" aria-labelledby="agent-submission-title">
+        <div class="agent-submission-mark" aria-hidden="true">↗</div>
+        <div class="agent-submission-copy">
+          <p data-i18n="publish.agentKicker">Agent 自动投稿</p>
+          <h2 id="agent-submission-title" data-i18n="publish.agentTitle">不用手填，让作者 Agent 完成申请。</h2>
+          <p data-i18n="publish.agentDescription">复制标准指令给能读取作者仓库的 Agent。它会核对公开固定 commit、生成并本地校验 manifest，展示完整 Issue；作者确认这一次 GitHub 写入后，由 Agent 创建申请。</p>
+        </div>
+        <div class="agent-submission-actions">
+          <button id="copy-agent-submission-prompt" type="button" data-i18n="publish.agentCopy">复制 Agent 指令</button>
+          <a id="open-agent-submission-prompt" href="agent-submission-prompt.zh.md" data-i18n="publish.agentView">查看完整指令</a>
+        </div>
+      </section>
 
       <nav class="publish-mode-tabs" role="tablist" aria-label="发布类型" data-i18n-aria-label="publish.modeLabel">
         <button type="button" role="tab" aria-selected="true" aria-controls="project-studio" data-publish-mode="project">
@@ -182,15 +195,15 @@
         </form>
 
         <details id="manifest-preview" class="manifest-preview">
-          <summary class="preview-heading"><span><strong id="preview-title" data-i18n="publish.previewTitle">Manifest 预览</strong><small data-i18n="publish.previewHelp">校验通过后在这里查看和提交</small></span><span data-i18n="publish.localOnly">只在本机生成</span></summary>
+          <summary class="preview-heading"><span><strong id="preview-title" data-i18n="publish.previewTitle">Manifest 预览</strong><small data-i18n="publish.previewHelp">校验通过后在这里查看和提交</small></span><span data-i18n="publish.localOnly">提交前预览</span></summary>
           <div class="preview-body">
             <pre><code id="manifest-output">{}</code></pre>
             <div class="preview-actions">
               <button id="copy-manifest" class="primary-action" type="button" disabled data-i18n="publish.copy">复制 JSON</button>
               <button id="download-manifest" class="secondary-action" type="button" disabled data-i18n="publish.download">下载文件</button>
-              <a id="open-submission" class="secondary-action is-disabled" href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new?template=extension-submission.yml" aria-disabled="true" data-i18n="publish.openIssue">打开收录申请</a>
+              <a id="open-submission" class="secondary-action is-disabled" href="https://github.com/omdsh-dev/dsh-hub-workshop/issues/new" aria-disabled="true" data-i18n="publish.openIssue">提交自动化预检</a>
             </div>
-            <p data-i18n="publish.issueHelp">把生成的完整 JSON 粘贴到 Issue 的 Author Studio manifest 字段；自动化会扫描固定 commit 并维护一个 Catalog PR。</p>
+            <p data-i18n="publish.issueHelp">点击后会把完整清单带入申请；Issue 创建后，自动化只读核验公开仓库、固定 commit 与来源路径，并创建待审核 PR。</p>
           </div>
         </details>
       </div>
@@ -263,6 +276,6 @@
         </div>
       </section>
     </main>
-    <footer class="site-footer doc-footer"><a class="footer-brand" href="./">DSH Hub Workshop</a><p data-i18n="publish.footer">Author Studio 只生成提交材料，收录与审核仍由 GitHub 流程完成。</p><div class="footer-links"><a href="contributing.html" data-i18n="nav.contribute">收录指南</a><a href="registry.html" data-i18n="nav.registry">协议</a></div></footer>
+    <footer class="site-footer doc-footer"><a class="footer-brand" href="./">DSH Hub Workshop</a><p data-i18n="publish.footer">Author Studio 自动准备待审核记录；人工批准、测试验证与 Registry 授权仍彼此独立。</p><div class="footer-links"><a href="contributing.html" data-i18n="nav.contribute">收录指南</a><a href="registry.html" data-i18n="nav.registry">协议</a></div></footer>
   </body>
 </html>

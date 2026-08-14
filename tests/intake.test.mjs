@@ -131,6 +131,12 @@ test('submission intake rejects mutable refs and executable guided commands', ()
   assert.match(validateSubmission(executable).join('; '), /must not expose an executable install command/)
 })
 
+test('submission intake rejects obvious credentials before creating public review material', () => {
+  const leaked = submission('guided')
+  leaked.declarations.testing = `accidental github_pat_${'a'.repeat(24)}`
+  assert.match(validateSubmission(leaked).join('; '), /credential or private key/)
+})
+
 test('managed configuration fails closed while the public official package is unavailable', () => {
   const record = createIntakeRecord(submission('repository-plugin'), baseline)
   assert.equal(record.verification.state, 'blocked')

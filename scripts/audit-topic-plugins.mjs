@@ -4,277 +4,169 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 const ROOT = resolve(import.meta.dirname, '..')
+const auditPath = resolve(ROOT, 'topic-plugin-audit.json')
 const topicSnapshot = JSON.parse(await readFile(resolve(ROOT, 'topic-repositories.json'), 'utf8'))
-const repositories = topicSnapshot.repositories
-const generatedAt = topicSnapshot.generatedAt
-const USER_AGENT = 'omdsh-workshop-topic-audit/1.0'
+const previousAudit = await readFile(auditPath, 'utf8').then(JSON.parse).catch(() => ({ repositories: [] }))
+const previousByRepository = new Map((previousAudit.repositories || []).map((entry) => [`${entry.owner}/${entry.name}`.toLocaleLowerCase('en-US'), entry]))
+
+function included(reasonCode, reason, qualification = 'pending-review', manualReview = null) {
+  return { decision: 'include', reasonCode, reason, qualification, marketLayer: null, manualReview }
+}
+
+function market(marketLayer, reasonCode, reason, manualReview = null) {
+  return { decision: 'market', reasonCode, reason, qualification: 'pending-review', marketLayer, manualReview }
+}
+
+function excluded(reasonCode, reason, manualReview = null) {
+  return { decision: 'exclude', reasonCode, reason, qualification: null, marketLayer: null, manualReview }
+}
 
 const MANUAL_DECISIONS = new Map([
-  ['deepseek-ai/deepseek-harness', { decision: 'exclude', reasonCode: 'core-product', reason: 'DeepSeek Harness 主仓，不是插件。' }],
-  ['omdsh-dev/dsh-hub-workshop', { decision: 'exclude', reasonCode: 'ecosystem-infrastructure', reason: 'Workshop/Catalog 权威仓，不是插件。' }],
-  ['omdsh-dev/dsh-hub', { decision: 'exclude', reasonCode: 'ecosystem-infrastructure', reason: 'Hub 消费端，不是插件。' }],
-  ['omdsh-dev/omdsh-runtime', { decision: 'exclude', reasonCode: 'ecosystem-infrastructure', reason: 'OMDSH Runtime，不是插件。' }],
-  ['omdsh-dev/dsh-mygo', {
-    decision: 'exclude',
-    reasonCode: 'ecosystem-infrastructure',
-    reason: '插件管理与治理框架，不是可作为单一最终用户插件安装的叶子项目；子包也未通过当前公开基线验证。',
-    evidence: {
-      inspectedCommit: '4566748646823f8e2123f6addcf22b55e305e740',
-      verificationLevel: 'static-public-source',
-      findings: [
-        'root-package-manifest-absent',
-        'multi-package-plugin-management-framework',
-        'subpackages-target-older-rc-line',
-        'workspace-dependencies-unresolved',
-        'public-packages-unavailable',
-        'current-public-baseline-not-verified',
-      ],
-    },
-  }],
-  ['omdsh-dev/omdsh', { decision: 'exclude', reasonCode: 'distribution', reason: 'Oh My DSH 发行版，不是插件。' }],
-  ['omdsh-dev/plugin-template', { decision: 'exclude', reasonCode: 'template-or-guide', reason: '插件模板本身不作为插件收录。' }],
-  ['omdsh-dev/dsh-plugin-dev', { decision: 'exclude', reasonCode: 'template-or-guide', reason: '插件开发说明与工具，不作为插件收录。' }],
-  ['omdsh-dev/dsh-plugin-skills', { decision: 'exclude', reasonCode: 'template-or-guide', reason: '面向插件开发与测试的 Agent Skills，不是运行时插件。' }],
-  ['omdsh-dev/dsh-tool-browser', { decision: 'exclude', reasonCode: 'template-or-guide', reason: '浏览器接入配置与指南，不含独立 DSH 插件实现。' }],
-  ['omdsh-dev/dsh-github-integration', { decision: 'include', reasonCode: 'verified-repository-plugin', reason: '固定提交中的 plugins/github-integration/.dsh-plugin 已通过静态打包核验。' }],
-  ['omdsh-dev/toybox', { decision: 'include', reasonCode: 'verified-plugin-collection', reason: '固定提交中的 8 个 Repository Plugin 子项目已逐项通过静态或协议核验。' }],
+  ['deepseek-ai/deepseek-harness', excluded('core-product', 'DeepSeek Harness 主仓不是生态插件。')],
+  ['omdsh-dev/dsh-hub-workshop', market('infrastructure', 'ecosystem-infrastructure', 'Workshop/Catalog 权威仓属于生态基础设施。')],
+  ['omdsh-dev/dsh-hub', market('infrastructure', 'ecosystem-infrastructure', 'Hub 消费端属于生态基础设施。')],
+  ['omdsh-dev/omdsh-runtime', market('infrastructure', 'ecosystem-infrastructure', 'OMDSH Runtime 属于生态基础设施。')],
+  ['omdsh-dev/dsh-mygo', market('infrastructure', 'ecosystem-infrastructure', '插件管理与治理框架属于生态基础设施。', {
+    inspectedCommit: '4566748646823f8e2123f6addcf22b55e305e740',
+    verificationLevel: 'static-public-source',
+    findings: [
+      'root-package-manifest-absent',
+      'multi-package-plugin-management-framework',
+      'subpackages-target-older-rc-line',
+      'workspace-dependencies-unresolved',
+      'public-packages-unavailable',
+      'current-public-baseline-not-verified',
+    ],
+  })],
+  ['omdsh-dev/omdsh', market('distribution', 'community-distribution', 'Oh My DSH 是社区发行版。')],
+  ['omdsh-dev/plugin-template', excluded('template-or-guide', '插件模板不作为作品条目收录。')],
+  ['omdsh-dev/dsh-plugin-dev', excluded('template-or-guide', '插件开发文档与说明不是最终用户插件。')],
+  ['omdsh-dev/dsh-plugin-skills', market('infrastructure', 'ecosystem-infrastructure', '插件开发与测试 Agent Skills 属于生态工具。')],
+  ['omdsh-dev/dsh-tool-browser', market('infrastructure', 'ecosystem-infrastructure', '浏览器接入配置与指南属于生态接入工具。')],
+  ['omdsh-dev/dsh-github-integration', included('verified-repository-plugin', '固定提交中的 Repository Plugin 已通过静态核验。', 'verified')],
+  ['omdsh-dev/toybox', included('verified-plugin-collection', '仓库中的八个叶子插件已分别建立公开条目。', 'verified')],
 ])
 
-const decoder = new TextDecoder()
-const encodePath = (value) => value.split('/').map(encodeURIComponent).join('/')
-const fullName = (repository) => `${repository.owner}/${repository.name}`
+const AWESOME_RE = /(?:^|[-_.])(awesome|handbook|wiki)(?:[-_.]|$)|\b(?:awesome list|curated list|resource list|handbook|wiki|guide to|from scratch)\b|(?:教程|指南|手册|百科|资源列表|项目列表|插件列表|生态列表|导航站)/i
+const TEMPLATE_RE = /(?:^|[-_.])(?:template|starter|boilerplate|scaffold|example)(?:[-_.]|$)|\b(?:template|starter|boilerplate|scaffold|placeholder|group photo|leaderboard)\b|(?:模板|脚手架|占位|排行榜|合影)/i
+const DIRECTORY_RE = /(?:plugin|extension)[-_ ]?(?:store|market(?:place)?|index|directory|registry|hub|radar|landscape|recommend)|(?:find|search)[-_ ]?(?:plugin|extension)|(?:插件|扩展)(?:商店|市场|目录|索引|导航|排行|推荐)/i
+const INFRASTRUCTURE_RE = /(?:^|[-_.])(?:desktop|launcher|client|tui|vscode|devkit|doctor|installer|publisher|manager|updater)(?:[-_.\s]|$)|\b(?:desktop app|desktop wrapper|desktop shell|terminal (?:ui|client)|launcher|plugin manager|plugin marketplace|plugin store|developer toolkit|companion cli|vs ?code (?:client|extension)|packager)\b|(?:桌面端|桌面版|桌面客户端|桌面壳|启动器|终端 ?UI|插件管理器|插件市场|插件商店|开发工具|诊断工具)/i
+const DISTRIBUTION_RE = /(?:^|[-_.])(?:oh[-_.]?my[-_.]?dsh|modpack|plugin[-_.]?pack)(?:[-_.\s]|$)|\b(?:plugin collection|plugins collection|plugin suite|community distribution|plugin kit|plugin pack|modpack|packager|curated bundle)\b|(?:插件合集|插件集合|插件精选集|插件聚合|社区发行版|整合包)/i
+const PLUGIN_WORD_RE = /\b(?:plugins?|extensions?|providers?|bundles?|skins?|skills?|adapters?|bridges?|channels?|tools?)\b|(?:插件|扩展|提供方|皮肤|技能|适配器|桥接|工具)/i
+const DSH_RE = /\b(?:deepseek[ -]?harness|dsh)\b/i
 
-async function fetchText(url) {
-  const controller = new AbortController()
-  const timeout = setTimeout(() => controller.abort(), 20_000)
-  try {
-    const response = await fetch(url, {
-      headers: { 'user-agent': USER_AGENT, accept: 'text/html,application/json,text/plain;q=0.9,*/*;q=0.8' },
-      redirect: 'follow',
-      signal: controller.signal,
-    })
-    if (!response.ok) return null
-    const buffer = await response.arrayBuffer()
-    if (buffer.byteLength > 1_500_000) return decoder.decode(buffer.slice(0, 1_500_000))
-    return decoder.decode(buffer)
-  } catch {
-    return null
-  } finally {
-    clearTimeout(timeout)
+function repositoryKey(repository) {
+  return `${repository.owner}/${repository.name}`.toLocaleLowerCase('en-US')
+}
+
+function productText(repository) {
+  return `${repository.name}\n${repository.description || ''}`
+}
+
+function classify(repository) {
+  const key = repositoryKey(repository)
+  const text = productText(repository)
+  const lowerName = repository.name.toLocaleLowerCase('en-US')
+  const previous = previousByRepository.get(key)
+  const manual = MANUAL_DECISIONS.get(key)
+  if (manual) return manual
+
+  const hasDshClaim = DSH_RE.test(text)
+    || /(?:^|[-_.])dsh(?:[-_.]|$)/i.test(lowerName)
+    || /deepseek[-_.]?harness/i.test(lowerName)
+  const hasPluginClaim = PLUGIN_WORD_RE.test(text)
+    || /(?:^|[-_.])(?:plugin|plugins|skin|skills?)(?:[-_.]|$)/i.test(lowerName)
+
+  if (/(?:^|[-_.])(?:awesome|handbook|wiki)(?:[-_.]|$)/i.test(lowerName)) {
+    return excluded('awesome-or-documentation', 'Awesome、手册、Wiki 或纯导航文档不是插件作品。')
   }
-}
-
-function rawUrl(repository, path) {
-  return `https://raw.githubusercontent.com/${encodeURIComponent(repository.owner)}/${encodeURIComponent(repository.name)}/${encodePath(repository.defaultBranch || 'main')}/${encodePath(path)}`
-}
-
-function treeUrl(repository, path = '') {
-  const base = `https://github.com/${encodeURIComponent(repository.owner)}/${encodeURIComponent(repository.name)}`
-  return path ? `${base}/tree/${encodePath(repository.defaultBranch || 'main')}/${encodePath(path)}` : base
-}
-
-function pathsFromHtml(source) {
-  if (!source) return []
-  return [...new Set([...source.matchAll(/"path":"([^"\\]*(?:\\.[^"\\]*)*)"/g)]
-    .map((match) => JSON.parse(`"${match[1]}"`))
-    .filter((path) => path && path !== '/'))]
-}
-
-function parsePackage(source) {
-  if (!source) return null
-  try { return JSON.parse(source) } catch { return null }
-}
-
-function dependencyNames(pkg) {
-  return Object.keys({
-    ...(pkg?.dependencies || {}),
-    ...(pkg?.peerDependencies || {}),
-    ...(pkg?.optionalDependencies || {}),
-    ...(pkg?.devDependencies || {}),
-  })
-}
-
-function looksLikeAwesome(repository, text) {
-  return /(^|[-_.])awesome([-. _]|$)/i.test(repository.name)
-    || /\b(awesome list|curated list|curated directory|资源列表|项目列表|插件列表|生态列表|导航站)\b/i.test(`${repository.name}\n${repository.description || ''}`)
-}
-
-function pluginClaims(text) {
-  const matches = []
-  for (const [label, pattern] of [
-    ['explicit-harness-plugin', /\b(?:(?:deepseek harness|dsh)\s+(?:native\s+)?(?:plugins?|extensions?|providers?)|(?:plugins?|extensions?|providers?)\s+(?:for|to)\s+(?:deepseek harness|dsh))\b/i],
-    ['profile-install', /\bdsh\s+plugin\s+(?:add|install|remove)|--profile\b/i],
-    ['repository-plugin', /repository[- ]plugin|\.dsh-plugin\b/i],
-    ['profile-bundle', /profile[- ]bundle|cordis\.patch\.ya?ml|"bundle"\s*:/i],
-  ]) if (pattern.test(text)) matches.push(label)
-  return matches
-}
-
-async function mapLimit(items, limit, callback) {
-  const output = new Array(items.length)
-  let cursor = 0
-  async function worker() {
-    while (cursor < items.length) {
-      const index = cursor++
-      output[index] = await callback(items[index], index)
-    }
-  }
-  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker))
-  return output
-}
-
-async function inspect(repository) {
-  const name = fullName(repository)
-  const rootHtml = await fetchText(treeUrl(repository))
-  const rootPaths = pathsFromHtml(rootHtml)
-  const rootNames = new Set(rootPaths.filter((path) => !path.includes('/')))
-  const readmePaths = ['README.md', 'README.zh-CN.md', 'README.zh.md', 'README_CN.md', 'README.en.md', 'readme.md']
-  const requested = [...readmePaths, 'package.json', 'dsh.plugin.json', 'cordis.patch.yml', 'cordis.patch.yaml', 'SKILL.md']
-  const [files, pluginDirHtml, pluginsDirHtml, packagesDirHtml] = await Promise.all([
-    Promise.all(requested.map(async (path) => [path, await fetchText(rawUrl(repository, path))])),
-    rootNames.has('.dsh-plugin') ? fetchText(treeUrl(repository, '.dsh-plugin')) : null,
-    rootNames.has('plugins') ? fetchText(treeUrl(repository, 'plugins')) : null,
-    rootNames.has('packages') ? fetchText(treeUrl(repository, 'packages')) : null,
-  ])
-  const contents = Object.fromEntries(files.filter(([, source]) => source !== null))
-  const pkg = parsePackage(contents['package.json'])
-  const readme = readmePaths.map((path) => contents[path] || '').join('\n')
-  const combinedText = `${repository.name}\n${repository.description || ''}\n${readme}`
-  const dependencies = dependencyNames(pkg)
-  const deepseekDependencies = dependencies.filter((dependency) => dependency.startsWith('@deepseek-ai/'))
-  const packageDsh = pkg?.dsh && typeof pkg.dsh === 'object' ? pkg.dsh : null
-  const bundlePatch = packageDsh?.bundle?.patch || null
-  const pluginDirPaths = pathsFromHtml(pluginDirHtml)
-  const pluginChildren = pathsFromHtml(pluginsDirHtml).filter((path) => path.startsWith('plugins/'))
-  const packageChildren = pathsFromHtml(packagesDirHtml).filter((path) => path.startsWith('packages/'))
-  const claims = pluginClaims(combinedText)
-  const strongSignals = []
-  if (bundlePatch) strongSignals.push(`package.json:dsh.bundle.patch=${bundlePatch}`)
-  if (contents['dsh.plugin.json']) strongSignals.push('dsh.plugin.json')
-  if (contents['cordis.patch.yml'] || contents['cordis.patch.yaml']) strongSignals.push('cordis.patch')
-  if (rootNames.has('.dsh-plugin')) strongSignals.push('.dsh-plugin/')
-  if (pluginDirPaths.some((path) => /(?:manifest|plugin|prepare|install|config).*(?:json|ya?ml|js|mjs|ts)$/i.test(path))) {
-    strongSignals.push('.dsh-plugin manifest/installer')
-  }
-  if (packageDsh && Object.keys(packageDsh).length) strongSignals.push('package.json:dsh metadata')
-  if (deepseekDependencies.length) strongSignals.push(`DeepSeek Harness dependencies (${deepseekDependencies.length})`)
-  const collectionSignals = []
-  if (rootNames.has('plugins') && pluginChildren.length) collectionSignals.push(`plugins/ tree (${new Set(pluginChildren.map((path) => path.split('/')[1])).size} children)`)
-  if (rootNames.has('packages') && packageChildren.length) collectionSignals.push(`packages/ tree (${new Set(packageChildren.map((path) => path.split('/')[1])).size} children)`)
-
-  let decision = 'exclude'
-  let reasonCode = 'insufficient-plugin-evidence'
-  let reason = '只有 Topic 或文字描述，未发现可核验的 DSH 插件清单、Profile Bundle、Repository Plugin 或 Harness 依赖证据。'
-  const override = MANUAL_DECISIONS.get(name)
-  if (override) {
-    ;({ decision, reasonCode, reason } = override)
-  } else if (repository.archived) {
-    reasonCode = 'archived'
-    reason = '仓库已归档，不进入当前插件目录。'
-  } else if (/\bprivate\b/i.test(repository.description || '')) {
-    reasonCode = 'private-or-unavailable'
-    reason = '公开描述标明 Private，不能作为可核验的公开插件来源。'
-  } else if (looksLikeAwesome(repository, combinedText)) {
-    reasonCode = 'awesome-or-directory'
-    reason = 'Awesome/导航/文档清单不是插件实现。'
-  } else if (/\b(template|starter|boilerplate|from scratch|guide|placeholder|leaderboard|group photo)\b|教程|指南|脚手架|占位|排行榜|合影/i.test(`${repository.name}\n${repository.description || ''}`)) {
-    reasonCode = 'template-or-guide'
-    reason = '模板、教程、排行榜或占位项目不是插件实现。'
-  } else if (bundlePatch || contents['dsh.plugin.json'] || rootNames.has('.dsh-plugin') || (packageDsh && Object.keys(packageDsh).length)) {
-    decision = 'include'
-    reasonCode = 'verified-plugin-contract'
-    reason = '仓库包含可核验的 DSH 插件契约或 Profile Bundle 元数据。'
-  } else if ((contents['cordis.patch.yml'] || contents['cordis.patch.yaml']) && (deepseekDependencies.length || claims.length)) {
-    decision = 'include'
-    reasonCode = 'verified-cordis-plugin'
-    reason = '仓库包含 Cordis patch，并有 DeepSeek Harness 依赖或明确插件接入证据。'
-  } else if (deepseekDependencies.length && claims.length) {
-    decision = 'include'
-    reasonCode = 'verified-harness-integration'
-    reason = '代码包同时声明 DeepSeek Harness 依赖和明确插件接入方式。'
-  } else if (collectionSignals.length && claims.length) {
-    decision = 'review'
-    reasonCode = 'plugin-collection-needs-expansion'
-    reason = '看起来是插件集合；需要按子插件清单展开，不能把集合仓整体冒充一个插件。'
-  } else if (!rootPaths.length && !Object.keys(contents).length) {
-    decision = 'review'
-    reasonCode = 'source-scan-unavailable'
-    reason = '本次未能读取公开仓库文件，不能仅凭 Topic 判为插件或非插件。'
-  } else if (claims.length) {
-    decision = 'review'
-    reasonCode = 'claimed-plugin-unverified'
-    reason = '文档声称是 DSH 插件，但当前根目录证据不足，需要继续核对插件子路径或不可变提交。'
+  if (/(?:^|[-_.])(?:template|starter|boilerplate|scaffold|example)(?:[-_.]|$)/i.test(lowerName)) {
+    return excluded('template-or-placeholder', '模板、脚手架、示例或占位项目不进入市场。')
   }
 
+  const previouslyVerified = previous?.decision === 'include'
+    && (previous.qualification === 'verified' || /^verified-/.test(previous.reasonCode || ''))
+  if (previouslyVerified && !DIRECTORY_RE.test(text) && !INFRASTRUCTURE_RE.test(text) && !DISTRIBUTION_RE.test(text)) {
+    return included(previous.reasonCode, previous.reason, 'verified', previous.evidence?.manualReview || null)
+  }
+  if (hasDshClaim && DISTRIBUTION_RE.test(text)) {
+    return market('distribution', 'community-distribution', '真实的插件集合或社区发行项目，作为整合层展示而不冒充单一插件。')
+  }
+  if (hasDshClaim && (DIRECTORY_RE.test(text) || INFRASTRUCTURE_RE.test(text))) {
+    return market('infrastructure', 'ecosystem-infrastructure', '真实的客户端、管理器、市场、开发工具或其他生态基础设施。')
+  }
+  if (AWESOME_RE.test(text)) return excluded('awesome-or-documentation', 'Awesome、手册、Wiki 或纯导航文档不是插件作品。')
+  if (TEMPLATE_RE.test(text)) return excluded('template-or-placeholder', '模板、脚手架、示例、排行榜或占位项目不进入市场。')
+  if (hasDshClaim && hasPluginClaim) {
+    return included('claimed-plugin-pending-review', '仓库明确声明 DSH 插件或扩展能力；先进入展示层，等待固定来源和协议核验。')
+  }
+  if (hasDshClaim && /(?:^|[-_.])dsh(?:[-_.]|$)|deepseek[-_.]?harness/i.test(lowerName)) {
+    return included('dsh-project-pending-review', '项目名称明确指向 DSH 生态；先作为待审核作品展示，不授予安装权限。')
+  }
+  if (hasDshClaim) {
+    return market('infrastructure', 'dsh-integration', '项目明确提供 DSH 集成，但不是可核验的单一叶子插件。')
+  }
+  return excluded('topic-only-traffic', '只有 dsh-plugin Topic 命中，没有 DSH 作品声明或既有插件证据。')
+}
+
+const audits = topicSnapshot.repositories.map((repository) => {
+  const classification = classify(repository)
+  const text = productText(repository)
   return {
     owner: repository.owner,
     name: repository.name,
     url: repository.url,
     defaultBranch: repository.defaultBranch,
     archived: repository.archived,
-    decision,
-    reasonCode,
-    reason,
+    decision: classification.decision,
+    reasonCode: classification.reasonCode,
+    reason: classification.reason,
+    qualification: classification.qualification,
+    marketLayer: classification.marketLayer,
     evidence: {
-      manualReview: override?.evidence || null,
-      rootPaths: rootPaths.slice(0, 80),
-      packageName: pkg?.name || null,
-      packagePrivate: typeof pkg?.private === 'boolean' ? pkg.private : null,
-      packageDsh: packageDsh || null,
-      deepseekDependencies,
-      pluginClaims: claims,
-      strongSignals,
-      collectionSignals,
-      pluginDirectoryPaths: pluginDirPaths.slice(0, 40),
-      pluginChildren: pluginChildren.slice(0, 80),
-      packageChildren: packageChildren.slice(0, 80),
+      ...(classification.manualReview ? { manualReview: classification.manualReview } : {}),
+      topicClaim: {
+        descriptionPresent: Boolean(repository.description),
+        explicitDshClaim: DSH_RE.test(text) || /(?:^|[-_.])dsh(?:[-_.]|$)|deepseek[-_.]?harness/i.test(repository.name),
+        explicitPluginClaim: PLUGIN_WORD_RE.test(text),
+      },
     },
   }
-}
-
-let completed = 0
-const audits = await mapLimit(repositories, 12, async (repository) => {
-  const audit = await inspect(repository)
-  completed += 1
-  if (completed % 25 === 0 || completed === repositories.length) process.stderr.write(`audited ${completed}/${repositories.length}\n`)
-  return audit
 })
 
-const countBy = (field) => Object.fromEntries([...new Set(audits.map((entry) => entry[field]))]
-  .sort()
-  .map((value) => [value, audits.filter((entry) => entry[field] === value).length]))
+function countBy(field) {
+  return Object.fromEntries([...new Set(audits.map((entry) => entry[field]).filter((value) => value !== null))]
+    .sort()
+    .map((value) => [value, audits.filter((entry) => entry[field] === value).length]))
+}
+
+function countSubset(entries, field) {
+  return Object.fromEntries([...new Set(entries.map((entry) => entry[field]).filter((value) => value !== null))]
+    .sort()
+    .map((value) => [value, entries.filter((entry) => entry[field] === value).length]))
+}
+
 const report = {
-  schema: 'omdsh-topic-plugin-audit/v1',
-  generatedAt,
+  schema: 'omdsh-topic-plugin-audit/v2',
+  generatedAt: topicSnapshot.generatedAt,
   topic: topicSnapshot.topic,
   sourceSnapshotGeneratedAt: topicSnapshot.generatedAt,
   policy: {
-    included: 'Only repositories with a verifiable DSH plugin contract, Profile Bundle, Repository Plugin, or corroborated Harness integration are eligible.',
-    reviewed: 'Claims and collections without enough file-level evidence remain outside the Catalog pending manual expansion or verification.',
-    excluded: 'Core products, infrastructure, distributions, awesome lists, documentation, templates, placeholders, archived sources, and Topic-only repositories are excluded.',
+    plugin: 'A repository with an explicit DSH plugin or extension claim is displayed as a plugin; file-level evidence determines verified versus pending-review, never installation authority.',
+    market: 'Genuine DSH clients, managers, marketplaces, developer tools, integrations, plugin collections, and distributions are displayed in non-plugin market layers.',
+    excluded: 'Core products, Awesome/documentation, templates/placeholders, and Topic-only popularity matches without a DSH work claim remain outside the market.',
+    registry: 'All Topic-derived entries remain ineligible for Registry installation until independent Intake, testing, review, and admission pass.',
   },
   stats: {
     repositories: audits.length,
     decisions: countBy('decision'),
     reasons: countBy('reasonCode'),
+    qualifications: countBy('qualification'),
+    pluginQualifications: countSubset(audits.filter((entry) => entry.decision === 'include'), 'qualification'),
+    marketLayers: countBy('marketLayer'),
   },
-  repositories: audits.map((entry) => ({
-    owner: entry.owner,
-    name: entry.name,
-    url: entry.url,
-    defaultBranch: entry.defaultBranch,
-    archived: entry.archived,
-    decision: entry.decision,
-    reasonCode: entry.reasonCode,
-    reason: entry.reason,
-    evidence: {
-      ...(entry.evidence.manualReview ? { manualReview: entry.evidence.manualReview } : {}),
-      strongSignals: entry.evidence.strongSignals,
-      pluginClaims: entry.evidence.pluginClaims,
-      collectionSignals: entry.evidence.collectionSignals,
-    },
-  })),
+  repositories: audits,
 }
 
-await writeFile(resolve(ROOT, 'topic-plugin-audit.json'), `${JSON.stringify(report, null, 2)}\n`)
+await writeFile(auditPath, `${JSON.stringify(report, null, 2)}\n`)
 console.log(JSON.stringify(report.stats, null, 2))

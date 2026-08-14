@@ -21,6 +21,12 @@ test('the empty Registry is deterministic and grants no install authority', asyn
   assert.deepEqual(workshop.runRecords, [])
   assert.equal(first['catalog.json'].stats.installMethods['profile-bundle'], undefined)
   assert.equal(first['catalog.json'].stats.installMethods.manual, first['catalog.json'].stats.packages)
+  const sourceCatalog = await json('catalog.json')
+  const admissions = await json('registry-admissions.json')
+  assert.equal(
+    first['catalog.json'].updated,
+    new Date(Math.max(Date.parse(sourceCatalog.updated), Date.parse(admissions.updatedAt))).toISOString(),
+  )
 })
 
 test('blocked candidates never leak into executable feeds', async () => {

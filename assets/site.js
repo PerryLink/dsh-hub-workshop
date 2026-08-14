@@ -23,6 +23,26 @@
 
   window.DSHHub = hub
 
+  async function copyText(value) {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(value)
+        return
+      }
+    } catch {}
+
+    const fallback = document.createElement('textarea')
+    fallback.value = value
+    fallback.setAttribute('readonly', '')
+    fallback.style.position = 'fixed'
+    fallback.style.opacity = '0'
+    document.body.append(fallback)
+    fallback.select()
+    const copied = document.execCommand('copy')
+    fallback.remove()
+    if (!copied) throw new Error('clipboard write failed')
+  }
+
   function applyText(selector, attribute, valueAttribute) {
     document.querySelectorAll(selector).forEach((element) => {
       const key = element.getAttribute(attribute)
@@ -80,6 +100,19 @@
 
   function setupInteractions() {
     document.addEventListener('click', (event) => {
+      const copyPromptButton = event.target.closest('[data-copy-next-code]')
+      if (copyPromptButton) {
+        const code = copyPromptButton.closest('.doc-prompt-actions')?.nextElementSibling?.querySelector('code')
+        if (code) {
+          copyText(code.textContent.trim()).then(() => {
+            copyPromptButton.textContent = copyPromptButton.dataset.copySuccess || 'Copied'
+            window.setTimeout(() => {
+              copyPromptButton.textContent = copyPromptButton.dataset.copyLabel || 'Copy'
+            }, 1600)
+          }).catch(() => {})
+        }
+      }
+
       const localeButton = event.target.closest('[data-set-locale]')
       if (localeButton) hub.setLocale(localeButton.dataset.setLocale)
 

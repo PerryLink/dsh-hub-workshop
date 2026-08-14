@@ -10,6 +10,7 @@ const REPOSITORY_SOURCE_RE = /^github:[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+#([0-9a-f]
 const PACKAGE_RE = /^(?:@[a-z0-9][a-z0-9._-]*\/)?[a-z0-9][a-z0-9._-]*$/
 const EXACT_SPEC_RE = /^(?:(?:v)?\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?|(?:git\+https:\/\/|https:\/\/|github:)[^#\s]+#[0-9a-f]{40})$/
 const GUIDED_COMMAND_RE = /(?:^|\n)\s*(?:[$>]\s*)?(?:npm|pnpm|yarn|npx|bun|curl|wget|bash|sh|powershell|dsh|dsh-sdk|omdsh)(?:\s|$)/i
+const SECRET_RE = /(?:github_pat_|\bgh[opusr]_[A-Za-z0-9_]{16,}|\bnpm_[A-Za-z0-9]{20,}|-----BEGIN(?: [A-Z]+)? PRIVATE KEY-----|\bAKIA[0-9A-Z]{16}\b)/i
 
 function requireCondition(condition, message, errors) {
   if (!condition) errors.push(message)
@@ -36,6 +37,7 @@ export function validateSubmission(manifest) {
   if (errors.length > 0) return errors
   requireCondition(manifest.schema === 'omdsh-workshop-submission/v1', 'unsupported submission schema', errors)
   requireCondition(['create-project', 'add-release'].includes(manifest.operation), 'unsupported submission operation', errors)
+  requireCondition(!SECRET_RE.test(JSON.stringify(manifest)), 'submission appears to contain a credential or private key', errors)
 
   const project = manifest.project || {}
   const release = manifest.release || {}

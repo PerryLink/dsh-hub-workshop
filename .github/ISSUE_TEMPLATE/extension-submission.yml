@@ -1,13 +1,13 @@
 name: 扩展收录申请 / Extension submission
-description: 提交由 Author Studio 生成、固定到公开 commit 的扩展清单。
+description: 提交由作者 Agent 或 Author Studio 生成、固定到公开 commit 的扩展清单。
 title: "[Submission] "
 body:
   - type: markdown
     attributes:
       value: |
-        请先在 [Author Studio](https://hub.omdsh.dev/publish.html) 生成完整清单，再粘贴到下方。维护者将用只读校验器建立待审核记录，不执行投稿仓库脚本。普通 Topic 或 Catalog 收录不等于获得 Registry 安装权限。
+        推荐把[标准自动投稿指令](https://hub.omdsh.dev/agent-submission-prompt.zh.md)交给作者 Agent；也可从 [Author Studio](https://hub.omdsh.dev/publish.html) 打开此表单。Issue 创建后，自动化只读核验公开仓库、固定 commit 和声明路径，并建立待审核 PR；不会执行投稿仓库脚本。普通 Topic 或 Catalog 收录不等于获得 Registry 安装权限。
 
-        Generate a manifest in [Author Studio](https://hub.omdsh.dev/publish.html), then paste it below. A maintainer uses the read-only validator to create a pending-review record without executing submitted repository scripts. Topic or Catalog inclusion does not grant Registry installation authority.
+        Give the [standard submission instruction](https://hub.omdsh.dev/agent-submission-prompt.en.md) to the author's Agent, or use [Author Studio](https://hub.omdsh.dev/publish.html) as a manual fallback. After the Issue is created, automation checks the public repository, fixed commit, and declared path read-only and opens a pending-review PR without executing submitted repository scripts. Topic or Catalog inclusion does not grant Registry installation authority.
   - type: textarea
     id: submission_manifest
     attributes:

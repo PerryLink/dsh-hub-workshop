@@ -18,14 +18,56 @@ const formSections = [...document.querySelectorAll('[data-form-step]')]
 const previousStepButton = document.querySelector('#previous-publish-step')
 const nextStepButton = document.querySelector('#next-publish-step')
 const previewButton = document.querySelector('#preview-manifest')
+const agentPromptButton = document.querySelector('#copy-agent-submission-prompt')
+const agentPromptLink = document.querySelector('#open-agent-submission-prompt')
 let manifest = null
 let publishedProjects = new Map()
 let catalogProjects = new Map()
 let currentStep = 0
 let availableStep = 0
 
+const submissionBaseUrl = 'https://github.com/omdsh-dev/dsh-hub-workshop/issues/new'
+
 const t = (key) => window.DSHHub.t(key)
 const exactSpec = /^(?:v)?\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$|^(?:git\+https:\/\/|https:\/\/|github:)[^#\s]+#[0-9a-f]{40}$/
+const sensitiveValue = new RegExp(`(?:${['github', 'pat', ''].join('_')}|\\bgh[opusr]_[A-Za-z0-9_]{16,}|\\bnpm_[A-Za-z0-9]{20,}|-----BEGIN(?: [A-Z]+)? PRIVATE KEY-----|\\bAKIA[0-9A-Z]{16}\\b)`, 'i')
+
+async function writeClipboardText(value) {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(value)
+      return
+    }
+  } catch {}
+
+  const fallback = document.createElement('textarea')
+  fallback.value = value
+  fallback.setAttribute('readonly', '')
+  fallback.style.position = 'fixed'
+  fallback.style.opacity = '0'
+  document.body.append(fallback)
+  fallback.select()
+  const copied = document.execCommand('copy')
+  fallback.remove()
+  if (!copied) throw new Error('clipboard write failed')
+}
+
+function agentPromptPath() {
+  return window.DSHHub.locale === 'en' ? 'agent-submission-prompt.en.md' : 'agent-submission-prompt.zh.md'
+}
+
+function syncAgentPromptLink() {
+  if (agentPromptLink) agentPromptLink.href = agentPromptPath()
+}
+
+async function copyAgentPrompt() {
+  if (!agentPromptButton) return
+  const response = await fetch(agentPromptPath())
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
+  await writeClipboardText(await response.text())
+  agentPromptButton.textContent = t('publish.agentCopied')
+  window.setTimeout(() => { agentPromptButton.textContent = t('publish.agentCopy') }, 1800)
+}
 
 function isoFromLocal(value) {
   const date = new Date(value)
@@ -343,7 +385,7 @@ function values() {
   if (method === 'repository-plugin' && (!source || !source.includes(`#${ref}`) || !String(data.get('instructions')).includes(source))) {
     throw new Error(t('publish.invalidSource'))
   }
-  return {
+  const value = {
     schema: 'omdsh-workshop-submission/v1',
     operation,
     project: {
@@ -390,6 +432,8 @@ function values() {
       installScriptsMustRemainDisabled: true,
     },
   }
+  if (sensitiveValue.test(JSON.stringify(value))) throw new Error(t('publish.sensitiveValue'))
+  return value
 }
 
 function setReady(ready) {
@@ -397,6 +441,25 @@ function setReady(ready) {
   downloadButton.disabled = !ready
   submission.classList.toggle('is-disabled', !ready)
   submission.setAttribute('aria-disabled', String(!ready))
+  if (ready && manifest) {
+    const issue = new URL(submissionBaseUrl)
+    issue.searchParams.set('title', `[Submission] ${manifest.project.id}@${manifest.release.version}`)
+    issue.searchParams.set('body', [
+      '## Author Studio manifest',
+      '',
+      '```json',
+      JSON.stringify(manifest, null, 2),
+      '```',
+      '',
+      '## Submission boundary',
+      '',
+      '- This request contains only public, immutable source coordinates and the generated structured manifest.',
+      '- Automated intake may create a pending-review PR, but cannot approve the project or grant Registry installation authority.',
+    ].join('\n'))
+    submission.href = issue.href
+  } else {
+    submission.href = submissionBaseUrl
+  }
   if (ready) previewDetails.open = true
 }
 
@@ -466,7 +529,7 @@ form.addEventListener('reset', () => {
 
 copyButton.addEventListener('click', async () => {
   if (!manifest) return
-  await navigator.clipboard.writeText(`${JSON.stringify(manifest, null, 2)}\n`)
+  await writeClipboardText(`${JSON.stringify(manifest, null, 2)}\n`)
   copyButton.textContent = t('publish.copied')
   window.setTimeout(() => { copyButton.textContent = t('publish.copy') }, 1600)
 })
@@ -487,12 +550,21 @@ submission.addEventListener('click', (event) => {
 })
 
 document.addEventListener('dsh:locale', () => {
+  syncAgentPromptLink()
   managementMode()
   setStep(currentStep)
   if (manifest) output.textContent = JSON.stringify(manifest, null, 2)
 })
 
+agentPromptButton?.addEventListener('click', () => {
+  copyAgentPrompt().catch(() => {
+    agentPromptButton.textContent = t('publish.agentCopyFailed')
+    window.setTimeout(() => { agentPromptButton.textContent = t('publish.agentCopy') }, 2200)
+  })
+})
+
 ensurePublishedAt()
+syncAgentPromptLink()
 managementMode()
 setStep(0)
 window.dshI18nReady?.then(() => {

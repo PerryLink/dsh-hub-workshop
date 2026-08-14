@@ -141,7 +141,9 @@ function catalogProjection(catalog, admissions) {
       note: '需使用已同步本 Registry 快照的 OMDSH Hub 消费端；在 candidate Profile 中安装并验证，确认启动后切换 current，启动失败时恢复 previous。',
     }
   }
-  output.updated = normalizedTimestamp(admissions.updatedAt, 'admissions.updatedAt')
+  const catalogUpdated = normalizedTimestamp(output.updated, 'catalog.updated')
+  const admissionsUpdated = normalizedTimestamp(admissions.updatedAt, 'admissions.updatedAt')
+  output.updated = new Date(Math.max(Date.parse(catalogUpdated), Date.parse(admissionsUpdated))).toISOString()
   const installMethods = {}
   for (const pkg of output.packages) installMethods[pkg.install.type] = (installMethods[pkg.install.type] ?? 0) + 1
   output.stats.installMethods = Object.fromEntries(Object.entries(installMethods).sort(([left], [right]) => left.localeCompare(right)))

@@ -1,6 +1,8 @@
 name: intake
 
 on:
+  issues:
+    types: [opened, reopened]
   pull_request:
     paths:
       - 'intake/**'
@@ -20,6 +22,7 @@ permissions:
 
 jobs:
   intake-policy:
+    if: github.event_name != 'issues'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -44,3 +47,55 @@ jobs:
         with:
           node-version: 22
       - run: npm run baseline:verify
+
+  automate-submission:
+    if: github.event_name == 'issues' && startsWith(github.event.issue.title, '[Submission]')
+    concurrency:
+      group: intake-issue-${{ github.event.issue.number }}
+      cancel-in-progress: false
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - id: prepare
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/prepare-issue-intake.mjs "$GITHUB_EVENT_PATH"
+      - run: npm run validate
+      - name: Commit the pending-review record
+        env:
+          INTAKE_BRANCH: ${{ steps.prepare.outputs.branch }}
+          INTAKE_RECORD_ID: ${{ steps.prepare.outputs.record_id }}
+          INTAKE_RECORD_PATH: ${{ steps.prepare.outputs.record_path }}
+          ISSUE_NUMBER: ${{ steps.prepare.outputs.issue_number }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$INTAKE_BRANCH"
+          git add "$INTAKE_RECORD_PATH" intake-queue.json
+          git commit -m "Queue $INTAKE_RECORD_ID from #$ISSUE_NUMBER"
+          git push origin "$INTAKE_BRANCH"
+      - name: Open the review PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INTAKE_BRANCH: ${{ steps.prepare.outputs.branch }}
+          INTAKE_RECORD_ID: ${{ steps.prepare.outputs.record_id }}
+          ISSUE_NUMBER: ${{ steps.prepare.outputs.issue_number }}
+        run: node scripts/github-intake-pr.mjs open
+      - name: Report a failed preflight
+        if: failure()
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: node scripts/github-intake-pr.mjs failure

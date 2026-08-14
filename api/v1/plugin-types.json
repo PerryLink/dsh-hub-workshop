@@ -3,9 +3,9 @@
   "generatedAt": "2026-08-13T17:27:31.000Z",
   "scope": "Public Catalog and formal Intake facts only. Discovery never authorizes installation.",
   "totals": {
-    "catalogProjects": 189,
+    "catalogProjects": 712,
     "candidateProjects": 0,
-    "projects": 189
+    "projects": 712
   },
   "kinds": [
     {
@@ -15,14 +15,14 @@
         "en": "Skill"
       },
       "counts": {
-        "catalog": 8,
+        "catalog": 39,
         "candidates": 0,
-        "total": 8
+        "total": 39
       },
       "examples": [
-        "humblebanana/dsh-record-replay",
-        "omdsh-dev/dsh-genui",
-        "cking000bigdemon/dsh-pi-plugins"
+        "bug-tamer",
+        "code-archaeologist",
+        "code-talent-scout"
       ]
     },
     {
@@ -32,14 +32,14 @@
         "en": "MCP"
       },
       "counts": {
-        "catalog": 6,
+        "catalog": 19,
         "candidates": 0,
-        "total": 6
+        "total": 19
       },
       "examples": [
-        "nowledge-co/nowledge-mem-deepseek-harness",
         "almanac-mcp",
-        "chinese-colors-mcp"
+        "chinese-colors-mcp",
+        "decision-dice-mcp"
       ]
     },
     {
@@ -49,14 +49,14 @@
         "en": "Extension"
       },
       "counts": {
-        "catalog": 115,
+        "catalog": 420,
         "candidates": 0,
-        "total": 115
+        "total": 420
       },
       "examples": [
-        "flyvhidbwo/dsh-vision-proxy",
-        "yuezengwu/dsh-explain",
-        "nwflower/dsh-chat-import"
+        "session-teleport",
+        "devin-axis/ipollowork",
+        "nanmicoder/dsh-agent-teams"
       ]
     },
     {
@@ -66,14 +66,14 @@
         "en": "Channel"
       },
       "counts": {
-        "catalog": 4,
+        "catalog": 25,
         "candidates": 0,
-        "total": 4
+        "total": 25
       },
       "examples": [
-        "moduqishi/dsh-opencode-usage",
         "vlln/whale-girl",
-        "dbydd/dsh-onlyne"
+        "telegram",
+        "plutokeating/dsh-lark-bot"
       ]
     },
     {
@@ -83,14 +83,14 @@
         "en": "UI"
       },
       "counts": {
-        "catalog": 38,
+        "catalog": 129,
         "candidates": 0,
-        "total": 38
+        "total": 129
       },
       "examples": [
-        "moduqishi/dsh-open-in-finder",
-        "huiliyi37/dsh-tianshu-tui",
-        "ccch1mneyyy/dsh-cc-tui"
+        "7d7d",
+        "whiteguo233/openbiliclaw",
+        "zhu1090093659/dsh-web-ui"
       ]
     },
     {
@@ -100,14 +100,14 @@
         "en": "Adapter"
       },
       "counts": {
-        "catalog": 3,
+        "catalog": 20,
         "candidates": 0,
-        "total": 3
+        "total": 20
       },
       "examples": [
-        "yytbit/dsh-plugin-claude-bridge",
         "whiteguo233/dsh-openbiliclaw",
-        "fakechris/dsh-track"
+        "fakechris/dsh-track",
+        "1na-ko/dsh-hdc-bridge"
       ]
     },
     {
@@ -130,14 +130,14 @@
         "en": "Toolkit"
       },
       "counts": {
-        "catalog": 15,
+        "catalog": 60,
         "candidates": 0,
-        "total": 15
+        "total": 60
       },
       "examples": [
-        "chinesezjc/dsh-interconnect",
-        "drifter-yh/dsh-tool-policy",
-        "titanwings/dsh-better-browser"
+        "liustack/modlens",
+        "omdsh-dev/dsh-custom-tool",
+        "chinesezjc/dsh-interconnect"
       ]
     }
   ],
@@ -154,9 +154,9 @@
         "total": 7
       },
       "examples": [
-        "titanwings/dsh-plannotator",
         "liustack/modlens",
-        "omdsh-dev/dsh-daily-progress"
+        "icetomoyo/dsh_workflow",
+        "dsh-deep-research"
       ]
     },
     {
@@ -166,14 +166,14 @@
         "en": "Developer tools"
       },
       "counts": {
-        "catalog": 93,
+        "catalog": 422,
         "candidates": 0,
-        "total": 93
+        "total": 422
       },
       "examples": [
-        "flyvhidbwo/dsh-vision-proxy",
-        "yuezengwu/dsh-explain",
-        "nwflower/dsh-chat-import"
+        "github-integration",
+        "devin-axis/ipollowork",
+        "nanmicoder/dsh-agent-teams"
       ]
     },
     {
@@ -183,14 +183,14 @@
         "en": "Channels"
       },
       "counts": {
-        "catalog": 3,
+        "catalog": 24,
         "candidates": 0,
-        "total": 3
+        "total": 24
       },
       "examples": [
         "vlln/whale-girl",
-        "dbydd/dsh-onlyne",
-        "telegram"
+        "telegram",
+        "plutokeating/dsh-lark-bot"
       ]
     },
     {
@@ -200,14 +200,14 @@
         "en": "Interface"
       },
       "counts": {
-        "catalog": 44,
+        "catalog": 127,
         "candidates": 0,
-        "total": 44
+        "total": 127
       },
       "examples": [
-        "huiliyi37/dsh-tianshu-tui",
-        "ccch1mneyyy/dsh-cc-tui",
-        "crayonlu/dsh-web-search-firecrawl"
+        "7d7d",
+        "whiteguo233/openbiliclaw",
+        "zhu1090093659/dsh-web-ui"
       ]
     },
     {
@@ -222,8 +222,8 @@
         "total": 3
       },
       "examples": [
-        "fisfzy/ego-browser",
         "whiteguo233/dsh-openbiliclaw",
+        "fisfzy/ego-browser",
         "fakechris/dsh-track"
       ]
     },
@@ -234,14 +234,14 @@
         "en": "Safety"
       },
       "counts": {
-        "catalog": 6,
+        "catalog": 21,
         "candidates": 0,
-        "total": 6
+        "total": 21
       },
       "examples": [
-        "pangyiming/dsh-port-guard",
-        "omdsh-dev/dsh-security-audit",
-        "dsh-plugin-check"
+        "anionex/dsh-turn-rewind",
+        "dsh-plugin-check",
+        "omdsh-dev/dsh-security-audit"
       ]
     },
     {
@@ -251,13 +251,13 @@
         "en": "Memory"
       },
       "counts": {
-        "catalog": 18,
+        "catalog": 93,
         "candidates": 0,
-        "total": 18
+        "total": 93
       },
       "examples": [
-        "moduqishi/dsh-open-in-finder",
-        "moduqishi/dsh-opencode-usage",
+        "session-teleport",
+        "dsh-memory-evolve",
         "titanwings/dsh-automation"
       ]
     },
@@ -288,9 +288,9 @@
         "total": 14
       },
       "examples": [
-        "omdsh-dev/dsh-pet-corner",
-        "omdsh-dev/dsh-fun-typewriter",
-        "omdsh-dev/dsh-gomoku"
+        "almanac-mcp",
+        "bug-tamer",
+        "chinese-colors-mcp"
       ]
     },
     {
@@ -330,7 +330,7 @@
         "zh": "引导接入",
         "en": "Guided"
       },
-      "count": 178
+      "count": 701
     }
   ],
   "reviewStates": [
@@ -340,7 +340,7 @@
         "zh": "待审核",
         "en": "Pending review"
       },
-      "count": 178
+      "count": 701
     },
     {
       "id": "needs-fix",
