@@ -225,6 +225,11 @@ if (!home.includes('data-featured-mode="stars"')
   || !app.includes('commitUpdatedAt')) {
   throw new Error('featured lanes must use GitHub stars and repository commit activity')
 }
+if (!app.includes('selectSpotlightPackages')
+  || !app.includes("pkg.discovery?.qualification === 'verified-plugin-contract'")
+  || !app.includes('spotlight-project-stars')) {
+  throw new Error('homepage spotlight must rank file-verified plugin contracts by GitHub stars')
+}
 for (const [name, source, minimumLines, required] of [
   ['configurations', configurations, 150, 'configuration-task-finder'],
   ['developer guide', developers, 700, 'ai-integration-prompt'],

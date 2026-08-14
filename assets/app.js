@@ -925,6 +925,24 @@ function selectFeaturedPackages(packages, mode) {
   return [...packages].sort((a, b) => projectStars(b) - projectStars(a) || byRecency(a, b))
 }
 
+function selectSpotlightPackages(packages) {
+  const ranked = [...packages]
+    .filter((pkg) => projectMarketLayer(pkg) === 'plugin'
+      && pkg.discovery?.qualification === 'verified-plugin-contract'
+      && !pkg.discovery?.archived)
+    .sort((a, b) => projectStars(b) - projectStars(a)
+      || new Date(commitUpdatedAt(b)) - new Date(commitUpdatedAt(a))
+      || a.id.localeCompare(b.id))
+  const repositories = new Set()
+
+  return ranked.filter((pkg) => {
+    const repository = pkg.repository.toLocaleLowerCase('en-US')
+    if (repositories.has(repository)) return false
+    repositories.add(repository)
+    return true
+  }).slice(0, 2)
+}
+
 function renderFeatured() {
   const packages = selectFeaturedPackages(state.packages, state.featuredMode).slice(0, 16)
 
@@ -958,12 +976,7 @@ function renderFeatured() {
 }
 
 function renderSpotlight() {
-  const packages = state.packages
-    .sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured))
-      || Number(a.status === 'discovery') - Number(b.status === 'discovery')
-      || Number(!isAnonymousAuthor(b.author)) - Number(!isAnonymousAuthor(a.author))
-      || new Date(b.updatedAt) - new Date(a.updatedAt))
-    .slice(0, 2)
+  const packages = selectSpotlightPackages(state.packages)
 
   elements.spotlight.innerHTML = packages.map((pkg) => {
     const copy = packageText(pkg)
@@ -974,7 +987,10 @@ function renderSpotlight() {
           ${visual.content}
         </span>
         <span class="spotlight-project-copy">
-          <span class="spotlight-project-meta">${escapeHtml(kindLabel(pkg.kind))}<span>${escapeHtml(catalogAccessLabel(pkg))}</span></span>
+          <span class="spotlight-project-meta">
+            <span>${escapeHtml(kindLabel(pkg.kind))} · ${escapeHtml(catalogAccessLabel(pkg))}</span>
+            <span class="spotlight-project-stars" title="${escapeHtml(t('spotlight.starsSnapshot'))}">★ ${escapeHtml(projectStars(pkg))}</span>
+          </span>
           <strong>${escapeHtml(copy.name)}</strong>
           <span class="spotlight-project-description">${escapeHtml(copy.description)}</span>
           <span class="spotlight-project-author">${authorMark(pkg)}<span>${escapeHtml(authorDisplayName(pkg.author))}</span></span>
