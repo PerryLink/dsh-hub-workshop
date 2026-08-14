@@ -27,7 +27,7 @@ npm run deploy:dry-run
 
 Production deployment replaces the existing `dsh-hub` Cloudflare Worker version for both hostnames. It requires only a Cloudflare deployment token and account ID; no GitHub visitor identity or OAuth secret is used by the Worker.
 
-Cloudflare Web Analytics uses automatic setup for the `omdsh.dev` zone. Because the fallback hostname is outside that zone, its manual site token is bound to the Worker as `CF_WEB_ANALYTICS_TOKEN_ZERO_ORG_CN`. This binding is intentionally kept out of the repository; the primary, local, and preview hosts never emit the fallback beacon.
+Cloudflare Web Analytics uses automatic setup for the `omdsh.dev` zone, which covers both Worker routes. The Worker permits the Cloudflare beacon in its CSP but never injects a second beacon, so each visit is counted once. Local and preview hosts remain outside the production analytics setup.
 
 ```sh
 npm run deploy

@@ -30,37 +30,9 @@ test('the public CSP permits only the Cloudflare Web Analytics endpoints', async
   assert.doesNotMatch(csp, /\*/)
 })
 
-test('the fallback hostname receives its manual Cloudflare Web Analytics beacon', async () => {
-  const bindings = {
-    CF_WEB_ANALYTICS_TOKEN_ZERO_ORG_CN: 'b'.repeat(32),
-    ASSETS: {
-      fetch: async () => new Response('<!doctype html><html><head><title>Workshop</title></head><body></body></html>', {
-        headers: { 'content-type': 'text/html; charset=utf-8' },
-      }),
-    },
-  }
-
-  const response = await publicWorker.fetch(new Request('https://hub.0.org.cn/'), bindings)
-  const html = await response.text()
-  assert.match(html, /https:\/\/static\.cloudflareinsights\.com\/beacon\.min\.js/)
-  assert.match(html, new RegExp(`data-cf-beacon='\\{"token":"${bindings.CF_WEB_ANALYTICS_TOKEN_ZERO_ORG_CN}"\\}'`))
-  assert.equal((html.match(/beacon\.min\.js/g) || []).length, 1)
-})
-
-test('automatic and unknown hosts never receive the fallback beacon', async () => {
-  assert.equal(__test.analyticsTokenFor('hub.0.org.cn', {
-    CF_WEB_ANALYTICS_TOKEN_ZERO_ORG_CN: '<script>',
-  }), null)
-
-  for (const hostname of ['hub.omdsh.dev', 'preview.example']) {
-    const response = await publicWorker.fetch(new Request(`https://${hostname}/`), {
-      CF_WEB_ANALYTICS_TOKEN_ZERO_ORG_CN: 'b'.repeat(32),
-      ASSETS: {
-        fetch: async () => new Response('<html><head></head><body></body></html>', {
-          headers: { 'content-type': 'text/html; charset=utf-8' },
-        }),
-      },
-    })
+test('the Worker never injects a second Web Analytics beacon', async () => {
+  for (const hostname of ['hub.omdsh.dev', 'hub.0.org.cn', 'preview.example']) {
+    const response = await publicWorker.fetch(new Request(`https://${hostname}/`), env())
     assert.doesNotMatch(await response.text(), /cloudflareinsights/)
   }
 })
