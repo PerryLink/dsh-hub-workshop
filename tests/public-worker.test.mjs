@@ -3,8 +3,9 @@ import test from 'node:test'
 
 import publicWorker, { __test } from '../worker/public.js'
 
-function env() {
+function env(bindings = {}) {
   return {
+    ...bindings,
     ASSETS: {
       fetch: async (request) => new Response(`asset:${new URL(request.url).pathname}`, {
         headers: { 'content-type': 'text/html; charset=utf-8' },
@@ -19,6 +20,49 @@ test('the public catalog is anonymous and indexable', async () => {
   assert.equal(await response.text(), 'asset:/')
   assert.equal(response.headers.get('cache-control'), 'public, max-age=0, must-revalidate')
   assert.equal(response.headers.get('x-robots-tag'), null)
+})
+
+test('the public CSP permits only the Cloudflare Web Analytics endpoints', async () => {
+  const response = await publicWorker.fetch(new Request('https://hub.omdsh.dev/'), env())
+  const csp = response.headers.get('content-security-policy')
+  assert.match(csp, /connect-src 'self' https:\/\/cloudflareinsights\.com/)
+  assert.match(csp, /script-src 'self' https:\/\/static\.cloudflareinsights\.com/)
+  assert.doesNotMatch(csp, /\*/)
+})
+
+test('the fallback hostname receives its manual Cloudflare Web Analytics beacon', async () => {
+  const bindings = {
+    CF_WEB_ANALYTICS_TOKEN_ZERO_ORG_CN: 'b'.repeat(32),
+    ASSETS: {
+      fetch: async () => new Response('<!doctype html><html><head><title>Workshop</title></head><body></body></html>', {
+        headers: { 'content-type': 'text/html; charset=utf-8' },
+      }),
+    },
+  }
+
+  const response = await publicWorker.fetch(new Request('https://hub.0.org.cn/'), bindings)
+  const html = await response.text()
+  assert.match(html, /https:\/\/static\.cloudflareinsights\.com\/beacon\.min\.js/)
+  assert.match(html, new RegExp(`data-cf-beacon='\\{"token":"${bindings.CF_WEB_ANALYTICS_TOKEN_ZERO_ORG_CN}"\\}'`))
+  assert.equal((html.match(/beacon\.min\.js/g) || []).length, 1)
+})
+
+test('automatic and unknown hosts never receive the fallback beacon', async () => {
+  assert.equal(__test.analyticsTokenFor('hub.0.org.cn', {
+    CF_WEB_ANALYTICS_TOKEN_ZERO_ORG_CN: '<script>',
+  }), null)
+
+  for (const hostname of ['hub.omdsh.dev', 'preview.example']) {
+    const response = await publicWorker.fetch(new Request(`https://${hostname}/`), {
+      CF_WEB_ANALYTICS_TOKEN_ZERO_ORG_CN: 'b'.repeat(32),
+      ASSETS: {
+        fetch: async () => new Response('<html><head></head><body></body></html>', {
+          headers: { 'content-type': 'text/html; charset=utf-8' },
+        }),
+      },
+    })
+    assert.doesNotMatch(await response.text(), /cloudflareinsights/)
+  }
 })
 
 test('retired login and private session endpoints remain unavailable', async () => {
