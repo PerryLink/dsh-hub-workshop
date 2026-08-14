@@ -1,0 +1,3629 @@
+{
+  "schema": "omdsh-workshop-verification-inventory/v1",
+  "generatedAt": "2026-08-13T17:27:31.000Z",
+  "officialBaseline": {
+    "package": "@deepseek-ai/dsh",
+    "version": "0.1.0-rc.6",
+    "integrity": "sha512-brpZfED7ieRa2PQ5tUxMhHrM1pb2CmKFVM/f6yMULBDMicahk+Z2OsHgTwTDnoiZm23Ftu9rQz0NN4pflaoJcg==",
+    "releaseChannel": "release-candidate",
+    "ga": false
+  },
+  "policy": {
+    "catalogDoesNotGrantInstallAuthority": true,
+    "historicalEvidenceDoesNotSatisfyCurrentBaseline": true,
+    "unknownProjectsUseGuidedPublicHandling": true,
+    "failClosed": true
+  },
+  "summary": {
+    "catalogProjects": 189,
+    "management": {
+      "guided": 178,
+      "managed": 9,
+      "transactional": 2
+    },
+    "review": {
+      "blocked": 11,
+      "pending-review": 178
+    },
+    "verification": {
+      "blocked": 11,
+      "untested": 178
+    },
+    "registry": {
+      "ineligible": 189
+    }
+  },
+  "projects": [
+    {
+      "id": "0xsline/dsh-spotlight",
+      "repository": "https://github.com/0xsline/dsh-spotlight",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "7d7d",
+      "repository": "https://github.com/omdsh-dev/7d7d",
+      "ref": "80b6ddb779a009d378a1c30c85dfef598f527997",
+      "path": null,
+      "management": "transactional",
+      "review": {
+        "state": "blocked",
+        "reason": "current-runtime-baseline-not-verified"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "blocked",
+        "reason": "current-runtime-baseline-not-verified"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "a179-sanae/dsh-code-check",
+      "repository": "https://github.com/a179-sanae/dsh-code-check",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "alingalingling/ui-status-label",
+      "repository": "https://github.com/alingalingling/ui-status-label",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "almanac-mcp",
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "path": "/plugins/almanac-mcp",
+      "management": "managed",
+      "review": {
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "anacondakc/dsh-custom-css",
+      "repository": "https://github.com/AnacondaKC/dsh-custom-css",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "anacondakc/dsh-douyin",
+      "repository": "https://github.com/AnacondaKC/dsh-douyin",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "anacondakc/dsh-stock-market",
+      "repository": "https://github.com/AnacondaKC/dsh-stock-market",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "anionex/dsh-computer-use",
+      "repository": "https://github.com/Anionex/dsh-computer-use",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "anionex/dsh-turn-rewind",
+      "repository": "https://github.com/Anionex/dsh-turn-rewind",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "anionex/dsh-vision-toolkit",
+      "repository": "https://github.com/Anionex/dsh-vision-toolkit",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "bill9109/dsh-101",
+      "repository": "https://github.com/bill9109/dsh-101",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "bill9109/dsh-conversation-share",
+      "repository": "https://github.com/bill9109/dsh-conversation-share",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "bill9109/dsh-webbridge",
+      "repository": "https://github.com/bill9109/dsh-webbridge",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "bittersmilezzz/dsh-mac-desktop",
+      "repository": "https://github.com/bitterSmilezzz/dsh-mac-desktop",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "bobleer/dsh-acp-for-bitfun",
+      "repository": "https://github.com/bobleer/dsh-acp-for-bitfun",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "btspoony/dsh-advisor",
+      "repository": "https://github.com/btspoony/dsh-advisor",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "btspoony/dsh-llm-fallbacks",
+      "repository": "https://github.com/btspoony/dsh-llm-fallbacks",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "bug-tamer",
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "path": "/plugins/bug-tamer",
+      "management": "managed",
+      "review": {
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "ccch1mneyyy/dsh-cc-tui",
+      "repository": "https://github.com/ccch1mneyyy/dsh-cc-tui",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "ccq1/dsh-side-panel",
+      "repository": "https://github.com/ccq1/dsh-side-panel",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "chen-001/dsh-chat-width",
+      "repository": "https://github.com/chen-001/dsh-chat-width",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "chen-001/dsh-grok-tui",
+      "repository": "https://github.com/chen-001/dsh-grok-tui",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "chinese-colors-mcp",
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "path": "/plugins/chinese-colors-mcp",
+      "management": "managed",
+      "review": {
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "chinesezjc/dsh-interconnect",
+      "repository": "https://github.com/Chinesezjc/dsh-interconnect",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "cking000bigdemon/dsh-pi-plugins",
+      "repository": "https://github.com/cking000bigdemon/dsh-pi-plugins",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "code-archaeologist",
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "path": "/plugins/code-archaeologist",
+      "management": "managed",
+      "review": {
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "code-talent-scout",
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "path": "/plugins/code-talent-scout",
+      "management": "managed",
+      "review": {
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "coppynight/dsh-doctor",
+      "repository": "https://github.com/coppynight/dsh-doctor",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "crayonlu/dsh-web-search-firecrawl",
+      "repository": "https://github.com/crayonlu/dsh-web-search-firecrawl",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "crayonlu/dsh-web-search-tavily",
+      "repository": "https://github.com/crayonlu/dsh-web-search-tavily",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dbydd/dsh-onlyne",
+      "repository": "https://github.com/dbydd/dsh-onlyne",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "decision-dice-mcp",
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "path": "/plugins/decision-dice-mcp",
+      "management": "managed",
+      "review": {
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "degurechaff57/dsh-openapi",
+      "repository": "https://github.com/Degurechaff57/dsh-openapi",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dingyi222666/dsh-focus-chat",
+      "repository": "https://github.com/dingyi222666/dsh-focus-chat",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dingyi222666/dsh-session-notification",
+      "repository": "https://github.com/dingyi222666/dsh-session-notification",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "distill",
+      "repository": "https://github.com/LoserFox/distill",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "drifter-yh/dsh-tool-policy",
+      "repository": "https://github.com/Drifter-yh/dsh-tool-policy",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-artifact",
+      "repository": "https://github.com/william-jin-cmu/dsh-artifact",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-bash-encoding",
+      "repository": "https://github.com/lhh010/dsh-bash-encoding",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-deep-research",
+      "repository": "https://github.com/omdsh-dev/dsh-deep-research",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-drag-and-drop",
+      "repository": "https://github.com/bill9109/dsh-drag-and-drop",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-input-history",
+      "repository": "https://github.com/lhh010/dsh-input-history",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-inspect",
+      "repository": "https://github.com/omdsh-dev/dsh-inspect",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-memory-evolve",
+      "repository": "https://github.com/csyangwen/dsh-memory-evolve",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-message-edit",
+      "repository": "https://github.com/Moeblack/dsh-message-edit",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-paste-input",
+      "repository": "https://github.com/lhh010/dsh-paste-input",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-plugin-check",
+      "repository": "https://github.com/omdsh-dev/dsh-plugin-check",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-prompt-studio",
+      "repository": "https://github.com/Moeblack/dsh-prompt-studio",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-session-search",
+      "repository": "https://github.com/Tieboyh/dsh-session-search",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-sidechain",
+      "repository": "https://github.com/Buyi-wsgzg/dsh-sidechain",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-split-panes",
+      "repository": "https://github.com/lehhair/dsh-split-panes",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-tool-calculator",
+      "repository": "https://github.com/omdsh-dev/dsh-tool-calculator",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-tool-csv",
+      "repository": "https://github.com/omdsh-dev/dsh-tool-csv",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-tool-encoding",
+      "repository": "https://github.com/omdsh-dev/dsh-tool-encoding",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-tool-json",
+      "repository": "https://github.com/omdsh-dev/dsh-tool-json",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-tool-markdown",
+      "repository": "https://github.com/omdsh-dev/dsh-tool-markdown",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-tool-regex",
+      "repository": "https://github.com/omdsh-dev/dsh-tool-regex",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-tool-time",
+      "repository": "https://github.com/omdsh-dev/dsh-tool-time",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-toolkit",
+      "repository": "https://github.com/omdsh-dev/dsh-toolkit",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-tps",
+      "repository": "https://github.com/Small-tailqwq/dsh-tps",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-ui-progress",
+      "repository": "https://github.com/lhh010/dsh-ui-progress",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-ui-whale",
+      "repository": "https://github.com/lhh010/dsh-ui-whale",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-vision",
+      "repository": "https://github.com/william-jin-cmu/dsh-vision",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-visualize",
+      "repository": "https://github.com/Nagi-ovo/dsh-visualize",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-web-archive",
+      "repository": "https://github.com/renat3u/dsh-web-archive",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "dsh-web-ui-notify",
+      "repository": "https://github.com/bill9109/dsh-web-ui-notify",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "fakechris/dsh-track",
+      "repository": "https://github.com/fakechris/dsh-track",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "fisfzy/ego-browser",
+      "repository": "https://github.com/Fisfzy/ego-browser",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "flashingchen/dsh-worktree",
+      "repository": "https://github.com/FlashingChen/dsh-worktree",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "flyvhidbwo/dsh-vision-proxy",
+      "repository": "https://github.com/Flyvhidbwo/dsh-vision-proxy",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "fuhefei/dsh-sentinel",
+      "repository": "https://github.com/fuhefei/dsh-sentinel",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "gameswu/dsh-plugin-background",
+      "repository": "https://github.com/gameswu/dsh-plugin-background",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "github-integration",
+      "repository": "https://github.com/omdsh-dev/dsh-github-integration",
+      "ref": "86f3a80be2c80cfd4d8d9401db0958fc1895ea69",
+      "path": "/plugins/github-integration",
+      "management": "managed",
+      "review": {
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "havingautism/dsh-deepresearch",
+      "repository": "https://github.com/havingautism/dsh-deepresearch",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "havingautism/dsh-notebooks",
+      "repository": "https://github.com/havingautism/dsh-notebooks",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "havingautism/dsh-ultra-ui",
+      "repository": "https://github.com/havingautism/dsh-ultra-ui",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "hellodigua/dsh-emoji",
+      "repository": "https://github.com/hellodigua/dsh-emoji",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "hellodigua/dsh-share",
+      "repository": "https://github.com/hellodigua/dsh-share",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "huanlinoto/dsh-plugin-aigc-canvas",
+      "repository": "https://github.com/HuanLinOTO/dsh-plugin-aigc-canvas",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "huanlinoto/dsh-plugin-anti-ads",
+      "repository": "https://github.com/HuanLinOTO/dsh-plugin-anti-ads",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "huanlinoto/dsh-plugin-auto-blame",
+      "repository": "https://github.com/HuanLinOTO/dsh-plugin-auto-blame",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "huanlinoto/dsh-plugin-better-sidebar-plugin-office",
+      "repository": "https://github.com/HuanLinOTO/dsh-plugin-better-sidebar-plugin-office",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "huanlinoto/dsh-plugin-d399",
+      "repository": "https://github.com/HuanLinOTO/dsh-plugin-d399",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "huanlinoto/dsh-plugin-interpreters",
+      "repository": "https://github.com/HuanLinOTO/dsh-plugin-interpreters",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "huanlinoto/dsh-plugin-mineru",
+      "repository": "https://github.com/HuanLinOTO/dsh-plugin-mineru",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "huanlinoto/dsh-plugin-sleep",
+      "repository": "https://github.com/HuanLinOTO/dsh-plugin-sleep",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "huanlinoto/dsh-plugin-spur",
+      "repository": "https://github.com/HuanLinOTO/dsh-plugin-spur",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "huanlinoto/dsh-plugin-ya-workspace-sidebar",
+      "repository": "https://github.com/HuanLinOTO/dsh-plugin-ya-workspace-sidebar",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "huanlinoto/dsh-plugin-yet-another-subagent",
+      "repository": "https://github.com/HuanLinOTO/dsh-plugin-yet-another-subagent",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "huiliyi37/dsh-tianshu-tui",
+      "repository": "https://github.com/huiliyi37/dsh-tianshu-tui",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "humblebanana/dsh-record-replay",
+      "repository": "https://github.com/humblebanana/dsh-record-replay",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "hust-open-atom-club/oh-dsh-desktop",
+      "repository": "https://github.com/hust-open-atom-club/oh-dsh-desktop",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "icetomoyo/dsh_workflow",
+      "repository": "https://github.com/icetomoyo/dsh_workflow",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "ilharp/dsh-tool-approval",
+      "repository": "https://github.com/ilharp/dsh-tool-approval",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "jumpserver-east/jumpserver-dsh",
+      "repository": "https://github.com/jumpserver-east/jumpserver-dsh",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "lehhair/dsh-mobile",
+      "repository": "https://github.com/lehhair/dsh-mobile",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "lhh010/dsh-minigames",
+      "repository": "https://github.com/lhh010/dsh-minigames",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "linglambda/dsh-undo",
+      "repository": "https://github.com/LingLambda/dsh-undo",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "liustack/modlens",
+      "repository": "https://github.com/liustack/modlens",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "loserfox/dsh-git-identity",
+      "repository": "https://github.com/LoserFox/dsh-git-identity",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "lzszq/dsh-scholar",
+      "repository": "https://github.com/lzszq/dsh-scholar",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "moduqishi/dsh-open-in-finder",
+      "repository": "https://github.com/moduqishi/dsh-open-in-finder",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "moduqishi/dsh-opencode-usage",
+      "repository": "https://github.com/moduqishi/dsh-opencode-usage",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "moeblack/deepseek-manners",
+      "repository": "https://github.com/Moeblack/deepseek-manners",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "moeblack/dsh-payload-capture",
+      "repository": "https://github.com/Moeblack/dsh-payload-capture",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "mongfayi/dsh-local-filetree",
+      "repository": "https://github.com/Mongfayi/dsh-local-filetree",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "nagi-ovo/dsh-ads",
+      "repository": "https://github.com/Nagi-ovo/dsh-ads",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "naming-master-mcp",
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "path": "/plugins/naming-master-mcp",
+      "management": "managed",
+      "review": {
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "nanmicoder/dsh-agent-teams",
+      "repository": "https://github.com/NanmiCoder/dsh-agent-teams",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "nowledge-co/nowledge-mem-deepseek-harness",
+      "repository": "https://github.com/nowledge-co/nowledge-mem-deepseek-harness",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "nwflower/dsh-chat-import",
+      "repository": "https://github.com/Nwflower/dsh-chat-import",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-annotation",
+      "repository": "https://github.com/omdsh-dev/dsh-annotation",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-at-file",
+      "repository": "https://github.com/omdsh-dev/dsh-at-file",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-auto-chess",
+      "repository": "https://github.com/omdsh-dev/dsh-auto-chess",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-better-sidebar",
+      "repository": "https://github.com/omdsh-dev/DSH-better-sidebar",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-book2skill",
+      "repository": "https://github.com/omdsh-dev/dsh-book2skill",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-custom-tool",
+      "repository": "https://github.com/omdsh-dev/dsh-custom-tool",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-daily-fortune",
+      "repository": "https://github.com/omdsh-dev/dsh-daily-fortune",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-daily-progress",
+      "repository": "https://github.com/omdsh-dev/dsh-daily-progress",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-data-agent",
+      "repository": "https://github.com/omdsh-dev/dsh-data-agent",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-ernie-image",
+      "repository": "https://github.com/omdsh-dev/dsh-ernie-image",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-fun-ticker",
+      "repository": "https://github.com/omdsh-dev/dsh-fun-ticker",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-fun-typewriter",
+      "repository": "https://github.com/omdsh-dev/dsh-fun-typewriter",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-fun-weather",
+      "repository": "https://github.com/omdsh-dev/dsh-fun-weather",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-genui",
+      "repository": "https://github.com/omdsh-dev/dsh-genui",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-gomoku",
+      "repository": "https://github.com/omdsh-dev/dsh-gomoku",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-kb-sieve",
+      "repository": "https://github.com/omdsh-dev/dsh-kb-sieve",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-longbridge",
+      "repository": "https://github.com/omdsh-dev/dsh-longbridge",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-mnemon",
+      "repository": "https://github.com/omdsh-dev/dsh-mnemon",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-notification",
+      "repository": "https://github.com/omdsh-dev/dsh-notification",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-open-in-vscode",
+      "repository": "https://github.com/omdsh-dev/dsh-open-in-vscode",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-paddle-ocr",
+      "repository": "https://github.com/omdsh-dev/dsh-paddle-ocr",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-pet-corner",
+      "repository": "https://github.com/omdsh-dev/dsh-pet-corner",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-revive",
+      "repository": "https://github.com/omdsh-dev/dsh-revive",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-scout",
+      "repository": "https://github.com/omdsh-dev/dsh-scout",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-security-audit",
+      "repository": "https://github.com/omdsh-dev/dsh-security-audit",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-session-health",
+      "repository": "https://github.com/omdsh-dev/dsh-session-health",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-tool-diff",
+      "repository": "https://github.com/omdsh-dev/dsh-tool-diff",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-tool-schema",
+      "repository": "https://github.com/omdsh-dev/dsh-tool-schema",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-tool-stat",
+      "repository": "https://github.com/omdsh-dev/dsh-tool-stat",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-voice-funasr",
+      "repository": "https://github.com/omdsh-dev/dsh-voice-funasr",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/ex-setting",
+      "repository": "https://github.com/omdsh-dev/ex-setting",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/fabric",
+      "repository": "https://github.com/omdsh-dev/fabric",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/qwen-mm-plugins",
+      "repository": "https://github.com/omdsh-dev/Qwen-MM-Plugins",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/sandbox-micro",
+      "repository": "https://github.com/omdsh-dev/sandbox-micro",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/sandbox-mxc",
+      "repository": "https://github.com/omdsh-dev/sandbox-mxc",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "omdsh-dev/sandbox-nono",
+      "repository": "https://github.com/omdsh-dev/sandbox-nono",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "orriduck/dsh-tui",
+      "repository": "https://github.com/orriduck/dsh-tui",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "pangyiming/dsh-batch-regression",
+      "repository": "https://github.com/PangYiMing/dsh-batch-regression",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "pangyiming/dsh-bisect-debug",
+      "repository": "https://github.com/PangYiMing/dsh-bisect-debug",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "pangyiming/dsh-browser-control",
+      "repository": "https://github.com/PangYiMing/dsh-browser-control",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "pangyiming/dsh-mobile-control",
+      "repository": "https://github.com/PangYiMing/dsh-mobile-control",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "pangyiming/dsh-port-guard",
+      "repository": "https://github.com/PangYiMing/dsh-port-guard",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "pangyiming/dsh-screenshot-diff",
+      "repository": "https://github.com/PangYiMing/dsh-screenshot-diff",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "qyw233/dsh-deeplink",
+      "repository": "https://github.com/qyw233/dsh-deeplink",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "session-teleport",
+      "repository": "https://github.com/omdsh-dev/session-teleport",
+      "ref": "d76e0d98b09ad1d08f2592ffd47161acb907bfc4",
+      "path": null,
+      "management": "transactional",
+      "review": {
+        "state": "blocked",
+        "reason": "production-authority-environment-not-verified"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "blocked",
+        "reason": "production-authority-environment-not-verified"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "telegram",
+      "repository": "https://github.com/LoserFox/telegram",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "thu-maic/dsh-openmaic",
+      "repository": "https://github.com/THU-MAIC/dsh-openmaic",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "time-capsule-mcp",
+      "repository": "https://github.com/omdsh-dev/toybox",
+      "ref": "fdace9d6ca01e31b33a08ed0703964b1ad6b3be0",
+      "path": "/plugins/time-capsule-mcp",
+      "management": "managed",
+      "review": {
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "blocked",
+        "reason": "official-repository-plugin-unavailable"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "titanwings/dsh-automation",
+      "repository": "https://github.com/titanwings/dsh-automation",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "titanwings/dsh-better-browser",
+      "repository": "https://github.com/titanwings/dsh-better-browser",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "titanwings/dsh-plannotator",
+      "repository": "https://github.com/titanwings/dsh-plannotator",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "uynajgi/dsh-ssh",
+      "repository": "https://github.com/UynajGI/dsh-ssh",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "vibeinging/dsh-agent-budget",
+      "repository": "https://github.com/vibeinging/dsh-agent-budget",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "vibeinging/dsh-tool-search",
+      "repository": "https://github.com/vibeinging/dsh-tool-search",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "vibeinging/dsh-trace",
+      "repository": "https://github.com/vibeinging/dsh-trace",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "vlln/dsh-loop",
+      "repository": "https://github.com/vlln/dsh-loop",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "vlln/dsh-navbar",
+      "repository": "https://github.com/vlln/dsh-navbar",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "vlln/dsh-task-status",
+      "repository": "https://github.com/vlln/dsh-task-status",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "vlln/whale-girl",
+      "repository": "https://github.com/vlln/whale-girl",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "web-components",
+      "repository": "https://github.com/omdsh-dev/web-components",
+      "ref": "main",
+      "path": "/packages/client/web-component",
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "whiteguo233/dsh-cc-connect",
+      "repository": "https://github.com/whiteguo233/dsh-cc-connect",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "whiteguo233/dsh-openbiliclaw",
+      "repository": "https://github.com/whiteguo233/dsh-openbiliclaw",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "william-jin-cmu/dsh-evolve",
+      "repository": "https://github.com/william-jin-cmu/dsh-evolve",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "william-jin-cmu/dsh-stickers",
+      "repository": "https://github.com/william-jin-cmu/dsh-stickers",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "yjh051108/dsh-super-injector",
+      "repository": "https://github.com/yjh051108/dsh-super-injector",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "yoke233/dsh-openai-codex-auth",
+      "repository": "https://github.com/yoke233/dsh-openai-codex-auth",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "yuezengwu/dsh-explain",
+      "repository": "https://github.com/yuezengwu/dsh-explain",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "yuxino/dsh-blue-whale-maid",
+      "repository": "https://github.com/yuxino/dsh-blue-whale-maid",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "yyh-001/dsh-companion",
+      "repository": "https://github.com/yyh-001/dsh-companion",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "yytbit/dsh-plugin-claude-bridge",
+      "repository": "https://github.com/YYTbit/dsh-plugin-claude-bridge",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "zerohackz/openflowframes",
+      "repository": "https://github.com/ZeroHackz/OpenFlowFrames",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "zevorn/dsh-humanize",
+      "repository": "https://github.com/zevorn/dsh-humanize",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "zhenyu98/dsh-context-doctor",
+      "repository": "https://github.com/Zhenyu98/dsh-context-doctor",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "zotero-harvest",
+      "repository": "https://github.com/Fisfzy/zotero-harvest",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "zotero-wave-rag",
+      "repository": "https://github.com/Fisfzy/zotero-wave-rag",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "zseven-w/dsh-openpencil",
+      "repository": "https://github.com/ZSeven-W/dsh-openpencil",
+      "ref": "main",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    },
+    {
+      "id": "zzh-newlearner/dsh-postmortem",
+      "repository": "https://github.com/zzh-newlearner/dsh-postmortem",
+      "ref": "master",
+      "path": null,
+      "management": "guided",
+      "review": {
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
+      },
+      "verification": {
+        "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+        "state": "untested",
+        "reason": "no-current-baseline-evidence"
+      },
+      "registry": {
+        "state": "ineligible"
+      }
+    }
+  ]
+}

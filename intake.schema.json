@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hub.omdsh.dev/intake.schema.json",
+  "title": "OMDSH Workshop Intake Record",
+  "type": "object",
+  "required": ["schema", "id", "submission", "classification", "baseline", "review", "verification", "tests", "registry"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "omdsh-workshop-intake/v1" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*@[0-9A-Za-z.+-]+$" },
+    "submission": {
+      "type": "object",
+      "required": ["repository", "ref", "path", "manifest"],
+      "additionalProperties": false,
+      "properties": {
+        "repository": { "type": "string", "pattern": "^https://github\\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" },
+        "ref": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "path": { "type": ["string", "null"] },
+        "manifest": { "$ref": "./submission.schema.json" }
+      }
+    },
+    "classification": {
+      "type": "object",
+      "required": ["management"],
+      "additionalProperties": false,
+      "properties": {
+        "management": { "enum": ["transactional", "managed", "guided"] }
+      }
+    },
+    "baseline": {
+      "type": "object",
+      "required": ["package", "version", "integrity"],
+      "additionalProperties": false,
+      "properties": {
+        "package": { "const": "@deepseek-ai/dsh" },
+        "version": { "type": "string", "minLength": 1 },
+        "integrity": { "type": "string", "pattern": "^sha512-" }
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": ["state"],
+      "additionalProperties": false,
+      "properties": {
+        "state": { "enum": ["pending-review", "needs-fix", "blocked", "approved"] },
+        "reviewer": { "type": "string", "minLength": 1 },
+        "reviewedAt": { "type": "string", "format": "date-time" },
+        "notes": { "type": "string" }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": ["state"],
+      "additionalProperties": false,
+      "properties": {
+        "state": { "enum": ["untested", "source-evidence-passed", "current-baseline-passed", "blocked", "failed"] },
+        "verifiedAt": { "type": "string", "format": "date-time" },
+        "evidence": { "type": "string", "minLength": 1 }
+      }
+    },
+    "tests": {
+      "type": "object",
+      "required": ["static", "supplyChain", "officialBaseline", "lifecycle"],
+      "additionalProperties": false,
+      "properties": {
+        "static": { "$ref": "#/$defs/test" },
+        "supplyChain": { "$ref": "#/$defs/test" },
+        "officialBaseline": { "$ref": "#/$defs/test" },
+        "lifecycle": { "$ref": "#/$defs/test" }
+      }
+    },
+    "registry": {
+      "type": "object",
+      "required": ["state", "reason"],
+      "additionalProperties": false,
+      "properties": {
+        "state": { "enum": ["ineligible", "eligible", "admitted"] },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    }
+  },
+  "$defs": {
+    "test": {
+      "type": "object",
+      "required": ["required", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "required": { "type": "boolean" },
+        "status": { "enum": ["pending", "passed", "failed", "blocked", "not-applicable"] },
+        "evidence": { "type": "string" }
+      }
+    }
+  }
+}

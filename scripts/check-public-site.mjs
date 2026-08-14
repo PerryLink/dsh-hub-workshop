@@ -19,7 +19,7 @@ async function files(directory) {
   return output
 }
 
-const [catalog, registry, recipes, ecosystem, workshop, runRecords, admissions, repositories, discovery, topicRepositories, topicAudit] = await Promise.all([
+const [catalog, registry, recipes, ecosystem, workshop, runRecords, admissions, repositories, discovery, topicRepositories, topicAudit, baseline, intake, inventory, marketLayers] = await Promise.all([
   json('catalog.json'),
   json('registry-v1.json'),
   json('recipes-v1.json'),
@@ -31,6 +31,10 @@ const [catalog, registry, recipes, ecosystem, workshop, runRecords, admissions, 
   json('public-discovery.json'),
   json('topic-repositories.json'),
   json('topic-plugin-audit.json'),
+  json('official-baseline.json'),
+  json('intake-queue.json'),
+  json('verification-inventory.json'),
+  json('market-layers.json'),
 ])
 
 if (catalog.schema !== 'dsh-hub-index/v0.3') throw new Error('catalog schema mismatch')
@@ -51,6 +55,28 @@ if (admissions.schema !== 'omdsh-registry-admissions/v1'
   || ecosystem.projects.length !== 0
   || recipes.recipes.length !== 0) {
   throw new Error('public install feeds must remain empty until a current-baseline admission passes every gate')
+}
+if (baseline.schema !== 'omdsh-official-baseline/v1'
+  || baseline.runtime.version !== '0.1.0-rc.6'
+  || baseline.runtime.releaseChannel !== 'release-candidate'
+  || baseline.runtime.ga !== false
+  || baseline.contracts.repositoryPlugin.status !== 'unavailable') {
+  throw new Error('official baseline must reflect the public RC contract without claiming unavailable Repository Plugin support')
+}
+if (intake.schema !== 'omdsh-workshop-intake-queue/v1'
+  || intake.officialBaseline !== `${baseline.runtime.package}@${baseline.runtime.version}`
+  || intake.records.some((record) => record.registry?.state === 'admitted')) {
+  throw new Error('public intake queue must match the official baseline and current empty Registry')
+}
+if (inventory.schema !== 'omdsh-workshop-verification-inventory/v1'
+  || inventory.summary?.catalogProjects !== catalog.packages.length
+  || inventory.projects?.length !== catalog.packages.length
+  || inventory.summary?.verification?.['current-baseline-passed'] !== undefined
+  || inventory.summary?.registry?.admitted !== undefined
+  || inventory.summary?.management?.transactional !== 2
+  || inventory.summary?.management?.managed !== 9
+  || inventory.summary?.management?.guided !== catalog.packages.length - 11) {
+  throw new Error('verification inventory must cover every Catalog project without claiming current-baseline verification or Registry admission')
 }
 if (topicAudit.schema !== 'omdsh-topic-plugin-audit/v1'
   || topicAudit.stats?.repositories !== topicRepositories.observedRepositoryCount
@@ -74,8 +100,50 @@ if (catalog.packages.length !== catalog.stats?.packages
   || [...catalogRepositories].some((repository) => !qualifiedRepositories.has(repository))) {
   throw new Error('public catalog must contain only qualified plugin entries and eleven reviewed candidates')
 }
-if (repositories.schema !== 'omdsh-public-repositories/v1' || repositories.repositories.length !== 9) {
-  throw new Error('public repository map must contain the nine approved repositories')
+const [pluginApi, pluginTypes, marketApi] = await Promise.all([json('api/v1/plugins.json'), json('api/v1/plugin-types.json'), json('api/v1/market.json')])
+if (pluginApi.schema !== 'omdsh-ai-plugins/v1'
+  || pluginApi.count !== catalog.packages.length
+  || pluginApi.projects.length !== catalog.packages.length
+  || pluginApi.projects.some((project) => project.registry?.state !== 'ineligible')
+  || pluginTypes.schema !== 'omdsh-ai-plugin-types/v1'
+  || pluginTypes.totals?.catalogProjects !== catalog.packages.length
+  || pluginTypes.management.find((entry) => entry.id === 'transactional')?.count !== 2
+  || pluginTypes.management.find((entry) => entry.id === 'managed')?.count !== 9
+  || pluginTypes.management.find((entry) => entry.id === 'guided')?.count !== catalog.packages.length - 11) {
+  throw new Error('plugin API must project the full Catalog and verification inventory without install authority')
+}
+const nonPluginIds = new Set(marketLayers.projects.map((project) => project.id))
+const pluginIds = new Set(catalog.packages.map((project) => project.id))
+if (marketLayers.schema !== 'omdsh-market-layers/v1'
+  || marketLayers.totals?.projects !== 5
+  || marketLayers.totals?.infrastructure !== 4
+  || marketLayers.totals?.distribution !== 1
+  || marketLayers.projects.length !== marketLayers.totals.projects
+  || marketLayers.projects.some((project) => !/^[0-9a-f]{40}$/.test(project.source?.ref || ''))
+  || marketLayers.projects.some((project) => project.registry?.state !== 'ineligible' || project.registry?.reason !== 'market-layer-not-plugin-install')
+  || marketLayers.projects.some((project) => pluginIds.has(project.id))) {
+  throw new Error('non-plugin market layers must stay source-pinned, disjoint from the plugin Catalog, and ineligible for installation')
+}
+if (marketApi.schema !== 'omdsh-ai-market/v1'
+  || marketApi.totals?.projects !== catalog.packages.length + marketLayers.projects.length
+  || marketApi.totals?.plugin !== catalog.packages.length
+  || marketApi.totals?.infrastructure !== 4
+  || marketApi.totals?.distribution !== 1
+  || marketApi.totals?.installable !== 0
+  || marketApi.projects.length !== marketApi.totals.projects
+  || marketApi.projects.filter((project) => project.layer !== 'plugin').some((project) => !nonPluginIds.has(project.id))) {
+  throw new Error('market API must combine plugin and non-plugin layers without granting installation authority')
+}
+for (const protectedId of nonPluginIds) {
+  if (pluginIds.has(protectedId)
+    || inventory.projects.some((project) => project.id === protectedId)
+    || pluginApi.projects.some((project) => project.id === protectedId)
+    || registry.entries.some((project) => project.id === protectedId)) {
+    throw new Error(`non-plugin market project leaked into a plugin authority: ${protectedId}`)
+  }
+}
+if (repositories.schema !== 'omdsh-public-repositories/v1' || repositories.repositories.length !== 10) {
+  throw new Error('public repository map must contain the ten approved repositories')
 }
 if (discovery.schema !== 'omdsh-public-discovery/v1') throw new Error('public discovery schema mismatch')
 if (discovery.organization?.owner !== 'omdsh-dev'
@@ -98,7 +166,7 @@ if (topicRepositories.schema !== 'dsh-topic-discovery/v1'
 }
 
 const builtFiles = await files(BUILD)
-if (builtFiles.length !== 42) throw new Error(`public build must contain exactly 42 files, received ${builtFiles.length}`)
+if (builtFiles.length !== 50) throw new Error(`public build must contain exactly 50 files, received ${builtFiles.length}`)
 for (const repository of repositories.repositories) {
   if (!/^https:\/\/github[.]com\/omdsh-dev\/[A-Za-z0-9._-]+$/.test(repository.url)) {
     throw new Error(`unapproved public repository URL: ${repository.url}`)
@@ -143,8 +211,11 @@ const [home, app, styles, configurations, developers, publish, contributing] = a
   readFile(resolve(ROOT, 'publish.html'), 'utf8'),
   readFile(resolve(ROOT, 'contributing.html'), 'utf8'),
 ])
-for (const required of ['discover-stage', 'featured-tabs', 'data-catalog-view="grid"', 'data-catalog-view="list"', 'catalog-pagination']) {
+for (const required of ['discover-stage', 'featured-tabs', 'market-layer-options', 'data-market-layer="infrastructure"', 'data-market-layer="distribution"', 'data-catalog-view="grid"', 'data-catalog-view="list"', 'catalog-pagination']) {
   if (!home.includes(required)) throw new Error(`restored Workshop layout is missing ${required}`)
+}
+if (!home.includes('class="github-star"') || !home.includes('https://github.com/omdsh-dev/dsh-hub-workshop')) {
+  throw new Error('the primary navigation must expose the public Workshop GitHub Star link')
 }
 if (!app.includes('featured.empty.recoverable') || !app.includes('visiblePackages')) {
   throw new Error('restored Workshop interactions must preserve empty recoverable state and catalog pagination')

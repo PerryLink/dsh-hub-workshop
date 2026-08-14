@@ -11,6 +11,7 @@ const candidatePrefill = document.querySelector('#candidate-prefill')
 const candidatePrefillName = document.querySelector('#candidate-prefill-name')
 const managementDetails = document.querySelector('#management-details')
 const managementSummary = document.querySelector('#management-summary')
+const guidedProtocolField = document.querySelector('#guided-protocol-field')
 const previewDetails = document.querySelector('#manifest-preview')
 const stepButtons = [...document.querySelectorAll('[data-publish-step]')]
 const formSections = [...document.querySelectorAll('[data-form-step]')]
@@ -155,7 +156,8 @@ function fillCandidate(candidate) {
     form.elements.method.value = 'repository-plugin'
     form.elements.source.value = repositoryPluginSource(candidate)
   } else {
-    form.elements.method.value = 'manual'
+    form.elements.method.value = 'guided'
+    form.elements.guidedProtocol.value = candidate.install.possibleAdapter === 'official-cordis/v1' ? 'harness-cordis' : 'third-party'
   }
   candidatePrefill.hidden = false
   candidatePrefillName.textContent = candidate.displayName
@@ -167,11 +169,13 @@ function managementMode() {
   const method = form.elements.method.value
   const transactional = method === 'profile-bundle'
   const repositoryPlugin = method === 'repository-plugin'
+  const guided = method === 'guided'
   bundleFields.hidden = !transactional
   sourceField.hidden = !repositoryPlugin
+  guidedProtocolField.hidden = !guided
   for (const input of bundleFields.querySelectorAll('input')) input.required = transactional
   sourceField.querySelector('input').required = repositoryPlugin
-  managementDetails.open = method === 'manual'
+  managementDetails.open = guided
   managementSummary.textContent = t(`publish.methodSummary.${method || 'unselected'}`)
   suggestInstallFacts()
 }
@@ -180,7 +184,7 @@ function managementSelection() {
   const selection = form.elements.method.value
   if (selection === 'profile-bundle') return { method: selection, protocol: 'harness-profile' }
   if (selection === 'repository-plugin') return { method: selection, protocol: 'harness-repository' }
-  if (selection === 'cordis-sdk') return { method: 'manual', protocol: 'harness-cordis' }
+  if (selection === 'guided') return { method: selection, protocol: form.elements.guidedProtocol.value }
   return { method: selection, protocol: 'third-party' }
 }
 
@@ -224,22 +228,13 @@ function suggestInstallFacts() {
     }
     return
   }
-  if (method === 'cordis-sdk' && repository && /^[0-9a-f]{40}$/.test(ref)) {
-    assignSuggestion(form.elements.installLabel, t('publish.defaultCordisLabel'))
-    const rootSource = `github:${repository[1]}/${repository[2]}#${ref}`
+  if (method === 'guided' && repository && /^[0-9a-f]{40}$/.test(ref)) {
+    assignSuggestion(form.elements.installLabel, form.elements.guidedProtocol.value === 'harness-cordis'
+      ? t('publish.defaultCordisLabel')
+      : t('publish.defaultThirdPartyLabel'))
     const path = normalizedPath(form.elements.path.value)
-    const instructions = path
-      ? `${t('publish.defaultCordisInstructions')} ${form.elements.repository.value.replace(/\/$/, '')}/tree/${ref}${path}`
-      : `dsh-sdk create ${rootSource}`
-    assignSuggestion(form.elements.instructions, instructions)
-    return
-  }
-  if (method === 'manual') {
-    assignSuggestion(form.elements.installLabel, t('publish.defaultThirdPartyLabel'))
-    if (form.elements.instructions.value === form.elements.instructions.dataset.generated) {
-      form.elements.instructions.value = ''
-      form.elements.instructions.dataset.generated = ''
-    }
+    const pinnedGuide = `${form.elements.repository.value.replace(/\/$/, '')}/tree/${ref}${path}`
+    assignSuggestion(form.elements.instructions, `${t('publish.defaultGuidedInstructions')} ${pinnedGuide}`)
     return
   }
   if (method !== 'repository-plugin' || !repository || !/^[0-9a-f]{40}$/.test(ref)) return
@@ -278,7 +273,8 @@ function fillExistingProject() {
   const protocol = catalog?.install?.protocol || release?.runtime?.protocol
   form.elements.method.value = installMethod === 'profile-bundle' || installMethod === 'repository-plugin'
     ? installMethod
-    : protocol === 'harness-cordis' ? 'cordis-sdk' : 'manual'
+    : 'guided'
+  form.elements.guidedProtocol.value = protocol === 'harness-cordis' ? 'harness-cordis' : 'third-party'
   form.elements.installLabel.value = catalog?.install?.label || ''
   form.elements.instructions.value = catalog?.install?.command || ''
   form.elements.source.value = catalog?.install?.source || ''
@@ -416,6 +412,7 @@ form.elements.deepHook.addEventListener('change', () => {
 for (const name of ['id', 'version', 'repository', 'path', 'ref']) {
   form.elements[name].addEventListener('input', suggestInstallFacts)
 }
+form.elements.guidedProtocol.addEventListener('change', suggestInstallFacts)
 form.elements.repository.addEventListener('input', suggestProjectIdentity)
 nextStepButton.addEventListener('click', continueToNextStep)
 previousStepButton.addEventListener('click', () => setStep(currentStep - 1))

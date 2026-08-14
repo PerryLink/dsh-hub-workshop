@@ -5,9 +5,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        请先在 [Author Studio](https://hub.omdsh.dev/publish.html) 生成完整清单，再粘贴到下方。自动化只读取清单指定的公开固定 commit，不执行投稿仓库脚本。普通 Topic 收录不等于获得 Registry 安装权限。
+        请先在 [Author Studio](https://hub.omdsh.dev/publish.html) 生成完整清单，再粘贴到下方。维护者将用只读校验器建立待审核记录，不执行投稿仓库脚本。普通 Topic 或 Catalog 收录不等于获得 Registry 安装权限。
 
-        Generate a manifest in [Author Studio](https://hub.omdsh.dev/publish.html), then paste it below. Review reads only the pinned public commit and never executes submitted repository scripts. Topic discovery does not grant Registry installation authority.
+        Generate a manifest in [Author Studio](https://hub.omdsh.dev/publish.html), then paste it below. A maintainer uses the read-only validator to create a pending-review record without executing submitted repository scripts. Topic or Catalog inclusion does not grant Registry installation authority.
   - type: textarea
     id: submission_manifest
     attributes:
@@ -36,4 +36,6 @@ body:
         - label: 我确认安装说明与固定 commit 一致，并允许维护者读取该公开版本源码。
           required: true
         - label: 我理解提交与收录不代表安全背书、自动启用或安装权限。
+          required: true
+        - label: 我理解“事务安装、配置安装、引导接入”是三种接入类型，“待审核”是独立状态；只有当前官方基线验证与人工审核均通过的受支持类型才可能进入 Registry。
           required: true

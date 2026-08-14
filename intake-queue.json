@@ -1,0 +1,19 @@
+{
+  "schema": "omdsh-workshop-intake-queue/v1",
+  "generatedAt": "2026-08-14T00:10:00.000Z",
+  "officialBaseline": "@deepseek-ai/dsh@0.1.0-rc.6",
+  "policy": {
+    "managementModes": [
+      "transactional",
+      "managed",
+      "guided"
+    ],
+    "reviewStateIsIndependent": true,
+    "registryEligibleModes": [
+      "transactional",
+      "managed"
+    ],
+    "failClosed": true
+  },
+  "records": []
+}

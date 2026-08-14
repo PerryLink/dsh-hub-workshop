@@ -1,0 +1,46 @@
+name: intake
+
+on:
+  pull_request:
+    paths:
+      - 'intake/**'
+      - 'intake-queue.json'
+      - 'intake*.schema.json'
+      - 'official-baseline.json'
+      - 'submission.schema.json'
+      - 'scripts/intake*.mjs'
+      - 'scripts/check-intake.mjs'
+      - 'tests/intake.test.mjs'
+  workflow_dispatch:
+  schedule:
+    - cron: '23 3 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  intake-policy:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run intake:check
+      - run: node --test tests/intake.test.mjs
+
+  official-baseline:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run baseline:verify

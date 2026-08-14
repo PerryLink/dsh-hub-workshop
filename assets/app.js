@@ -14,6 +14,7 @@ const state = {
   view: 'grid',
   featuredMode: 'stars',
   authorsExpanded: false,
+  marketLayer: 'all',
   scope: 'all',
   snapshot: '',
   visible: 24,
@@ -41,6 +42,8 @@ const elements = {
   sort: document.querySelector('#sort-order'),
   categories: document.querySelector('#category-filters'),
   scope: document.querySelector('#catalog-scope'),
+  marketLayers: document.querySelector('#market-layer-options'),
+  marketLayerDescription: document.querySelector('#market-layer-description'),
   featuredTabs: document.querySelector('#featured-tabs'),
   catalogShell: document.querySelector('.catalog-shell'),
   results: document.querySelector('.results-panel'),
@@ -213,6 +216,18 @@ function statusLabel(status) {
   return t(`statuses.${status}`) === `statuses.${status}` ? status : t(`statuses.${status}`)
 }
 
+function projectMarketLayer(pkg) {
+  return pkg.marketLayer || 'plugin'
+}
+
+function marketLayerLabel(layer) {
+  return t(`market.layer.${layer}`)
+}
+
+function marketLayerDescription(layer) {
+  return t(`market.description.${layer}`)
+}
+
 function presentationLabel(presentation) {
   const key = `candidates.presentation.${presentation}`
   const translated = t(key)
@@ -234,6 +249,7 @@ function formatDate(value, style = 'short') {
 }
 
 function installGroup(type) {
+  if (type === 'none') return 'none'
   if (type === 'candidate') return 'pending'
   if (type === 'profile-bundle') return 'transactional'
   if (type === 'repository-plugin') return 'managed'
@@ -256,6 +272,7 @@ function integrationLabel(pkg) {
 }
 
 function catalogAccessLabel(pkg) {
+  if (projectMarketLayer(pkg) !== 'plugin') return marketLayerLabel(projectMarketLayer(pkg))
   return installGroup(pkg.install.type) === 'guided'
     ? integrationLabel(pkg)
     : managementLabel(pkg.install.type)
@@ -283,6 +300,7 @@ function commitUpdatedAt(pkg) {
 }
 
 function installBackend(pkg) {
+  if (projectMarketLayer(pkg) !== 'plugin') return t('management.none')
   if (pkg.install.type === 'profile-bundle') return t('install.backend.officialProfile')
   if (pkg.install.type === 'repository-plugin') return t('install.backend.officialRepository')
   if (integrationProtocol(pkg) === 'harness-cordis') return t('install.backend.officialCordis')
@@ -290,6 +308,7 @@ function installBackend(pkg) {
 }
 
 function integrationRequirement(pkg) {
+  if (projectMarketLayer(pkg) !== 'plugin') return t('market.informationalOnly')
   if (pkg.install.type === 'profile-bundle') return t('install.requirement.officialCommand')
   if (pkg.install.type === 'repository-plugin') return t('install.requirement.officialRepository')
   if (integrationProtocol(pkg) === 'harness-cordis') return t('install.requirement.officialCordis')
@@ -297,6 +316,7 @@ function integrationRequirement(pkg) {
 }
 
 function installMethodLabel(pkg) {
+  if (projectMarketLayer(pkg) !== 'plugin') return t('market.informationalOnly')
   return integrationLabel(pkg)
 }
 
@@ -309,6 +329,7 @@ function omdshInstallNote(pkg) {
 }
 
 function managementLabel(type) {
+  if (installGroup(type) === 'none') return t('management.none')
   return t(`management.${installGroup(type)}`)
 }
 
@@ -379,6 +400,37 @@ function candidatePackage(candidate) {
     install: { type: 'candidate', label: '', command: '' },
     candidate: true,
     candidateData: candidate,
+  }
+}
+
+function marketProject(project) {
+  return {
+    id: project.id,
+    name: project.name,
+    description: project.description,
+    kind: project.kind,
+    category: project.category,
+    tags: project.tags,
+    author: project.author,
+    repository: project.source.repository,
+    repositoryPath: project.source.path || '',
+    ref: project.source.ref,
+    updatedAt: project.updatedAt,
+    version: project.version || undefined,
+    license: project.license,
+    status: 'ecosystem',
+    featured: project.featured,
+    discovery: project.discovery,
+    marketLayer: project.layer,
+    marketData: project,
+    compatibility: marketLayerDescription(project.layer),
+    install: {
+      type: 'none',
+      protocol: 'market-layer',
+      label: '',
+      command: '',
+      note: project.registry.reason,
+    },
   }
 }
 
@@ -493,6 +545,7 @@ function searchableText(pkg) {
     pkg.category,
     pkg.author.name,
     pkg.repository,
+    marketLayerLabel(projectMarketLayer(pkg)),
     kindLabel(pkg.kind),
     pkg.category ? categoryLabel(pkg.category) : '',
     ...pkg.tags,
@@ -500,11 +553,15 @@ function searchableText(pkg) {
 }
 
 function scopedPackages() {
-  const reviewed = state.packages.filter((pkg) => pkg.status !== 'discovery')
-  const discovered = state.packages.filter((pkg) => pkg.status === 'discovery')
+  const selected = state.marketLayer === 'all'
+    ? state.packages
+    : state.packages.filter((pkg) => projectMarketLayer(pkg) === state.marketLayer)
+  const candidates = ['all', 'plugin'].includes(state.marketLayer) ? state.candidates : []
+  const reviewed = selected.filter((pkg) => pkg.status !== 'discovery')
+  const discovered = selected.filter((pkg) => pkg.status === 'discovery')
   if (state.scope === 'reviewed') return reviewed
-  if (state.scope === 'candidates') return [...discovered, ...state.candidates]
-  return [...state.packages, ...state.candidates]
+  if (state.scope === 'candidates') return [...discovered, ...candidates]
+  return [...selected, ...candidates]
 }
 
 function filteredPackages() {
@@ -538,9 +595,10 @@ function packageCard(pkg) {
   const version = pkg.version ? `v${pkg.version}` : pkg.ref.slice(0, 7)
   const { release } = projectRelease(pkg)
   const guided = installGroup(pkg.install.type) === 'guided'
+  const informational = projectMarketLayer(pkg) !== 'plugin'
   const installBlocked = !guided && ['blocked', 'review-required'].includes(release?.listing?.state)
   return `
-    <article class="package-card">
+    <article class="package-card market-layer-${escapeHtml(projectMarketLayer(pkg))}">
       <button class="package-thumb project-visual mark-${escapeHtml(pkg.category || 'uncategorized')}" type="button" data-media-state="${visual.state}" data-visual-format="${visualFormat}" data-open-package="${escapeHtml(pkg.id)}" aria-label="${escapeHtml(formatText('row.open', { name: copy.name }))}">
         ${visual.content}
       </button>
@@ -571,7 +629,13 @@ function packageCard(pkg) {
         </div>
       </div>
         <div class="package-card-footer">
-        ${installBlocked ? `<div class="install-preview install-preview-blocked"><span><strong>${escapeHtml(t('project.installUnavailable'))}</strong><code>${escapeHtml(factValue(release?.listing?.state || 'blocked'))}</code></span></div>` : guided ? `<a class="install-preview" href="${escapeHtml(detailUrl(pkg))}">
+        ${informational ? `<a class="install-preview market-source-preview" href="${escapeHtml(detailUrl(pkg))}">
+          <span>
+            <strong>${escapeHtml(t('market.viewSource'))}</strong>
+            <code>${escapeHtml(t('market.informationalOnly'))}</code>
+          </span>
+          <span class="copy-label">↗</span>
+        </a>` : installBlocked ? `<div class="install-preview install-preview-blocked"><span><strong>${escapeHtml(t('project.installUnavailable'))}</strong><code>${escapeHtml(factValue(release?.listing?.state || 'blocked'))}</code></span></div>` : guided ? `<a class="install-preview" href="${escapeHtml(detailUrl(pkg))}">
           <span>
             <strong>${escapeHtml(omdshActionLabel(pkg))}</strong>
             <code>${escapeHtml(pkg.repository.replace('https://github.com/', ''))}</code>
@@ -763,6 +827,27 @@ function refreshMasonryLayout() {
   scheduleMasonryLayout()
 }
 
+function renderMarketLayers() {
+  const counts = {
+    all: state.packages.length,
+    plugin: state.packages.filter((pkg) => projectMarketLayer(pkg) === 'plugin').length,
+    infrastructure: state.packages.filter((pkg) => projectMarketLayer(pkg) === 'infrastructure').length,
+    distribution: state.packages.filter((pkg) => projectMarketLayer(pkg) === 'distribution').length,
+  }
+  document.querySelectorAll('[data-market-layer]').forEach((button) => {
+    const layer = button.dataset.marketLayer
+    button.setAttribute('aria-pressed', String(layer === state.marketLayer))
+    const count = button.querySelector('[data-market-layer-count]')
+    if (count) count.textContent = String(counts[layer] || 0)
+  })
+  if (elements.marketLayerDescription) {
+    elements.marketLayerDescription.textContent = marketLayerDescription(state.marketLayer)
+  }
+  if (elements.scope) {
+    elements.scope.hidden = !['all', 'plugin'].includes(state.marketLayer)
+  }
+}
+
 function render() {
   const packages = filteredPackages()
   const visiblePackages = packages.slice(0, state.visible)
@@ -777,6 +862,7 @@ function render() {
   elements.filteredCount.textContent = String(packages.length)
   elements.pagination.hidden = packages.length === 0
   elements.loadMore.hidden = visiblePackages.length >= packages.length
+  renderMarketLayers()
   refreshMasonryLayout()
 
   document.querySelectorAll('.category-filter').forEach((button) => {
@@ -791,9 +877,13 @@ function render() {
   document.querySelectorAll('[data-catalog-scope]').forEach((button) => {
     button.setAttribute('aria-pressed', String(button.dataset.catalogScope === state.scope))
   })
-  document.querySelector('[data-scope-count="all"]').textContent = String(state.packages.length + state.candidates.length)
-  document.querySelector('[data-scope-count="reviewed"]').textContent = String(state.packages.filter((pkg) => pkg.status !== 'discovery').length)
-  document.querySelector('[data-scope-count="candidates"]').textContent = String(state.packages.filter((pkg) => pkg.status === 'discovery').length + state.candidates.length)
+  const layerPackages = state.marketLayer === 'all'
+    ? state.packages
+    : state.packages.filter((pkg) => projectMarketLayer(pkg) === state.marketLayer)
+  const layerCandidates = ['all', 'plugin'].includes(state.marketLayer) ? state.candidates : []
+  document.querySelector('[data-scope-count="all"]').textContent = String(layerPackages.length + layerCandidates.length)
+  document.querySelector('[data-scope-count="reviewed"]').textContent = String(layerPackages.filter((pkg) => pkg.status !== 'discovery').length)
+  document.querySelector('[data-scope-count="candidates"]').textContent = String(layerPackages.filter((pkg) => pkg.status === 'discovery').length + layerCandidates.length)
 }
 
 function alignResultsToTop() {
@@ -850,7 +940,7 @@ function renderFeatured() {
         </span>
         <span class="featured-content">
           <span class="featured-meta">
-            <span>${escapeHtml(kindLabel(pkg.kind))} · ${escapeHtml(managementLabel(pkg.install.type))}</span>
+            <span>${escapeHtml(kindLabel(pkg.kind))} · ${escapeHtml(catalogAccessLabel(pkg))}</span>
             <time datetime="${escapeHtml(commitUpdatedAt(pkg))}">${escapeHtml(formatDate(commitUpdatedAt(pkg)))}</time>
           </span>
           <strong>${escapeHtml(copy.name)}</strong>
@@ -918,7 +1008,7 @@ function option(value, label) {
 
 function renderFilters() {
   const available = scopedPackages()
-  const categories = [...new Set([...state.packages, ...state.candidates].map((pkg) => pkg.category).filter(Boolean))]
+  const categories = [...new Set(available.map((pkg) => pkg.category).filter(Boolean))]
   elements.categories.innerHTML = ['all', ...categories].map((category) => {
     const count = category === 'all'
       ? available.length
@@ -926,7 +1016,7 @@ function renderFilters() {
     return `<button class="category-filter" type="button" data-category="${escapeHtml(category)}" aria-pressed="${category === state.category}">${escapeHtml(categoryLabel(category))}<span>${count}</span></button>`
   }).join('')
 
-  const kinds = [...new Set([...state.packages, ...state.candidates].map((pkg) => pkg.kind))]
+  const kinds = [...new Set(available.map((pkg) => pkg.kind))]
   elements.kind.innerHTML = option('all', t('filters.allTypes'))
     + kinds.map((kind) => option(kind, kindLabel(kind))).join('')
   elements.install.innerHTML = [
@@ -935,6 +1025,7 @@ function renderFilters() {
     option('managed', t('filters.managed')),
     option('guided', t('filters.guided')),
     option('pending', t('filters.pending')),
+    option('none', t('filters.informational')),
   ].join('')
   elements.channel.innerHTML = [
     option('all', t('filters.allChannels')),
@@ -1128,9 +1219,94 @@ function relationRows(items) {
   }).join('')
 }
 
+function openMarketProject(pkg, updateHash = true, requestedTab = 'overview') {
+  const copy = packageText(pkg)
+  const layer = projectMarketLayer(pkg)
+  const detailVisual = projectVisual(pkg, 'cover', { decorative: false })
+  const returnAuthorUrl = elements.dialog.dataset.authorUrl || elements.dialog.dataset.returnAuthorUrl || ''
+  const discussions = (state.community.discussions || []).filter((item) => item.projectId === pkg.id)
+  const activeTab = ['overview', 'discussions'].includes(requestedTab) ? requestedTab : 'overview'
+  elements.dialog.dataset.packageId = pkg.id
+  elements.dialog.dataset.collectionId = ''
+  elements.dialog.dataset.authorUrl = ''
+  elements.dialog.dataset.returnAuthorUrl = returnAuthorUrl
+  elements.dialogContent.innerHTML = `
+    <div class="dialog-body market-project-dialog">
+      ${returnAuthorUrl ? `<button class="project-back" type="button" data-back-author>${escapeHtml(t('authors.backToProjects'))}</button>` : ''}
+      <div class="project-detail-visual project-visual mark-${escapeHtml(pkg.category || 'uncategorized')}" data-media-state="${detailVisual.state}" data-visual-format="cover">
+        ${detailVisual.content}
+      </div>
+      <div class="dialog-meta">
+        <span>${escapeHtml(marketLayerLabel(layer))}</span>
+        <span>${escapeHtml(kindLabel(pkg.kind))}</span>
+        <span>${escapeHtml(statusLabel(pkg.status))}</span>
+      </div>
+      <h2 id="dialog-title">${escapeHtml(copy.name)}</h2>
+      <code class="dialog-id">${escapeHtml(pkg.id)}</code>
+      <nav class="project-tabs" aria-label="${escapeHtml(t('project.tabsLabel'))}" role="tablist">
+        ${['overview', 'discussions'].map((tab) => `
+          <button type="button" role="tab" data-project-tab="${tab}" aria-selected="${activeTab === tab}">${escapeHtml(t(`project.tab.${tab}`))}</button>
+        `).join('')}
+      </nav>
+      <section class="project-panel" role="tabpanel" data-project-panel="overview">
+        <p class="dialog-description">${escapeHtml(copy.description)}</p>
+        <dl class="dialog-facts">
+          <div><dt>${escapeHtml(t('dialog.author'))}</dt><dd>${authorLink(pkg.author)}</dd></div>
+          <div><dt>${escapeHtml(t('dialog.version'))}</dt><dd>${escapeHtml(pkg.version ? `v${pkg.version}` : pkg.ref.slice(0, 7))}</dd></div>
+          <div><dt>${escapeHtml(t('dialog.license'))}</dt><dd>${escapeHtml(pkg.license)}</dd></div>
+          <div><dt>${escapeHtml(t('project.updated'))}</dt><dd>${escapeHtml(formatDate(pkg.updatedAt, 'long'))}</dd></div>
+        </dl>
+        <section class="management-boundary boundary-informational">
+          <span class="management-boundary-label">${escapeHtml(marketLayerLabel(layer))}</span>
+          <div>
+            <strong>${escapeHtml(t(`market.boundary.${layer}.title`))}</strong>
+            <p>${escapeHtml(t(`market.boundary.${layer}.description`))}</p>
+          </div>
+        </section>
+        <section class="install-panel market-source-panel">
+          <div class="install-heading">
+            <h3>${escapeHtml(t('market.sourceTitle'))}</h3>
+            <span>${escapeHtml(t('market.informationalOnly'))}</span>
+          </div>
+          <p class="install-note">${escapeHtml(t('market.sourceNote'))}</p>
+          <a class="primary-action" href="${escapeHtml(detailUrl(pkg))}">${escapeHtml(t('market.viewSource'))} ↗</a>
+        </section>
+        <p class="dialog-safety">${escapeHtml(t('market.safety'))}</p>
+        <div class="dialog-source">
+          <div>
+            <strong>${escapeHtml(t('dialog.fixedSource'))}</strong>
+            <code>${escapeHtml(pkg.ref)}</code>
+          </div>
+          <a href="${escapeHtml(detailUrl(pkg))}">${escapeHtml(t('dialog.viewSource'))} ↗</a>
+        </div>
+      </section>
+      <section class="project-panel" role="tabpanel" data-project-panel="discussions" hidden>
+        <div class="project-panel-heading">
+          <div><span>${escapeHtml(t('project.discussions'))}</span><strong>${escapeHtml(discussions.length)}</strong></div>
+          <p>${escapeHtml(t('project.discussionsBoundary'))}</p>
+        </div>
+        <div class="project-discussions">
+          ${discussions.map(discussionRow).join('') || `<div class="community-empty"><strong>${escapeHtml(t('project.noDiscussionsTitle'))}</strong><p>${escapeHtml(t('project.noDiscussionsDescription'))}</p></div>`}
+        </div>
+        <a class="secondary-action discussion-external" href="${escapeHtml(`${pkg.repository}/discussions`)}">${escapeHtml(t('project.openDiscussions'))} ↗</a>
+      </section>
+    </div>`
+  elements.dialogContent.querySelector('[data-back-author]')?.addEventListener('click', (event) => {
+    event.preventDefault()
+    returnToAuthor()
+  })
+  activateProjectTab(activeTab)
+  if (!elements.dialog.open) elements.dialog.showModal()
+  if (updateHash) pushOverlayRoute('package', pkg.id)
+}
+
 function openPackage(id, updateHash = true, requestedTab = 'overview') {
   const pkg = state.packages.find((candidate) => candidate.id === id)
   if (!pkg) return
+  if (projectMarketLayer(pkg) !== 'plugin') {
+    openMarketProject(pkg, updateHash, requestedTab)
+    return
+  }
   const copy = packageText(pkg)
   const { project, release } = projectRelease(pkg)
   const version = release?.version ? `v${release.version}` : pkg.ref.slice(0, 7)
@@ -1458,6 +1634,20 @@ function bindEvents() {
     render()
     alignResultsToTop()
   })
+  document.querySelectorAll('[data-market-layer]').forEach((button) => {
+    button.addEventListener('click', () => {
+      state.marketLayer = button.dataset.marketLayer
+      state.scope = 'all'
+      state.category = 'all'
+      state.kind = 'all'
+      state.install = 'all'
+      state.channel = 'all'
+      state.visible = 24
+      renderFilters()
+      render()
+      alignResultsToTop()
+    })
+  })
   // Keep modal navigation local to the top-layer dialog. Relying only on the
   // document delegate leaves author/project transitions inert in browsers
   // that isolate synthetic top-layer dialog events.
@@ -1597,28 +1787,34 @@ async function init() {
   bindEvents()
   bindSectionNavigation()
   try {
-    const [response, workshopResponse, candidateResponse] = await Promise.all([
+    const [response, workshopResponse, candidateResponse, marketResponse] = await Promise.all([
       fetch('catalog.json'),
       fetch('workshop-v1.json'),
       fetch('candidates-v1.json'),
+      fetch('market-layers.json'),
       window.dshI18nReady,
     ])
     if (!response.ok) throw new Error(`HTTP ${response.status}`)
     if (!workshopResponse.ok) throw new Error(`Workshop HTTP ${workshopResponse.status}`)
     if (!candidateResponse.ok) throw new Error(`Candidates HTTP ${candidateResponse.status}`)
+    if (!marketResponse.ok) throw new Error(`Market HTTP ${marketResponse.status}`)
     const index = await response.json()
     const workshop = await workshopResponse.json()
     const candidateFeed = await candidateResponse.json()
-    state.packages = index.packages || []
+    const marketFeed = await marketResponse.json()
+    state.packages = [
+      ...(index.packages || []).map((pkg) => ({ ...pkg, marketLayer: 'plugin' })),
+      ...(marketFeed.projects || []).map(marketProject),
+    ]
     state.candidates = (candidateFeed.projects || []).map(candidatePackage)
     state.projects = new Map((workshop.projects || []).map((project) => [project.id, project]))
     state.runRecords = workshop.runRecords || []
     state.collections = workshop.collections || []
     state.community = workshop.community || { sources: [], discussions: [] }
     state.snapshot = index.updated
-    document.querySelector('#stat-packages').textContent = index.stats.packages
-    document.querySelector('#stat-repositories').textContent = index.stats.repositories
-    document.querySelector('#stat-categories').textContent = Object.keys(index.stats.categories).length
+    document.querySelector('#stat-packages').textContent = state.packages.length
+    document.querySelector('#stat-repositories').textContent = new Set(state.packages.map((pkg) => pkg.repository)).size
+    document.querySelector('#stat-categories').textContent = new Set(state.packages.map((pkg) => pkg.category).filter(Boolean)).size
     document.querySelector('#snapshot-time').textContent = formatDate(index.updated, 'long')
     renderFilters()
     renderWorkshopModes()

@@ -11,18 +11,18 @@
   "stats": {
     "repositories": 255,
     "decisions": {
-      "exclude": 48,
+      "exclude": 49,
       "include": 182,
-      "review": 25
+      "review": 24
     },
     "reasons": {
       "awesome-or-directory": 6,
       "claimed-plugin-unverified": 18,
       "core-product": 1,
       "distribution": 1,
-      "ecosystem-infrastructure": 3,
+      "ecosystem-infrastructure": 4,
       "insufficient-plugin-evidence": 27,
-      "plugin-collection-needs-expansion": 7,
+      "plugin-collection-needs-expansion": 6,
       "private-or-unavailable": 2,
       "template-or-guide": 8,
       "verified-cordis-plugin": 7,
@@ -4383,10 +4383,22 @@
       "url": "https://github.com/omdsh-dev/dsh-mygo",
       "defaultBranch": "main",
       "archived": false,
-      "decision": "review",
-      "reasonCode": "plugin-collection-needs-expansion",
-      "reason": "看起来是插件集合；需要按子插件清单展开，不能把集合仓整体冒充一个插件。",
+      "decision": "exclude",
+      "reasonCode": "ecosystem-infrastructure",
+      "reason": "插件管理与治理框架，不是可作为单一最终用户插件安装的叶子项目；子包也未通过当前公开基线验证。",
       "evidence": {
+        "manualReview": {
+          "inspectedCommit": "4566748646823f8e2123f6addcf22b55e305e740",
+          "verificationLevel": "static-public-source",
+          "findings": [
+            "root-package-manifest-absent",
+            "multi-package-plugin-management-framework",
+            "subpackages-target-older-rc-line",
+            "workspace-dependencies-unresolved",
+            "public-packages-unavailable",
+            "current-public-baseline-not-verified"
+          ]
+        },
         "strongSignals": [],
         "pluginClaims": [
           "profile-install"

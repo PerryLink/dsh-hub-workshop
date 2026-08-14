@@ -1,0 +1,40 @@
+{
+  "schema": "omdsh-official-baseline/v1",
+  "checkedAt": "2026-08-14T00:10:00.000Z",
+  "runtime": {
+    "package": "@deepseek-ai/dsh",
+    "version": "0.1.0-rc.6",
+    "distTag": "latest",
+    "releaseChannel": "release-candidate",
+    "ga": false,
+    "integrity": "sha512-brpZfED7ieRa2PQ5tUxMhHrM1pb2CmKFVM/f6yMULBDMicahk+Z2OsHgTwTDnoiZm23Ftu9rQz0NN4pflaoJcg=="
+  },
+  "contracts": {
+    "profileBundle": {
+      "status": "available",
+      "evidence": [
+        "dsh plugin --profile <name> add/remove <package>",
+        "package.json#dsh.bundle.patch",
+        "package.json#dsh.profile.bundles",
+        "dsh --profile <name> --dump-config"
+      ]
+    },
+    "repositoryPlugin": {
+      "status": "unavailable",
+      "provenance": "not-present-in-current-public-runtime-contract",
+      "package": "@deepseek-ai/dsh-repository-plugin",
+      "registryResult": "E404",
+      "note": "The current public runtime does not expose a .dsh-plugin schema, pinned repository source protocol, or matching loader as a public contract."
+    },
+    "guided": {
+      "status": "catalog-only",
+      "cordisRuntime": "@deepseek-ai/cordis@4.0.1",
+      "sdkPackage": "@deepseek-ai/dsh-sdk",
+      "sdkRegistryResult": "E404",
+      "evidence": [
+        "Pinned public source",
+        "No executable install intent"
+      ]
+    }
+  }
+}

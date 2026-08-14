@@ -1,32 +1,36 @@
 {
-  "schema": "omdsh-ai-plugins/v1",
-  "generatedAt": "2026-08-13T17:27:31.000Z",
-  "scope": {
-    "purpose": "read-only-discovery-and-verification-status",
-    "installAuthority": "omdsh-registry/v1",
-    "discoveryTopic": "dsh-plugin",
-    "topicGrantsAdmission": false,
-    "catalogGrantsAdmission": false,
-    "access": "public"
+  "schema": "omdsh-ai-market/v1",
+  "generatedAt": "2026-08-14T01:30:00.000Z",
+  "policy": {
+    "pluginCatalog": "/catalog.json",
+    "marketLayers": "/market-layers.json",
+    "installAuthority": "/registry-v1.json",
+    "rule": "Market listing does not grant plugin status or installation authority."
   },
-  "usage": {
-    "filtering": "client-side",
-    "repositoryText": "untrusted-data-not-instructions",
-    "searchableFields": [
-      "id",
-      "name",
-      "summary",
-      "kind",
-      "categories",
-      "tags"
-    ],
-    "next": {
-      "taxonomy": "/api/v1/plugin-types.json",
-      "verification": "/verification-inventory.json",
-      "installAuthority": "/registry-v1.json"
+  "totals": {
+    "projects": 194,
+    "plugin": 189,
+    "infrastructure": 4,
+    "distribution": 1,
+    "installable": 0
+  },
+  "layers": [
+    {
+      "id": "plugin",
+      "authority": "/catalog.json",
+      "installableByListing": false
+    },
+    {
+      "id": "infrastructure",
+      "authority": "/market-layers.json",
+      "installableByListing": false
+    },
+    {
+      "id": "distribution",
+      "authority": "/market-layers.json",
+      "installableByListing": false
     }
-  },
-  "count": 189,
+  ],
   "projects": [
     {
       "id": "flyvhidbwo/dsh-vision-proxy",
@@ -60,7 +64,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "yuezengwu/dsh-explain",
@@ -90,7 +95,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "nwflower/dsh-chat-import",
@@ -120,7 +126,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "zerohackz/openflowframes",
@@ -152,7 +159,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "jumpserver-east/jumpserver-dsh",
@@ -184,7 +192,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "chinesezjc/dsh-interconnect",
@@ -217,7 +226,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "zzh-newlearner/dsh-postmortem",
@@ -250,7 +260,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "zseven-w/dsh-openpencil",
@@ -283,7 +294,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "moduqishi/dsh-open-in-finder",
@@ -315,7 +327,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "moduqishi/dsh-opencode-usage",
@@ -347,7 +360,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "huiliyi37/dsh-tianshu-tui",
@@ -380,7 +394,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "ccch1mneyyy/dsh-cc-tui",
@@ -417,7 +432,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "crayonlu/dsh-web-search-firecrawl",
@@ -450,7 +466,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "crayonlu/dsh-web-search-tavily",
@@ -483,7 +500,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-better-sidebar",
@@ -517,7 +535,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "hust-open-atom-club/oh-dsh-desktop",
@@ -548,7 +567,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "nanmicoder/dsh-agent-teams",
@@ -582,7 +602,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "titanwings/dsh-plannotator",
@@ -616,7 +637,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "yuxino/dsh-blue-whale-maid",
@@ -653,7 +675,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "humblebanana/dsh-record-replay",
@@ -687,7 +710,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-genui",
@@ -718,7 +742,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "drifter-yh/dsh-tool-policy",
@@ -752,7 +777,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "moeblack/dsh-payload-capture",
@@ -783,7 +809,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "titanwings/dsh-better-browser",
@@ -820,7 +847,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "titanwings/dsh-automation",
@@ -857,7 +885,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "liustack/modlens",
@@ -894,7 +923,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "alingalingling/ui-status-label",
@@ -925,7 +955,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "pangyiming/dsh-mobile-control",
@@ -958,7 +989,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "pangyiming/dsh-browser-control",
@@ -991,7 +1023,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "yoke233/dsh-openai-codex-auth",
@@ -1023,7 +1056,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "degurechaff57/dsh-openapi",
@@ -1059,7 +1093,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "a179-sanae/dsh-code-check",
@@ -1090,7 +1125,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-visualize",
@@ -1122,7 +1158,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "nagi-ovo/dsh-ads",
@@ -1152,7 +1189,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "orriduck/dsh-tui",
@@ -1186,7 +1224,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "cking000bigdemon/dsh-pi-plugins",
@@ -1219,7 +1258,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "uynajgi/dsh-ssh",
@@ -1249,7 +1289,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "vlln/whale-girl",
@@ -1283,7 +1324,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "vlln/dsh-task-status",
@@ -1316,7 +1358,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "vlln/dsh-navbar",
@@ -1349,7 +1392,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "vlln/dsh-loop",
@@ -1382,7 +1426,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-annotation",
@@ -1413,7 +1458,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dbydd/dsh-onlyne",
@@ -1446,7 +1492,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "pangyiming/dsh-batch-regression",
@@ -1480,7 +1527,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "pangyiming/dsh-port-guard",
@@ -1514,7 +1562,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "pangyiming/dsh-bisect-debug",
@@ -1548,7 +1597,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "pangyiming/dsh-screenshot-diff",
@@ -1582,7 +1632,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "yytbit/dsh-plugin-claude-bridge",
@@ -1615,7 +1666,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "flashingchen/dsh-worktree",
@@ -1650,7 +1702,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-book2skill",
@@ -1680,7 +1733,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-at-file",
@@ -1711,7 +1765,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-custom-tool",
@@ -1742,7 +1797,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-open-in-vscode",
@@ -1773,7 +1829,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-notification",
@@ -1804,7 +1861,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "linglambda/dsh-undo",
@@ -1834,7 +1892,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-pet-corner",
@@ -1864,7 +1923,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-fun-typewriter",
@@ -1894,7 +1954,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-voice-funasr",
@@ -1924,7 +1985,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-ernie-image",
@@ -1954,7 +2016,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-paddle-ocr",
@@ -1984,7 +2047,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-daily-progress",
@@ -2014,7 +2078,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-revive",
@@ -2044,7 +2109,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-longbridge",
@@ -2074,7 +2140,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "fisfzy/ego-browser",
@@ -2108,7 +2175,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-gomoku",
@@ -2140,7 +2208,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "qyw233/dsh-deeplink",
@@ -2170,7 +2239,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-prompt-studio",
@@ -2204,7 +2274,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "nowledge-co/nowledge-mem-deepseek-harness",
@@ -2238,7 +2309,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-bash-encoding",
@@ -2272,7 +2344,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-ui-whale",
@@ -2305,7 +2378,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-ui-progress",
@@ -2339,7 +2413,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-paste-input",
@@ -2372,7 +2447,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "lhh010/dsh-minigames",
@@ -2403,7 +2479,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-input-history",
@@ -2437,7 +2514,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-security-audit",
@@ -2471,7 +2549,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-fun-weather",
@@ -2501,7 +2580,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-daily-fortune",
@@ -2531,7 +2611,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-fun-ticker",
@@ -2561,7 +2642,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-plugin-check",
@@ -2597,7 +2679,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-toolkit",
@@ -2632,7 +2715,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-tool-schema",
@@ -2665,7 +2749,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-memory-evolve",
@@ -2700,7 +2785,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-tool-stat",
@@ -2734,7 +2820,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-tool-time",
@@ -2769,7 +2856,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-tool-regex",
@@ -2803,7 +2891,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-tool-markdown",
@@ -2837,7 +2926,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-tool-json",
@@ -2872,7 +2962,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-tool-encoding",
@@ -2907,7 +2998,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "moeblack/deepseek-manners",
@@ -2938,7 +3030,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-tool-diff",
@@ -2972,7 +3065,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-tool-csv",
@@ -3007,7 +3101,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-tool-calculator",
@@ -3042,7 +3137,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dingyi222666/dsh-session-notification",
@@ -3072,7 +3168,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dingyi222666/dsh-focus-chat",
@@ -3102,7 +3199,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "whiteguo233/dsh-openbiliclaw",
@@ -3136,7 +3234,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "bobleer/dsh-acp-for-bitfun",
@@ -3168,7 +3267,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-session-search",
@@ -3205,7 +3305,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "fuhefei/dsh-sentinel",
@@ -3236,7 +3337,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "havingautism/dsh-ultra-ui",
@@ -3266,7 +3368,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "havingautism/dsh-deepresearch",
@@ -3296,7 +3399,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "havingautism/dsh-notebooks",
@@ -3326,7 +3430,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "thu-maic/dsh-openmaic",
@@ -3358,7 +3463,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "yjh051108/dsh-super-injector",
@@ -3389,7 +3495,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "lzszq/dsh-scholar",
@@ -3420,7 +3527,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "0xsline/dsh-spotlight",
@@ -3450,7 +3558,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "bill9109/dsh-conversation-share",
@@ -3481,7 +3590,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "gameswu/dsh-plugin-background",
@@ -3511,7 +3621,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "telegram",
@@ -3544,7 +3655,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "distill",
@@ -3577,7 +3689,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "btspoony/dsh-advisor",
@@ -3610,7 +3723,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "coppynight/dsh-doctor",
@@ -3646,7 +3760,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-tps",
@@ -3679,7 +3794,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "btspoony/dsh-llm-fallbacks",
@@ -3712,7 +3828,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "ilharp/dsh-tool-approval",
@@ -3744,7 +3861,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "anionex/dsh-computer-use",
@@ -3781,7 +3899,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "anionex/dsh-turn-rewind",
@@ -3818,7 +3937,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "anionex/dsh-vision-toolkit",
@@ -3855,7 +3975,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "huanlinoto/dsh-plugin-yet-another-subagent",
@@ -3885,7 +4006,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "huanlinoto/dsh-plugin-ya-workspace-sidebar",
@@ -3915,7 +4037,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "huanlinoto/dsh-plugin-spur",
@@ -3945,7 +4068,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "huanlinoto/dsh-plugin-sleep",
@@ -3975,7 +4099,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "huanlinoto/dsh-plugin-mineru",
@@ -4005,7 +4130,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "huanlinoto/dsh-plugin-interpreters",
@@ -4035,7 +4161,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "huanlinoto/dsh-plugin-d399",
@@ -4065,7 +4192,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "huanlinoto/dsh-plugin-better-sidebar-plugin-office",
@@ -4095,7 +4223,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "huanlinoto/dsh-plugin-auto-blame",
@@ -4125,7 +4254,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "huanlinoto/dsh-plugin-anti-ads",
@@ -4155,7 +4285,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "huanlinoto/dsh-plugin-aigc-canvas",
@@ -4185,7 +4316,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "chen-001/dsh-chat-width",
@@ -4217,7 +4349,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "hellodigua/dsh-emoji",
@@ -4249,7 +4382,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-message-edit",
@@ -4283,7 +4417,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-auto-chess",
@@ -4315,7 +4450,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "lehhair/dsh-mobile",
@@ -4345,7 +4481,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-split-panes",
@@ -4377,7 +4514,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-sidechain",
@@ -4414,7 +4552,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/fabric",
@@ -4445,7 +4584,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "fakechris/dsh-track",
@@ -4481,7 +4621,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "zevorn/dsh-humanize",
@@ -4512,7 +4653,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "anacondakc/dsh-stock-market",
@@ -4542,7 +4684,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "anacondakc/dsh-custom-css",
@@ -4572,7 +4715,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "anacondakc/dsh-douyin",
@@ -4602,7 +4746,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-mnemon",
@@ -4639,7 +4784,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-web-ui-notify",
@@ -4672,7 +4818,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-drag-and-drop",
@@ -4705,7 +4852,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-web-archive",
@@ -4739,7 +4887,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "icetomoyo/dsh_workflow",
@@ -4775,7 +4924,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-scout",
@@ -4806,7 +4956,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-data-agent",
@@ -4838,7 +4989,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "william-jin-cmu/dsh-stickers",
@@ -4869,7 +5021,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "william-jin-cmu/dsh-evolve",
@@ -4900,7 +5053,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-artifact",
@@ -4934,7 +5088,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-vision",
@@ -4968,7 +5123,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "ccq1/dsh-side-panel",
@@ -4999,7 +5155,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "hellodigua/dsh-share",
@@ -5030,7 +5187,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "whiteguo233/dsh-cc-connect",
@@ -5062,7 +5220,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "vibeinging/dsh-trace",
@@ -5098,7 +5257,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "vibeinging/dsh-agent-budget",
@@ -5129,7 +5289,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "vibeinging/dsh-tool-search",
@@ -5160,7 +5321,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-deep-research",
@@ -5193,7 +5355,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "dsh-inspect",
@@ -5226,7 +5389,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-kb-sieve",
@@ -5256,7 +5420,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "bill9109/dsh-101",
@@ -5287,7 +5452,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/sandbox-nono",
@@ -5319,7 +5485,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "bill9109/dsh-webbridge",
@@ -5350,7 +5517,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/sandbox-mxc",
@@ -5382,7 +5550,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/sandbox-micro",
@@ -5414,7 +5583,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/ex-setting",
@@ -5445,7 +5615,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "web-components",
@@ -5479,7 +5650,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/qwen-mm-plugins",
@@ -5511,7 +5683,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "zotero-harvest",
@@ -5547,7 +5720,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "zotero-wave-rag",
@@ -5581,7 +5755,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "yyh-001/dsh-companion",
@@ -5611,7 +5786,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "chen-001/dsh-grok-tui",
@@ -5641,7 +5817,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "mongfayi/dsh-local-filetree",
@@ -5671,7 +5848,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "bittersmilezzz/dsh-mac-desktop",
@@ -5701,7 +5879,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "zhenyu98/dsh-context-doctor",
@@ -5731,7 +5910,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "omdsh-dev/dsh-session-health",
@@ -5761,7 +5941,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "loserfox/dsh-git-identity",
@@ -5791,7 +5972,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "github-integration",
@@ -5823,7 +6005,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "almanac-mcp",
@@ -5855,7 +6038,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "bug-tamer",
@@ -5887,7 +6071,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "chinese-colors-mcp",
@@ -5919,7 +6104,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "code-archaeologist",
@@ -5951,7 +6137,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "code-talent-scout",
@@ -5983,7 +6170,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "decision-dice-mcp",
@@ -6015,7 +6203,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "naming-master-mcp",
@@ -6047,7 +6236,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "time-capsule-mcp",
@@ -6079,7 +6269,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "session-teleport",
@@ -6111,7 +6302,8 @@
       },
       "registry": {
         "state": "ineligible"
-      }
+      },
+      "layer": "plugin"
     },
     {
       "id": "7d7d",
@@ -6143,6 +6335,168 @@
       },
       "registry": {
         "state": "ineligible"
+      },
+      "layer": "plugin"
+    },
+    {
+      "id": "omdsh-dev/dsh-mygo",
+      "name": "dsh-mygo",
+      "summary": "面向 DSH 生态的插件管理与治理框架，包含核心、CLI、面板和存储扩展。",
+      "layer": "infrastructure",
+      "kind": "manager",
+      "categories": [
+        "infrastructure"
+      ],
+      "tags": [
+        "dsh",
+        "plugin-manager",
+        "ecosystem-infrastructure"
+      ],
+      "source": {
+        "repository": "https://github.com/omdsh-dev/dsh-mygo",
+        "ref": "4566748646823f8e2123f6addcf22b55e305e740",
+        "path": null
+      },
+      "review": {
+        "state": "curated",
+        "reason": "ecosystem-infrastructure"
+      },
+      "verification": {
+        "state": "static-reviewed",
+        "evidence": "topic-plugin-audit.json#omdsh-dev/dsh-mygo"
+      },
+      "registry": {
+        "state": "ineligible",
+        "reason": "market-layer-not-plugin-install"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-hub-workshop",
+      "name": "DSH Hub Workshop",
+      "summary": "OMDSH 生态的公开目录、审核投影与不可变 Feed 权威源。",
+      "layer": "infrastructure",
+      "kind": "manager",
+      "categories": [
+        "infrastructure"
+      ],
+      "tags": [
+        "dsh",
+        "catalog",
+        "plugin-marketplace",
+        "plugin-registry"
+      ],
+      "source": {
+        "repository": "https://github.com/omdsh-dev/dsh-hub-workshop",
+        "ref": "ca595d6c7534d8542232cd7df34e0e921eb4abc3",
+        "path": null
+      },
+      "review": {
+        "state": "curated",
+        "reason": "ecosystem-infrastructure"
+      },
+      "verification": {
+        "state": "source-pinned",
+        "evidence": "public GitHub commit"
+      },
+      "registry": {
+        "state": "ineligible",
+        "reason": "market-layer-not-plugin-install"
+      }
+    },
+    {
+      "id": "omdsh-dev/dsh-hub",
+      "name": "DSH Hub",
+      "summary": "面向终端用户的市场消费端，用于浏览并消费 Workshop 的公共 Feed。",
+      "layer": "infrastructure",
+      "kind": "manager",
+      "categories": [
+        "infrastructure"
+      ],
+      "tags": [
+        "dsh",
+        "marketplace-consumer",
+        "plugin-marketplace"
+      ],
+      "source": {
+        "repository": "https://github.com/omdsh-dev/dsh-hub",
+        "ref": "82c958c945542064cbdf3eeb2bb408f95187bfc0",
+        "path": null
+      },
+      "review": {
+        "state": "curated",
+        "reason": "ecosystem-infrastructure"
+      },
+      "verification": {
+        "state": "source-pinned",
+        "evidence": "public GitHub commit"
+      },
+      "registry": {
+        "state": "ineligible",
+        "reason": "market-layer-not-plugin-install"
+      }
+    },
+    {
+      "id": "omdsh-dev/omdsh-runtime",
+      "name": "OMDSH Runtime",
+      "summary": "负责 Profile、Bundle、候选代际和恢复语义的无头运行时。",
+      "layer": "infrastructure",
+      "kind": "manager",
+      "categories": [
+        "infrastructure"
+      ],
+      "tags": [
+        "dsh",
+        "runtime",
+        "profile-management"
+      ],
+      "source": {
+        "repository": "https://github.com/omdsh-dev/omdsh-runtime",
+        "ref": "7b63a27edef055a1c35d97d97651e78d41ea8a2f",
+        "path": null
+      },
+      "review": {
+        "state": "curated",
+        "reason": "ecosystem-infrastructure"
+      },
+      "verification": {
+        "state": "source-pinned",
+        "evidence": "public GitHub commit"
+      },
+      "registry": {
+        "state": "ineligible",
+        "reason": "market-layer-not-plugin-install"
+      }
+    },
+    {
+      "id": "omdsh-dev/omdsh",
+      "name": "Oh My DSH",
+      "summary": "社区发行版与精确发行清单层，用于组织经过审核的组件组合。",
+      "layer": "distribution",
+      "kind": "toolkit",
+      "categories": [
+        "platform"
+      ],
+      "tags": [
+        "dsh",
+        "distribution",
+        "community-release"
+      ],
+      "source": {
+        "repository": "https://github.com/omdsh-dev/omdsh",
+        "ref": "8affdc1b9e7ad3b5e70fc6b7772f7d95ff2384de",
+        "path": null
+      },
+      "review": {
+        "state": "curated",
+        "reason": "community-distribution"
+      },
+      "verification": {
+        "state": "source-pinned",
+        "evidence": "public GitHub commit"
+      },
+      "registry": {
+        "state": "ineligible",
+        "reason": "market-layer-not-plugin-install"
       }
     }
   ]

@@ -14,6 +14,23 @@ const MANUAL_DECISIONS = new Map([
   ['omdsh-dev/dsh-hub-workshop', { decision: 'exclude', reasonCode: 'ecosystem-infrastructure', reason: 'Workshop/Catalog 权威仓，不是插件。' }],
   ['omdsh-dev/dsh-hub', { decision: 'exclude', reasonCode: 'ecosystem-infrastructure', reason: 'Hub 消费端，不是插件。' }],
   ['omdsh-dev/omdsh-runtime', { decision: 'exclude', reasonCode: 'ecosystem-infrastructure', reason: 'OMDSH Runtime，不是插件。' }],
+  ['omdsh-dev/dsh-mygo', {
+    decision: 'exclude',
+    reasonCode: 'ecosystem-infrastructure',
+    reason: '插件管理与治理框架，不是可作为单一最终用户插件安装的叶子项目；子包也未通过当前公开基线验证。',
+    evidence: {
+      inspectedCommit: '4566748646823f8e2123f6addcf22b55e305e740',
+      verificationLevel: 'static-public-source',
+      findings: [
+        'root-package-manifest-absent',
+        'multi-package-plugin-management-framework',
+        'subpackages-target-older-rc-line',
+        'workspace-dependencies-unresolved',
+        'public-packages-unavailable',
+        'current-public-baseline-not-verified',
+      ],
+    },
+  }],
   ['omdsh-dev/omdsh', { decision: 'exclude', reasonCode: 'distribution', reason: 'Oh My DSH 发行版，不是插件。' }],
   ['omdsh-dev/plugin-template', { decision: 'exclude', reasonCode: 'template-or-guide', reason: '插件模板本身不作为插件收录。' }],
   ['omdsh-dev/dsh-plugin-dev', { decision: 'exclude', reasonCode: 'template-or-guide', reason: '插件开发说明与工具，不作为插件收录。' }],
@@ -199,6 +216,7 @@ async function inspect(repository) {
     reasonCode,
     reason,
     evidence: {
+      manualReview: override?.evidence || null,
       rootPaths: rootPaths.slice(0, 80),
       packageName: pkg?.name || null,
       packagePrivate: typeof pkg?.private === 'boolean' ? pkg.private : null,
@@ -250,6 +268,7 @@ const report = {
     reasonCode: entry.reasonCode,
     reason: entry.reason,
     evidence: {
+      ...(entry.evidence.manualReview ? { manualReview: entry.evidence.manualReview } : {}),
       strongSignals: entry.evidence.strongSignals,
       pluginClaims: entry.evidence.pluginClaims,
       collectionSignals: entry.evidence.collectionSignals,

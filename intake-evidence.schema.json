@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hub.omdsh.dev/intake-evidence.schema.json",
+  "title": "OMDSH Workshop Intake Evidence",
+  "type": "object",
+  "required": ["schema", "projectId", "releaseId", "management", "source", "runtime", "capability", "checks", "verifiedAt", "verifier"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "omdsh-workshop-intake-evidence/v1" },
+    "projectId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "releaseId": { "type": "string", "minLength": 3 },
+    "management": { "enum": ["transactional", "managed", "guided"] },
+    "source": {
+      "type": "object",
+      "required": ["repository", "ref", "path"],
+      "additionalProperties": false,
+      "properties": {
+        "repository": { "type": "string", "pattern": "^https://github\\.com/" },
+        "ref": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "path": { "type": ["string", "null"] }
+      }
+    },
+    "runtime": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["package", "version", "integrity", "profile", "platform", "node"],
+          "additionalProperties": false,
+          "properties": {
+            "package": { "const": "@deepseek-ai/dsh" },
+            "version": { "type": "string" },
+            "integrity": { "type": "string", "pattern": "^sha512-" },
+            "profile": { "type": "string", "minLength": 1 },
+            "platform": { "type": "string", "minLength": 1 },
+            "node": { "type": "string", "minLength": 1 }
+          }
+        },
+        { "type": "null" }
+      ]
+    },
+    "capability": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["id", "kind", "invocation", "assertion", "expected", "observed"],
+          "additionalProperties": false,
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "kind": { "enum": ["tool", "command", "service", "ui", "event", "provider", "other"] },
+            "invocation": { "type": "string", "minLength": 1 },
+            "assertion": { "const": "registered-invoked-and-observed" },
+            "expected": { "type": "string", "minLength": 1 },
+            "observed": { "type": "string", "minLength": 1 }
+          }
+        },
+        { "type": "null" }
+      ]
+    },
+    "checks": {
+      "type": "object",
+      "required": ["static", "manifest", "entry", "dshContract", "compatibility", "permissions", "supplyChain", "install", "ready", "functional", "update", "disable", "remove", "recovery"],
+      "additionalProperties": false,
+      "properties": {
+        "static": { "$ref": "#/$defs/check" },
+        "manifest": { "$ref": "#/$defs/check" },
+        "entry": { "$ref": "#/$defs/check" },
+        "dshContract": { "$ref": "#/$defs/check" },
+        "compatibility": { "$ref": "#/$defs/check" },
+        "permissions": { "$ref": "#/$defs/check" },
+        "supplyChain": { "$ref": "#/$defs/check" },
+        "install": { "$ref": "#/$defs/check" },
+        "ready": { "$ref": "#/$defs/check" },
+        "functional": { "$ref": "#/$defs/check" },
+        "update": { "$ref": "#/$defs/check" },
+        "disable": { "$ref": "#/$defs/check" },
+        "remove": { "$ref": "#/$defs/check" },
+        "recovery": { "$ref": "#/$defs/check" }
+      }
+    },
+    "verifiedAt": { "type": "string", "format": "date-time" },
+    "verifier": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "check": {
+      "type": "object",
+      "required": ["status", "evidence"],
+      "additionalProperties": false,
+      "properties": {
+        "status": { "enum": ["passed", "failed", "blocked", "not-applicable"] },
+        "evidence": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

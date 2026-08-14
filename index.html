@@ -13,7 +13,7 @@
     <script src="assets/app.js" defer></script>
   </head>
   <body class="layout-mod" data-title-key="meta.title">
-    <a class="skip-link" href="#catalog" data-i18n="site.skip">跳到插件目录</a>
+    <a class="skip-link" href="#catalog" data-i18n="site.skip">跳到项目目录</a>
 
     <header class="site-header">
       <a class="wordmark" href="./" aria-label="DSH Hub Workshop 首页" data-i18n-aria-label="site.homeLabel">
@@ -44,6 +44,10 @@
             <path d="M20 15.4A8 8 0 0 1 8.6 4a8.1 8.1 0 1 0 11.4 11.4Z"></path>
           </svg>
         </button>
+        <a class="github-star" href="https://github.com/omdsh-dev/dsh-hub-workshop" target="_blank" rel="noreferrer" aria-label="在 GitHub 上为 DSH Hub Workshop 加星" data-i18n-aria-label="site.githubStarLabel">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.7 14.9 8.6l6.5.9-4.7 4.6 1.1 6.5-5.8-3.1-5.8 3.1 1.1-6.5-4.7-4.6 6.5-.9L12 2.7Z"></path></svg>
+          <span data-i18n="site.githubStar">Star</span>
+        </a>
       </div>
     </header>
 
@@ -69,7 +73,7 @@
 
       <section class="discovery-dock" aria-label="Workshop 概览" data-i18n-aria-label="workshop.navLabel">
         <dl class="hero-stats" aria-label="目录统计" data-i18n-aria-label="hero.statsLabel">
-            <div><dt id="stat-packages">-</dt><dd data-i18n="hero.packages">个插件</dd></div>
+            <div><dt id="stat-packages">-</dt><dd data-i18n="hero.packages">个项目</dd></div>
             <div><dt id="stat-repositories">-</dt><dd data-i18n="hero.repositories">个仓库</dd></div>
             <div><dt id="stat-categories">-</dt><dd data-i18n="hero.categories">个分类</dd></div>
           </dl>
@@ -182,11 +186,11 @@
           <div class="results-panel">
             <div class="catalog-heading">
               <div>
-                <h2 id="catalog-title" data-i18n="catalog.title">浏览全部扩展</h2>
+                <h2 id="catalog-title" data-i18n="catalog.title">浏览全部项目</h2>
                 <p class="catalog-summary">
                   <span data-i18n="catalog.showing">当前显示</span>
                   <strong id="result-count">-</strong>
-                  <span data-i18n="catalog.results">个插件</span>
+                  <span data-i18n="catalog.results">个项目</span>
                   <span aria-hidden="true">·</span>
                   <span data-i18n="catalog.updated">更新于</span>
                   <time id="snapshot-time">-</time>
@@ -207,6 +211,17 @@
               </div>
             </div>
 
+            <section class="market-layer-bar" aria-labelledby="market-layer-label">
+              <span id="market-layer-label" class="market-layer-label" data-i18n="market.layersLabel">市场层级</span>
+              <div id="market-layer-options" class="catalog-scope market-layer-options" role="group" aria-label="市场层级" data-i18n-aria-label="market.layersLabel">
+                <button type="button" data-market-layer="all" aria-pressed="true"><span data-i18n="market.layer.all">全部项目</span><strong data-market-layer-count>0</strong></button>
+                <button type="button" data-market-layer="plugin" aria-pressed="false"><span data-i18n="market.layer.plugin">插件</span><strong data-market-layer-count>0</strong></button>
+                <button type="button" data-market-layer="infrastructure" aria-pressed="false"><span data-i18n="market.layer.infrastructure">生态基础设施</span><strong data-market-layer-count>0</strong></button>
+                <button type="button" data-market-layer="distribution" aria-pressed="false"><span data-i18n="market.layer.distribution">发行与组合</span><strong data-market-layer-count>0</strong></button>
+              </div>
+              <p id="market-layer-description" class="market-layer-description" data-i18n="market.description.all">插件、基础设施和发行项目分层展示，安装权限仍只来自 Registry。</p>
+            </section>
+
             <div id="catalog-scope" class="catalog-scope" role="group" aria-label="收录状态" data-i18n-aria-label="catalog.scopeLabel">
               <button type="button" data-catalog-scope="all" aria-pressed="true"><span data-i18n="catalog.scope.all">全部</span><strong data-scope-count="all">-</strong></button>
               <button type="button" data-catalog-scope="reviewed" aria-pressed="false"><span data-i18n="catalog.scope.reviewed">已收录</span><strong data-scope-count="reviewed">-</strong></button>
@@ -214,8 +229,8 @@
             </div>
 
             <aside class="safety-note" role="note" aria-labelledby="safety-title">
-              <strong id="safety-title" data-i18n="safety.title">安装前请自行核验</strong>
-              <p data-i18n="safety.description">DSH Hub Workshop 会对固定 commit 做非执行式静态扫描，并复核高风险信号，但不对插件内容提供安全担保。安装前仍请检查源码、权限与维护者身份。</p>
+              <strong id="safety-title" data-i18n="safety.title">使用前请自行核验</strong>
+              <p data-i18n="safety.description">市场收录只说明项目分类与固定来源。插件安装仍须通过独立门禁，基础设施与发行项目仅供浏览，不因此获得安装权限。</p>
             </aside>
 
             <div id="catalog-list" class="catalog-list" aria-live="polite" aria-busy="true">
@@ -224,7 +239,7 @@
               <div class="package-card skeleton-card"></div>
             </div>
             <div id="empty-state" class="empty-state" hidden>
-              <h3 data-i18n="empty.title">没有找到匹配的插件</h3>
+              <h3 data-i18n="empty.title">没有找到匹配的项目</h3>
               <p data-i18n="empty.description">试试其他关键词，或清空当前筛选。</p>
               <button id="reset-filters" type="button" data-i18n="catalog.reset">重置筛选</button>
             </div>
@@ -239,20 +254,20 @@
       <section class="principles" aria-labelledby="principles-title">
         <div class="principles-heading">
           <h2 id="principles-title" data-i18n="principles.title">一个清晰、可维护的目录</h2>
-          <p data-i18n="principles.description">这里索引可安装的实体，不机械复制仓库列表，也不替代独立的安全审查。</p>
+          <p data-i18n="principles.description">这里分层索引插件与生态项目，不机械复制仓库列表，也不把市场展示等同于安装权限或安全审查。</p>
         </div>
         <div class="principle-list">
           <article>
-            <h3 data-i18n="principles.entityTitle">按插件收录</h3>
-            <p data-i18n="principles.entityBody">一个仓库可以贡献多个插件，空仓和研究资料不会混进目录。</p>
+            <h3 data-i18n="principles.entityTitle">分层目录</h3>
+            <p data-i18n="principles.entityBody">插件按独立实现收录，基础设施与发行项目单独策展，文档和热度项目不混入市场。</p>
           </article>
           <article>
-            <h3 data-i18n="principles.traceTitle">来源可追溯</h3>
-            <p data-i18n="principles.traceBody">作者、仓库、固定 commit 与兼容范围会一起记录。</p>
+            <h3 data-i18n="principles.traceTitle">生产权留在作者仓库</h3>
+            <p data-i18n="principles.traceBody">作者维护源码与发布，Workshop 只集中索引、固定来源、审核状态和信誉事实。</p>
           </article>
           <article>
-            <h3 data-i18n="principles.installTitle">管理能力透明</h3>
-            <p data-i18n="principles.installBody">事务托管、Repository 配置托管和第三方接入会被明确区分。</p>
+            <h3 data-i18n="principles.installTitle">安装权独立</h3>
+            <p data-i18n="principles.installBody">市场可见、插件身份、基线验证和 Registry 准入分别记录，任何一项都不能替代另一项。</p>
           </article>
         </div>
       </section>

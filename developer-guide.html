@@ -48,7 +48,7 @@
 <p>这份指南面向希望把 Skill、MCP、Cordis 扩展、Web UI 或其他社区项目放进 DSH Hub Workshop 的开发者。目标有两个：</p>
 <ol>
 <li><strong>少量修改就能进入市场发现</strong>：第三方项目不需要改变现有分发方式，也不要求发布 npm 包。</li>
-<li><strong>讲清官方接入路径</strong>：复用官方 Profile Bundle、Repository Plugin、Agent Preset 与 Cordis SDK；其中前两种可由 OMDSH 提供安装与 generation 恢复。</li>
+<li><strong>讲清当前公开接入路径</strong>：Profile Bundle 可进入事务验证；Repository Plugin 只保留为配置候选并自动阻断；其余项目使用无执行权限的引导接入。</li>
 </ol>
 <p>市场准入、协议归属和管理能力是三个维度。Cordis 虽然来自上游开源项目，但在官方 Harness 中已经被 vendor、固定并作为 SDK 底层插件模型维护，因此普通 Cordis 插件应标记为“官方 SDK 接入”，不能与 Fabric、旧 dshx / Marisa 等第三方格式混为一类。普通 Cordis 插件仍属于“引导接入”，只有发布为 Profile Bundle 后才进入 OMDSH 的事务安装与 generation 恢复。</p>
 <h2>五分钟最短路径</h2>
@@ -80,7 +80,7 @@
 
 2. 只根据仓库中可验证的事实选择一种接入形态：
    - 官方 Profile Bundle：仅当项目真实提供 dsh.bundle.patch、可解析的 cordis.patch.yml，以及禁用安装脚本后仍可使用的已提交运行时制品时选择。
-   - 官方 Repository Plugin：仅当项目真实提供 .dsh-plugin/package.json，并通过 dsh.skills 等官方配置声明静态内容时选择。
+   - Repository Plugin 配置候选：仅当项目已经真实提供 .dsh-plugin/package.json 时保留固定来源证据；当前公共 Runtime 未提供可核验的对应契约，因此不得声称可安装。
    - 官方 Agent Preset：仅当项目真实提供 agent.cordis.yml 时选择；它是会话级组合，当前只做固定来源与接入说明，不获得自动导入或 generation 恢复。
    - 官方 Cordis SDK 接入：项目遵循官方 ctx/effect/fiber/dispose 生命周期，但尚未发布为 Profile Bundle。
    - 第三方接入：Skill、MCP、Fabric、旧 dshx / Marisa、源码补丁或其他现有格式只保留发现与接入说明。
@@ -91,7 +91,7 @@
    - 补充或明确许可边界；无法确认的信息写“未知/未声明”，不要猜测。
    - 固定生产依赖并保留受支持的 lockfile。lifecycle script、native 制品和动态下载只有在功能确实需要时才保留，并明确披露。
    - 可选添加仓库内的图标、封面和最多 4 张截图；不要从 README 猜测市场图片。
-   - 只有仓库天然符合相应官方契约时，才新增或修正 .dsh-plugin、package.json、cordis.patch.yml 和预构建运行时文件。不要为了显示安装按钮包装任意 MCP、源码工具或第三方管理器。
+   - 只有仓库天然符合当前公开契约时，才新增或修正 Profile Bundle 的 package.json、cordis.patch.yml 和预构建运行时文件。不要新造 .dsh-plugin，也不要为了显示安装按钮包装任意 MCP、源码工具或第三方管理器。
    - 不修改 dsh-hub 的 catalog.json、registry*.json、workshop*.json、生成页面或签名文件；这些由 Author Studio、扫描器和 CI 生成。
 
 4. 使用仓库已有的 test、lint、typecheck、build 和最小启动/关闭测试验证。不要为了让测试通过而降低安全边界。如果必须依赖未公开或无法核验的 Harness 内部 API，请停止改造并说明阻塞点。
@@ -122,9 +122,9 @@
 <td>在 candidate Profile 中安装和校验</td>
 </tr>
 <tr>
-<td>官方 Repository Plugin</td>
-<td>配置托管</td>
-<td>在 candidate Profile 中管理固定来源配置</td>
+<td>Repository Plugin 配置候选</td>
+<td>当前阻断</td>
+<td>只保留固定来源证据；公共契约可核验后重新测试</td>
 </tr>
 <tr>
 <td>官方 Agent Preset</td>
@@ -132,9 +132,9 @@
 <td>展示固定来源与组合说明；当前不由 OMDSH 自动导入</td>
 </tr>
 <tr>
-<td>官方 Cordis 插件</td>
-<td>官方 SDK 接入</td>
-<td>使用 <code>dsh-sdk create</code> 或 <code>cordis.yml</code> 挂载；当前不由 OMDSH 自动安装</td>
+<td>Cordis 插件</td>
+<td>引导接入</td>
+<td>只展示固定来源与生命周期说明；不生成不可用的 SDK 命令</td>
 </tr>
 <tr>
 <td>未封装为 Repository Plugin 的 Skill / MCP</td>
@@ -176,7 +176,7 @@ description: 当用户要求整理会话时，生成带结论、证据和后续�
 <li>外部脚本、模板和资源使用相对路径，并在固定 commit 中一起提交；</li>
 <li>对文件写入、Shell、网络、会话数据和凭据访问做显式说明。</li>
 </ul>
-<p>如果这个 Skill 本身选择按官方 Repository Plugin 发布，最小结构是：</p>
+<p>如果项目已经包含 Repository Plugin 目录，可以按下面结构保留为配置接入候选；当前指南不建议新建这种结构，也不据此授予安装权限：</p>
 <pre><code class="language-text">.dsh-plugin/
 ├── package.json
 └── skills/
@@ -196,6 +196,7 @@ description: 当用户要求整理会话时，生成带结论、证据和后续�
 <p>静态 Skill 不需要安装脚本或构建步骤。市场 Release 会固定到类似下面的来源：</p>
 <pre><code class="language-text">github:owner/repository#&lt;40位commit&gt;&amp;path:/.dsh-plugin
 </code></pre>
+<p>该来源只用于静态审核和未来兼容跟踪。当前公共 Runtime 没有可核验的对应 Schema 与 Loader，所以入库状态会保持阻断。</p>
 <h2>编写 MCP</h2>
 <p>MCP 继续遵循 MCP 自己的协议和进程边界，DSH Hub Workshop 不发明另一套 MCP SDK。开发时至少保证：</p>
 <ul>
@@ -209,10 +210,7 @@ description: 当用户要求整理会话时，生成带结论、证据和后续�
 <p>已有 MCP 统一以“第三方接入”收录。Workshop 只展示固定来源和兼容事实，不代为启动 MCP、调用第三方管理器或执行项目命令。</p>
 <h2>编写 Cordis / Web UI 扩展</h2>
 <p>运行时扩展继续使用官方 Cordis 生命周期：通过 <code>ctx</code> 获取服务，在 effect/fiber 中注册资源，并在 dispose 时解除监听、定时器和 UI 注入。插件自己的外部副作用仍由插件负责；generation 恢复只能恢复 Profile 制品和配置选择，不能撤销已经发送的消息、数据库写入或远程 API 操作。</p>
-<p>在自定义 Harness SDK 项目中，普通 Cordis 插件可以使用官方入口安装并挂载：</p>
-<pre><code class="language-sh">dsh-sdk create github:owner/repository#&lt;40位commit&gt;
-</code></pre>
-<p>也可以把已经安装的依赖显式写入 <code>cordis.yml</code>。这条路径使用官方 SDK 和官方 Cordis Loader，但不会自动进入发行版 Profile 的 Bundle 启用集合，也不获得 OMDSH 的 candidate generation 恢复。多包仓库还需要提供包管理器能够直接解析的固定来源。</p>
+<p>当前 Workshop 只记录 Cordis 插件的固定公开来源、生命周期说明、权限和测试事实，不生成安装命令，也不声称公共 SDK 包可用。项目若有自己可公开核验的接入方式，应在固定 commit 的 README 中说明；Workshop 仍只提供阅读引导。</p>
 <p>如果扩展本身按官方 Profile Bundle 发布，OMDSH 可以提供无缝安装。最小结构是：</p>
 <pre><code class="language-text">my-extension/
 ├── package.json
@@ -294,9 +292,9 @@ description: 当用户要求整理会话时，生成带结论、证据和后续�
 </tbody></table>
 <p>静态扫描通过不等于安全担保。收录只表示项目可以在市场中被发现；它不会自动启用插件，也不会扩大 Harness 权限。</p>
 <h3>推荐准入：获得无缝安装</h3>
-<p>无缝安装是推荐能力，不是市场硬门槛。只有项目实际发布为官方 Profile Bundle 或 Repository Plugin 时，才显示“使用 OMDSH 安装”。普通 Cordis 插件显示“官方 SDK 接入”，第三方格式显示“第三方接入”。获得 OMDSH 托管的项目还应满足：</p>
+<p>无缝安装是推荐能力，不是市场硬门槛。当前只有 Profile Bundle 可以在完成 RC.6 全生命周期验证和人工审核后申请“使用 OMDSH 安装”。Repository Plugin 配置候选自动阻断；Cordis 与其他格式统一使用无执行权限的引导接入。</p>
 <ul>
-<li>使用官方 Profile Bundle 或 Repository Plugin 契约；</li>
+<li>使用当前公开可核验的 Profile Bundle 契约；</li>
 <li>Release 使用不可变 spec，不使用浮动分支；</li>
 <li>包名和项目 ID 稳定，更新形成新的显式 Release；</li>
 <li>安装脚本默认禁用，依赖和运行时制品可复现；</li>
@@ -304,7 +302,7 @@ description: 当用户要求整理会话时，生成带结论、证据和后续�
 <li>安装、更新、禁用和卸载在 candidate Profile 中通过配置校验；</li>
 <li>不宣称能够回滚数据库、网络请求或其他插件外部副作用。</li>
 </ul>
-<p>OMDSH 只负责 candidate generation、签名 Registry 校验和跨重启 generation 恢复；实际加载仍由官方 Profile、Bundle、Repository Plugin 和 Cordis 完成。</p>
+<p>OMDSH 只负责 candidate generation、Registry 校验和跨重启 generation 恢复；实际执行使用当前公开 DSH Profile/Bundle 生命周期。其他适配器只有在公共契约可核验并完成回归后才能加入。</p>
 <h3>可选：添加“已跑通”记录</h3>
 <p>“已跑通”不影响收录、风险等级或安装权限，只把项目声明与真实运行结果分开。验证者固定一个 Workshop Release，在明确的 DSH snapshot、Profile 和平台中完成安装、等待 runtime ready，并执行一个有名称的真实任务；随后把不含密钥和私人数据的 GitHub Actions、Issue 或 PR 作为证据，向 <a href="run-records.json"><code>run-records.json</code></a> 提交一条符合 <a href="run-records.schema.json"><code>run-records.schema.json</code></a> 的记录。</p>
 <p>第二位验证者必须使用相同 Release 和环境重新运行，并用 <code>reproduces</code> 指向第一条记录。只有这样页面才显示“第二位验证者已复现”。失败尝试继续留在对应 GitHub Issue 中，不会被包装成成功记录，也不会因此阻止项目被发现。</p>
@@ -422,7 +420,7 @@ description: 当用户要求整理会话时，生成带结论、证据和后续�
 <p>This guide is for authors who want to publish a Skill, MCP server, Cordis extension, Web UI, or another community project in DSH Hub Workshop. It has two goals:</p>
 <ol>
 <li><strong>Discovery with minimal changes.</strong> Third-party projects keep their existing distribution format, and npm publication is not required.</li>
-<li><strong>A clear official integration path.</strong> Reuse official Profile Bundle, Repository Plugin, Agent Preset, and Cordis SDK behavior. OMDSH adds installation and generation recovery to the first two.</li>
+<li><strong>A clear current public path.</strong> Profile Bundles can enter transactional verification; Repository Plugins remain blocked configuration candidates; every other project receives non-executable guided integration.</li>
 </ol>
 <p>Marketplace admission, protocol origin, and management capability are separate dimensions. Cordis began as an upstream open-source project, but official Harness vendors, pins, and maintains it as the SDK&#39;s underlying plugin model. An ordinary Cordis plugin is therefore an official SDK integration, not a Fabric, legacy dshx / Marisa, or other third-party format. It remains guided until it ships as a Profile Bundle, at which point OMDSH can provide transactional installation and generation recovery.</p>
 <h2>Five-minute path</h2>
@@ -454,7 +452,7 @@ Work in this order:
 
 2. Choose exactly one integration form from verifiable repository evidence:
    - Official Profile Bundle: choose only when the project actually provides dsh.bundle.patch, a resolvable cordis.patch.yml, and committed runtime artifacts that work with install scripts disabled.
-   - Official Repository Plugin: choose only when the project actually provides .dsh-plugin/package.json and declares static content through official configuration such as dsh.skills.
+   - Repository Plugin configuration candidate: preserve pinned evidence only when the repository already contains .dsh-plugin/package.json. The current public Runtime exposes no verifiable matching contract, so do not claim installation support.
    - Official Agent Preset: choose only when the project actually provides agent.cordis.yml. It is a per-session composition; current support is pinned-source guidance without automatic import or generation recovery.
    - Official Cordis SDK integration: the project follows official ctx/effect/fiber/dispose lifecycle behavior but is not published as a Profile Bundle.
    - Third-party integration: Skill, MCP, Fabric, legacy dshx / Marisa, source patch, or another existing format remains discovery and integration guidance only.
@@ -465,7 +463,7 @@ Work in this order:
    - Add or clarify the license boundary. Record unverifiable facts as unknown or undeclared; never guess.
    - Pin production dependencies and keep a supported lockfile. Retain lifecycle scripts, native artifacts, or dynamic downloads only when the feature truly requires them, and disclose them explicitly.
    - Optionally add a repository-local icon, cover, and up to four screenshots. Do not infer marketplace media from README content.
-   - Add or correct .dsh-plugin, package.json, cordis.patch.yml, and prebuilt runtime files only when the repository naturally satisfies the corresponding official contract. Never wrap an arbitrary MCP server, source tool, or third-party manager merely to expose an install button.
+   - Add or correct Profile Bundle package.json, cordis.patch.yml, and prebuilt runtime files only when the repository naturally satisfies the current public contract. Do not create a new .dsh-plugin structure or wrap an arbitrary MCP server, source tool, or third-party manager merely to expose an install button.
    - Never edit dsh-hub catalog.json, registry*.json, workshop*.json, generated pages, or signatures. Author Studio, the scanner, and CI own those artifacts.
 
 4. Validate with the repository&#39;s existing test, lint, typecheck, build, and minimum startup/shutdown checks. Do not weaken a safety boundary to make tests pass. Stop and report a blocker if the change requires a private or unverifiable Harness internal API.
@@ -496,9 +494,9 @@ Do not invent versions, compatibility, download counts, authorship, licenses, or
 <td>Install and validate inside a candidate Profile</td>
 </tr>
 <tr>
-<td>Official Repository Plugin</td>
-<td>Configuration managed</td>
-<td>Manage pinned-source configuration inside a candidate Profile</td>
+<td>Repository Plugin configuration candidate</td>
+<td>Currently blocked</td>
+<td>Preserve pinned evidence and retest when a public contract is verifiable</td>
 </tr>
 <tr>
 <td>Official Agent Preset</td>
@@ -506,9 +504,9 @@ Do not invent versions, compatibility, download counts, authorship, licenses, or
 <td>Show pinned source and composition guidance; OMDSH does not import it automatically yet</td>
 </tr>
 <tr>
-<td>Official Cordis plugin</td>
-<td>Official SDK integration</td>
-<td>Mount with <code>dsh-sdk create</code> or <code>cordis.yml</code>; OMDSH does not install it automatically yet</td>
+<td>Cordis plugin</td>
+<td>Guided integration</td>
+<td>Show pinned source and lifecycle guidance without generating an unavailable SDK command</td>
 </tr>
 <tr>
 <td>Skill / MCP not packaged as a Repository Plugin</td>
@@ -542,7 +540,7 @@ description: Produce a structured summary with conclusions, evidence, and next a
 3. End with executable next actions.
 </code></pre>
 <p>Use a stable short ID, describe the trigger in <code>description</code>, document input/output/failure boundaries, keep secrets and private paths out of instructions, commit referenced assets, and disclose file, Shell, network, session, or credential access.</p>
-<p>If the Skill itself is published as an official Repository Plugin, its minimum structure is:</p>
+<p>If the project already contains a Repository Plugin directory, the following shape may be preserved as a configuration candidate. This guide does not recommend creating it today and it grants no installation authority:</p>
 <pre><code class="language-text">.dsh-plugin/
 ├── package.json
 └── skills/
@@ -562,15 +560,13 @@ description: Produce a structured summary with conclusions, evidence, and next a
 <p>A static Skill needs no install or build script. Its Release source is pinned as:</p>
 <pre><code class="language-text">github:owner/repository#&lt;40-character-commit&gt;&amp;path:/.dsh-plugin
 </code></pre>
+<p>This coordinate supports static review and future compatibility tracking only. The current public Runtime exposes no verifiable matching schema and loader, so intake remains blocked.</p>
 <h2>Writing an MCP server</h2>
 <p>MCP keeps its own protocol and process boundary; Workshop does not introduce another MCP SDK. Provide a reproducible command, clean stdio shutdown, documented tools/resources/environment variables/network destinations, environment-based credentials, pinned production dependencies and a supported lockfile, permission disclosures, and protocol/failure smoke tests.</p>
 <p>An existing MCP is listed as a third-party integration. Workshop shows its pinned source and compatibility facts, but does not start the MCP, invoke a third-party manager, or execute project commands.</p>
 <h2>Writing a Cordis / Web UI extension</h2>
 <p>Use official Cordis lifecycle behavior: obtain services from <code>ctx</code>, register resources through effects/fibers, and remove listeners, timers, and UI injection on dispose. The plugin remains responsible for external effects. Generation recovery restores Profile artifacts and configuration selection, not messages already sent, database writes, or remote API actions.</p>
-<p>Inside a custom Harness SDK project, an ordinary Cordis plugin can use the official installation and mount entry:</p>
-<pre><code class="language-sh">dsh-sdk create github:owner/repository#&lt;40-character-commit&gt;
-</code></pre>
-<p>An already installed dependency may also be mounted explicitly in <code>cordis.yml</code>. This uses the official SDK and Cordis Loader, but it does not automatically join a distribution Profile&#39;s enabled Bundle set or gain OMDSH candidate-generation recovery. A monorepo must additionally provide a package-manager source that resolves the selected package directly.</p>
+<p>Workshop currently records only the Cordis plugin&#39;s pinned public source, lifecycle guidance, permissions, and test facts. It generates no installation command and makes no claim that a public SDK package is available. If the project has its own publicly verifiable integration path, document it at the pinned commit; Workshop still exposes guidance only.</p>
 <p>When an extension itself is published as an official Profile Bundle, OMDSH can provide seamless installation. The minimum structure is:</p>
 <pre><code class="language-text">my-extension/
 ├── package.json
@@ -644,8 +640,8 @@ description: Produce a structured summary with conclusions, evidence, and next a
 </tbody></table>
 <p>A clean static scan is not a safety guarantee. Admission means discoverability, not automatic activation or expanded Harness permissions.</p>
 <h3>Recommended admission: seamless installation</h3>
-<p>Seamless installation is recommended, not mandatory. “Install with OMDSH” appears only when the project actually ships an official Profile Bundle or Repository Plugin. An ordinary Cordis plugin shows “Official SDK integration,” while other formats show “Third-party integration.” OMDSH-managed projects must pin an immutable spec, keep Project ID and package name stable, publish explicit Releases, work with install scripts disabled, disclose permissions/compatibility/restart/external effects, validate install/update/disable/remove inside a candidate Profile, and never promise rollback of database, network, or other external effects.</p>
-<p>OMDSH provides candidate generation, signed Registry verification, and cross-restart generation recovery. Official Profile, Bundle, Repository Plugin, and Cordis remain the execution layer.</p>
+<p>Seamless installation is recommended, not mandatory. Today only a Profile Bundle may request “Install with OMDSH” after full RC.6 lifecycle evidence and explicit review. Repository Plugin configuration candidates are blocked; Cordis and other formats receive non-executable guidance. Transactional projects must pin an immutable spec, keep Project ID and package name stable, publish explicit Releases, work with install scripts disabled, disclose permissions/compatibility/restart/external effects, validate install/update/disable/remove/recovery inside a candidate Profile, and never promise rollback of database, network, or other external effects.</p>
+<p>OMDSH provides candidate generation, Registry verification, and cross-restart generation recovery through the current public DSH Profile/Bundle lifecycle. Other adapters may be added only after a public contract can be verified and the regression suite passes.</p>
 <h3>Optional: add a successful run record</h3>
 <p>A successful run does not change admission, risk, or installation authority. It only separates project-declared compatibility from observed behavior. Pin one Workshop Release, install it under an explicit DSH snapshot, Profile, and platform, wait for runtime-ready, and complete one named real task. Then submit one <a href="run-records.json"><code>run-records.json</code></a> entry matching <a href="run-records.schema.json"><code>run-records.schema.json</code></a>, linking a GitHub Actions run, Issue, or PR that contains no secrets or private data.</p>
 <p>A second verifier reruns the same Release and environment and points <code>reproduces</code> at the first record. Only then does Workshop show “Reproduced by a second verifier.” Failed attempts remain in the linked GitHub Issue; they are not relabeled as successful records and do not block discovery.</p>

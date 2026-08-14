@@ -6,6 +6,7 @@
   "blocked": [
     {
       "id": "7d7d",
+      "mode": "profile-bundle",
       "reason": "current-runtime-baseline-not-verified",
       "source": "github:omdsh-dev/7d7d#80b6ddb779a009d378a1c30c85dfef598f527997",
       "staticVerification": "passed",
@@ -13,6 +14,7 @@
     },
     {
       "id": "github-integration",
+      "mode": "repository-plugin",
       "reason": "official-repository-plugin-unavailable",
       "source": "github:omdsh-dev/dsh-github-integration#86f3a80be2c80cfd4d8d9401db0958fc1895ea69&path:/plugins/github-integration/.dsh-plugin",
       "staticVerification": "passed",
@@ -20,6 +22,7 @@
     },
     {
       "id": "almanac-mcp",
+      "mode": "repository-plugin",
       "reason": "official-repository-plugin-unavailable",
       "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/almanac-mcp/.dsh-plugin",
       "staticVerification": "passed",
@@ -27,6 +30,7 @@
     },
     {
       "id": "bug-tamer",
+      "mode": "repository-plugin",
       "reason": "official-repository-plugin-unavailable",
       "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/bug-tamer/.dsh-plugin",
       "staticVerification": "passed",
@@ -34,6 +38,7 @@
     },
     {
       "id": "chinese-colors-mcp",
+      "mode": "repository-plugin",
       "reason": "official-repository-plugin-unavailable",
       "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/chinese-colors-mcp/.dsh-plugin",
       "staticVerification": "passed",
@@ -41,6 +46,7 @@
     },
     {
       "id": "code-archaeologist",
+      "mode": "repository-plugin",
       "reason": "official-repository-plugin-unavailable",
       "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/code-archaeologist/.dsh-plugin",
       "staticVerification": "passed",
@@ -48,6 +54,7 @@
     },
     {
       "id": "code-talent-scout",
+      "mode": "repository-plugin",
       "reason": "official-repository-plugin-unavailable",
       "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/code-talent-scout/.dsh-plugin",
       "staticVerification": "passed",
@@ -55,6 +62,7 @@
     },
     {
       "id": "decision-dice-mcp",
+      "mode": "repository-plugin",
       "reason": "official-repository-plugin-unavailable",
       "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/decision-dice-mcp/.dsh-plugin",
       "staticVerification": "passed",
@@ -62,6 +70,7 @@
     },
     {
       "id": "naming-master-mcp",
+      "mode": "repository-plugin",
       "reason": "official-repository-plugin-unavailable",
       "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/naming-master-mcp/.dsh-plugin",
       "staticVerification": "passed",
@@ -69,6 +78,7 @@
     },
     {
       "id": "time-capsule-mcp",
+      "mode": "repository-plugin",
       "reason": "official-repository-plugin-unavailable",
       "source": "github:omdsh-dev/toybox#fdace9d6ca01e31b33a08ed0703964b1ad6b3be0&path:/plugins/time-capsule-mcp/.dsh-plugin",
       "staticVerification": "passed",
@@ -76,6 +86,7 @@
     },
     {
       "id": "session-teleport",
+      "mode": "profile-bundle",
       "reason": "production-authority-environment-not-verified",
       "source": "github:omdsh-dev/session-teleport#d76e0d98b09ad1d08f2592ffd47161acb907bfc4",
       "staticVerification": "passed",

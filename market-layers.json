@@ -1,0 +1,134 @@
+{
+  "$schema": "./market-layers.schema.json",
+  "schema": "omdsh-market-layers/v1",
+  "generatedAt": "2026-08-14T01:30:00.000Z",
+  "policy": {
+    "pluginCatalog": "catalog.json remains the leaf-plugin authority",
+    "installationRegistry": "registry-v1.json remains the only installation authority",
+    "infrastructure": "Managers, runtimes, marketplaces, and catalog services may be displayed as ecosystem projects without being labeled or installed as plugins.",
+    "distribution": "Community distributions may be displayed as compositions without inheriting installation authority from their components.",
+    "excluded": "Awesome lists, documentation-only repositories, templates, placeholders, and popularity-only Topic matches remain outside the market."
+  },
+  "totals": {
+    "projects": 5,
+    "infrastructure": 4,
+    "distribution": 1
+  },
+  "projects": [
+    {
+      "id": "omdsh-dev/dsh-mygo",
+      "layer": "infrastructure",
+      "name": "dsh-mygo",
+      "description": "面向 DSH 生态的插件管理与治理框架，包含核心、CLI、面板和存储扩展。",
+      "kind": "manager",
+      "category": "infrastructure",
+      "tags": ["dsh", "plugin-manager", "ecosystem-infrastructure"],
+      "author": { "name": "omdsh-dev", "url": "https://github.com/omdsh-dev" },
+      "source": {
+        "repository": "https://github.com/omdsh-dev/dsh-mygo",
+        "ref": "4566748646823f8e2123f6addcf22b55e305e740",
+        "path": null
+      },
+      "updatedAt": "2026-08-13T07:54:45.000Z",
+      "version": "0.0.1-rc.1",
+      "license": "MIT",
+      "featured": true,
+      "discovery": { "stars": 3, "commitUpdatedAt": "2026-08-13T07:54:45.000Z" },
+      "review": { "state": "curated", "reason": "ecosystem-infrastructure" },
+      "verification": { "state": "static-reviewed", "evidence": "topic-plugin-audit.json#omdsh-dev/dsh-mygo" },
+      "registry": { "state": "ineligible", "reason": "market-layer-not-plugin-install" }
+    },
+    {
+      "id": "omdsh-dev/dsh-hub-workshop",
+      "layer": "infrastructure",
+      "name": "DSH Hub Workshop",
+      "description": "OMDSH 生态的公开目录、审核投影与不可变 Feed 权威源。",
+      "kind": "manager",
+      "category": "infrastructure",
+      "tags": ["dsh", "catalog", "plugin-marketplace", "plugin-registry"],
+      "author": { "name": "omdsh-dev", "url": "https://github.com/omdsh-dev" },
+      "source": {
+        "repository": "https://github.com/omdsh-dev/dsh-hub-workshop",
+        "ref": "ca595d6c7534d8542232cd7df34e0e921eb4abc3",
+        "path": null
+      },
+      "updatedAt": "2026-08-13T14:09:05.000Z",
+      "version": null,
+      "license": "Unknown",
+      "featured": false,
+      "discovery": { "stars": 0, "commitUpdatedAt": "2026-08-13T14:09:05.000Z" },
+      "review": { "state": "curated", "reason": "ecosystem-infrastructure" },
+      "verification": { "state": "source-pinned", "evidence": "public GitHub commit" },
+      "registry": { "state": "ineligible", "reason": "market-layer-not-plugin-install" }
+    },
+    {
+      "id": "omdsh-dev/dsh-hub",
+      "layer": "infrastructure",
+      "name": "DSH Hub",
+      "description": "面向终端用户的市场消费端，用于浏览并消费 Workshop 的公共 Feed。",
+      "kind": "manager",
+      "category": "infrastructure",
+      "tags": ["dsh", "marketplace-consumer", "plugin-marketplace"],
+      "author": { "name": "omdsh-dev", "url": "https://github.com/omdsh-dev" },
+      "source": {
+        "repository": "https://github.com/omdsh-dev/dsh-hub",
+        "ref": "82c958c945542064cbdf3eeb2bb408f95187bfc0",
+        "path": null
+      },
+      "updatedAt": "2026-08-13T13:18:23.000Z",
+      "version": null,
+      "license": "Unknown",
+      "featured": false,
+      "discovery": { "stars": 1, "commitUpdatedAt": "2026-08-13T13:18:23.000Z" },
+      "review": { "state": "curated", "reason": "ecosystem-infrastructure" },
+      "verification": { "state": "source-pinned", "evidence": "public GitHub commit" },
+      "registry": { "state": "ineligible", "reason": "market-layer-not-plugin-install" }
+    },
+    {
+      "id": "omdsh-dev/omdsh-runtime",
+      "layer": "infrastructure",
+      "name": "OMDSH Runtime",
+      "description": "负责 Profile、Bundle、候选代际和恢复语义的无头运行时。",
+      "kind": "manager",
+      "category": "infrastructure",
+      "tags": ["dsh", "runtime", "profile-management"],
+      "author": { "name": "omdsh-dev", "url": "https://github.com/omdsh-dev" },
+      "source": {
+        "repository": "https://github.com/omdsh-dev/omdsh-runtime",
+        "ref": "7b63a27edef055a1c35d97d97651e78d41ea8a2f",
+        "path": null
+      },
+      "updatedAt": "2026-08-13T13:18:16.000Z",
+      "version": null,
+      "license": "Unknown",
+      "featured": false,
+      "discovery": { "stars": 0, "commitUpdatedAt": "2026-08-13T13:18:16.000Z" },
+      "review": { "state": "curated", "reason": "ecosystem-infrastructure" },
+      "verification": { "state": "source-pinned", "evidence": "public GitHub commit" },
+      "registry": { "state": "ineligible", "reason": "market-layer-not-plugin-install" }
+    },
+    {
+      "id": "omdsh-dev/omdsh",
+      "layer": "distribution",
+      "name": "Oh My DSH",
+      "description": "社区发行版与精确发行清单层，用于组织经过审核的组件组合。",
+      "kind": "toolkit",
+      "category": "platform",
+      "tags": ["dsh", "distribution", "community-release"],
+      "author": { "name": "omdsh-dev", "url": "https://github.com/omdsh-dev" },
+      "source": {
+        "repository": "https://github.com/omdsh-dev/omdsh",
+        "ref": "8affdc1b9e7ad3b5e70fc6b7772f7d95ff2384de",
+        "path": null
+      },
+      "updatedAt": "2026-08-13T13:19:16.000Z",
+      "version": null,
+      "license": "MIT",
+      "featured": false,
+      "discovery": { "stars": 0, "commitUpdatedAt": "2026-08-13T13:19:16.000Z" },
+      "review": { "state": "curated", "reason": "community-distribution" },
+      "verification": { "state": "source-pinned", "evidence": "public GitHub commit" },
+      "registry": { "state": "ineligible", "reason": "market-layer-not-plugin-install" }
+    }
+  ]
+}

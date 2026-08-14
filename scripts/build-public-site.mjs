@@ -7,6 +7,7 @@ const ROOT = resolve(import.meta.dirname, '..')
 const TARGET = resolve(ROOT, '.public-site')
 const FILES = [
   'api/v1/ecosystem.json',
+  'api/v1/market.json',
   'api/v1/plugin-types.json',
   'api/v1/plugins.json',
   'agent-ecosystem-v1.json',
@@ -34,6 +35,12 @@ const FILES = [
   'ecosystem-repositories.json',
   'index.html',
   'install.html',
+  'intake-evidence.schema.json',
+  'intake-queue.json',
+  'intake.schema.json',
+  'market-layers.json',
+  'market-layers.schema.json',
+  'official-baseline.json',
   'plugins.html',
   'projects.html',
   'publish.html',
@@ -47,6 +54,7 @@ const FILES = [
   'submission.schema.json',
   'topic-repositories.json',
   'topic-plugin-audit.json',
+  'verification-inventory.json',
   'workshop-v1.json',
 ]
 

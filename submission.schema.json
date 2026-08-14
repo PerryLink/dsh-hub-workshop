@@ -94,12 +94,10 @@
     },
     "management": {
       "type": "object",
-      "required": ["method", "label", "instructions", "source"],
+      "required": ["method", "protocol", "label", "instructions", "source"],
       "additionalProperties": false,
       "properties": {
-        "method": {
-          "enum": ["profile-bundle", "repository-plugin", "marisa", "plugin-registry", "source", "manual", "npm", "script"]
-        },
+        "method": { "enum": ["profile-bundle", "repository-plugin", "guided"] },
         "protocol": {
           "enum": ["harness-profile", "harness-repository", "harness-cordis", "third-party"]
         },
@@ -153,7 +151,10 @@
         "properties": { "management": { "properties": { "method": { "const": "profile-bundle" } } } }
       },
       "then": {
-        "properties": { "release": { "properties": { "profileBundle": { "type": "object" } } } }
+        "properties": {
+          "release": { "properties": { "profileBundle": { "type": "object" } } },
+          "management": { "properties": { "protocol": { "const": "harness-profile" } } }
+        }
       },
       "else": {
         "properties": { "release": { "properties": { "profileBundle": { "type": "null" } } } }
@@ -167,6 +168,7 @@
         "properties": {
           "management": {
             "properties": {
+              "protocol": { "const": "harness-repository" },
               "source": {
                 "type": "string",
                 "pattern": "^github:[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+#[0-9a-f]{40}&path:/[^&\\s]+$"
@@ -177,6 +179,21 @@
       },
       "else": {
         "properties": { "management": { "properties": { "source": { "type": "null" } } } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "management": { "properties": { "method": { "const": "guided" } } } }
+      },
+      "then": {
+        "properties": {
+          "management": {
+            "properties": {
+              "protocol": { "enum": ["harness-cordis", "third-party"] },
+              "source": { "type": "null" }
+            }
+          }
+        }
       }
     },
     {

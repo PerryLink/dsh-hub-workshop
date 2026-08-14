@@ -28,6 +28,11 @@
       "role": "marketplace-consumer"
     },
     {
+      "name": "dsh-mygo",
+      "url": "https://github.com/omdsh-dev/dsh-mygo",
+      "role": "plugin-management-infrastructure"
+    },
+    {
       "name": "7d7d",
       "url": "https://github.com/omdsh-dev/7d7d",
       "role": "extension-project"

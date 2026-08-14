@@ -107,7 +107,7 @@ const output = {
   ...catalog,
   policy: {
     discovery: 'The dsh-plugin Topic is only a candidate source. Catalog inclusion requires file-level evidence of a DSH plugin contract or a manually verified plugin subproject.',
-    exclusions: 'Core products, ecosystem infrastructure, distributions, awesome lists, documentation, templates, standalone applications, placeholders, unavailable private sources, and Topic-only repositories are excluded.',
+    exclusions: 'Core products, ecosystem infrastructure, distributions, awesome lists, documentation, templates, standalone applications, placeholders, unavailable private sources, and Topic-only repositories are excluded from the plugin Catalog. Separately curated market layers do not grant plugin or installation status.',
     archive: 'Detailed legacy records are restored only when they map to a currently qualified plugin repository.',
     authority: 'Plugin qualification and archive mapping do not grant Registry installation authority.',
   },

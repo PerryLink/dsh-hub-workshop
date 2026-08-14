@@ -73,12 +73,12 @@
 <ul>
 <li>默认一个仓库折叠成一个候选；<code>package.json</code> 数量不会被当成插件数量。</li>
 <li>只有维护源显式选择 <code>split: declared</code>，且每个子目录都有独立 <code>dsh.plugin.json</code>、<code>dsh.bundle</code>、<code>SKILL.md</code> 或 MCP 清单时才拆分。</li>
-<li>“发现候选”“可独立安装”“可事务安装”是三个不同结论。<code>dsh.plugin.json</code> 只证明插件运行清单，不代表官方 Repository Plugin 可以安装；只有真实存在的 <code>.dsh-plugin/package.json</code> 才是 Repository Plugin 适配器证据。Profile Bundle 必须有真实 patch，patch 加载自身时还必须有已提交的运行时入口。Profile Bundle 与 Repository Plugin 在审核完成前仍没有安装按钮。</li>
+<li>“发现候选”“静态适配证据”“可事务安装”是三个不同结论。<code>dsh.plugin.json</code> 只证明插件运行清单；<code>.dsh-plugin/package.json</code> 当前也只作为配置候选证据，因为公共 Runtime 未提供可核验的对应契约。Profile Bundle 必须有真实 patch，patch 加载自身时还必须有已提交的运行时入口。任何候选在审核与当前基线验证完成前都没有安装按钮。</li>
 <li>去重键是 <code>repository + source path</code>。正式 Catalog 优先于作者 submission，作者 submission 优先于独立源仓库；合集中的 vendored 副本只引用原 Project，不再生成项目卡。</li>
 <li>fork、移植或替代实现不按名称合并，使用显式关系表达；不同作者的同名项目继续独立展示。</li>
 </ul>
 <p>维护者可以用 <code>pnpm candidate:promote -- --id &lt;candidate-id&gt;</code> 查看预填草稿和缺失声明，或用 <code>--batch auto-listed</code> 查看低风险批次。命令默认 dry-run；只有完整 manifest 通过 <code>repository + path + ref</code> 精确匹配并再次扫描后，显式添加 <code>--apply</code> 才会改写 <code>catalog.json</code>。这条路径直接复用普通 Submission 的 schema、扫描器和 Catalog 应用函数，不是第二套审核入口。批量处理应使用一个滚动 PR，而不是为发现列表自动创建大量机器人 PR。</p>
-<p>组织维护者代审批次使用两步、无后台流程：<code>pnpm candidate:audit</code> 通过临时 Git partial clone 读取固定 commit，并在结束后删除临时仓库；<code>candidate-audit-v1.json</code> 保存客观证据，<code>candidate-review-decisions.json</code> 只保存需要人工判断的放行、修复或阻断结论。<code>pnpm candidate:admit</code> 默认预览，明确添加 <code>--apply</code> 后才把低风险自动结果和人工放行项写入 Catalog。没有可核验作者时显示 <code>anonymous</code>；未声明许可时如实显示 <code>Not declared</code>，不会编造版本、兼容性或发布历史。第三方接入可以长期保留，只获得“查看接入说明”；只有完整官方 Profile Bundle 才获得事务安装。</p>
+<p>组织维护者使用独立入库流水线：<code>npm run intake:validate -- submission.json</code> 只校验固定 commit 清单，不执行投稿代码；<code>npm run intake:prepare -- submission.json</code> 生成待审核记录；<code>npm run intake:check</code> 以 fail-closed 方式校验 Intake、官方基线、admissions 与 Registry。Topic 仅负责发现；维护者还必须定位真实插件子包，核验清单、声明入口、DSH 专属注册路径、兼容性、权限与供应链。事务安装、配置安装、引导接入是三种接入类型，待审核是独立状态。只有人工审核通过、在当前官方基线完成完整生命周期，并证明一个明确能力已注册、调用和观察的受支持类型才可进入 Registry；仅加载成功不能通过，引导接入始终只有查看说明。完整流程见 <a href="INTAKE.zh.md">Workshop 插件入库与验证流程</a>。</p>
 <h2>添加条目</h2>
 <p>在 <code>catalog.json#packages</code> 添加对象。完整约束见 <a href="catalog.schema.json">catalog.schema.json</a>。</p>
 <p>最小示例：</p>
@@ -144,8 +144,8 @@
 }
 </code></pre>
 <p>Registry 不携带 <code>install.command</code>。Harness 只把条目 ID 发给本机 Runtime，由 Runtime 重新解析 <code>packageName</code> 和精确 <code>spec</code>。公开的 <code>index.json</code> / <code>docs/catalog.json</code> 也会把审核源中的历史命令净化为 OMDSH <code>install</code> 或只读 <code>inspect</code>；第三方命令不会成为公开操作入口。</p>
-<h2>Repository Plugin 额外要求</h2>
-<p>静态条目需提供固定来源：</p>
+<h2>Repository Plugin 配置候选</h2>
+<p>已有静态目录可以提供固定来源作为未来兼容证据，但当前自动阻断且不产生安装操作：</p>
 <pre><code class="language-json">{
   &quot;type&quot;: &quot;repository-plugin&quot;,
   &quot;source&quot;: &quot;github:owner/repo#&lt;40位commit&gt;&amp;path:/plugins/example/.dsh-plugin&quot;,
@@ -155,7 +155,7 @@
 </code></pre>
 <p>如果插件托管在 dsh-hub 自己的 <code>plugins/</code> 下，CI 还会检查：</p>
 <ul>
-<li><code>.dsh-plugin/package.json#dsh</code> 与官方 schema 对齐；</li>
+<li><code>.dsh-plugin/package.json#dsh</code> 可被静态解析，但不宣称已与当前公共 Schema 对齐；</li>
 <li>Skill 根位于包内，<code>SKILL.md</code> frontmatter 合法；</li>
 <li>MCP 文档合法且资产不越界；</li>
 <li><code>prepare.js</code> 与生命周期声明存在。</li>
@@ -219,12 +219,12 @@ node --check docs/assets/app.js
 <ul>
 <li>One repository is folded into one candidate by default. A count of <code>package.json</code> files is not a plugin count.</li>
 <li>Splitting requires an explicit <code>split: declared</code> source policy and an independent <code>dsh.plugin.json</code>, <code>dsh.bundle</code>, <code>SKILL.md</code>, or MCP manifest for every child.</li>
-<li>Discovery, independent installation, and transactional installation are separate conclusions. <code>dsh.plugin.json</code> proves a plugin runtime manifest, not an installable official Repository Plugin. Only an actual <code>.dsh-plugin/package.json</code> is Repository Plugin adapter evidence. A Profile Bundle needs a real patch and, when that patch loads the Bundle itself, a committed runtime entry. Neither Profile Bundle nor Repository Plugin candidates receive an install action before admission review.</li>
+<li>Discovery, static adapter evidence, and transactional installation are separate conclusions. <code>dsh.plugin.json</code> proves only a runtime manifest. A <code>.dsh-plugin/package.json</code> is currently configuration-candidate evidence because the public Runtime exposes no verifiable matching contract. A Profile Bundle needs a real patch and, when that patch loads the Bundle itself, a committed runtime entry. No candidate receives an install action before review and current-baseline verification.</li>
 <li>The deduplication key is <code>repository + source path</code>. Formal Catalog wins over author submission, which wins over a canonical source repository; vendored collection copies reference the original Project instead of creating new cards.</li>
 <li>Forks, ports, and replacements are never merged by a fuzzy name. Explicit relations describe them, and unrelated same-name projects remain separate.</li>
 </ul>
 <p>Maintainers can run <code>pnpm candidate:promote -- --id &lt;candidate-id&gt;</code> to inspect a prefilled draft and its missing attestations, or <code>--batch auto-listed</code> to inspect the low-risk queue. The command is dry-run by default. It writes <code>catalog.json</code> only when a complete manifest matches <code>repository + path + ref</code>, passes a fresh scan, and the operator explicitly adds <code>--apply</code>. This path reuses the ordinary Submission schema, scanner, and Catalog application function; it is not a second review system. Batch maintenance belongs in one rolling PR rather than a flood of automated PRs.</p>
-<p>Organization-maintainer batch review is a two-step, backend-free process. <code>pnpm candidate:audit</code> reads pinned commits through temporary Git partial clones and removes those clones when finished. <code>candidate-audit-v1.json</code> records objective evidence; <code>candidate-review-decisions.json</code> records only explicit approve, needs-fix, or block judgments. <code>pnpm candidate:admit</code> is a dry run unless <code>--apply</code> is present. Unknown authors remain <code>anonymous</code>, undeclared licenses remain <code>Not declared</code>, and the process never fabricates versions, compatibility, or release history. Third-party integrations may remain listed indefinitely and receive only an integration guide; transactional installation still requires a complete official Profile Bundle.</p>
+<p>Organization maintainers use the dedicated intake pipeline. <code>npm run intake:validate -- submission.json</code> validates a pinned-commit manifest without executing submitted code; <code>npm run intake:prepare -- submission.json</code> creates a pending-review record; <code>npm run intake:check</code> validates Intake, the official baseline, admissions, and Registry fail-closed. Topic matches are discovery only: maintainers must locate the real plugin package and verify its manifest, declared entry, DSH-specific registration path, compatibility, permissions, and supply chain. Transactional, managed configuration, and guided integration are the three modes; pending review is an independent state. Only a supported mode with explicit approval, a complete current-baseline lifecycle, and a named capability that was registered, invoked, and observed may enter Registry. Load-only evidence is insufficient, and guided entries always remain view-only. See the <a href="INTAKE.md">Workshop intake and verification flow</a>.</p>
 <h2>Add an Entry</h2>
 <p>Add an object to <code>catalog.json#packages</code>. See <a href="catalog.schema.json">catalog.schema.json</a> for the complete constraints.</p>
 <p>Minimal example:</p>
@@ -290,8 +290,8 @@ node --check docs/assets/app.js
 }
 </code></pre>
 <p>Registry never carries <code>install.command</code>. Harness sends only an entry ID to the local Runtime, which resolves the reviewed <code>packageName</code> and exact <code>spec</code> again. Public <code>index.json</code> / <code>docs/catalog.json</code> also sanitize historical audit commands into OMDSH <code>install</code> or read-only <code>inspect</code>; third-party commands never become public actions.</p>
-<h2>Extra Repository Plugin Requirements</h2>
-<p>Static entries must provide a pinned source:</p>
+<h2>Repository Plugin configuration candidates</h2>
+<p>An existing static directory may provide a pinned source as future compatibility evidence. It remains blocked and exposes no install action today:</p>
 <pre><code class="language-json">{
   &quot;type&quot;: &quot;repository-plugin&quot;,
   &quot;source&quot;: &quot;github:owner/repo#&lt;40-character-commit&gt;&amp;path:/plugins/example/.dsh-plugin&quot;,
@@ -301,7 +301,7 @@ node --check docs/assets/app.js
 </code></pre>
 <p>For plugins hosted under this repository&#39;s <code>plugins/</code> directory, CI also checks:</p>
 <ul>
-<li><code>.dsh-plugin/package.json#dsh</code> against the official schema.</li>
+<li>Statically parse <code>.dsh-plugin/package.json#dsh</code> without claiming conformance to a current public schema.</li>
 <li>The Skill root and <code>SKILL.md</code> frontmatter.</li>
 <li>MCP documentation and asset boundaries.</li>
 <li><code>prepare.js</code> and lifecycle declarations.</li>

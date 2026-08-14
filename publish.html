@@ -143,8 +143,10 @@
             </header>
             <div class="form-section-body">
               <div class="form-grid">
-                <label class="form-wide method-field"><span data-i18n="publish.method">接入形态</span><select name="method" required><option value="" disabled selected data-i18n="publish.methodPlaceholder">请选择真实接入方式</option><option value="profile-bundle" data-i18n="publish.method.profileBundle">官方 Profile Bundle - OMDSH 托管</option><option value="repository-plugin" data-i18n="publish.method.repositoryPlugin">官方 Repository Plugin - OMDSH 托管</option><option value="cordis-sdk" data-i18n="publish.method.cordisSdk">官方 Cordis 插件 - SDK 接入</option><option value="manual" data-i18n="publish.method.thirdParty">第三方接入 - 仅发现与说明</option></select><small data-i18n="publish.methodHelp">按仓库中的真实声明选择；只有 Profile Bundle 与 Repository Plugin 由 OMDSH 自动托管。</small></label>
+                <label class="form-wide method-field"><span data-i18n="publish.method">接入形态</span><select name="method" required><option value="" disabled selected data-i18n="publish.methodPlaceholder">请选择真实接入方式</option><option value="profile-bundle" data-i18n="publish.method.profileBundle">事务安装 · Profile Bundle</option><option value="repository-plugin" data-i18n="publish.method.repositoryPlugin">配置接入候选 · 当前阻断</option><option value="guided" data-i18n="publish.method.guided">引导接入 · 仅目录与说明</option></select><small data-i18n="publish.methodHelp">三种接入类型与审核状态分开记录；待审核不是安装方式。</small></label>
+                <label id="guided-protocol-field" hidden><span data-i18n="publish.guidedProtocol">引导协议</span><select name="guidedProtocol"><option value="harness-cordis" data-i18n="publish.guidedProtocol.cordis">Cordis 生命周期</option><option value="third-party" data-i18n="publish.guidedProtocol.thirdParty">第三方公开说明</option></select></label>
               </div>
+              <p class="form-wide management-summary" data-i18n="publish.baselineNotice">当前官方公开基线为 0.1.0-rc.6（RC，非稳定 GA）；Repository Plugin 公开官方包暂不可用，因此配置安装投稿会自动阻断。</p>
               <p id="management-summary" class="management-summary" aria-live="polite"></p>
             </div>
             <div id="bundle-fields" class="form-grid bundle-fields" hidden>

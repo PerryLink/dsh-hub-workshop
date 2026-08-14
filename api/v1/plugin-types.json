@@ -1,11 +1,11 @@
 {
   "schema": "omdsh-ai-plugin-types/v1",
-  "generatedAt": "2026-08-10T11:22:11.804Z",
-  "scope": "Explicitly allowed public Projects only. Facts are discovery-only and never authorize installation.",
+  "generatedAt": "2026-08-13T17:27:31.000Z",
+  "scope": "Public Catalog and formal Intake facts only. Discovery never authorizes installation.",
   "totals": {
-    "catalogProjects": 0,
+    "catalogProjects": 189,
     "candidateProjects": 0,
-    "projects": 0
+    "projects": 189
   },
   "kinds": [
     {
@@ -15,11 +15,15 @@
         "en": "Skill"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 8,
         "candidates": 0,
-        "total": 0
+        "total": 8
       },
-      "examples": []
+      "examples": [
+        "humblebanana/dsh-record-replay",
+        "omdsh-dev/dsh-genui",
+        "cking000bigdemon/dsh-pi-plugins"
+      ]
     },
     {
       "id": "mcp",
@@ -28,11 +32,15 @@
         "en": "MCP"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 6,
         "candidates": 0,
-        "total": 0
+        "total": 6
       },
-      "examples": []
+      "examples": [
+        "nowledge-co/nowledge-mem-deepseek-harness",
+        "almanac-mcp",
+        "chinese-colors-mcp"
+      ]
     },
     {
       "id": "extension",
@@ -41,11 +49,15 @@
         "en": "Extension"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 115,
         "candidates": 0,
-        "total": 0
+        "total": 115
       },
-      "examples": []
+      "examples": [
+        "flyvhidbwo/dsh-vision-proxy",
+        "yuezengwu/dsh-explain",
+        "nwflower/dsh-chat-import"
+      ]
     },
     {
       "id": "channel",
@@ -54,11 +66,15 @@
         "en": "Channel"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 4,
         "candidates": 0,
-        "total": 0
+        "total": 4
       },
-      "examples": []
+      "examples": [
+        "moduqishi/dsh-opencode-usage",
+        "vlln/whale-girl",
+        "dbydd/dsh-onlyne"
+      ]
     },
     {
       "id": "ui",
@@ -67,11 +83,15 @@
         "en": "UI"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 38,
         "candidates": 0,
-        "total": 0
+        "total": 38
       },
-      "examples": []
+      "examples": [
+        "moduqishi/dsh-open-in-finder",
+        "huiliyi37/dsh-tianshu-tui",
+        "ccch1mneyyy/dsh-cc-tui"
+      ]
     },
     {
       "id": "adapter",
@@ -80,11 +100,15 @@
         "en": "Adapter"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 3,
         "candidates": 0,
-        "total": 0
+        "total": 3
       },
-      "examples": []
+      "examples": [
+        "yytbit/dsh-plugin-claude-bridge",
+        "whiteguo233/dsh-openbiliclaw",
+        "fakechris/dsh-track"
+      ]
     },
     {
       "id": "manager",
@@ -106,11 +130,15 @@
         "en": "Toolkit"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 15,
         "candidates": 0,
-        "total": 0
+        "total": 15
       },
-      "examples": []
+      "examples": [
+        "chinesezjc/dsh-interconnect",
+        "drifter-yh/dsh-tool-policy",
+        "titanwings/dsh-better-browser"
+      ]
     }
   ],
   "categories": [
@@ -121,11 +149,15 @@
         "en": "Workflow"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 7,
         "candidates": 0,
-        "total": 0
+        "total": 7
       },
-      "examples": []
+      "examples": [
+        "titanwings/dsh-plannotator",
+        "liustack/modlens",
+        "omdsh-dev/dsh-daily-progress"
+      ]
     },
     {
       "id": "developer-tools",
@@ -134,11 +166,15 @@
         "en": "Developer tools"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 93,
         "candidates": 0,
-        "total": 0
+        "total": 93
       },
-      "examples": []
+      "examples": [
+        "flyvhidbwo/dsh-vision-proxy",
+        "yuezengwu/dsh-explain",
+        "nwflower/dsh-chat-import"
+      ]
     },
     {
       "id": "channels",
@@ -147,11 +183,15 @@
         "en": "Channels"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 3,
         "candidates": 0,
-        "total": 0
+        "total": 3
       },
-      "examples": []
+      "examples": [
+        "vlln/whale-girl",
+        "dbydd/dsh-onlyne",
+        "telegram"
+      ]
     },
     {
       "id": "interface",
@@ -160,11 +200,15 @@
         "en": "Interface"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 44,
         "candidates": 0,
-        "total": 0
+        "total": 44
       },
-      "examples": []
+      "examples": [
+        "huiliyi37/dsh-tianshu-tui",
+        "ccch1mneyyy/dsh-cc-tui",
+        "crayonlu/dsh-web-search-firecrawl"
+      ]
     },
     {
       "id": "platform",
@@ -173,11 +217,15 @@
         "en": "Platform"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 3,
         "candidates": 0,
-        "total": 0
+        "total": 3
       },
-      "examples": []
+      "examples": [
+        "fisfzy/ego-browser",
+        "whiteguo233/dsh-openbiliclaw",
+        "fakechris/dsh-track"
+      ]
     },
     {
       "id": "safety",
@@ -186,11 +234,15 @@
         "en": "Safety"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 6,
         "candidates": 0,
-        "total": 0
+        "total": 6
       },
-      "examples": []
+      "examples": [
+        "pangyiming/dsh-port-guard",
+        "omdsh-dev/dsh-security-audit",
+        "dsh-plugin-check"
+      ]
     },
     {
       "id": "memory",
@@ -199,11 +251,15 @@
         "en": "Memory"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 18,
         "candidates": 0,
-        "total": 0
+        "total": 18
       },
-      "examples": []
+      "examples": [
+        "moduqishi/dsh-open-in-finder",
+        "moduqishi/dsh-opencode-usage",
+        "titanwings/dsh-automation"
+      ]
     },
     {
       "id": "infrastructure",
@@ -212,11 +268,13 @@
         "en": "Infrastructure"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 1,
         "candidates": 0,
-        "total": 0
+        "total": 1
       },
-      "examples": []
+      "examples": [
+        "drifter-yh/dsh-tool-policy"
+      ]
     },
     {
       "id": "fun",
@@ -225,11 +283,15 @@
         "en": "Fun"
       },
       "counts": {
-        "catalog": 0,
+        "catalog": 14,
         "candidates": 0,
-        "total": 0
+        "total": 14
       },
-      "examples": []
+      "examples": [
+        "omdsh-dev/dsh-pet-corner",
+        "omdsh-dev/dsh-fun-typewriter",
+        "omdsh-dev/dsh-gomoku"
+      ]
     },
     {
       "id": "uncategorized",
@@ -249,18 +311,18 @@
     {
       "id": "transactional",
       "labels": {
-        "zh": "事务托管",
+        "zh": "事务安装",
         "en": "Transactional"
       },
-      "count": 0
+      "count": 2
     },
     {
       "id": "managed",
       "labels": {
-        "zh": "配置托管",
-        "en": "Managed"
+        "zh": "配置接入候选",
+        "en": "Configuration candidate"
       },
-      "count": 0
+      "count": 9
     },
     {
       "id": "guided",
@@ -268,20 +330,46 @@
         "zh": "引导接入",
         "en": "Guided"
       },
-      "count": 0
-    },
+      "count": 178
+    }
+  ],
+  "reviewStates": [
     {
-      "id": "pending",
+      "id": "pending-review",
       "labels": {
         "zh": "待审核",
         "en": "Pending review"
+      },
+      "count": 178
+    },
+    {
+      "id": "needs-fix",
+      "labels": {
+        "zh": "待修复",
+        "en": "Needs fix"
+      },
+      "count": 0
+    },
+    {
+      "id": "blocked",
+      "labels": {
+        "zh": "已阻断",
+        "en": "Blocked"
+      },
+      "count": 11
+    },
+    {
+      "id": "approved",
+      "labels": {
+        "zh": "审核通过",
+        "en": "Approved"
       },
       "count": 0
     }
   ],
   "guardrails": [
-    "Unknown capabilities remain unknown.",
+    "Catalog inclusion is not official-baseline verification.",
     "No installation command or executable package intent is exposed by this directory.",
-    "Compatibility and recovery require separate public evidence."
+    "Only an explicitly admitted Registry entry grants installation authority."
   ]
 }
