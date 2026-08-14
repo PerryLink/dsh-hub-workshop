@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hub.omdsh.dev/package-manifest.schema.json",
+  "title": "package.json#dshWorkshop",
+  "description": "Author-declared Workshop intake facts. These declarations never grant verification or Registry installation authority.",
+  "type": "object",
+  "required": ["schema", "type", "integration", "install", "lifecycle", "permissions", "evidence"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "omdsh-workshop-package/v1" },
+    "type": { "const": "plugin" },
+    "integration": {
+      "type": "object",
+      "required": ["protocol", "artifact"],
+      "additionalProperties": false,
+      "properties": {
+        "protocol": {
+          "enum": ["harness-profile", "harness-repository", "harness-cordis", "mcp", "skill", "third-party"]
+        },
+        "artifact": { "$ref": "#/$defs/repositoryPath" },
+        "mcp": {
+          "type": "object",
+          "required": ["protocolVersions", "serverManifest", "registrySchema"],
+          "additionalProperties": false,
+          "properties": {
+            "protocolVersions": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "string", "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}$" }
+            },
+            "serverManifest": { "$ref": "#/$defs/repositoryPath" },
+            "registrySchema": {
+              "const": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json"
+            }
+          }
+        }
+      }
+    },
+    "install": {
+      "type": "object",
+      "required": ["mode", "adapter", "failurePolicy", "touchesCurrentBeforeActivation"],
+      "additionalProperties": false,
+      "properties": {
+        "mode": { "enum": ["transactional", "isolated-trial", "guided"] },
+        "adapter": { "enum": ["profile-bundle", "repository-plugin", "mcp-server", "skill", "third-party"] },
+        "failurePolicy": { "enum": ["generation-rollback", "discard-candidate", "discard-process", "manual"] },
+        "touchesCurrentBeforeActivation": { "type": "boolean" }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "required": ["activation", "dispose"],
+      "additionalProperties": false,
+      "properties": {
+        "activation": { "enum": ["immediate", "hot-reload", "restart-plugin", "restart-profile", "restart-host"] },
+        "dispose": { "enum": ["supported", "unsupported", "unknown"] }
+      }
+    },
+    "permissions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*:[a-z][a-z0-9-]*$" }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["install", "failureIsolation", "hotReload", "remove"],
+      "additionalProperties": false,
+      "properties": {
+        "install": { "$ref": "#/$defs/nullableRepositoryPath" },
+        "failureIsolation": { "$ref": "#/$defs/nullableRepositoryPath" },
+        "hotReload": { "$ref": "#/$defs/nullableRepositoryPath" },
+        "remove": { "$ref": "#/$defs/nullableRepositoryPath" }
+      }
+    }
+  },
+  "$defs": {
+    "repositoryPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$"
+    },
+    "nullableRepositoryPath": {
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "#/$defs/repositoryPath" }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "integration": { "properties": { "protocol": { "const": "mcp" } } } } },
+      "then": { "properties": { "integration": { "required": ["protocol", "artifact", "mcp"] } } },
+      "else": { "properties": { "integration": { "properties": { "mcp": false } } } }
+    },
+    {
+      "if": { "properties": { "install": { "properties": { "mode": { "const": "transactional" } } } } },
+      "then": {
+        "properties": {
+          "install": {
+            "properties": {
+              "adapter": { "const": "profile-bundle" },
+              "failurePolicy": { "const": "generation-rollback" },
+              "touchesCurrentBeforeActivation": { "const": false }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "install": { "properties": { "mode": { "const": "isolated-trial" } } } } },
+      "then": {
+        "properties": {
+          "install": {
+            "properties": {
+              "failurePolicy": { "enum": ["discard-candidate", "discard-process"] },
+              "touchesCurrentBeforeActivation": { "const": false }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "install": { "properties": { "mode": { "const": "guided" } } } } },
+      "then": { "properties": { "install": { "properties": { "failurePolicy": { "const": "manual" } } } } }
+    },
+    {
+      "if": { "properties": { "lifecycle": { "properties": { "activation": { "const": "hot-reload" } } } } },
+      "then": { "properties": { "lifecycle": { "properties": { "dispose": { "const": "supported" } } } } }
+    }
+  ]
+}

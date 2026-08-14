@@ -2,10 +2,20 @@
   "schema": "omdsh-ai-plugin-types/v1",
   "generatedAt": "2026-08-13T17:27:31.000Z",
   "scope": "Public Catalog and formal Intake facts only. Discovery never authorizes installation.",
+  "contracts": {
+    "packageManifest": "/package-manifest.schema.json",
+    "submission": "/submission.schema.json",
+    "verification": "/intake-evidence.schema.json",
+    "mcp": {
+      "protocolVersion": "2026-07-28",
+      "registryManifest": "server.json",
+      "registrySchema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json"
+    }
+  },
   "totals": {
-    "catalogProjects": 712,
+    "catalogProjects": 681,
     "candidateProjects": 0,
-    "projects": 712
+    "projects": 681
   },
   "kinds": [
     {
@@ -15,9 +25,9 @@
         "en": "Skill"
       },
       "counts": {
-        "catalog": 39,
+        "catalog": 42,
         "candidates": 0,
-        "total": 39
+        "total": 42
       },
       "examples": [
         "bug-tamer",
@@ -32,9 +42,9 @@
         "en": "MCP"
       },
       "counts": {
-        "catalog": 19,
+        "catalog": 21,
         "candidates": 0,
-        "total": 19
+        "total": 21
       },
       "examples": [
         "almanac-mcp",
@@ -49,14 +59,14 @@
         "en": "Extension"
       },
       "counts": {
-        "catalog": 420,
+        "catalog": 390,
         "candidates": 0,
-        "total": 420
+        "total": 390
       },
       "examples": [
         "session-teleport",
-        "devin-axis/ipollowork",
-        "nanmicoder/dsh-agent-teams"
+        "nanmicoder/dsh-agent-teams",
+        "omdsh-dev/dsh-at-file"
       ]
     },
     {
@@ -66,14 +76,14 @@
         "en": "Channel"
       },
       "counts": {
-        "catalog": 25,
+        "catalog": 19,
         "candidates": 0,
-        "total": 25
+        "total": 19
       },
       "examples": [
         "vlln/whale-girl",
         "telegram",
-        "plutokeating/dsh-lark-bot"
+        "congchuanling-dot/dsh-telegram-relay"
       ]
     },
     {
@@ -83,14 +93,14 @@
         "en": "UI"
       },
       "counts": {
-        "catalog": 129,
+        "catalog": 121,
         "candidates": 0,
-        "total": 129
+        "total": 121
       },
       "examples": [
         "7d7d",
-        "whiteguo233/openbiliclaw",
-        "zhu1090093659/dsh-web-ui"
+        "omdsh-dev/dsh-better-sidebar",
+        "anionex/dsh-vision-toolkit"
       ]
     },
     {
@@ -100,9 +110,9 @@
         "en": "Adapter"
       },
       "counts": {
-        "catalog": 20,
+        "catalog": 21,
         "candidates": 0,
-        "total": 20
+        "total": 21
       },
       "examples": [
         "whiteguo233/dsh-openbiliclaw",
@@ -130,14 +140,14 @@
         "en": "Toolkit"
       },
       "counts": {
-        "catalog": 60,
+        "catalog": 67,
         "candidates": 0,
-        "total": 60
+        "total": 67
       },
       "examples": [
         "liustack/modlens",
-        "omdsh-dev/dsh-custom-tool",
-        "chinesezjc/dsh-interconnect"
+        "chinesezjc/dsh-interconnect",
+        "omdsh-dev/dsh-custom-tool"
       ]
     }
   ],
@@ -166,14 +176,14 @@
         "en": "Developer tools"
       },
       "counts": {
-        "catalog": 422,
+        "catalog": 408,
         "candidates": 0,
-        "total": 422
+        "total": 408
       },
       "examples": [
         "github-integration",
-        "devin-axis/ipollowork",
-        "nanmicoder/dsh-agent-teams"
+        "titanwings/colleague-skill",
+        "sandbaseai/sandbase-harness"
       ]
     },
     {
@@ -183,14 +193,14 @@
         "en": "Channels"
       },
       "counts": {
-        "catalog": 24,
+        "catalog": 19,
         "candidates": 0,
-        "total": 24
+        "total": 19
       },
       "examples": [
         "vlln/whale-girl",
         "telegram",
-        "plutokeating/dsh-lark-bot"
+        "congchuanling-dot/dsh-telegram-relay"
       ]
     },
     {
@@ -200,14 +210,14 @@
         "en": "Interface"
       },
       "counts": {
-        "catalog": 127,
+        "catalog": 122,
         "candidates": 0,
-        "total": 127
+        "total": 122
       },
       "examples": [
         "7d7d",
-        "whiteguo233/openbiliclaw",
-        "zhu1090093659/dsh-web-ui"
+        "omdsh-dev/dsh-better-sidebar",
+        "anionex/dsh-vision-toolkit"
       ]
     },
     {
@@ -217,13 +227,12 @@
         "en": "Platform"
       },
       "counts": {
-        "catalog": 3,
+        "catalog": 2,
         "candidates": 0,
-        "total": 3
+        "total": 2
       },
       "examples": [
         "whiteguo233/dsh-openbiliclaw",
-        "fisfzy/ego-browser",
         "fakechris/dsh-track"
       ]
     },
@@ -234,9 +243,9 @@
         "en": "Safety"
       },
       "counts": {
-        "catalog": 21,
+        "catalog": 23,
         "candidates": 0,
-        "total": 21
+        "total": 23
       },
       "examples": [
         "anionex/dsh-turn-rewind",
@@ -251,14 +260,14 @@
         "en": "Memory"
       },
       "counts": {
-        "catalog": 93,
+        "catalog": 86,
         "candidates": 0,
-        "total": 93
+        "total": 86
       },
       "examples": [
         "session-teleport",
-        "dsh-memory-evolve",
-        "titanwings/dsh-automation"
+        "titanwings/dsh-automation",
+        "distill"
       ]
     },
     {
@@ -283,9 +292,9 @@
         "en": "Fun"
       },
       "counts": {
-        "catalog": 14,
+        "catalog": 13,
         "candidates": 0,
-        "total": 14
+        "total": 13
       },
       "examples": [
         "almanac-mcp",
@@ -330,7 +339,7 @@
         "zh": "引导接入",
         "en": "Guided"
       },
-      "count": 701
+      "count": 670
     }
   ],
   "reviewStates": [
@@ -340,7 +349,7 @@
         "zh": "待审核",
         "en": "Pending review"
       },
-      "count": 701
+      "count": 670
     },
     {
       "id": "needs-fix",
@@ -365,6 +374,54 @@
         "en": "Approved"
       },
       "count": 0
+    }
+  ],
+  "capabilities": {
+    "seamlessInstall": [
+      {
+        "id": "unknown",
+        "count": 681
+      }
+    ],
+    "failureIsolation": [
+      {
+        "id": "unknown",
+        "count": 681
+      }
+    ],
+    "hotReload": [
+      {
+        "id": "unknown",
+        "count": 681
+      }
+    ]
+  },
+  "protocols": [
+    {
+      "id": "harness-profile",
+      "count": 597
+    },
+    {
+      "id": "harness-repository",
+      "count": 10
+    },
+    {
+      "id": "mcp",
+      "count": 2
+    },
+    {
+      "id": "skill",
+      "count": 8
+    },
+    {
+      "id": "third-party",
+      "count": 64
+    }
+  ],
+  "admissionRoutes": [
+    {
+      "id": "legacy-compatibility-map",
+      "count": 681
     }
   ],
   "guardrails": [

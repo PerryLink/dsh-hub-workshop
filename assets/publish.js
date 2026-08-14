@@ -31,6 +31,9 @@ const submissionBaseUrl = 'https://github.com/omdsh-dev/dsh-hub-workshop/issues/
 const t = (key) => window.DSHHub.t(key)
 const exactSpec = /^(?:v)?\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$|^(?:git\+https:\/\/|https:\/\/|github:)[^#\s]+#[0-9a-f]{40}$/
 const sensitiveValue = new RegExp(`(?:${['github', 'pat', ''].join('_')}|\\bgh[opusr]_[A-Za-z0-9_]{16,}|\\bnpm_[A-Za-z0-9]{20,}|-----BEGIN(?: [A-Z]+)? PRIVATE KEY-----|\\bAKIA[0-9A-Z]{16}\\b)`, 'i')
+const repositoryPathPattern = /^(?!\/)(?!.*(?:^|\/)\.\.(?:\/|$))[A-Za-z0-9._-]+(?:\/[A-Za-z0-9._-]+)*$/
+const mcpProtocolVersion = '2026-07-28'
+const mcpRegistrySchema = 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json'
 
 async function writeClipboardText(value) {
   try {
@@ -137,6 +140,19 @@ function mediaPaths(value) {
   return [...new Set(String(value || '').split(/[\n,]+/).map((item) => item.trim()).filter(Boolean))]
 }
 
+function permissionScopes(value) {
+  const scopes = String(value || '').split(',').map((item) => item.trim()).filter(Boolean)
+  if (scopes.some((scope) => !/^[a-z][a-z0-9-]*:[a-z][a-z0-9-]*$/.test(scope))) throw new Error(t('publish.invalidPermissionScopes'))
+  return [...new Set(scopes)]
+}
+
+function evidencePath(value) {
+  const path = String(value || '').trim()
+  if (!path) return null
+  if (!repositoryPathPattern.test(path)) throw new Error(t('publish.invalidEvidencePath'))
+  return path
+}
+
 function normalizedPath(value) {
   if (!value || value === '/') return ''
   return `/${String(value).replace(/^\/+|\/+$/g, '')}`
@@ -185,11 +201,18 @@ function fillCandidate(candidate) {
   form.elements.changelog.value = ''
   form.elements.permissions.value = ''
   form.elements.testing.value = ''
+  form.elements.permissionScopes.value = ''
+  form.elements.evidenceInstall.value = ''
+  form.elements.evidenceIsolation.value = ''
+  form.elements.evidenceHotReload.value = ''
+  form.elements.evidenceRemove.value = ''
   form.elements.installLabel.value = ''
   form.elements.instructions.value = ''
   form.elements.source.value = ''
   form.elements.packageName.value = ''
   form.elements.spec.value = ''
+  form.elements.activation.value = 'immediate'
+  form.elements.dispose.value = 'unknown'
   if (candidate.install.possibleAdapter === 'official-profile/v1' && candidate.declaration.packageName) {
     form.elements.method.value = 'profile-bundle'
     form.elements.packageName.value = candidate.declaration.packageName
@@ -199,8 +222,19 @@ function fillCandidate(candidate) {
     form.elements.source.value = repositoryPluginSource(candidate)
   } else {
     form.elements.method.value = 'guided'
-    form.elements.guidedProtocol.value = candidate.install.possibleAdapter === 'official-cordis/v1' ? 'harness-cordis' : 'third-party'
+    form.elements.guidedProtocol.value = candidate.kind === 'mcp'
+      ? 'mcp'
+      : candidate.kind === 'skill'
+        ? 'skill'
+        : candidate.install.possibleAdapter === 'official-cordis/v1'
+          ? 'harness-cordis'
+          : 'third-party'
   }
+  const detectedArtifacts = candidate.declaration.manifests || []
+  form.elements.integrationArtifact.value = detectedArtifacts.find((path) => /server\.json$/.test(path))
+    || detectedArtifacts.find((path) => /SKILL\.md$/.test(path))
+    || detectedArtifacts.find((path) => /package\.json$/.test(path))
+    || ''
   candidatePrefill.hidden = false
   candidatePrefillName.textContent = candidate.displayName
   suggestProjectIdentity()
@@ -219,6 +253,19 @@ function managementMode() {
   sourceField.querySelector('input').required = repositoryPlugin
   managementDetails.open = guided
   managementSummary.textContent = t(`publish.methodSummary.${method || 'unselected'}`)
+  const protocol = managementSelection().protocol
+  const defaultArtifact = method === 'profile-bundle'
+    ? 'package.json'
+    : method === 'repository-plugin'
+      ? '.dsh-plugin/package.json'
+      : protocol === 'mcp'
+        ? 'server.json'
+        : protocol === 'skill'
+          ? 'SKILL.md'
+          : protocol === 'harness-cordis'
+            ? 'cordis.patch.yml'
+            : ''
+  if (defaultArtifact) assignSuggestion(form.elements.integrationArtifact, defaultArtifact)
   suggestInstallFacts()
 }
 
@@ -310,13 +357,16 @@ function fillExistingProject() {
   form.elements.compatibility.value = release?.compatibility?.declared || ''
   form.elements.requiresFabric.checked = release?.capabilities?.requiresFabric === true
   form.elements.deepHook.checked = release?.capabilities?.deepHook === true
-  form.elements.restartRequired.checked = release?.capabilities?.restartRequired === true
+  form.elements.activation.value = catalog?.workshop?.lifecycle?.hotReload?.activation
+    || (release?.capabilities?.restartRequired === true ? 'restart-profile' : 'immediate')
+  form.elements.dispose.value = catalog?.workshop?.lifecycle?.hotReload?.activation === 'hot-reload' ? 'supported' : 'unknown'
   const installMethod = release?.runtime?.installMethod
   const protocol = catalog?.install?.protocol || release?.runtime?.protocol
   form.elements.method.value = installMethod === 'profile-bundle' || installMethod === 'repository-plugin'
     ? installMethod
     : 'guided'
-  form.elements.guidedProtocol.value = protocol === 'harness-cordis' ? 'harness-cordis' : 'third-party'
+  form.elements.guidedProtocol.value = ['harness-cordis', 'mcp', 'skill'].includes(protocol) ? protocol : 'third-party'
+  form.elements.integrationArtifact.value = catalog?.workshop?.integration?.artifact || ''
   form.elements.installLabel.value = catalog?.install?.label || ''
   form.elements.instructions.value = catalog?.install?.command || ''
   form.elements.source.value = catalog?.install?.source || ''
@@ -385,8 +435,46 @@ function values() {
   if (method === 'repository-plugin' && (!source || !source.includes(`#${ref}`) || !String(data.get('instructions')).includes(source))) {
     throw new Error(t('publish.invalidSource'))
   }
+  const artifact = String(data.get('integrationArtifact') || '').trim()
+  if (!repositoryPathPattern.test(artifact)) throw new Error(t('publish.invalidIntegrationArtifact'))
+  const activation = String(data.get('activation'))
+  const dispose = String(data.get('dispose'))
+  if (activation === 'hot-reload' && dispose !== 'supported') throw new Error(t('publish.hotReloadNeedsDispose'))
+  const packageInstall = method === 'profile-bundle'
+    ? { mode: 'transactional', adapter: 'profile-bundle', failurePolicy: 'generation-rollback', touchesCurrentBeforeActivation: false }
+    : method === 'repository-plugin'
+      ? { mode: 'isolated-trial', adapter: 'repository-plugin', failurePolicy: 'discard-candidate', touchesCurrentBeforeActivation: false }
+      : protocol === 'mcp'
+        ? { mode: 'isolated-trial', adapter: 'mcp-server', failurePolicy: 'discard-process', touchesCurrentBeforeActivation: false }
+        : protocol === 'skill'
+          ? { mode: 'guided', adapter: 'skill', failurePolicy: 'manual', touchesCurrentBeforeActivation: true }
+          : { mode: 'guided', adapter: 'third-party', failurePolicy: 'manual', touchesCurrentBeforeActivation: true }
+  const packageManifest = {
+    schema: 'omdsh-workshop-package/v1',
+    type: 'plugin',
+    integration: {
+      protocol,
+      artifact,
+      ...(protocol === 'mcp' ? {
+        mcp: {
+          protocolVersions: [mcpProtocolVersion],
+          serverManifest: artifact,
+          registrySchema: mcpRegistrySchema,
+        },
+      } : {}),
+    },
+    install: packageInstall,
+    lifecycle: { activation, dispose },
+    permissions: permissionScopes(data.get('permissionScopes')),
+    evidence: {
+      install: evidencePath(data.get('evidenceInstall')),
+      failureIsolation: evidencePath(data.get('evidenceIsolation')),
+      hotReload: evidencePath(data.get('evidenceHotReload')),
+      remove: evidencePath(data.get('evidenceRemove')),
+    },
+  }
   const value = {
-    schema: 'omdsh-workshop-submission/v1',
+    schema: 'omdsh-workshop-submission/v2',
     operation,
     project: {
       id,
@@ -414,7 +502,7 @@ function values() {
       capabilities: {
         requiresFabric: data.get('requiresFabric') === 'on' || data.get('deepHook') === 'on',
         deepHook: data.get('deepHook') === 'on',
-        restartRequired: data.get('restartRequired') === 'on',
+        restartRequired: /^restart-/.test(activation),
       },
       profileBundle: transactional ? { packageName, spec } : null,
     },
@@ -431,6 +519,7 @@ function values() {
       trustedPublisherRequested: data.get('trustedPublisherRequested') === 'on',
       installScriptsMustRemainDisabled: true,
     },
+    packageManifest,
   }
   if (sensitiveValue.test(JSON.stringify(value))) throw new Error(t('publish.sensitiveValue'))
   return value
@@ -475,7 +564,7 @@ form.elements.deepHook.addEventListener('change', () => {
 for (const name of ['id', 'version', 'repository', 'path', 'ref']) {
   form.elements[name].addEventListener('input', suggestInstallFacts)
 }
-form.elements.guidedProtocol.addEventListener('change', suggestInstallFacts)
+form.elements.guidedProtocol.addEventListener('change', managementMode)
 form.elements.repository.addEventListener('input', suggestProjectIdentity)
 nextStepButton.addEventListener('click', continueToNextStep)
 previousStepButton.addEventListener('click', () => setStep(currentStep - 1))

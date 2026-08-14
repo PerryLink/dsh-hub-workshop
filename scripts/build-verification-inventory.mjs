@@ -47,6 +47,7 @@ const projects = catalog.packages.map((project) => {
     registry: {
       state: admission ? 'admitted' : 'ineligible',
     },
+    capabilities: project.workshop,
   }
 }).sort((left, right) => left.id.localeCompare(right.id))
 
@@ -54,6 +55,15 @@ function counts(field, nested) {
   const values = {}
   for (const project of projects) {
     const value = nested ? project[field][nested] : project[field]
+    values[value] = (values[value] ?? 0) + 1
+  }
+  return Object.fromEntries(Object.entries(values).sort(([left], [right]) => left.localeCompare(right)))
+}
+
+function capabilityCounts(select) {
+  const values = {}
+  for (const project of projects) {
+    const value = select(project.capabilities)
     values[value] = (values[value] ?? 0) + 1
   }
   return Object.fromEntries(Object.entries(values).sort(([left], [right]) => left.localeCompare(right)))
@@ -81,6 +91,11 @@ const output = {
     review: counts('review', 'state'),
     verification: counts('verification', 'state'),
     registry: counts('registry', 'state'),
+    seamlessInstall: capabilityCounts((capabilities) => capabilities.install.seamless.state),
+    failureIsolation: capabilityCounts((capabilities) => capabilities.install.failureIsolation.state),
+    hotReload: capabilityCounts((capabilities) => capabilities.lifecycle.hotReload.state),
+    integrationProtocols: capabilityCounts((capabilities) => capabilities.integration.protocol),
+    admissionRoutes: capabilityCounts((capabilities) => capabilities.admission.route),
   },
   projects,
 }

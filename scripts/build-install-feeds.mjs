@@ -73,6 +73,9 @@ export function validateAdmission(admission, pkg, audit, evidenceDigest, baselin
   assert(admission.source.ref === pkg.ref, `${admission.id}: ref differs from Catalog`)
   assert((admission.source.path ?? null) === (pkg.repositoryPath || null), `${admission.id}: path differs from Catalog`)
   assert(admission.version === pkg.version, `${admission.id}: version differs from Catalog`)
+  assert(pkg.workshop?.manifest?.status === 'valid', `${admission.id}: Registry admission requires package.json#dshWorkshop`)
+  assert(pkg.workshop?.install?.adapter === 'profile-bundle', `${admission.id}: Workshop manifest adapter differs from Profile Bundle admission`)
+  assert(pkg.workshop?.install?.mode === 'transactional', `${admission.id}: Workshop manifest must declare transactional installation`)
   assert(PACKAGE_RE.test(admission.packageName), `${admission.id}: invalid package name`)
   assert(PINNED_GITHUB_RE.test(admission.spec), `${admission.id}: spec must be a commit-pinned GitHub package`)
   assert(admission.spec.endsWith(`#${admission.source.ref}`), `${admission.id}: spec does not match source ref`)
@@ -101,8 +104,16 @@ export function validateAdmission(admission, pkg, audit, evidenceDigest, baselin
   assert(audit.checks.profileInstall.status === 'passed', `${admission.id}: Profile install did not pass`)
   assert(audit.checks.profileInstall.ignoreScripts === true, `${admission.id}: install scripts were not blocked`)
   assert(audit.checks.ready.status === 'passed', `${admission.id}: runtime readiness did not pass`)
+  assert(audit.checks.functional?.status === 'passed', `${admission.id}: real capability invocation did not pass`)
+  assert(audit.checks.update?.status === 'passed', `${admission.id}: update did not pass`)
+  assert(audit.checks.disable?.status === 'passed', `${admission.id}: disable did not pass`)
   assert(audit.checks.uninstall.status === 'passed', `${admission.id}: uninstall did not pass`)
   assert(audit.checks.generationRecovery.status === 'passed', `${admission.id}: generation recovery did not pass`)
+  assert(audit.checks.failureIsolation?.status === 'passed', `${admission.id}: failure isolation did not pass`)
+  assert(audit.capability?.assertion === 'registered-invoked-and-observed', `${admission.id}: a named capability was not registered, invoked, and observed`)
+  if (pkg.workshop.lifecycle.hotReload.state === 'declared') {
+    assert(audit.checks.hotReload?.status === 'passed', `${admission.id}: declared hot reload did not pass dispose and reactivation tests`)
+  }
   assert(audit.supplyChain.immutableSource === 'passed', `${admission.id}: source is not immutable`)
   assert(audit.supplyChain.license === pkg.license, `${admission.id}: license mismatch`)
   assert(audit.supplyChain.installScripts === admission.risk.installScripts, `${admission.id}: install-script fact mismatch`)
@@ -113,7 +124,7 @@ export function validateAdmission(admission, pkg, audit, evidenceDigest, baselin
   return true
 }
 
-function catalogProjection(catalog, admissions) {
+function catalogProjection(catalog, admissions, audits) {
   const output = structuredClone(catalog)
   const admissionById = new Map(admissions.admissions.map((item) => [item.id, item]))
   for (const pkg of output.packages) {
@@ -140,6 +151,20 @@ function catalogProjection(catalog, admissions) {
       command: `omdsh workshop install ${admission.id} --profile web --enable`,
       note: '需使用已同步本 Registry 快照的 OMDSH Hub 消费端；在 candidate Profile 中安装并验证，确认启动后切换 current，启动失败时恢复 previous。',
     }
+    pkg.workshop.install.seamless = { state: 'verified', reason: 'current-baseline-lifecycle-passed' }
+    pkg.workshop.install.failureIsolation = {
+      ...pkg.workshop.install.failureIsolation,
+      state: 'verified',
+      reason: 'current-profile-protected-in-test',
+    }
+    if (pkg.workshop.lifecycle.hotReload.state === 'declared' && audits.get(pkg.id)?.checks?.hotReload?.status === 'passed') {
+      pkg.workshop.lifecycle.hotReload = {
+        ...pkg.workshop.lifecycle.hotReload,
+        state: 'verified',
+        reason: 'dispose-and-reactivate-passed',
+      }
+    }
+    pkg.workshop.admission = { route: 'package-json-manifest', state: 'registry-admitted' }
   }
   const catalogUpdated = normalizedTimestamp(output.updated, 'catalog.updated')
   const admissionsUpdated = normalizedTimestamp(admissions.updatedAt, 'admissions.updatedAt')
@@ -377,7 +402,7 @@ export async function buildFeeds({ root = ROOT, write = true } = {}) {
     json(root, 'registry-admissions.json'),
     json(root, 'community-v1.json'),
   ])
-  assert(catalogSource.schema === 'dsh-hub-index/v0.3', 'unsupported Catalog schema')
+  assert(catalogSource.schema === 'dsh-hub-index/v0.4', 'unsupported Catalog schema')
   assert(admissions.schema === 'omdsh-registry-admissions/v1', 'unsupported Registry admissions schema')
   normalizedTimestamp(admissions.updatedAt, 'admissions.updatedAt')
   assert(typeof admissions.runtimeBaseline === 'string' && admissions.runtimeBaseline !== '', 'runtime baseline is required')
@@ -408,7 +433,7 @@ export async function buildFeeds({ root = ROOT, write = true } = {}) {
     audits.set(admission.id, audit)
   }
 
-  const catalog = catalogProjection(catalogSource, admissions)
+  const catalog = catalogProjection(catalogSource, admissions, audits)
   const registry = registryDocument(catalog, admissions)
   const records = {
     $schema: './run-records.schema.json',

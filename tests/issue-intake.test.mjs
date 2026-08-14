@@ -32,6 +32,24 @@ function manifest() {
   }
 }
 
+function manifestV2() {
+  const value = manifest()
+  value.schema = 'omdsh-workshop-submission/v2'
+  value.project.id = 'issue-test-plugin-v2'
+  value.project.repository = 'https://github.com/example/issue-test-plugin-v2'
+  value.management.instructions = `Read https://github.com/example/issue-test-plugin-v2/tree/${SHA}`
+  value.packageManifest = {
+    schema: 'omdsh-workshop-package/v1',
+    type: 'plugin',
+    integration: { protocol: 'third-party', artifact: 'index.js' },
+    install: { mode: 'guided', adapter: 'third-party', failurePolicy: 'manual', touchesCurrentBeforeActivation: true },
+    lifecycle: { activation: 'immediate', dispose: 'unknown' },
+    permissions: [],
+    evidence: { install: null, failureIsolation: null, hotReload: null, remove: null },
+  }
+  return value
+}
+
 function event(body) {
   return { issue: { number: 42, title: '[Submission] issue-test-plugin@1.0.0', body } }
 }
@@ -42,6 +60,25 @@ function githubFetch(url) {
   }
   if (url.endsWith(`/git/commits/${SHA}`)) return Promise.resolve(new Response(JSON.stringify({ sha: SHA })))
   return Promise.resolve(new Response('{}', { status: 404 }))
+}
+
+function githubFile(value) {
+  return new Response(JSON.stringify({ type: 'file', encoding: 'base64', content: Buffer.from(value).toString('base64') }))
+}
+
+function githubV2Fetch(manifestValue, { mismatch = false } = {}) {
+  return (url) => {
+    if (url.endsWith('/repos/example/issue-test-plugin-v2')) {
+      return Promise.resolve(new Response(JSON.stringify({ private: false, disabled: false, archived: false, html_url: manifestValue.project.repository })))
+    }
+    if (url.endsWith(`/git/commits/${SHA}`)) return Promise.resolve(new Response(JSON.stringify({ sha: SHA })))
+    if (url.includes('/contents/package.json?')) {
+      const dshWorkshop = mismatch ? { ...manifestValue.packageManifest, type: 'not-the-submitted-value' } : manifestValue.packageManifest
+      return Promise.resolve(githubFile(JSON.stringify({ name: 'issue-test-plugin-v2', version: '1.0.0', dshWorkshop })))
+    }
+    if (url.includes('/contents/index.js?')) return Promise.resolve(githubFile('export default function plugin() {}'))
+    return Promise.resolve(new Response('{}', { status: 404 }))
+  }
 }
 
 test('extracts the generated manifest from a prefilled Issue body', () => {
@@ -65,5 +102,20 @@ test('Issue automation rejects a private source before creating an intake record
   await assert.rejects(
     prepareIssueIntake(event(`\`\`\`json\n${JSON.stringify(value)}\n\`\`\``), { root, fetchImpl: privateFetch }),
     /must be public/,
+  )
+})
+
+test('v2 Issue automation binds the submitted capability manifest to fixed package.json', async () => {
+  const value = manifestV2()
+  const prepared = await prepareIssueIntake(event(`\`\`\`json\n${JSON.stringify(value)}\n\`\`\``), { root, fetchImpl: githubV2Fetch(value) })
+  assert.equal(prepared.record.id, 'issue-test-plugin-v2@1.0.0')
+  assert.match(prepared.record.tests.static.evidence, /package.json/)
+})
+
+test('v2 Issue automation rejects a package manifest that is not in the fixed commit', async () => {
+  const value = manifestV2()
+  await assert.rejects(
+    prepareIssueIntake(event(`\`\`\`json\n${JSON.stringify(value)}\n\`\`\``), { root, fetchImpl: githubV2Fetch(value, { mismatch: true }) }),
+    /does not match fixed package.json/,
   )
 })

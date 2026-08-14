@@ -440,6 +440,42 @@ function factValue(value) {
   return translated === key ? String(value) : translated
 }
 
+function workshopCapabilities(pkg) {
+  return pkg.workshop || {
+    manifest: { status: 'legacy-evidence', source: 'unknown', schema: null },
+    install: {
+      mode: 'guided',
+      seamless: { state: 'unknown', reason: 'not-declared' },
+      failureIsolation: { state: 'unknown', policy: 'manual', reason: 'not-declared' },
+    },
+    lifecycle: { hotReload: { state: 'unknown', activation: 'unknown', reason: 'not-declared' } },
+    integration: { protocol: integrationProtocol(pkg), artifact: 'unknown', mcp: null },
+    admission: { route: 'legacy-compatibility-map', state: 'needs-package-manifest' },
+  }
+}
+
+function capabilityChip(label, fact) {
+  return `<span class="capability-chip state-${escapeHtml(fact.state)}"><small>${escapeHtml(label)}</small><strong>${escapeHtml(factValue(fact.state))}</strong></span>`
+}
+
+function capabilityMatrix(pkg) {
+  const capabilities = workshopCapabilities(pkg)
+  const seamless = capabilities.install.seamless
+  const isolation = capabilities.install.failureIsolation
+  const hotReload = capabilities.lifecycle.hotReload
+  const mcpVersion = capabilities.integration.mcp?.protocolVersions?.join(', ')
+  return `<section class="project-capability-matrix">
+    <div class="project-capability-heading"><h3>${escapeHtml(t('project.capabilitiesTitle'))}</h3><p>${escapeHtml(t('project.capabilitiesDescription'))}</p></div>
+    <div class="project-capability-grid">
+      <article class="state-${escapeHtml(seamless.state)}"><span>${escapeHtml(t('project.seamlessInstall'))}</span><strong>${escapeHtml(factValue(seamless.state))}</strong><small>${escapeHtml(factValue(seamless.reason))}</small></article>
+      <article class="state-${escapeHtml(isolation.state)}"><span>${escapeHtml(t('project.failureIsolation'))}</span><strong>${escapeHtml(factValue(isolation.state))}</strong><small>${escapeHtml(factValue(isolation.policy))}</small></article>
+      <article class="state-${escapeHtml(hotReload.state)}"><span>${escapeHtml(t('project.hotReload'))}</span><strong>${escapeHtml(factValue(hotReload.state))}</strong><small>${escapeHtml(factValue(hotReload.activation))}</small></article>
+      <article><span>${escapeHtml(t('project.integrationProtocol'))}</span><strong>${escapeHtml(factValue(capabilities.integration.protocol))}</strong><small>${escapeHtml(mcpVersion ? `MCP ${mcpVersion}` : capabilities.integration.artifact)}</small></article>
+      <article class="state-${escapeHtml(capabilities.manifest.status === 'valid' ? 'declared' : 'unknown')}"><span>${escapeHtml(t('project.communityAdmission'))}</span><strong>${escapeHtml(factValue(capabilities.admission.state))}</strong><small>${escapeHtml(factValue(capabilities.admission.route))}</small></article>
+    </div>
+  </section>`
+}
+
 function pushOverlayRoute(kind, value) {
   history.pushState({ workshopOverlay: true }, '', `#${kind}=${encodeURIComponent(value)}`)
 }
@@ -627,6 +663,11 @@ function packageCard(pkg) {
           <span>${escapeHtml(t('row.compatibility'))}</span>
           <strong title="${escapeHtml(copy.compatibility)}">${escapeHtml(copy.compatibility)}</strong>
         </div>
+        ${projectMarketLayer(pkg) === 'plugin' ? `<div class="package-capability-strip">
+          ${capabilityChip(t('project.seamlessInstall'), workshopCapabilities(pkg).install.seamless)}
+          ${capabilityChip(t('project.failureIsolation'), workshopCapabilities(pkg).install.failureIsolation)}
+          ${capabilityChip(t('project.hotReload'), workshopCapabilities(pkg).lifecycle.hotReload)}
+        </div>` : ''}
       </div>
         <div class="package-card-footer">
         ${informational ? `<a class="install-preview market-source-preview" href="${escapeHtml(detailUrl(pkg))}">
@@ -1369,6 +1410,7 @@ function openPackage(id, updateHash = true, requestedTab = 'overview') {
           <div><dt>${escapeHtml(t('dialog.license'))}</dt><dd>${escapeHtml(release?.license || pkg.license)}</dd></div>
           <div><dt>${escapeHtml(t('project.updated'))}</dt><dd>${escapeHtml(formatDate(release?.updatedAt || pkg.updatedAt, 'long'))}</dd></div>
         </dl>
+        ${capabilityMatrix(pkg)}
         <section class="management-boundary boundary-${escapeHtml(boundary.group)}">
           <span class="management-boundary-label">${escapeHtml(managementLabel(pkg.install.type))}</span>
           <div>

@@ -197,8 +197,32 @@ description: 当用户要求整理会话时，生成带结论、证据和后续�
 <pre><code class="language-text">github:owner/repository#&lt;40位commit&gt;&amp;path:/.dsh-plugin
 </code></pre>
 <p>该来源只用于静态审核和未来兼容跟踪。当前公共 Runtime 没有可核验的对应 Schema 与 Loader，所以入库状态会保持阻断。</p>
+<h2>声明 Workshop package manifest</h2>
+<p>新投稿必须在申报包的 <code>package.json#dshWorkshop</code> 中提供 <a href="package-manifest.schema.json">omdsh-workshop-package/v1</a>。它是作者声明，不是“已验证”标记；Workshop 会分别用当前基线生命周期、失败注入和热重载测试决定是否把能力升级为“已验证”。</p>
+<pre><code class="language-json">{
+  &quot;dshWorkshop&quot;: {
+    &quot;schema&quot;: &quot;omdsh-workshop-package/v1&quot;,
+    &quot;type&quot;: &quot;plugin&quot;,
+    &quot;integration&quot;: { &quot;protocol&quot;: &quot;harness-profile&quot;, &quot;artifact&quot;: &quot;package.json&quot; },
+    &quot;install&quot;: {
+      &quot;mode&quot;: &quot;transactional&quot;,
+      &quot;adapter&quot;: &quot;profile-bundle&quot;,
+      &quot;failurePolicy&quot;: &quot;generation-rollback&quot;,
+      &quot;touchesCurrentBeforeActivation&quot;: false
+    },
+    &quot;lifecycle&quot;: { &quot;activation&quot;: &quot;restart-profile&quot;, &quot;dispose&quot;: &quot;supported&quot; },
+    &quot;permissions&quot;: [&quot;filesystem:read&quot;],
+    &quot;evidence&quot;: {
+      &quot;install&quot;: &quot;docs/verification/install.md&quot;,
+      &quot;failureIsolation&quot;: &quot;docs/verification/failure-isolation.md&quot;,
+      &quot;hotReload&quot;: null,
+      &quot;remove&quot;: &quot;docs/verification/remove.md&quot;
+    }
+  }
+}</code></pre>
+<p><code>transactional</code> 表示候选安装、确认应用和代际恢复；<code>isolated-trial</code> 表示失败时只丢弃 candidate 或独立进程，不触碰线上 current；<code>guided</code> 只提供接入说明。<code>hot-reload</code> 必须同时声明 <code>dispose=supported</code>，但声明仍须经过 dispose、重新激活和真实能力调用测试。</p>
 <h2>编写 MCP</h2>
-<p>MCP 继续遵循 MCP 自己的协议和进程边界，DSH Hub Workshop 不发明另一套 MCP SDK。开发时至少保证：</p>
+<p>MCP 继续遵循 MCP 自己的协议和进程边界，DSH Hub Workshop 不发明另一套 MCP SDK。当前对齐协议为 <code>2026-07-28</code>；该版本按请求携带协议版本，<code>2025-11-25</code> 及更早属于 <code>initialize</code> 会话式旧协议。投稿必须复用官方 <code>server.json</code>（当前 Registry schema <code>2025-12-11</code>），npm 包的 <code>package.json#mcpName</code> 必须与 <code>server.json#name</code> 一致。</p>
 <ul>
 <li>使用可复现的启动命令，并能在标准输入输出关闭时正常退出；</li>
 <li>在 README 中列出工具、资源、环境变量和网络目标；</li>
@@ -207,7 +231,7 @@ description: 当用户要求整理会话时，生成带结论、证据和后续�
 <li>对文件系统、子进程、网络、数据库和外部 API 写操作说明风险；</li>
 <li>提供最小协议冒烟测试和失败退出测试。</li>
 </ul>
-<p>已有 MCP 统一以“第三方接入”收录。Workshop 只展示固定来源和兼容事实，不代为启动 MCP、调用第三方管理器或执行项目命令。</p>
+<p>MCP 在 Workshop 中使用独立进程隔离试装；进程失败可丢弃不等于协议兼容已通过。只有完成协议协商、能力发现、一次真实工具/资源调用、失败退出与移除测试，平台才会把相应能力标为已验证。</p>
 <h2>编写 Cordis / Web UI 扩展</h2>
 <p>运行时扩展继续使用官方 Cordis 生命周期：通过 <code>ctx</code> 获取服务，在 effect/fiber 中注册资源，并在 dispose 时解除监听、定时器和 UI 注入。插件自己的外部副作用仍由插件负责；generation 恢复只能恢复 Profile 制品和配置选择，不能撤销已经发送的消息、数据库写入或远程 API 操作。</p>
 <p>当前 Workshop 只记录 Cordis 插件的固定公开来源、生命周期说明、权限和测试事实，不生成安装命令，也不声称公共 SDK 包可用。项目若有自己可公开核验的接入方式，应在固定 commit 的 README 中说明；Workshop 仍只提供阅读引导。</p>
@@ -561,9 +585,33 @@ description: Produce a structured summary with conclusions, evidence, and next a
 <pre><code class="language-text">github:owner/repository#&lt;40-character-commit&gt;&amp;path:/.dsh-plugin
 </code></pre>
 <p>This coordinate supports static review and future compatibility tracking only. The current public Runtime exposes no verifiable matching schema and loader, so intake remains blocked.</p>
+<h2>Declare the Workshop package manifest</h2>
+<p>New submissions provide <a href="package-manifest.schema.json"><code>omdsh-workshop-package/v1</code></a> under <code>package.json#dshWorkshop</code>. This is an author declaration, not a Verified badge. Workshop promotes individual capabilities only after current-baseline lifecycle, failure-injection, and hot-reload evidence passes.</p>
+<pre><code class="language-json">{
+  &quot;dshWorkshop&quot;: {
+    &quot;schema&quot;: &quot;omdsh-workshop-package/v1&quot;,
+    &quot;type&quot;: &quot;plugin&quot;,
+    &quot;integration&quot;: { &quot;protocol&quot;: &quot;harness-profile&quot;, &quot;artifact&quot;: &quot;package.json&quot; },
+    &quot;install&quot;: {
+      &quot;mode&quot;: &quot;transactional&quot;,
+      &quot;adapter&quot;: &quot;profile-bundle&quot;,
+      &quot;failurePolicy&quot;: &quot;generation-rollback&quot;,
+      &quot;touchesCurrentBeforeActivation&quot;: false
+    },
+    &quot;lifecycle&quot;: { &quot;activation&quot;: &quot;restart-profile&quot;, &quot;dispose&quot;: &quot;supported&quot; },
+    &quot;permissions&quot;: [&quot;filesystem:read&quot;],
+    &quot;evidence&quot;: {
+      &quot;install&quot;: &quot;docs/verification/install.md&quot;,
+      &quot;failureIsolation&quot;: &quot;docs/verification/failure-isolation.md&quot;,
+      &quot;hotReload&quot;: null,
+      &quot;remove&quot;: &quot;docs/verification/remove.md&quot;
+    }
+  }
+}</code></pre>
+<p><code>transactional</code> means candidate install, confirmed activation, and generation recovery. <code>isolated-trial</code> discards only the candidate or isolated process on failure without touching current. <code>guided</code> exposes instructions only. <code>hot-reload</code> requires <code>dispose=supported</code> and still needs dispose, reactivation, and real-capability tests.</p>
 <h2>Writing an MCP server</h2>
-<p>MCP keeps its own protocol and process boundary; Workshop does not introduce another MCP SDK. Provide a reproducible command, clean stdio shutdown, documented tools/resources/environment variables/network destinations, environment-based credentials, pinned production dependencies and a supported lockfile, permission disclosures, and protocol/failure smoke tests.</p>
-<p>An existing MCP is listed as a third-party integration. Workshop shows its pinned source and compatibility facts, but does not start the MCP, invoke a third-party manager, or execute project commands.</p>
+<p>MCP keeps its own protocol and process boundary; Workshop does not introduce another MCP SDK. The current protocol baseline is <code>2026-07-28</code>, which carries the version per request; <code>2025-11-25</code> and earlier use the legacy <code>initialize</code> session. Submissions reuse the official <code>server.json</code> (current Registry schema <code>2025-12-11</code>), and npm <code>package.json#mcpName</code> must match <code>server.json#name</code>.</p>
+<p>Workshop trial-runs MCP in an isolated process. A disposable process failure is not proof of protocol compatibility. Protocol negotiation, discovery, one real tool/resource call, failure exit, and removal must pass before the corresponding facts become Verified.</p>
 <h2>Writing a Cordis / Web UI extension</h2>
 <p>Use official Cordis lifecycle behavior: obtain services from <code>ctx</code>, register resources through effects/fibers, and remove listeners, timers, and UI injection on dispose. The plugin remains responsible for external effects. Generation recovery restores Profile artifacts and configuration selection, not messages already sent, database writes, or remote API actions.</p>
 <p>Workshop currently records only the Cordis plugin&#39;s pinned public source, lifecycle guidance, permissions, and test facts. It generates no installation command and makes no claim that a public SDK package is available. If the project has its own publicly verifiable integration path, document it at the pinned commit; Workshop still exposes guidance only.</p>

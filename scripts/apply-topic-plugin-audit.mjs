@@ -2,19 +2,21 @@
 
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { capabilityProfile } from './workshop-manifest-lib.mjs'
 
 const ROOT = resolve(import.meta.dirname, '..')
 const json = (path) => readFile(resolve(ROOT, path), 'utf8').then(JSON.parse)
-const [catalog, audit, topic, marketLayers] = await Promise.all([
-  json('catalog.json'), json('topic-plugin-audit.json'), json('topic-repositories.json'), json('market-layers.json'),
+const [catalog, audit, topic, marketLayers, admissions] = await Promise.all([
+  json('catalog.json'), json('topic-plugin-audit.json'), json('topic-repositories.json'), json('market-layers.json'), json('registry-admissions.json'),
 ])
-if (catalog.schema !== 'dsh-hub-index/v0.3') throw new Error('unsupported Catalog schema')
-if (audit.schema !== 'omdsh-topic-plugin-audit/v2') throw new Error('unsupported Topic audit schema')
+if (!['dsh-hub-index/v0.3', 'dsh-hub-index/v0.4'].includes(catalog.schema)) throw new Error('unsupported Catalog schema')
+if (audit.schema !== 'omdsh-topic-plugin-audit/v3') throw new Error('unsupported Topic audit schema')
 
 const repositoryKey = (url) => new URL(url).pathname.split('/').filter(Boolean).slice(0, 2).join('/').toLocaleLowerCase('en-US')
 const safeSlug = (value) => String(value).toLocaleLowerCase('en-US').replace(/[^a-z0-9._/-]+/g, '-').replace(/^-+|-+$/g, '')
 const topicByRepository = new Map(topic.repositories.map((entry) => [`${entry.owner}/${entry.name}`.toLocaleLowerCase('en-US'), entry]))
 const auditByRepository = new Map(audit.repositories.map((entry) => [`${entry.owner}/${entry.name}`.toLocaleLowerCase('en-US'), entry]))
+const blockedById = new Map(admissions.blocked.map((entry) => [entry.id, entry]))
 
 function entryText(entry) {
   const snapshot = topicByRepository.get(`${entry.owner}/${entry.name}`.toLocaleLowerCase('en-US'))
@@ -52,9 +54,39 @@ function discoveryFacts(snapshot, qualification) {
   }
 }
 
+function legacyProtocol(classification) {
+  const signals = `${classification?.reasonCode || ''} ${(classification?.evidence?.strongSignals || []).join(' ')}`
+  if (/repository|\.dsh-plugin/i.test(signals)) return 'harness-repository'
+  if (/bundle patch|profile/i.test(signals)) return 'harness-profile'
+  if (/\bmcp\b/i.test(signals)) return 'mcp'
+  if (/skill/i.test(signals)) return 'skill'
+  if (/cordis|harness integration/i.test(signals)) return 'harness-cordis'
+  return 'third-party'
+}
+
+function workshopFacts(classification, project = null) {
+  const manifestProfile = classification?.evidence?.packageManifest?.profile
+  if (classification?.evidence?.packageManifest?.status === 'valid' && manifestProfile) return structuredClone(manifestProfile)
+  const source = classification?.evidence?.strongSignals?.[0] || 'curated-fixed-source'
+  const profile = capabilityProfile({ manifestSource: source, integrationProtocol: legacyProtocol(classification) })
+  const blockedMode = blockedById.get(project?.id)?.mode
+  if (blockedMode === 'profile-bundle') profile.install.mode = 'transactional-candidate'
+  if (blockedMode === 'repository-plugin') profile.install.mode = 'configuration-candidate'
+  return profile
+}
+
 const reviewedEntries = catalog.packages.filter((entry) => entry.status !== 'discovery' && entry.id !== 'dsh-tool-browser')
-const retainedDiscoveryEntries = catalog.packages.filter((entry) => entry.status === 'discovery'
-  && auditByRepository.get(repositoryKey(entry.repository))?.decision === 'include')
+  .map((entry) => {
+    const classification = auditByRepository.get(repositoryKey(entry.repository))
+    return { ...entry, workshop: workshopFacts(classification, entry) }
+  })
+const retainedDiscoveryEntries = catalog.packages.filter((entry) => {
+  if (entry.status !== 'discovery') return false
+  const classification = auditByRepository.get(repositoryKey(entry.repository))
+  return classification?.decision === 'include'
+    && classification.qualification === 'verified'
+    && (classification.evidence?.strongSignals || []).length > 0
+})
   .map((entry) => {
     const key = repositoryKey(entry.repository)
     const classification = auditByRepository.get(key)
@@ -64,20 +96,22 @@ const retainedDiscoveryEntries = catalog.packages.filter((entry) => entry.status
       description: snapshot?.description || entry.description,
       ref: classification.defaultBranch,
       updatedAt: snapshot?.commitUpdatedAt || entry.updatedAt,
-      compatibility: classification.qualification === 'verified'
-        ? '已识别可核验的 DSH 插件契约；尚未经过当前官方基线安装验证。'
-        : '作者明确声明为 DSH 插件；来源与协议仍处于待审核状态。',
+      compatibility: '已识别文件级 DSH 插件制品证据；尚未经过当前官方基线安装验证。',
       install: {
         type: 'manual', label: '查看公开来源', source: entry.repository, command: entry.repository,
         note: '展示与待审核状态不授予安装权限。请先核验固定版本、许可、权限、供应链与当前官方基线。',
       },
       discovery: discoveryFacts(snapshot, classification.reasonCode),
+      workshop: workshopFacts(classification, entry),
     }
   })
 
 const representedRepositories = new Set([...retainedDiscoveryEntries, ...reviewedEntries].map((entry) => repositoryKey(entry.repository)))
 const generatedEntries = audit.repositories
-  .filter((entry) => entry.decision === 'include' && !representedRepositories.has(`${entry.owner}/${entry.name}`.toLocaleLowerCase('en-US')))
+  .filter((entry) => entry.decision === 'include'
+    && entry.qualification === 'verified'
+    && (entry.evidence?.strongSignals || []).length > 0
+    && !representedRepositories.has(`${entry.owner}/${entry.name}`.toLocaleLowerCase('en-US')))
   .map((entry) => {
     const key = `${entry.owner}/${entry.name}`.toLocaleLowerCase('en-US')
     const snapshot = topicByRepository.get(key)
@@ -95,15 +129,14 @@ const generatedEntries = audit.repositories
       updatedAt: snapshot?.commitUpdatedAt || audit.sourceSnapshotGeneratedAt,
       license: '未声明',
       status: 'discovery',
-      compatibility: entry.qualification === 'verified'
-        ? '已识别可核验的 DSH 插件契约；尚未经过当前官方基线安装验证。'
-        : '作者明确声明为 DSH 插件；来源与协议仍处于待审核状态。',
+      compatibility: '已识别文件级 DSH 插件制品证据；尚未经过当前官方基线安装验证。',
       install: {
         type: 'manual', label: '查看公开来源', source: entry.url, command: entry.url,
         note: '展示与待审核状态不授予安装权限。请先核验固定版本、许可、权限、供应链与当前官方基线。',
       },
       featured: false,
       discovery: discoveryFacts(snapshot, entry.reasonCode),
+      workshop: workshopFacts(entry),
     }
   })
 
@@ -119,10 +152,11 @@ const installMethods = Object.fromEntries([...new Set(packages.map((entry) => en
 
 const catalogOutput = {
   ...catalog,
+  schema: 'dsh-hub-index/v0.4',
   updated: audit.sourceSnapshotGeneratedAt,
   policy: {
-    discovery: 'Explicit DSH plugin works are displayed; verified versus pending-review reflects evidence depth, not installation authority.',
-    exclusions: 'Core products, Awesome/documentation, templates/placeholders, and Topic-only traffic matches without a DSH work claim are excluded. Genuine ecosystem infrastructure and distributions are displayed separately.',
+    discovery: 'Topic is discovery-only. Plugin Catalog entries require a valid package.json#dshWorkshop manifest or preserved legacy file-level artifacts. Legacy entries are compatibility-mapped and still need the manifest plus current-baseline tests.',
+    exclusions: 'Name, description, README claims, unavailable scans, unexpanded collections, Topic-only traffic, core products, Awesome/documentation, and templates remain outside the plugin Catalog. Genuine ecosystem infrastructure and distributions are displayed separately.',
     archive: 'Archived genuine works remain visible with their archived source fact.',
     authority: 'Catalog visibility and review state never grant Registry installation authority.',
   },
@@ -131,7 +165,7 @@ const catalogOutput = {
     repositories: catalogRepositories.size,
     observedTopicRepositories: audit.stats.repositories,
     qualifiedRepositories: audit.stats.decisions.include || 0,
-    pendingRepositories: audit.stats.pluginQualifications['pending-review'] || 0,
+    pendingRepositories: audit.stats.decisions.review || 0,
     marketRepositories: audit.stats.decisions.market || 0,
     excludedRepositories: audit.stats.decisions.exclude || 0,
     reviewed: reviewedEntries.length,

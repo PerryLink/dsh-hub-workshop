@@ -12,11 +12,12 @@ body:
     id: submission_manifest
     attributes:
       label: Author Studio manifest
-      description: 请粘贴完整的 omdsh-workshop-submission/v1 JSON；不要包含 Token、密钥、个人路径或私有配置。
+      description: 请粘贴完整的 omdsh-workshop-submission/v2 JSON；packageManifest 必须与固定 commit 中的 package.json#dshWorkshop 一致。不要包含 Token、密钥、个人路径或私有配置。
       placeholder: |
         {
-          "schema": "omdsh-workshop-submission/v1",
-          "operation": "create-project"
+          "schema": "omdsh-workshop-submission/v2",
+          "operation": "create-project",
+          "packageManifest": { "schema": "omdsh-workshop-package/v1", "type": "plugin" }
         }
       render: json
     validations:

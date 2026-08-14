@@ -1492,6 +1492,16 @@ button { border-radius: 10px; }
 .dialog-facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 36px; margin: 36px 0 0; padding-top: 24px; border-top: 1px solid var(--line); }
 .dialog-facts dt { color: var(--faint); font-size: 10px; }
 .dialog-facts dd { margin: 3px 0 0; font-size: 12px; overflow-wrap: anywhere; }
+.project-capability-matrix { margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--line); }
+.project-capability-heading h3 { margin: 0; font-size: 14px; }
+.project-capability-heading p { max-width: 64ch; margin: 6px 0 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
+.project-capability-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 7px; margin-top: 14px; }
+.project-capability-grid article { display: grid; min-width: 0; min-height: 102px; align-content: start; gap: 6px; padding: 13px; background: var(--surface-soft); border: 1px solid var(--line); border-radius: 9px; }
+.project-capability-grid article > span { color: var(--faint); font-size: 9px; }
+.project-capability-grid article > strong { font-size: 11px; }
+.project-capability-grid article > small { color: var(--muted); font-size: 8px; line-height: 1.45; overflow-wrap: anywhere; }
+.project-capability-grid .state-verified { border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); background: var(--accent-soft); }
+.project-capability-grid .state-declared { border-color: color-mix(in srgb, var(--warning) 40%, var(--line)); }
 .management-boundary {
   display: grid;
   grid-template-columns: 132px minmax(0, 1fr);
@@ -1651,6 +1661,7 @@ button { border-radius: 10px; }
   .run-record { grid-template-columns: 1fr; }
   .run-record-proof { justify-items: start; }
   .ecosystem-insight-grid { grid-template-columns: 1fr; }
+  .project-capability-grid { grid-template-columns: 1fr; }
   .relations-empty { grid-template-columns: 1fr; }
   .featured { width: calc(100% - 36px); padding-bottom: 70px; }
   .featured-heading { display: block; }
@@ -2863,6 +2874,27 @@ button { border-radius: 10px; }
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.package-capability-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 9px;
+}
+.capability-chip {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  padding: 4px 7px;
+  color: var(--muted);
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 8px;
+}
+.capability-chip small { font-size: inherit; }
+.capability-chip strong { color: var(--ink); font-size: inherit; }
+.capability-chip.state-verified { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 38%, var(--line)); }
+.capability-chip.state-declared { border-color: color-mix(in srgb, var(--warning) 42%, var(--line)); }
 
 .package-byline {
   min-width: 0;

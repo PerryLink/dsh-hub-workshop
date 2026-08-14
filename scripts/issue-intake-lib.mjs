@@ -1,7 +1,9 @@
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { isDeepStrictEqual } from 'node:util'
 
 import { createIntakeRecord, validateSubmission } from './intake-lib.mjs'
+import { validateOfficialMcpManifest } from './workshop-manifest-lib.mjs'
 
 const MAX_ISSUE_BODY_BYTES = 128 * 1024
 const SUBMISSION_FENCE_RE = /```(?:json)?\s*([\s\S]*?)```/gi
@@ -27,6 +29,17 @@ function encodedPath(value) {
   return String(value).split('/').filter(Boolean).map(encodeURIComponent).join('/')
 }
 
+function joinedRepositoryPath(root, child) {
+  return `/${[String(root || '').replace(/^\/+|\/+$/g, ''), String(child || '').replace(/^\/+/, '')].filter(Boolean).join('/')}`
+}
+
+function decodedGithubFile(value, name) {
+  if (value?.type !== 'file' || value.encoding !== 'base64' || typeof value.content !== 'string') {
+    throw new Error(`${name} is not a readable file at the fixed commit`)
+  }
+  return Buffer.from(value.content.replace(/\s/g, ''), 'base64').toString('utf8')
+}
+
 export function extractSubmissionManifest(body) {
   if (typeof body !== 'string' || body.length === 0) throw new Error('submission Issue body is empty')
   if (Buffer.byteLength(body, 'utf8') > MAX_ISSUE_BODY_BYTES) throw new Error('submission Issue body exceeds 128 KiB')
@@ -37,9 +50,9 @@ export function extractSubmissionManifest(body) {
     } catch {
       continue
     }
-    if (candidate?.schema === 'omdsh-workshop-submission/v1') return candidate
+    if (['omdsh-workshop-submission/v1', 'omdsh-workshop-submission/v2'].includes(candidate?.schema)) return candidate
   }
-  throw new Error('Issue does not contain an omdsh-workshop-submission/v1 JSON code block')
+  throw new Error('Issue does not contain an omdsh-workshop-submission/v1 or v2 JSON code block')
 }
 
 export async function verifyPublicSubmissionSource(manifest, { fetchImpl = fetch, token = '' } = {}) {
@@ -69,12 +82,45 @@ export async function verifyPublicSubmissionSource(manifest, { fetchImpl = fetch
     if (!source) throw new Error('Repository Plugin source path is invalid')
     paths.add(`/${source[1]}`)
   }
+  const fileFacts = new Map()
+  if (manifest.schema === 'omdsh-workshop-submission/v2') {
+    const packageJsonPath = joinedRepositoryPath(manifest.project.path, 'package.json')
+    paths.add(packageJsonPath)
+    paths.add(joinedRepositoryPath(manifest.project.path, manifest.packageManifest.integration.artifact))
+    for (const path of Object.values(manifest.packageManifest.evidence)) {
+      if (path) paths.add(joinedRepositoryPath(manifest.project.path, path))
+    }
+  }
   for (const path of paths) {
-    await githubJson(`${apiBase}/contents/${encodedPath(path)}?ref=${manifest.release.ref}`, {
+    const value = await githubJson(`${apiBase}/contents/${encodedPath(path)}?ref=${manifest.release.ref}`, {
       fetchImpl,
       token,
       description: `fixed source path ${path}`,
     })
+    fileFacts.set(path, value)
+  }
+  if (manifest.schema === 'omdsh-workshop-submission/v2') {
+    const packageJsonPath = joinedRepositoryPath(manifest.project.path, 'package.json')
+    let packageJson
+    try {
+      packageJson = JSON.parse(decodedGithubFile(fileFacts.get(packageJsonPath), 'package.json'))
+    } catch (error) {
+      throw new Error(`fixed package.json is invalid: ${error.message}`)
+    }
+    if (!isDeepStrictEqual(packageJson.dshWorkshop, manifest.packageManifest)) {
+      throw new Error('submission packageManifest does not match fixed package.json#dshWorkshop')
+    }
+    if (manifest.packageManifest.integration.protocol === 'mcp') {
+      const serverPath = joinedRepositoryPath(manifest.project.path, manifest.packageManifest.integration.mcp.serverManifest)
+      let serverManifest
+      try {
+        serverManifest = JSON.parse(decodedGithubFile(fileFacts.get(serverPath), 'MCP server.json'))
+      } catch (error) {
+        throw new Error(`fixed MCP server.json is invalid: ${error.message}`)
+      }
+      const errors = validateOfficialMcpManifest({ packageJson, serverManifest, declaration: manifest.packageManifest })
+      if (errors.length) throw new Error(errors.join('\n'))
+    }
   }
 
   return {

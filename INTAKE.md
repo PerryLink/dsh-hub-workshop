@@ -1,6 +1,8 @@
 # Workshop plugin intake and verification
 
-The intake system records four independent dimensions: **integration mode, review state, verification state, and Registry admission**. Catalog inclusion, a Topic match, or historical preview evidence never grants installation authority.
+The intake system records five independent dimensions: **integration mode, install/isolation capability, lifecycle capability, review and verification state, and Registry admission**. Catalog inclusion, a Topic match, or historical preview evidence never grants installation authority.
+
+New submissions bind to `package.json#dshWorkshop` (`omdsh-workshop-package/v1`) at the pinned commit. Legacy `dsh.bundle`, `.dsh-plugin`, Skill, and MCP artifacts remain compatibility-mapped, with seamless install, failure isolation, and hot reload kept unknown until authors adopt the manifest and tests pass.
 
 This intake applies only to the leaf-plugin layer. Ecosystem infrastructure and community distributions use the curated `market-layers.json` projection, remain outside plugin verification inventory, and are always ineligible for Registry admission through market listing alone.
 
@@ -12,7 +14,7 @@ The current official public baseline is `@deepseek-ai/dsh@0.1.0-rc.6`. It is an 
 |---|---|---|---|---|
 | Transactional | `profile-bundle` / `harness-profile` | Public RC.6 exposes the Profile/Bundle lifecycle | pinned source, supply chain, install, ready, functional, update, disable, remove, recovery | eligible only after review and current-baseline evidence |
 | Configuration candidate | `repository-plugin` / `harness-repository` | its package, schema, and loader are not present in the current public RC.6 contract | preserve static evidence; rerun the full lifecycle when a public contract can be verified | blocked today |
-| Guided | `guided` / `harness-cordis` or `third-party` | pinned public source and guidance only | source, license, permissions, and supply-chain declarations; no submitted code execution | never eligible |
+| Guided | `guided` / `harness-cordis`, `mcp`, `skill`, or `third-party` | pinned public source and guidance; MCP may receive an independent isolated protocol test | source, license, permissions, supply-chain, and optional isolated protocol evidence | never directly eligible |
 
 `pending-review` is a review state, not a fourth installation mode.
 
@@ -33,6 +35,18 @@ pinned public commit submission
 ```
 
 Topic and keyword matches only create discovery candidates. A repository with no installable root package must be inspected at its real subpackage path; a manager, SDK, host, directory, template, or plugin collection is not admitted as one plugin. Static resemblance is not enough: a runtime pass must identify the exact tool, command, service, UI contribution, event, or provider, invoke it, and record expected versus observed behavior. A process that merely starts and exits successfully counts only as a smoke test.
+
+## Five capability gates
+
+| Platform fact | Minimum evidence for Verified |
+|---|---|
+| Seamless install | candidate install, ready, real capability, update, disable, remove, and generation recovery all pass with pinned source and install scripts disabled |
+| Disposable failure | injected install and startup failures discard only the candidate or isolated MCP process and leave current unchanged before activation |
+| Hot reload / restart | execute the declared activation; hot reload observes dispose, resource cleanup, reactivation, and one real capability invocation |
+| Integration protocol | the Profile, Repository, Cordis, MCP, Skill, or third-party artifact matches its declaration; MCP uses official `server.json` and protocol `2026-07-28` |
+| Community admission | the v2 submission exactly matches fixed `package.json#dshWorkshop`, then passes static, permissions, supply-chain, and human review |
+
+Author declarations display only as Declared. Missing evidence paths, absent evidence files, environment mismatches, or non-reproducible results cannot become Verified. A disposable MCP process proves isolation only; it never grants DSH Profile or Registry installation authority.
 
 Records use `intake.schema.json`, runtime evidence uses `intake-evidence.schema.json`, the public queue is `intake-queue.json`, and `official-baseline.json` records current upstream facts. CI validates all four fail-closed.
 

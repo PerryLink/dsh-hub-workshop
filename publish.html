@@ -144,7 +144,8 @@
                 <div class="capability-grid">
                   <label class="check-row"><input name="requiresFabric" type="checkbox"><span><strong data-i18n="publish.requiresFabric">社区 Fabric 适配</strong><small data-i18n="publish.requiresFabricHelp">Workshop 只按第三方接入记录 Fabric 兼容事实，不参与安装。</small></span></label>
                   <label class="check-row"><input name="deepHook" type="checkbox"><span><strong data-i18n="publish.deepHook">使用深层 Hook</strong><small data-i18n="publish.deepHookHelp">会自动同时声明需要 Fabric。</small></span></label>
-                  <label class="check-row"><input name="restartRequired" type="checkbox"><span><strong data-i18n="publish.restartRequired">需要重启</strong><small data-i18n="publish.restartRequiredHelp">不能只依赖 Cordis 热重载完成应用。</small></span></label>
+                  <label><span data-i18n="publish.activation">启用与重启方式</span><select name="activation"><option value="immediate" data-i18n="publish.activation.immediate">立即生效</option><option value="hot-reload" data-i18n="publish.activation.hotReload">热重载（需 dispose）</option><option value="restart-plugin" data-i18n="publish.activation.restartPlugin">重启插件</option><option value="restart-profile" data-i18n="publish.activation.restartProfile">重启 Profile</option><option value="restart-host" data-i18n="publish.activation.restartHost">重启宿主</option></select><small data-i18n="publish.activationHelp">这是作者声明；只有完成相应生命周期测试才会显示为已验证。</small></label>
+                  <label><span data-i18n="publish.dispose">退出钩子</span><select name="dispose"><option value="unknown" data-i18n="factValue.unknown">未知</option><option value="supported" data-i18n="publish.dispose.supported">支持 dispose</option><option value="unsupported" data-i18n="publish.dispose.unsupported">不支持</option></select></label>
                 </div>
               </div>
             </details>
@@ -157,7 +158,8 @@
             <div class="form-section-body">
               <div class="form-grid">
                 <label class="form-wide method-field"><span data-i18n="publish.method">接入形态</span><select name="method" required><option value="" disabled selected data-i18n="publish.methodPlaceholder">请选择真实接入方式</option><option value="profile-bundle" data-i18n="publish.method.profileBundle">事务安装 · Profile Bundle</option><option value="repository-plugin" data-i18n="publish.method.repositoryPlugin">配置接入候选 · 当前阻断</option><option value="guided" data-i18n="publish.method.guided">引导接入 · 仅目录与说明</option></select><small data-i18n="publish.methodHelp">三种接入类型与审核状态分开记录；待审核不是安装方式。</small></label>
-                <label id="guided-protocol-field" hidden><span data-i18n="publish.guidedProtocol">引导协议</span><select name="guidedProtocol"><option value="harness-cordis" data-i18n="publish.guidedProtocol.cordis">Cordis 生命周期</option><option value="third-party" data-i18n="publish.guidedProtocol.thirdParty">第三方公开说明</option></select></label>
+                <label id="guided-protocol-field" hidden><span data-i18n="publish.guidedProtocol">引导协议</span><select name="guidedProtocol"><option value="harness-cordis" data-i18n="publish.guidedProtocol.cordis">Cordis 生命周期</option><option value="mcp" data-i18n="publish.guidedProtocol.mcp">MCP 官方 server.json</option><option value="skill" data-i18n="publish.guidedProtocol.skill">Skill</option><option value="third-party" data-i18n="publish.guidedProtocol.thirdParty">第三方公开说明</option></select></label>
+                <label><span data-i18n="publish.integrationArtifact">接入制品路径</span><input name="integrationArtifact" required placeholder="package.json / server.json / SKILL.md"><small data-i18n="publish.integrationArtifactHelp">必须位于本次固定 commit 内；MCP 必须填写官方 server.json。</small></label>
               </div>
               <p class="form-wide management-summary" data-i18n="publish.baselineNotice">当前官方公开基线为 0.1.0-rc.6（RC，非稳定 GA）；Repository Plugin 公开官方包暂不可用，因此配置安装投稿会自动阻断。</p>
               <p id="management-summary" class="management-summary" aria-live="polite"></p>
@@ -170,6 +172,7 @@
               <div class="permission-grid">
                 <label><span data-i18n="publish.permissions">权限说明</span><textarea name="permissions" required rows="3" placeholder="无额外权限；或说明文件、网络、Shell、凭据访问" data-i18n-placeholder="publish.permissionsPlaceholder"></textarea><small data-i18n="publish.permissionsHelp">没有额外权限也请明确填写“无”。</small></label>
                 <label><span data-i18n="publish.testing">测试与已知限制</span><textarea name="testing" required rows="3" placeholder="已运行的测试；未覆盖的环境或已知限制" data-i18n-placeholder="publish.testingPlaceholder"></textarea><small data-i18n="publish.testingHelp">只写实际验证过的内容，不需要包装。</small></label>
+                <label><span data-i18n="publish.permissionScopes">结构化权限</span><input name="permissionScopes" placeholder="filesystem:read, network:outbound"><small data-i18n="publish.permissionScopesHelp">英文逗号分隔；没有额外权限可留空，文字说明仍须填写。</small></label>
               </div>
             </div>
             <details id="management-details" class="form-disclosure">
@@ -178,6 +181,10 @@
                 <label><span data-i18n="publish.installLabel">展示文案</span><input name="installLabel" required placeholder="在 Harness 中订阅"></label>
                 <label id="source-field" hidden><span data-i18n="publish.source">固定 Repository Plugin source</span><input name="source" placeholder="github:owner/repository#40-char-commit&path:/package/.dsh-plugin"></label>
                 <label class="form-wide"><span data-i18n="publish.instructions">接入边界与说明</span><textarea name="instructions" required rows="3"></textarea></label>
+                <label><span data-i18n="publish.evidenceInstall">安装证据路径</span><input name="evidenceInstall" placeholder="docs/verification/install.md"></label>
+                <label><span data-i18n="publish.evidenceIsolation">失败隔离证据路径</span><input name="evidenceIsolation" placeholder="docs/verification/failure-isolation.md"></label>
+                <label><span data-i18n="publish.evidenceHotReload">热重载证据路径</span><input name="evidenceHotReload" placeholder="docs/verification/hot-reload.md"></label>
+                <label><span data-i18n="publish.evidenceRemove">卸载证据路径</span><input name="evidenceRemove" placeholder="docs/verification/remove.md"></label>
                 <label class="form-wide check-row compact-check"><input name="trustedPublisherRequested" type="checkbox"><span><strong data-i18n="publish.trustedPublisher">申请可信发布者</strong><small data-i18n="publish.trustedPublisherHelp">这是独立的人工审核，不影响普通项目提交。</small></span></label>
               </div>
             </details>

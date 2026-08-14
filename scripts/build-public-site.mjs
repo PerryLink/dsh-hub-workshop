@@ -43,6 +43,7 @@ const FILES = [
   'market-layers.json',
   'market-layers.schema.json',
   'official-baseline.json',
+  'package-manifest.schema.json',
   'plugins.html',
   'projects.html',
   'publish.html',

@@ -35,6 +35,15 @@
         "Pinned public source",
         "No executable install intent"
       ]
+    },
+    "mcp": {
+      "status": "available-as-independent-protocol",
+      "currentProtocolVersion": "2026-07-28",
+      "lastLegacyInitializeVersion": "2025-11-25",
+      "registryManifest": "server.json",
+      "registrySchema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+      "npmOwnershipBinding": "package.json#mcpName must match server.json#name",
+      "note": "Workshop reuses the official MCP server.json contract. MCP protocol compatibility and DSH lifecycle verification remain separate facts."
     }
   }
 }

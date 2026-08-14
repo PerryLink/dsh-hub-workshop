@@ -37,7 +37,7 @@ const [catalog, registry, recipes, ecosystem, workshop, runRecords, admissions, 
   json('market-layers.json'),
 ])
 
-if (catalog.schema !== 'dsh-hub-index/v0.3') throw new Error('catalog schema mismatch')
+if (catalog.schema !== 'dsh-hub-index/v0.4') throw new Error('catalog schema mismatch')
 if (registry.schema !== 'omdsh-registry/v1') throw new Error('Registry schema mismatch')
 if (recipes.schema !== 'omdsh-workshop-recipes/v1') throw new Error('Recipes schema mismatch')
 if (ecosystem.schema !== 'omdsh-agent-ecosystem/v1') throw new Error('Ecosystem schema mismatch')
@@ -60,7 +60,9 @@ if (baseline.schema !== 'omdsh-official-baseline/v1'
   || baseline.runtime.version !== '0.1.0-rc.6'
   || baseline.runtime.releaseChannel !== 'release-candidate'
   || baseline.runtime.ga !== false
-  || baseline.contracts.repositoryPlugin.status !== 'unavailable') {
+  || baseline.contracts.repositoryPlugin.status !== 'unavailable'
+  || baseline.contracts.mcp.currentProtocolVersion !== '2026-07-28'
+  || baseline.contracts.mcp.registrySchema !== 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json') {
   throw new Error('official baseline must reflect the public RC contract without claiming unavailable Repository Plugin support')
 }
 if (intake.schema !== 'omdsh-workshop-intake-queue/v1'
@@ -75,30 +77,35 @@ if (inventory.schema !== 'omdsh-workshop-verification-inventory/v1'
   || inventory.summary?.registry?.admitted !== undefined
   || inventory.summary?.management?.transactional !== 2
   || inventory.summary?.management?.managed !== 9
-  || inventory.summary?.management?.guided !== catalog.packages.length - 11) {
+  || inventory.summary?.management?.guided !== catalog.packages.length - 11
+  || inventory.projects.some((project) => !project.capabilities?.manifest || !project.capabilities?.install?.seamless || !project.capabilities?.install?.failureIsolation || !project.capabilities?.lifecycle?.hotReload || !project.capabilities?.integration || !project.capabilities?.admission)) {
   throw new Error('verification inventory must cover every Catalog project without claiming current-baseline verification or Registry admission')
 }
-if (topicAudit.schema !== 'omdsh-topic-plugin-audit/v2'
+if (topicAudit.schema !== 'omdsh-topic-plugin-audit/v3'
   || topicAudit.stats?.repositories !== topicRepositories.observedRepositoryCount
   || topicAudit.repositories.length !== topicRepositories.observedRepositoryCount
   || Object.values(topicAudit.stats?.decisions || {}).reduce((total, count) => total + count, 0) !== topicAudit.stats.repositories) {
   throw new Error('Topic plugin audit must classify every observed repository exactly once')
 }
 const qualifiedRepositories = new Set(topicAudit.repositories
-  .filter((entry) => entry.decision === 'include')
+  .filter((entry) => entry.decision === 'include'
+    && entry.qualification === 'verified'
+    && (entry.evidence?.strongSignals || []).length > 0)
   .map((entry) => `${entry.owner}/${entry.name}`.toLocaleLowerCase('en-US')))
 const catalogRepositories = new Set(catalog.packages.map((entry) => new URL(entry.repository).pathname.split('/').filter(Boolean).slice(0, 2).join('/').toLocaleLowerCase('en-US')))
 if (catalog.packages.length !== catalog.stats?.packages
   || catalog.stats?.repositories !== catalogRepositories.size
   || catalog.stats?.observedTopicRepositories !== topicRepositories.observedRepositoryCount
   || catalog.stats?.qualifiedRepositories !== topicAudit.stats.decisions.include
-  || catalog.stats?.pendingRepositories !== topicAudit.stats.pluginQualifications['pending-review']
+  || catalog.stats?.pendingRepositories !== (topicAudit.stats.decisions.review || 0)
   || catalog.stats?.marketRepositories !== topicAudit.stats.decisions.market
   || catalog.stats?.excludedRepositories !== topicAudit.stats.decisions.exclude
   || catalog.stats?.reviewed !== 11
   || new Set(catalog.packages.map((entry) => entry.id)).size !== catalog.packages.length
   || catalogRepositories.size !== qualifiedRepositories.size
-  || [...catalogRepositories].some((repository) => !qualifiedRepositories.has(repository))) {
+  || [...catalogRepositories].some((repository) => !qualifiedRepositories.has(repository))
+  || catalog.packages.some((entry) => entry.status === 'discovery'
+    && !/^verified-/.test(entry.discovery?.qualification || ''))) {
   throw new Error('public catalog must contain only qualified plugin entries and eleven reviewed candidates')
 }
 const [pluginApi, pluginTypes, marketApi] = await Promise.all([json('api/v1/plugins.json'), json('api/v1/plugin-types.json'), json('api/v1/market.json')])
@@ -106,6 +113,7 @@ if (pluginApi.schema !== 'omdsh-ai-plugins/v1'
   || pluginApi.count !== catalog.packages.length
   || pluginApi.projects.length !== catalog.packages.length
   || pluginApi.projects.some((project) => project.registry?.state !== 'ineligible')
+  || pluginApi.projects.some((project) => !project.capabilities?.install?.seamless)
   || pluginTypes.schema !== 'omdsh-ai-plugin-types/v1'
   || pluginTypes.totals?.catalogProjects !== catalog.packages.length
   || pluginTypes.management.find((entry) => entry.id === 'transactional')?.count !== 2
@@ -167,7 +175,7 @@ if (topicRepositories.schema !== 'dsh-topic-discovery/v1'
 }
 
 const builtFiles = await files(BUILD)
-if (builtFiles.length !== 52) throw new Error(`public build must contain exactly 52 files, received ${builtFiles.length}`)
+if (builtFiles.length !== 53) throw new Error(`public build must contain exactly 53 files, received ${builtFiles.length}`)
 for (const repository of repositories.repositories) {
   if (!/^https:\/\/github[.]com\/omdsh-dev\/[A-Za-z0-9._-]+$/.test(repository.url)) {
     throw new Error(`unapproved public repository URL: ${repository.url}`)
@@ -220,7 +228,7 @@ for (const required of ['discover-stage', 'featured-tabs', 'market-layer-options
 if (!home.includes('class="github-star"') || !home.includes('https://github.com/omdsh-dev/dsh-hub-workshop')) {
   throw new Error('the primary navigation must expose the public Workshop GitHub Star link')
 }
-if (!app.includes('featured.empty.recoverable') || !app.includes('visiblePackages')) {
+if (!app.includes('featured.empty.recoverable') || !app.includes('visiblePackages') || !app.includes('project-capability-matrix')) {
   throw new Error('restored Workshop interactions must preserve empty recoverable state and catalog pagination')
 }
 if (!home.includes('data-featured-mode="stars"')
@@ -239,7 +247,8 @@ if (!publish.includes('copy-agent-submission-prompt')
   throw new Error('Author Studio and developer guide must expose Agent submission instructions')
 }
 for (const prompt of [agentPromptZh, agentPromptEn]) {
-  if (!prompt.includes('omdsh-workshop-submission/v1')
+  if (!prompt.includes('omdsh-workshop-submission/v2')
+    || !prompt.includes('package.json#dshWorkshop')
     || !prompt.includes('omdsh-dev/dsh-hub-workshop')
     || !prompt.includes('scripts/intake.mjs validate')
     || !prompt.includes('pending-review')
@@ -251,7 +260,7 @@ for (const [name, source, minimumLines, required] of [
   ['configurations', configurations, 150, 'configuration-task-finder'],
   ['developer guide', developers, 700, 'ai-integration-prompt'],
   ['publish', publish, 250, 'manifest-form'],
-  ['contributing', contributing, 330, 'omdsh-workshop-submission/v1'],
+  ['contributing', contributing, 330, 'omdsh-workshop-submission/v2'],
 ]) {
   if (source.split('\n').length < minimumLines || !source.includes(required)) {
     throw new Error(`${name} page regressed to an incomplete public placeholder`)

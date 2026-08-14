@@ -1,6 +1,6 @@
 {
   "schema": "omdsh-public-discovery/v1",
-  "generatedAt": "2026-08-14T04:12:18.809Z",
+  "generatedAt": "2026-08-14T05:42:30.547Z",
   "policy": {
     "visibility": "Public repository visibility supports discovery only.",
     "authority": "A repository appears in the install Registry only after Workshop review and immutable source admission.",
@@ -332,8 +332,17 @@
   "topic": {
     "name": "dsh-plugin",
     "source": "https://github.com/topics/dsh-plugin",
-    "observedRepositoryCount": 946,
-    "observedPages": 10,
-    "status": "discovery-only"
+    "observedRepositoryCount": 1118,
+    "observedPages": 13,
+    "status": "discovery-only",
+    "collection": {
+      "method": "anonymous-partitioned-github-search",
+      "partitions": [
+        "topic:dsh-plugin created:<2026-08-13",
+        "topic:dsh-plugin created:2026-08-13",
+        "topic:dsh-plugin created:>=2026-08-14"
+      ],
+      "searchCapHandled": true
+    }
   }
 }

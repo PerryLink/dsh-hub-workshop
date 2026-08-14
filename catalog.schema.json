@@ -7,7 +7,7 @@
   "additionalProperties": false,
   "properties": {
     "$schema": { "type": "string" },
-    "schema": { "const": "dsh-hub-catalog/v0.2" },
+    "schema": { "const": "dsh-hub-index/v0.4" },
     "updatedAt": { "type": "string", "format": "date-time" },
     "packages": {
       "type": "array",
@@ -29,7 +29,8 @@
         "updatedAt",
         "license",
         "status",
-        "install"
+        "install",
+        "workshop"
       ],
       "additionalProperties": false,
       "properties": {
@@ -76,6 +77,7 @@
         "media": { "$ref": "#/$defs/media" },
         "lifecycle": { "$ref": "#/$defs/lifecycle" },
         "registry": { "$ref": "#/$defs/registry" },
+        "workshop": { "$ref": "#/$defs/workshop" },
         "install": {
           "type": "object",
           "required": ["type", "label", "command"],
@@ -213,6 +215,87 @@
             "spec": { "type": "string", "minLength": 1 }
           }
         }
+      }
+    },
+    "workshop": {
+      "type": "object",
+      "required": ["manifest", "install", "lifecycle", "integration", "admission"],
+      "additionalProperties": false,
+      "properties": {
+        "manifest": {
+          "type": "object",
+          "required": ["status", "source", "schema"],
+          "additionalProperties": false,
+          "properties": {
+            "status": { "enum": ["valid", "legacy-evidence"] },
+            "source": { "type": "string", "minLength": 1 },
+            "schema": { "type": ["string", "null"] }
+          }
+        },
+        "install": {
+          "type": "object",
+          "required": ["mode", "seamless", "failureIsolation"],
+          "additionalProperties": false,
+          "properties": {
+            "mode": { "enum": ["transactional", "isolated-trial", "guided", "transactional-candidate", "configuration-candidate"] },
+            "adapter": { "enum": ["profile-bundle", "repository-plugin", "mcp-server", "skill", "third-party"] },
+            "seamless": { "$ref": "#/$defs/capabilityFact" },
+            "failureIsolation": {
+              "allOf": [
+                { "$ref": "#/$defs/capabilityFact" },
+                {
+                  "type": "object",
+                  "required": ["policy"],
+                  "properties": { "policy": { "enum": ["generation-rollback", "discard-candidate", "discard-process", "manual"] } }
+                }
+              ]
+            }
+          }
+        },
+        "lifecycle": {
+          "type": "object",
+          "required": ["hotReload"],
+          "additionalProperties": false,
+          "properties": {
+            "hotReload": {
+              "allOf": [
+                { "$ref": "#/$defs/capabilityFact" },
+                {
+                  "type": "object",
+                  "required": ["activation"],
+                  "properties": { "activation": { "enum": ["unknown", "immediate", "hot-reload", "restart-plugin", "restart-profile", "restart-host"] } }
+                }
+              ]
+            }
+          }
+        },
+        "integration": {
+          "type": "object",
+          "required": ["protocol", "artifact", "mcp"],
+          "additionalProperties": false,
+          "properties": {
+            "protocol": { "enum": ["harness-profile", "harness-repository", "harness-cordis", "mcp", "skill", "third-party"] },
+            "artifact": { "type": "string", "minLength": 1 },
+            "mcp": { "type": ["object", "null"] }
+          }
+        },
+        "admission": {
+          "type": "object",
+          "required": ["route", "state"],
+          "additionalProperties": false,
+          "properties": {
+            "route": { "enum": ["package-json-manifest", "legacy-compatibility-map"] },
+            "state": { "enum": ["manifest-ready-for-tests", "registry-admitted", "needs-package-manifest"] }
+          }
+        }
+      }
+    },
+    "capabilityFact": {
+      "type": "object",
+      "required": ["state", "reason"],
+      "properties": {
+        "state": { "enum": ["verified", "declared", "unknown", "unsupported"] },
+        "reason": { "type": "string", "minLength": 1 }
       }
     }
   }

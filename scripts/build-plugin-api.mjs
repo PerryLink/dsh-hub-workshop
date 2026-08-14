@@ -1,10 +1,18 @@
 #!/usr/bin/env node
 
-import { readFile, writeFile } from 'node:fs/promises'
+import { readFile, rename, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 const ROOT = resolve(import.meta.dirname, '..')
 const json = async (path) => JSON.parse(await readFile(resolve(ROOT, path), 'utf8'))
+let atomicWriteSequence = 0
+
+async function writeJsonAtomic(path, value) {
+  const target = resolve(ROOT, path)
+  const temporary = `${target}.tmp-${process.pid}-${atomicWriteSequence++}`
+  await writeFile(temporary, `${JSON.stringify(value, null, 2)}\n`)
+  await rename(temporary, target)
+}
 const [catalog, candidates, inventory, marketLayers] = await Promise.all([
   json('catalog.json'),
   json('candidates-v1.json'),
@@ -63,6 +71,15 @@ const catalogCategories = countBy(catalog.packages, (project) => project.categor
 const candidateCategories = countBy(candidates.projects || [], (project) => project.category || 'uncategorized')
 const management = countBy(inventory.projects, (project) => project.management)
 const reviews = countBy(inventory.projects, (project) => project.review.state)
+const seamlessInstall = countBy(inventory.projects, (project) => project.capabilities.install.seamless.state)
+const failureIsolation = countBy(inventory.projects, (project) => project.capabilities.install.failureIsolation.state)
+const hotReload = countBy(inventory.projects, (project) => project.capabilities.lifecycle.hotReload.state)
+const protocols = countBy(inventory.projects, (project) => project.capabilities.integration.protocol)
+const admissionRoutes = countBy(inventory.projects, (project) => project.capabilities.admission.route)
+
+function facts(counts) {
+  return [...counts.entries()].sort(([left], [right]) => left.localeCompare(right)).map(([id, count]) => ({ id, count }))
+}
 
 function publicSummary(project) {
   const summary = String(project.description || '')
@@ -89,6 +106,16 @@ const pluginTypes = {
   schema: 'omdsh-ai-plugin-types/v1',
   generatedAt: inventory.generatedAt,
   scope: 'Public Catalog and formal Intake facts only. Discovery never authorizes installation.',
+  contracts: {
+    packageManifest: '/package-manifest.schema.json',
+    submission: '/submission.schema.json',
+    verification: '/intake-evidence.schema.json',
+    mcp: {
+      protocolVersion: '2026-07-28',
+      registryManifest: 'server.json',
+      registrySchema: 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json',
+    },
+  },
   totals: {
     catalogProjects: catalog.packages.length,
     candidateProjects: (candidates.projects || []).length,
@@ -98,6 +125,13 @@ const pluginTypes = {
   categories: taxonomy('categories', catalogCategories, candidateCategories),
   management: Object.entries(labels.management).map(([id, [zh, en]]) => ({ id, labels: { zh, en }, count: management.get(id) ?? 0 })),
   reviewStates: Object.entries(labels.review).map(([id, [zh, en]]) => ({ id, labels: { zh, en }, count: reviews.get(id) ?? 0 })),
+  capabilities: {
+    seamlessInstall: facts(seamlessInstall),
+    failureIsolation: facts(failureIsolation),
+    hotReload: facts(hotReload),
+  },
+  protocols: facts(protocols),
+  admissionRoutes: facts(admissionRoutes),
   guardrails: [
     'Catalog inclusion is not official-baseline verification.',
     'No installation command or executable package intent is exposed by this directory.',
@@ -145,6 +179,7 @@ const plugins = {
       review: status.review,
       verification: status.verification,
       registry: status.registry,
+      capabilities: status.capabilities,
     }
   }),
 }
@@ -194,8 +229,8 @@ const market = {
 }
 
 await Promise.all([
-  writeFile(resolve(ROOT, 'api/v1/plugin-types.json'), `${JSON.stringify(pluginTypes, null, 2)}\n`),
-  writeFile(resolve(ROOT, 'api/v1/plugins.json'), `${JSON.stringify(plugins, null, 2)}\n`),
-  writeFile(resolve(ROOT, 'api/v1/market.json'), `${JSON.stringify(market, null, 2)}\n`),
+  writeJsonAtomic('api/v1/plugin-types.json', pluginTypes),
+  writeJsonAtomic('api/v1/plugins.json', plugins),
+  writeJsonAtomic('api/v1/market.json', market),
 ])
 console.log(`built market API: ${plugins.count} plugins, ${marketLayers.totals.projects} non-plugin projects, ${pluginTypes.totals.candidateProjects} formal Intake candidates`)

@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises'
+import { validateWorkshopManifest } from './workshop-manifest-lib.mjs'
 
 export const MANAGEMENT_MODES = Object.freeze(['transactional', 'managed', 'guided'])
 export const REVIEW_STATES = Object.freeze(['pending-review', 'needs-fix', 'blocked', 'approved'])
@@ -35,7 +36,7 @@ export function validateSubmission(manifest) {
   const errors = []
   requireCondition(manifest && typeof manifest === 'object' && !Array.isArray(manifest), 'submission must be an object', errors)
   if (errors.length > 0) return errors
-  requireCondition(manifest.schema === 'omdsh-workshop-submission/v1', 'unsupported submission schema', errors)
+  requireCondition(['omdsh-workshop-submission/v1', 'omdsh-workshop-submission/v2'].includes(manifest.schema), 'unsupported submission schema', errors)
   requireCondition(['create-project', 'add-release'].includes(manifest.operation), 'unsupported submission operation', errors)
   requireCondition(!SECRET_RE.test(JSON.stringify(manifest)), 'submission appears to contain a credential or private key', errors)
 
@@ -43,6 +44,10 @@ export function validateSubmission(manifest) {
   const release = manifest.release || {}
   const management = manifest.management || {}
   const declarations = manifest.declarations || {}
+  const packageManifest = manifest.packageManifest
+  if (manifest.schema === 'omdsh-workshop-submission/v2') {
+    errors.push(...validateWorkshopManifest(packageManifest))
+  }
   requireCondition(/^[a-z0-9][a-z0-9-]*$/.test(project.id || ''), 'invalid project id', errors)
   requireCondition(REPOSITORY_RE.test(project.repository || ''), 'repository must be a public GitHub repository URL', errors)
   requireCondition(safePath(project.path ?? null), 'project path must be null or a safe absolute repository path', errors)
@@ -75,10 +80,16 @@ export function validateSubmission(manifest) {
     requireCondition(String(management.instructions || '').includes(String(management.source || '')), 'managed instructions must contain the pinned source', errors)
   }
   if (mode === 'guided') {
-    requireCondition(['harness-cordis', 'third-party'].includes(management.protocol), 'guided intake must declare harness-cordis or third-party protocol', errors)
+    requireCondition(['harness-cordis', 'mcp', 'skill', 'third-party'].includes(management.protocol), 'guided intake must declare harness-cordis, MCP, Skill, or third-party protocol', errors)
     requireCondition(release.profileBundle === null, 'guided intake cannot declare a Profile Bundle', errors)
     requireCondition(management.source === null, 'guided intake cannot expose executable install source', errors)
     requireCondition(!GUIDED_COMMAND_RE.test(management.instructions || ''), 'guided intake must not expose an executable install command', errors)
+  }
+  if (manifest.schema === 'omdsh-workshop-submission/v2' && packageManifest && typeof packageManifest === 'object') {
+    requireCondition(packageManifest.integration?.protocol === management.protocol, 'package manifest protocol must match submission management protocol', errors)
+    requireCondition(packageManifest.lifecycle?.activation !== 'hot-reload' || release.capabilities?.restartRequired === false, 'hot-reload submission cannot require restart', errors)
+    requireCondition(packageManifest.lifecycle?.activation === 'hot-reload'
+      || release.capabilities?.restartRequired === /^restart-/.test(packageManifest.lifecycle?.activation || ''), 'restartRequired must match package lifecycle activation', errors)
   }
   return errors
 }

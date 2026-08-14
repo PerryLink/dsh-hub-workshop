@@ -20,15 +20,17 @@
    - 工作树中的未提交改动不得进入本次申请事实；
    - `release.ref` 必须来自目标公开远端已经包含的完整 commit；
    - 用匿名公开读取核验仓库、commit 和申报子路径均可访问；如果仓库为 PRIVATE、commit 未推送或路径不存在，停止并说明需要作者先完成什么。
+   - 申报包的 `package.json#dshWorkshop` 必须符合 `https://hub.omdsh.dev/package-manifest.schema.json`。如果缺失，先生成建议片段并停止，等待作者审阅、提交和推送新的固定 commit 后再申请；不要把临时生成但未进入远端 commit 的 manifest 当成收录事实。
 
 3. 根据仓库真实制品只选择一种 `management.method`：
    - `profile-bundle`：只有真实提供 Profile Bundle、固定 package spec 和对应制品时使用；`protocol` 为 `harness-profile`。
    - `repository-plugin`：只有固定 commit 中真实存在 `.dsh-plugin/package.json` 时使用；`protocol` 为 `harness-repository`，`source` 必须固定到该 `.dsh-plugin` 目录。当前公开契约不可核验时仍会被阻断，不得声称可安装。
-   - `guided`：其余 Skill、MCP、Cordis、Web UI、Adapter 或第三方格式使用；`protocol` 只能是 `harness-cordis` 或 `third-party`，`source` 为 `null`，`instructions` 只给固定来源的非执行说明，不得包含可直接执行的安装命令。
+   - `guided`：其余 Skill、MCP、Cordis、Web UI、Adapter 或第三方格式使用；`protocol` 可为 `harness-cordis`、`mcp`、`skill` 或 `third-party`，`source` 为 `null`，`instructions` 只给固定来源的非执行说明，不得包含可直接执行的安装命令。MCP 必须同时提供官方 `server.json`，使用 `2026-07-28` 协议版本与 `2025-12-11` Registry schema；npm MCP 的 `package.json#mcpName` 必须与 `server.json#name` 相同。
 
 4. 直接生成一份严格符合以下契约的 JSON，不要添加契约外字段：
    - schema：`https://hub.omdsh.dev/submission.schema.json`
-   - `schema` 固定为 `omdsh-workshop-submission/v1`
+   - `schema` 固定为 `omdsh-workshop-submission/v2`
+   - `packageManifest` 必须与固定 commit 中的 `package.json#dshWorkshop` 完全一致，分别声明安装模式、失败处置、是否在启用前触碰 current、热重载/重启、dispose、结构化权限和证据路径
    - `operation` 只能是 `create-project` 或 `add-release`
    - `project.path` 无子路径时为 `null`，有子路径时以 `/` 开头
    - `release.ref` 为完整 40 位 commit；`updatedAt` 为可验证的 ISO 8601 时间
@@ -53,7 +55,7 @@
      ### Author Studio manifest
 
      ```json
-     <完整的 omdsh-workshop-submission/v1 JSON>
+     <完整的 omdsh-workshop-submission/v2 JSON>
      ```
 
      ### Submission boundary

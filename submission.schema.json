@@ -6,7 +6,7 @@
   "required": ["schema", "operation", "project", "release", "management", "declarations"],
   "additionalProperties": false,
   "properties": {
-    "schema": { "const": "omdsh-workshop-submission/v1" },
+    "schema": { "enum": ["omdsh-workshop-submission/v1", "omdsh-workshop-submission/v2"] },
     "operation": { "enum": ["create-project", "add-release"] },
     "project": {
       "type": "object",
@@ -99,7 +99,7 @@
       "properties": {
         "method": { "enum": ["profile-bundle", "repository-plugin", "guided"] },
         "protocol": {
-          "enum": ["harness-profile", "harness-repository", "harness-cordis", "third-party"]
+          "enum": ["harness-profile", "harness-repository", "harness-cordis", "mcp", "skill", "third-party"]
         },
         "label": { "type": "string", "minLength": 1 },
         "instructions": { "type": "string", "minLength": 1 },
@@ -121,7 +121,8 @@
         "trustedPublisherRequested": { "type": "boolean" },
         "installScriptsMustRemainDisabled": { "const": true }
       }
-    }
+    },
+    "packageManifest": { "$ref": "./package-manifest.schema.json" }
   },
   "$defs": {
     "media": {
@@ -146,6 +147,10 @@
     }
   },
   "allOf": [
+    {
+      "if": { "properties": { "schema": { "const": "omdsh-workshop-submission/v2" } } },
+      "then": { "required": ["schema", "operation", "project", "release", "management", "declarations", "packageManifest"] }
+    },
     {
       "if": {
         "properties": { "management": { "properties": { "method": { "const": "profile-bundle" } } } }
@@ -189,7 +194,7 @@
         "properties": {
           "management": {
             "properties": {
-              "protocol": { "enum": ["harness-cordis", "third-party"] },
+              "protocol": { "enum": ["harness-cordis", "mcp", "skill", "third-party"] },
               "source": { "type": "null" }
             }
           }

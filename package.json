@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "topic:audit": "node scripts/audit-topic-plugins.mjs",
+    "topic:fetch": "node scripts/fetch-topic-snapshot.mjs",
     "topic:apply": "node scripts/apply-topic-plugin-audit.mjs",
     "topic:snapshot": "node scripts/refresh-topic-snapshot.mjs",
     "feeds:build": "node scripts/build-install-feeds.mjs",

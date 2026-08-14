@@ -14,10 +14,10 @@ test('topic audit stats match decisions and dsh-mygo cannot leak into plugin sur
     json('../api/v1/plugins.json'),
   ])
 
-  const decisions = Object.fromEntries(['exclude', 'include', 'market'].map((decision) => [
+  const decisions = Object.fromEntries(['exclude', 'include', 'market', 'review'].map((decision) => [
     decision,
     audit.repositories.filter((entry) => entry.decision === decision).length,
-  ]))
+  ]).filter(([, count]) => count > 0))
   assert.deepEqual(audit.stats.decisions, decisions)
   const reasons = Object.fromEntries([...new Set(audit.repositories.map((entry) => entry.reasonCode))]
     .sort()
@@ -45,4 +45,12 @@ test('topic audit stats match decisions and dsh-mygo cannot leak into plugin sur
   assert.equal(awesome.decision, 'exclude')
   const core = audit.repositories.find((entry) => entry.owner === 'deepseek-ai' && entry.name === 'deepseek-harness')
   assert.equal(core.decision, 'exclude')
+
+  const qualified = new Map(audit.repositories.filter((entry) => entry.decision === 'include').map((entry) => [entry.url, entry]))
+  for (const entry of catalog.packages.filter((entry) => entry.status === 'discovery')) {
+    const evidence = qualified.get(entry.repository)
+    assert.equal(evidence?.qualification, 'verified')
+    assert.ok(evidence.evidence.strongSignals.length > 0)
+  }
+  assert.equal(catalog.packages.some((entry) => /pending-review/.test(entry.discovery?.qualification || '')), false)
 })

@@ -195,7 +195,7 @@ for (const entry of reviewedPackages) {
 const countBy = (field) => Object.fromEntries([...new Set(packages.map((entry) => entry[field]))].sort().map((value) => [value, packages.filter((entry) => entry[field] === value).length]))
 const installMethods = Object.fromEntries([...new Set(packages.map((entry) => entry.install.type))].sort().map((value) => [value, packages.filter((entry) => entry.install.type === value).length]))
 const catalog = {
-  schema: 'dsh-hub-index/v0.3',
+  schema: 'dsh-hub-index/v0.4',
   hub: 'github:omdsh-dev/dsh-hub-workshop',
   updated: new Date().toISOString(),
   policy: {

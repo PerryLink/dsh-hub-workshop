@@ -45,12 +45,12 @@
     <main class="doc-shell">
       <div data-locale-content="zh">
 <h1>向 DSH Hub Workshop 提交插件</h1>
-<p>DSH Hub Workshop 是插件实体索引，不要求作者把源码搬进本仓库。大多数贡献只需要给 <code>catalog.json</code> 增加一条经过核对的元数据。</p>
+<p>DSH Hub Workshop 是插件实体索引，不要求作者把源码搬进本仓库。新投稿以作者仓库中的 <code>package.json#dshWorkshop</code> 为事实入口，Workshop 只保存固定来源、审核和验证投影。</p>
 <p>第一次开发或接入插件，请先阅读<a href="developer-guide.html">插件开发与市场指南</a>。它说明 Skill、MCP、Cordis/Profile Bundle 的最短开发路径、市场准入标准，以及官方/OMDSH 托管与第三方接入的边界。</p>
 <h2>快速提交</h2>
 <p>不熟悉目录结构也可以提交，推荐按经验选择一条路径：</p>
 <ol>
-<li><strong>作者 Agent 自动投稿（推荐）</strong>：把<a href="agent-submission-prompt.zh.md">标准指令</a>交给能读取作者仓库的 Agent。它会核对公开固定 commit、生成并本地校验 <code>omdsh-workshop-submission/v1</code>，再展示目标、标题和完整正文；作者确认本次 GitHub 写入后，Agent 创建收录 Issue。提交人不需要手填表单，也不需要理解 <code>catalog.json</code>、Registry 或生成文件。</li>
+<li><strong>作者 Agent 自动投稿（推荐）</strong>：把<a href="agent-submission-prompt.zh.md">标准指令</a>交给能读取作者仓库的 Agent。它会核对公开固定 commit 与 <code>package.json#dshWorkshop</code>、生成并本地校验 <code>omdsh-workshop-submission/v2</code>，再展示目标、标题和完整正文；作者确认本次 GitHub 写入后，Agent 创建收录 Issue。</li>
 <li><strong>Author Studio（人工兜底）</strong>：在 <a href="publish.html">Author Studio</a> 选择“创建项目”或“新增 Release”；待审核候选也可从详情继续。页面自动生成清单并带入 Issue，但身份、许可、兼容性、权限和测试仍必须来自作者确认的事实。</li>
 <li><strong>直接 PR</strong>：熟悉本仓库的贡献者可以按下方格式修改源数据、生成产物并提交 PR，适合一次更新多个条目或维护已有条目。</li>
 </ol>
@@ -62,6 +62,8 @@
 <p>条目必须满足：</p>
 <ul>
 <li>有实际代码或静态 Skill/MCP 资产，不是空仓库、概念 README 或候选计划；</li>
+<li>申报包的 <code>package.json#dshWorkshop</code> 通过 <a href="package-manifest.schema.json">v1 package manifest schema</a>；它明确区分事务安装、隔离试装和引导接入，并声明失败处置、热重载/重启、dispose、权限与证据路径；</li>
+<li>MCP 同时提供符合官方 <code>server.json</code> schema 的清单；npm 包的 <code>mcpName</code> 与服务器名一致；</li>
 <li>README 写清用途、安装步骤、依赖和已知限制；</li>
 <li>有固定的 40 位 commit 供审查与追溯；</li>
 <li>安装命令不包含 token、个人路径或其它敏感数据；</li>
@@ -192,12 +194,12 @@ node --check docs/assets/app.js
 
 <div data-locale-content="en" hidden>
 <h1>Submit a Plugin to DSH Hub Workshop</h1>
-<p>DSH Hub Workshop indexes installable plugin packages. Authors do not need to move source code into this repository. Most contributions only add one verified metadata entry to <code>catalog.json</code>.</p>
+<p>DSH Hub Workshop indexes plugin entities without moving author source into this repository. New submissions start from <code>package.json#dshWorkshop</code> in the author repository; Workshop stores only pinned-source, review, and verification projections.</p>
 <p>If this is your first extension or submission, start with the <a href="developer-guide.html">Plugin Development and Marketplace Guide</a>. It covers the shortest Skill, MCP, and Cordis/Profile Bundle paths, admission rules, and the boundary between official/OMDSH management and third-party integration.</p>
 <h2>Quick Submission</h2>
 <p>You can contribute without learning the catalog schema. Choose the path that fits your experience:</p>
 <ol>
-<li><strong>Author-Agent submission (recommended):</strong> give the <a href="agent-submission-prompt.en.md">standard instruction</a> to an Agent that can read the author's repository. It verifies the public pinned commit, generates and locally validates <code>omdsh-workshop-submission/v1</code>, then shows the target, title, and complete body. After confirmation of that GitHub write, the Agent creates the submission Issue. Authors do not fill a form or learn <code>catalog.json</code>, Registry, or generated files.</li>
+<li><strong>Author-Agent submission (recommended):</strong> give the <a href="agent-submission-prompt.en.md">standard instruction</a> to an Agent that can read the author's repository. It verifies the public pinned commit and <code>package.json#dshWorkshop</code>, generates and validates <code>omdsh-workshop-submission/v2</code>, then shows the target, title, and complete body before the confirmed Issue write.</li>
 <li><strong>Author Studio (manual fallback):</strong> use <a href="publish.html">Author Studio</a> to create a Project or add an immutable Release. A Pending Review candidate can continue from its detail page. The page generates the manifest and carries it into an Issue, but identity, license, compatibility, permissions, and test evidence must still be author-confirmed facts.</li>
 <li><strong>Direct PR:</strong> contributors familiar with this repository can update the source data and generated artifacts below. This works well for multiple entries or maintenance of an existing entry.</li>
 </ol>
@@ -209,6 +211,8 @@ node --check docs/assets/app.js
 <p>Every entry must:</p>
 <ul>
 <li>Contain working code or static Skill/MCP assets, not an empty repository, concept README, or proposal.</li>
+<li>Provide a <code>package.json#dshWorkshop</code> value that passes the <a href="package-manifest.schema.json">v1 package manifest schema</a>, distinguishing transactional, isolated-trial, and guided integration while declaring failure handling, reload/restart, dispose, permissions, and evidence paths.</li>
+<li>For MCP, also provide an official-schema <code>server.json</code>; npm <code>mcpName</code> must match the server name.</li>
 <li>Document its purpose, installation, dependencies, and known limits in the README.</li>
 <li>Pin a full 40-character commit for review and traceability.</li>
 <li>Keep tokens, personal paths, and other sensitive data out of install commands.</li>

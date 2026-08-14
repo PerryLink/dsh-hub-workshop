@@ -1,6 +1,8 @@
 # Workshop 插件入库与验证流程
 
-这套流程把四件事分开记录：**接入类型、审核状态、验证状态、Registry 准入**。Catalog 收录或 Topic 命中都不会自动获得安装权限。
+这套流程把五件事分开记录：**接入类型、安装/隔离能力、生命周期能力、审核与验证状态、Registry 准入**。Catalog 收录或 Topic 命中都不会自动获得安装权限。
+
+新投稿的事实入口是固定 commit 中的 `package.json#dshWorkshop`（`omdsh-workshop-package/v1`）。旧式 `dsh.bundle`、`.dsh-plugin`、Skill 或 MCP 文件证据只保留为兼容映射；未补新 manifest 前，平台把无缝安装、失败隔离和热重载全部保持为未知。
 
 这套入库流程只适用于叶子插件层。生态基础设施和社区发行版通过 `market-layers.json` 单独策展，不进入插件验证库存，也不会仅因市场展示获得 Registry 准入。
 
@@ -12,7 +14,7 @@
 |---|---|---|---|---|
 | 事务安装 | `profile-bundle` / `harness-profile` | RC.6 有公开 Profile/Bundle 生命周期 | 固定来源、供应链、安装、就绪、功能、升级、禁用、移除、恢复 | 审核与当前基线验证均通过后可准入 |
 | 配置接入候选 | `repository-plugin` / `harness-repository` | 当前公开 RC.6 未提供对应包、Schema 和 Loader | 保留静态证据；公共契约可核验后重跑完整生命周期 | 当前自动阻断 |
-| 引导接入 | `guided` / `harness-cordis` 或 `third-party` | 只提供固定公开来源和说明 | 固定来源、许可、权限与供应链说明；不执行仓库代码 | 永不准入 |
+| 引导接入 | `guided` / `harness-cordis`、`mcp`、`skill` 或 `third-party` | 只提供固定公开来源和说明；MCP 可单独做隔离协议测试 | 固定来源、许可、权限与供应链；可执行隔离测试不等于 DSH 安装授权 | 永不直接准入 |
 
 `pending-review`（待审核）是审核状态，不是第四种安装方式。一个事务安装、配置安装或引导接入投稿都可以处于待审核状态。
 
@@ -36,6 +38,18 @@
 ```
 
 Topic、关键词和仓库自述只负责进入候选池。根目录没有可安装包时，必须继续定位真实插件子包；插件管理器、SDK、宿主、导航目录、模板或插件合集不能整体冒充一个插件。静态结构相似也不等于可用：运行验证必须写明目标工具、命令、服务、UI 扩展、事件或 Provider，实际调用并记录预期结果与观察结果。仅仅“进程启动成功、退出码为 0”只算加载冒烟，不算功能验证。
+
+## 五项能力测试
+
+| 平台字段 | 变为“已验证”的最低条件 |
+|---|---|
+| 无缝安装 | candidate 安装、就绪、真实功能、升级、禁用、移除、代际恢复全部通过，且来源固定、安装脚本禁用 |
+| 失败可丢弃 | 注入安装错误与启动错误，证明只丢弃 candidate 或 MCP 隔离进程，启用前 current 未变化 |
+| 热重载 / 热重启 | 按 manifest 的 activation 执行；hot-reload 必须观察 dispose、资源释放、重新激活和一次真实能力调用 |
+| 接入方式 | Profile、Repository、Cordis、MCP、Skill 或第三方制品与声明相符；MCP 使用官方 `server.json`，协议 `2026-07-28` |
+| 社区收录 | v2 submission 与固定 commit 的 `package.json#dshWorkshop` 逐值一致，随后通过静态、权限、供应链和人工审核 |
+
+作者声明只会显示“已声明”。没有对应证据路径、证据文件不存在、测试环境不匹配或结果不可复现时都不能升级为“已验证”。MCP 的独立进程失败可丢弃，只证明隔离边界；它不会自动获得 DSH Profile 安装或 Registry 权限。
 
 入库记录使用 `intake.schema.json`，运行证据使用 `intake-evidence.schema.json`，公开队列为 `intake-queue.json`，当前官方事实为 `official-baseline.json`。四个文件都由 CI 做 fail-closed 校验。
 

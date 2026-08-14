@@ -20,14 +20,16 @@ You are working inside an author's repository that is ready for DSH Hub Workshop
    - uncommitted working-tree changes must not become submission facts;
    - `release.ref` must identify a full commit already present on the intended public remote;
    - verify anonymously that the repository, commit, and declared subpath are public and readable. Stop if the repository is private, the commit is unpushed, or the path is missing, and explain what the author must complete first.
+   - Require the submitted package's `package.json#dshWorkshop` to conform to `https://hub.omdsh.dev/package-manifest.schema.json`. If it is absent, prepare the proposed snippet and stop. Resume only after the author reviews, commits, and pushes a new pinned commit; never treat a local-only manifest as admission evidence.
 
 3. Select exactly one `management.method` from actual artifacts:
    - `profile-bundle` only for a real Profile Bundle with an immutable package spec and matching artifacts; use `harness-profile`.
    - `repository-plugin` only when `.dsh-plugin/package.json` actually exists at the fixed commit; use `harness-repository` and pin `source` to that `.dsh-plugin` directory. A publicly unverifiable contract remains blocked and must not be described as installable.
-   - `guided` for every other Skill, MCP, Cordis integration, Web UI, adapter, or third-party format; use only `harness-cordis` or `third-party`, set `source` to `null`, and provide non-executable pinned-source guidance without an install command.
+   - `guided` for every other Skill, MCP, Cordis integration, Web UI, adapter, or third-party format; use `harness-cordis`, `mcp`, `skill`, or `third-party`, set `source` to `null`, and provide non-executable pinned-source guidance without an install command. MCP requires the official `server.json`, protocol version `2026-07-28`, and Registry schema `2025-12-11`; an npm MCP package's `package.json#mcpName` must match `server.json#name`.
 
 4. Generate JSON that conforms exactly to `https://hub.omdsh.dev/submission.schema.json` without extra fields:
-   - `schema` is `omdsh-workshop-submission/v1`;
+   - `schema` is `omdsh-workshop-submission/v2`;
+   - `packageManifest` exactly matches `package.json#dshWorkshop` at the pinned commit and separately declares install mode, failure policy, whether current is touched before activation, hot reload/restart, dispose, structured permissions, and evidence paths;
    - `operation` is `create-project` or `add-release`;
    - use `null` for a repository-root `project.path`, otherwise a path beginning with `/`;
    - use a full 40-character `release.ref` and a verifiable ISO 8601 `updatedAt`;
@@ -52,7 +54,7 @@ You are working inside an author's repository that is ready for DSH Hub Workshop
      ### Author Studio manifest
 
      ```json
-     <complete omdsh-workshop-submission/v1 JSON>
+     <complete omdsh-workshop-submission/v2 JSON>
      ```
 
      ### Submission boundary
