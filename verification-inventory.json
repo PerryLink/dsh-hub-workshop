@@ -1,6 +1,6 @@
 {
   "schema": "omdsh-workshop-verification-inventory/v1",
-  "generatedAt": "2026-08-13T17:27:31.000Z",
+  "generatedAt": "2026-08-14T00:10:00.000Z",
   "officialBaseline": {
     "package": "@deepseek-ai/dsh",
     "version": "0.1.0-rc.6",
@@ -22,8 +22,7 @@
       "transactional": 2
     },
     "review": {
-      "blocked": 11,
-      "pending-review": 670
+      "pending-review": 681
     },
     "verification": {
       "blocked": 11,
@@ -762,8 +761,8 @@
       "path": null,
       "management": "transactional",
       "review": {
-        "state": "blocked",
-        "reason": "current-runtime-baseline-not-verified"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -1626,8 +1625,8 @@
       "path": "/plugins/almanac-mcp",
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -4380,8 +4379,8 @@
       "path": "/plugins/bug-tamer",
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -5082,8 +5081,8 @@
       "path": "/plugins/chinese-colors-mcp",
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -5622,8 +5621,8 @@
       "path": "/plugins/code-archaeologist",
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -5676,8 +5675,8 @@
       "path": "/plugins/code-talent-scout",
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -6648,8 +6647,8 @@
       "path": "/plugins/decision-dice-mcp",
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -11562,8 +11561,8 @@
       "path": "/plugins/github-integration",
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -20580,8 +20579,8 @@
       "path": "/plugins/naming-master-mcp",
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -26844,8 +26843,8 @@
       "path": null,
       "management": "transactional",
       "review": {
-        "state": "blocked",
-        "reason": "production-authority-environment-not-verified"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -29868,8 +29867,8 @@
       "path": "/plugins/time-capsule-mcp",
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",

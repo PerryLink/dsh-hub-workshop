@@ -7,11 +7,21 @@ import {
   validateOfficialMcpManifest,
   validateWorkshopManifest,
 } from './workshop-manifest-lib.mjs'
+import { repositoryFingerprint, repositoryKey } from './topic-delta-lib.mjs'
 
 const ROOT = resolve(import.meta.dirname, '..')
 const snapshot = JSON.parse(await readFile(resolve(ROOT, 'topic-repositories.json'), 'utf8'))
 const USER_AGENT = 'omdsh-workshop-topic-audit/3.0'
 const decoder = new TextDecoder()
+const ENGINE_VERSION = '4.0.0'
+const forceFull = process.argv.includes('--full')
+let previousAudit = null
+try {
+  previousAudit = JSON.parse(await readFile(resolve(ROOT, 'topic-plugin-audit.json'), 'utf8'))
+} catch {}
+const reusableAudit = !forceFull && previousAudit?.engineVersion === ENGINE_VERSION
+  ? new Map(previousAudit.repositories.map((repository) => [repositoryKey(repository), repository]))
+  : new Map()
 
 function result(decision, reasonCode, reason, { qualification = null, marketLayer = null, evidence = {} } = {}) {
   return { decision, reasonCode, reason, qualification, marketLayer, evidence }
@@ -67,7 +77,6 @@ const DISTRIBUTION_RE = /(?:^|[-_.])(?:oh[-_.]?my[-_.]?dsh|modpack|plugin[-_.]?p
 const PLUGIN_WORD_RE = /\b(?:plugins?|extensions?|providers?|bundles?|skins?|skills?|adapters?|bridges?|channels?|tools?)\b|(?:插件|扩展|提供方|皮肤|技能|适配器|桥接|工具)/i
 const DSH_RE = /\b(?:deepseek[ -]?harness|dsh)\b/i
 
-const repositoryKey = (repository) => `${repository.owner}/${repository.name}`.toLocaleLowerCase('en-US')
 const productText = (repository) => `${repository.name}\n${repository.description || ''}`
 const encodePath = (value) => value.split('/').map(encodeURIComponent).join('/')
 
@@ -371,8 +380,28 @@ async function inspect(repository) {
 }
 
 let completed = 0
+let reused = 0
+let inspected = 0
 const audits = await mapLimit(snapshot.repositories, 16, async (repository) => {
-  const classification = await inspect(repository)
+  const sourceFingerprint = repositoryFingerprint(repository)
+  const previous = reusableAudit.get(repositoryKey(repository))
+  let classification
+  if (previous?.sourceFingerprint === sourceFingerprint) {
+    const {
+      owner: _owner,
+      name: _name,
+      url: _url,
+      defaultBranch: _defaultBranch,
+      archived: _archived,
+      sourceFingerprint: _sourceFingerprint,
+      ...cached
+    } = previous
+    classification = cached
+    reused += 1
+  } else {
+    classification = await inspect(repository)
+    inspected += 1
+  }
   completed += 1
   if (completed % 25 === 0 || completed === snapshot.repositories.length) {
     process.stderr.write(`audited ${completed}/${snapshot.repositories.length}\n`)
@@ -383,6 +412,7 @@ const audits = await mapLimit(snapshot.repositories, 16, async (repository) => {
     url: repository.url,
     defaultBranch: repository.defaultBranch,
     archived: repository.archived,
+    sourceFingerprint,
     ...classification,
     evidence: {
       ...classification.evidence,
@@ -403,6 +433,7 @@ function countBy(field) {
 
 const report = {
   schema: 'omdsh-topic-plugin-audit/v3',
+  engineVersion: ENGINE_VERSION,
   generatedAt: snapshot.generatedAt,
   topic: snapshot.topic,
   sourceSnapshotGeneratedAt: snapshot.generatedAt,
@@ -415,6 +446,7 @@ const report = {
   },
   stats: {
     repositories: audits.length,
+    inspection: { inspected, reused },
     decisions: countBy('decision'),
     reasons: countBy('reasonCode'),
     qualifications: countBy('qualification'),

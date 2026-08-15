@@ -52,8 +52,8 @@
       },
       "management": "transactional",
       "review": {
-        "state": "blocked",
-        "reason": "current-runtime-baseline-not-verified"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -120,8 +120,8 @@
       },
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -188,8 +188,8 @@
       },
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -256,8 +256,8 @@
       },
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -324,8 +324,8 @@
       },
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -392,8 +392,8 @@
       },
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -460,8 +460,8 @@
       },
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -528,8 +528,8 @@
       },
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -596,8 +596,8 @@
       },
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -664,8 +664,8 @@
       },
       "management": "transactional",
       "review": {
-        "state": "blocked",
-        "reason": "production-authority-environment-not-verified"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
@@ -732,8 +732,8 @@
       },
       "management": "managed",
       "review": {
-        "state": "blocked",
-        "reason": "official-repository-plugin-unavailable"
+        "state": "pending-review",
+        "reason": "dedicated-intake-not-completed"
       },
       "verification": {
         "baseline": "@deepseek-ai/dsh@0.1.0-rc.6",
