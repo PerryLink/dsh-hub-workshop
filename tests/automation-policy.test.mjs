@@ -63,6 +63,15 @@ test('automation plan never turns a blocked release into a runnable job', () => 
   assert.equal(plan.summary.admissionEligible, false)
 })
 
+test('automation plan accepts a deterministic multi-release selection', () => {
+  const skill = record('skill', 'skill')
+  const profile = record('profile-bundle', 'harness-profile')
+  const plan = buildAutomationPlan([skill, profile], baseline, policy, loaderRegistry, [profile.id])
+  assert.deepEqual(plan.releaseIds, [profile.id])
+  assert.equal(plan.summary.releases, 1)
+  assert.ok(plan.jobs.every((job) => job.releaseId === profile.id))
+})
+
 test('scheduler derives trust and compatibility from a registered loader descriptor', () => {
   const extended = structuredClone(loaderRegistry)
   const descriptor = structuredClone(extended.adapters[1])

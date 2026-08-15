@@ -40,7 +40,7 @@ test('topic audit stats match decisions and dsh-mygo cannot leak into plugin sur
 
   const modlens = audit.repositories.find((entry) => entry.owner === 'liustack' && entry.name === 'modlens')
   assert.equal(modlens.decision, 'include')
-  assert.equal(modlens.qualification, 'verified')
+  assert.equal(modlens.qualification, 'static-evidence-passed')
   const awesome = audit.repositories.find((entry) => entry.owner === '0xsline' && entry.name === 'awesome-deepseek-harness')
   assert.equal(awesome.decision, 'exclude')
   const core = audit.repositories.find((entry) => entry.owner === 'deepseek-ai' && entry.name === 'deepseek-harness')
@@ -49,7 +49,7 @@ test('topic audit stats match decisions and dsh-mygo cannot leak into plugin sur
   const qualified = new Map(audit.repositories.filter((entry) => entry.decision === 'include').map((entry) => [entry.url, entry]))
   for (const entry of catalog.packages.filter((entry) => entry.status === 'discovery')) {
     const evidence = qualified.get(entry.repository)
-    assert.equal(evidence?.qualification, 'verified')
+    assert.equal(evidence?.qualification, 'static-evidence-passed')
     assert.ok(evidence.evidence.strongSignals.length > 0)
   }
   assert.equal(catalog.packages.some((entry) => /pending-review/.test(entry.discovery?.qualification || '')), false)

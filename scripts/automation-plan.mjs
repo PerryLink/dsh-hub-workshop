@@ -18,7 +18,12 @@ const [queue, baseline, policy, loaderRegistry] = await Promise.all([
   json('automation-policy.json'),
   json('loader-adapters.json')
 ])
-const plan = buildAutomationPlan(queue.records, baseline, policy, loaderRegistry, option('release'))
+const releasesFile = option('releases-file')
+if (option('release') && releasesFile) throw new Error('use either --release or --releases-file')
+const releaseSelection = releasesFile
+  ? await readFile(resolve(releasesFile), 'utf8').then(JSON.parse)
+  : option('release')
+const plan = buildAutomationPlan(queue.records, baseline, policy, loaderRegistry, releaseSelection)
 const output = option('output')
 if (output) await writeFile(resolve(output), `${JSON.stringify(plan, null, 2)}\n`)
 const staticJobs = plan.jobs.filter((job) => !job.requiresTrust)
@@ -30,6 +35,8 @@ if (process.env.GITHUB_OUTPUT) {
     `static_count=${staticJobs.length}`,
     `trusted_count=${trustedJobs.length}`,
     `admission_eligible=${plan.summary.admissionEligible}`,
+    `release_ids=${JSON.stringify(plan.releaseIds)}`,
+    `selected_count=${plan.summary.releases}`,
     `blocked_count=${plan.blocked.length}`
   ].map((line) => `${line}\n`).join(''))
 }

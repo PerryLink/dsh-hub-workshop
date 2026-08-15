@@ -19,15 +19,19 @@ let previousAudit = null
 try {
   previousAudit = JSON.parse(await readFile(resolve(ROOT, 'topic-plugin-audit.json'), 'utf8'))
 } catch {}
-const reusableAudit = !forceFull && previousAudit?.engineVersion === ENGINE_VERSION
-  ? new Map(previousAudit.repositories.map((repository) => [repositoryKey(repository), repository]))
-  : new Map()
+const reusableAudit = new Map()
+if (!forceFull && previousAudit?.engineVersion === ENGINE_VERSION) {
+  for (const repository of previousAudit.repositories) {
+    reusableAudit.set(repositoryKey(repository), repository)
+    reusableAudit.set(`${repository.owner}/${repository.name}`.toLocaleLowerCase('en-US'), repository)
+  }
+}
 
 function result(decision, reasonCode, reason, { qualification = null, marketLayer = null, evidence = {} } = {}) {
   return { decision, reasonCode, reason, qualification, marketLayer, evidence }
 }
 
-const include = (reasonCode, reason, evidence) => result('include', reasonCode, reason, { qualification: 'verified', evidence })
+const include = (reasonCode, reason, evidence) => result('include', reasonCode, reason, { qualification: 'static-evidence-passed', evidence })
 const review = (reasonCode, reason, evidence = {}) => result('review', reasonCode, reason, { qualification: 'pending-review', evidence })
 const market = (marketLayer, reasonCode, reason, evidence = {}) => result('market', reasonCode, reason, { qualification: 'pending-review', marketLayer, evidence })
 const exclude = (reasonCode, reason, evidence = {}) => result('exclude', reasonCode, reason, { evidence })
@@ -385,18 +389,21 @@ let inspected = 0
 const audits = await mapLimit(snapshot.repositories, 16, async (repository) => {
   const sourceFingerprint = repositoryFingerprint(repository)
   const previous = reusableAudit.get(repositoryKey(repository))
+    || reusableAudit.get(`${repository.owner}/${repository.name}`.toLocaleLowerCase('en-US'))
   let classification
   if (previous?.sourceFingerprint === sourceFingerprint) {
     const {
       owner: _owner,
       name: _name,
       url: _url,
+      repositoryId: _repositoryId,
       defaultBranch: _defaultBranch,
       archived: _archived,
       sourceFingerprint: _sourceFingerprint,
       ...cached
     } = previous
     classification = cached
+    if (classification.qualification === 'verified') classification.qualification = 'static-evidence-passed'
     reused += 1
   } else {
     classification = await inspect(repository)
@@ -407,6 +414,7 @@ const audits = await mapLimit(snapshot.repositories, 16, async (repository) => {
     process.stderr.write(`audited ${completed}/${snapshot.repositories.length}\n`)
   }
   return {
+    repositoryId: Number.isSafeInteger(repository.repositoryId) ? repository.repositoryId : null,
     owner: repository.owner,
     name: repository.name,
     url: repository.url,

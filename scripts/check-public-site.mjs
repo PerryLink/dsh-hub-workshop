@@ -4,6 +4,8 @@ import { readFile, readdir } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 import { registryTrustPublicKey } from './registry-signing-lib.mjs'
+import { validateExternalEvidence } from './external-evidence-lib.mjs'
+import { validateVerificationPriority } from './verification-priority-lib.mjs'
 
 const ROOT = resolve(import.meta.dirname, '..')
 const BUILD = resolve(ROOT, '.public-site')
@@ -21,7 +23,7 @@ async function files(directory) {
   return output
 }
 
-const [catalog, registry, trustRoots, trustRootsSchema, recipes, ecosystem, workshop, runRecords, admissions, repositories, discovery, topicRepositories, topicAudit, baseline, intake, inventory, marketLayers, distributionSchema, profilePackSchema, profilePackEnvelopeSchema, distributionIntake, distributions, distributionIntakeSchema, distributionsSchema] = await Promise.all([
+const [catalog, registry, trustRoots, trustRootsSchema, recipes, ecosystem, workshop, runRecords, admissions, repositories, discovery, topicRepositories, topicAudit, baseline, intake, inventory, marketLayers, distributionSchema, profilePackSchema, profilePackEnvelopeSchema, distributionIntake, distributions, distributionIntakeSchema, distributionsSchema, externalEvidence, externalEvidenceSchema, verificationPriority, verificationPrioritySchema] = await Promise.all([
   json('catalog.json'),
   json('registry-v1.json'),
   json('registry-trust-roots.json'),
@@ -46,6 +48,10 @@ const [catalog, registry, trustRoots, trustRootsSchema, recipes, ecosystem, work
   json('distributions-v1.json'),
   json('distribution-intake.schema.json'),
   json('distributions-v1.schema.json'),
+  json('external-evidence.json'),
+  json('external-evidence.schema.json'),
+  json('verification-priority.json'),
+  json('verification-priority.schema.json'),
 ])
 
 if (catalog.schema !== 'dsh-hub-index/v0.4') throw new Error('catalog schema mismatch')
@@ -114,8 +120,18 @@ if (inventory.schema !== 'omdsh-workshop-verification-inventory/v1'
   || inventory.summary?.management?.transactional !== 2
   || inventory.summary?.management?.managed !== 9
   || inventory.summary?.management?.guided !== catalog.packages.length - 11
+  || inventory.projects.some((project) => !project.identity?.fullName || !Array.isArray(project.externalEvidence))
+  || inventory.projects.some((project) => project.externalEvidence.some((evidence) => evidence.authority !== 'supplemental-only'))
   || inventory.projects.some((project) => !project.capabilities?.manifest || !project.capabilities?.install?.seamless || !project.capabilities?.install?.failureIsolation || !project.capabilities?.lifecycle?.hotReload || !project.capabilities?.integration || !project.capabilities?.admission)) {
   throw new Error('verification inventory must cover every Catalog project without claiming current-baseline verification or Registry admission')
+}
+if (externalEvidenceSchema.properties?.schema?.const !== 'omdsh-supplemental-evidence/v1'
+  || validateExternalEvidence(externalEvidence).length > 0
+  || verificationPrioritySchema.properties?.schema?.const !== 'omdsh-verification-priority/v1'
+  || validateVerificationPriority(verificationPriority).length > 0
+  || verificationPriority.summary.catalogProjects !== catalog.packages.length
+  || verificationPriority.queue.some((entry) => entry.authority !== 'none-until-admission')) {
+  throw new Error('external observations and verification priority must remain supplemental and non-authoritative')
 }
 if (topicAudit.schema !== 'omdsh-topic-plugin-audit/v3'
   || topicAudit.stats?.repositories !== topicRepositories.observedRepositoryCount
@@ -125,7 +141,7 @@ if (topicAudit.schema !== 'omdsh-topic-plugin-audit/v3'
 }
 const qualifiedRepositories = new Set(topicAudit.repositories
   .filter((entry) => entry.decision === 'include'
-    && entry.qualification === 'verified'
+    && entry.qualification === 'static-evidence-passed'
     && (entry.evidence?.strongSignals || []).length > 0)
   .map((entry) => `${entry.owner}/${entry.name}`.toLocaleLowerCase('en-US')))
 const catalogRepositories = new Set(catalog.packages.map((entry) => new URL(entry.repository).pathname.split('/').filter(Boolean).slice(0, 2).join('/').toLocaleLowerCase('en-US')))
@@ -141,7 +157,7 @@ if (catalog.packages.length !== catalog.stats?.packages
   || catalogRepositories.size !== qualifiedRepositories.size
   || [...catalogRepositories].some((repository) => !qualifiedRepositories.has(repository))
   || catalog.packages.some((entry) => entry.status === 'discovery'
-    && !/^verified-/.test(entry.discovery?.qualification || ''))) {
+    && !/^(?:verified|static)-/.test(entry.discovery?.qualification || ''))) {
   throw new Error('public catalog must contain only qualified plugin entries and eleven reviewed candidates')
 }
 const [pluginApi, pluginTypes, marketApi] = await Promise.all([json('api/v1/plugins.json'), json('api/v1/plugin-types.json'), json('api/v1/market.json')])
@@ -149,6 +165,7 @@ if (pluginApi.schema !== 'omdsh-ai-plugins/v1'
   || pluginApi.count !== catalog.packages.length
   || pluginApi.projects.length !== catalog.packages.length
   || pluginApi.projects.some((project) => project.registry?.state !== 'ineligible')
+  || pluginApi.projects.some((project) => !project.identity?.fullName || !Array.isArray(project.externalEvidence))
   || pluginApi.projects.some((project) => !project.capabilities?.install?.seamless)
   || pluginTypes.schema !== 'omdsh-ai-plugin-types/v1'
   || pluginTypes.totals?.catalogProjects !== catalog.packages.length
@@ -211,7 +228,7 @@ if (topicRepositories.schema !== 'dsh-topic-discovery/v1'
 }
 
 const builtFiles = await files(BUILD)
-if (builtFiles.length !== 67) throw new Error(`public build must contain exactly 67 files, received ${builtFiles.length}`)
+if (builtFiles.length !== 71) throw new Error(`public build must contain exactly 71 files, received ${builtFiles.length}`)
 for (const repository of repositories.repositories) {
   if (!/^https:\/\/github[.]com\/omdsh-dev\/[A-Za-z0-9._-]+$/.test(repository.url)) {
     throw new Error(`unapproved public repository URL: ${repository.url}`)
