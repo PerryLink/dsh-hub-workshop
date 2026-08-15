@@ -3,6 +3,8 @@
 import { readFile, readdir } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
+import { registryTrustPublicKey } from './registry-signing-lib.mjs'
+
 const ROOT = resolve(import.meta.dirname, '..')
 const BUILD = resolve(ROOT, '.public-site')
 const RETIRED_PRIVATE_OWNER = ['dsh', 'external'].join('-')
@@ -19,9 +21,11 @@ async function files(directory) {
   return output
 }
 
-const [catalog, registry, recipes, ecosystem, workshop, runRecords, admissions, repositories, discovery, topicRepositories, topicAudit, baseline, intake, inventory, marketLayers] = await Promise.all([
+const [catalog, registry, trustRoots, trustRootsSchema, recipes, ecosystem, workshop, runRecords, admissions, repositories, discovery, topicRepositories, topicAudit, baseline, intake, inventory, marketLayers, distributionSchema, profilePackSchema, profilePackEnvelopeSchema, distributionIntake, distributions, distributionIntakeSchema, distributionsSchema] = await Promise.all([
   json('catalog.json'),
   json('registry-v1.json'),
+  json('registry-trust-roots.json'),
+  json('registry-trust-roots.schema.json'),
   json('recipes-v1.json'),
   json('api/v1/ecosystem.json'),
   json('workshop-v1.json'),
@@ -35,12 +39,44 @@ const [catalog, registry, recipes, ecosystem, workshop, runRecords, admissions, 
   json('intake-queue.json'),
   json('verification-inventory.json'),
   json('market-layers.json'),
+  json('distribution.schema.json'),
+  json('profile-pack.schema.json'),
+  json('profile-pack-envelope.schema.json'),
+  json('distribution-intake-queue.json'),
+  json('distributions-v1.json'),
+  json('distribution-intake.schema.json'),
+  json('distributions-v1.schema.json'),
 ])
 
 if (catalog.schema !== 'dsh-hub-index/v0.4') throw new Error('catalog schema mismatch')
 if (registry.schema !== 'omdsh-registry/v1') throw new Error('Registry schema mismatch')
+if (trustRoots.schema !== 'omdsh-registry-trust-roots/v1'
+  || trustRootsSchema.properties?.schema?.const !== 'omdsh-registry-trust-roots/v1'
+  || trustRoots.keys.length === 0
+  || trustRoots.keys.filter((entry) => entry.status === 'active').length !== 1
+  || new Set(trustRoots.keys.map((entry) => entry.keyId)).size !== trustRoots.keys.length) {
+  throw new Error('Registry trust roots must publish exactly one active, uniquely identified key')
+}
+for (const trustRoot of trustRoots.keys) registryTrustPublicKey(trustRoots, trustRoot.keyId, { requireActive: false })
 if (recipes.schema !== 'omdsh-workshop-recipes/v1') throw new Error('Recipes schema mismatch')
 if (ecosystem.schema !== 'omdsh-agent-ecosystem/v1') throw new Error('Ecosystem schema mismatch')
+if (distributionSchema.properties?.schema?.const !== 'omdsh-distribution/v1'
+  || distributionIntakeSchema.properties?.schema?.const !== 'omdsh-distribution-intake/v1'
+  || distributionsSchema.properties?.schema?.const !== 'omdsh-distributions/v1'
+  || !distributionSchema.required?.includes('agentPreset')
+  || profilePackSchema.properties?.schema?.const !== 'omdsh-profile-pack/v1'
+  || profilePackEnvelopeSchema.properties?.schema?.const !== 'omdsh-profile-pack-envelope/v1'
+  || profilePackSchema.properties?.policy?.properties?.activation?.const !== 'candidate-and-confirm') {
+  throw new Error('Distribution and Profile Pack schemas must preserve preset and candidate activation boundaries')
+}
+if (distributionIntake.schema !== 'omdsh-distribution-intake-queue/v1'
+  || distributionIntake.registrySnapshotId !== registry.snapshotId
+  || distributionIntake.records.some((record) => record.publication?.state === 'admitted')
+  || distributions.schema !== 'omdsh-distributions/v1'
+  || distributions.registry?.snapshotId !== registry.snapshotId
+  || distributions.policy?.componentAuthority !== 'never-elevated-by-composition') {
+  throw new Error('Distribution feeds must remain bound to one Registry snapshot without elevating component authority')
+}
 if (recipes.registry?.snapshotId !== registry.snapshotId
   || ecosystem.registry?.snapshotId !== registry.snapshotId
   || workshop.registry?.snapshotId !== registry.snapshotId) {
@@ -175,7 +211,7 @@ if (topicRepositories.schema !== 'dsh-topic-discovery/v1'
 }
 
 const builtFiles = await files(BUILD)
-if (builtFiles.length !== 53) throw new Error(`public build must contain exactly 53 files, received ${builtFiles.length}`)
+if (builtFiles.length !== 67) throw new Error(`public build must contain exactly 67 files, received ${builtFiles.length}`)
 for (const repository of repositories.repositories) {
   if (!/^https:\/\/github[.]com\/omdsh-dev\/[A-Za-z0-9._-]+$/.test(repository.url)) {
     throw new Error(`unapproved public repository URL: ${repository.url}`)

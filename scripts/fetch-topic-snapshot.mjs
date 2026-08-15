@@ -6,7 +6,8 @@ import { resolve } from 'node:path'
 const ROOT = resolve(import.meta.dirname, '..')
 const TOPIC = 'dsh-plugin'
 const USER_AGENT = 'omdsh-workshop-topic-refresh/2.0'
-const REQUEST_INTERVAL_MS = 6_500
+const TOKEN = process.env.GITHUB_TOKEN || ''
+const REQUEST_INTERVAL_MS = TOKEN ? 2_100 : 6_500
 const decoder = new TextDecoder()
 let lastRequestAt = 0
 
@@ -27,6 +28,7 @@ async function search(query, page) {
       accept: 'application/vnd.github+json',
       'user-agent': USER_AGENT,
       'x-github-api-version': '2022-11-28',
+      ...(TOKEN ? { authorization: `Bearer ${TOKEN}` } : {}),
     },
   })
   if (!response.ok) {
@@ -38,27 +40,35 @@ async function search(query, page) {
   return value
 }
 
-function utcDate(offsetDays = 0) {
-  const date = new Date()
-  date.setUTCDate(date.getUTCDate() + offsetDays)
-  return date.toISOString().slice(0, 10)
+const MIN_INTERVAL_MS = 1_000
+const startBoundary = Date.parse('2008-01-01T00:00:00.000Z')
+const endDate = new Date()
+endDate.setUTCDate(endDate.getUTCDate() + 1)
+endDate.setUTCHours(0, 0, 0, 0)
+const endBoundary = endDate.getTime()
+const partitions = []
+
+async function partition(start, end) {
+  const query = `topic:${TOPIC} created:>=${new Date(start).toISOString()} created:<${new Date(end).toISOString()}`
+  const first = await search(query, 1)
+  if (first.total_count > 1_000) {
+    if (end - start <= MIN_INTERVAL_MS) {
+      throw new Error(`one-second Topic partition exceeds the GitHub Search cap: ${query} (${first.total_count})`)
+    }
+    const midpoint = start + Math.floor((end - start) / 2)
+    await partition(start, midpoint)
+    await partition(midpoint, end)
+    return
+  }
+  partitions.push({ query, first, pages: Math.ceil(first.total_count / 100) })
 }
 
-const yesterday = utcDate(-1)
-const today = utcDate(0)
-const partitions = [
-  `topic:${TOPIC} created:<${yesterday}`,
-  `topic:${TOPIC} created:${yesterday}`,
-  `topic:${TOPIC} created:>=${today}`,
-]
+await partition(startBoundary, endBoundary)
 const repositoriesByName = new Map()
 let observed = 0
 let observedPages = 0
-for (const query of partitions) {
-  const first = await search(query, 1)
-  if (first.total_count > 1_000) throw new Error(`partition exceeds the GitHub Search 1,000-result cap: ${query} (${first.total_count})`)
+for (const { query, first, pages } of partitions) {
   observed += first.total_count
-  const pages = Math.ceil(first.total_count / 100)
   observedPages += pages
   for (let page = 1; page <= pages; page += 1) {
     const value = page === 1 ? first : await search(query, page)
@@ -91,8 +101,9 @@ const snapshot = {
   observedRepositoryCount: repositories.length,
   status: 'discovery-only',
   collection: {
-    method: 'anonymous-partitioned-github-search',
-    partitions,
+    method: TOKEN ? 'authenticated-partitioned-github-search' : 'anonymous-partitioned-github-search',
+    partitions: partitions.map(({ query }) => query),
+    authenticated: Boolean(TOKEN),
     searchCapHandled: true,
   },
   repositories: repositories.map((repository) => ({
@@ -102,6 +113,7 @@ const snapshot = {
     description: sanitizePublicText(repository.description || ''),
     language: repository.language,
     topics: publicTopics(repository),
+    createdAt: repository.created_at,
     commitUpdatedAt: repository.pushed_at || repository.updated_at,
     metadataUpdatedAt: repository.updated_at,
     stars: repository.stargazers_count,
@@ -121,4 +133,4 @@ await Promise.all([
   writeFile(resolve(ROOT, 'topic-repositories.json'), `${JSON.stringify(snapshot, null, 2)}\n`),
   writeFile(discoveryPath, `${JSON.stringify(discovery, null, 2)}\n`),
 ])
-console.log(`refreshed public Topic snapshot: ${repositories.length} repositories across ${partitions.length} non-overlapping partitions`)
+console.log(`refreshed public Topic snapshot: ${repositories.length} repositories across ${partitions.length} non-overlapping adaptive partitions`)

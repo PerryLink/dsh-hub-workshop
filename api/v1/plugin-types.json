@@ -1,6 +1,6 @@
 {
   "schema": "omdsh-ai-plugin-types/v1",
-  "generatedAt": "2026-08-13T17:27:31.000Z",
+  "generatedAt": "2026-08-14T00:10:00.000Z",
   "scope": "Public Catalog and formal Intake facts only. Discovery never authorizes installation.",
   "contracts": {
     "packageManifest": "/package-manifest.schema.json",
@@ -349,7 +349,7 @@
         "zh": "待审核",
         "en": "Pending review"
       },
-      "count": 670
+      "count": 681
     },
     {
       "id": "needs-fix",
@@ -365,7 +365,7 @@
         "zh": "已阻断",
         "en": "Blocked"
       },
-      "count": 11
+      "count": 0
     },
     {
       "id": "approved",

@@ -5,18 +5,22 @@ import { resolve } from 'node:path'
 
 const ROOT = resolve(import.meta.dirname, '..')
 const json = async (path) => JSON.parse(await readFile(resolve(ROOT, path), 'utf8'))
-const [catalog, admissions, baseline] = await Promise.all([
+const [catalog, admissions, baseline, queue] = await Promise.all([
   json('catalog.json'),
   json('registry-admissions.json'),
   json('official-baseline.json'),
+  json('intake-queue.json'),
 ])
 const baselineId = `${baseline.runtime.package}@${baseline.runtime.version}`
 const blocked = new Map(admissions.blocked.map((record) => [record.id, record]))
 const admitted = new Map(admissions.admissions.map((record) => [record.id, record]))
+const intake = new Map(queue.records.map((record) => [record.submission.manifest.project.id, record]))
 
 const projects = catalog.packages.map((project) => {
   const blockedRecord = blocked.get(project.id)
   const admission = admitted.get(project.id)
+  const intakeRecord = intake.get(project.id)
+  const exactIntake = intakeRecord?.submission?.manifest?.release?.version === project.version ? intakeRecord : null
   const requestedMode = admission?.mode || blockedRecord?.mode || 'guided'
   const management = requestedMode === 'profile-bundle'
     ? 'transactional'
@@ -28,24 +32,26 @@ const projects = catalog.packages.map((project) => {
     repository: project.repository,
     ref: project.ref,
     path: project.repositoryPath || null,
-    management,
+    management: exactIntake?.classification?.management || management,
     review: {
-      state: admission ? 'approved' : blockedRecord ? 'blocked' : 'pending-review',
-      reason: admission ? 'registry-admitted' : blockedRecord?.reason || 'dedicated-intake-not-completed',
+      state: exactIntake?.review?.state || (admission ? 'approved' : 'pending-review'),
+      reason: exactIntake
+        ? exactIntake.review?.notes || 'exact-intake-review-state'
+        : admission ? 'registry-admitted' : 'dedicated-intake-not-completed',
     },
     verification: {
       baseline: baselineId,
-      state: admission
+      state: exactIntake?.verification?.state || (admission
         ? 'current-baseline-passed'
         : blockedRecord
           ? 'blocked'
-          : 'untested',
-      reason: admission
+          : 'untested'),
+      reason: exactIntake?.verification?.evidence || (admission
         ? 'admission-evidence-accepted'
-        : blockedRecord?.reason || 'no-current-baseline-evidence',
+        : blockedRecord?.reason || 'no-current-baseline-evidence'),
     },
     registry: {
-      state: admission ? 'admitted' : 'ineligible',
+      state: exactIntake?.registry?.state || (admission ? 'admitted' : 'ineligible'),
     },
     capabilities: project.workshop,
   }
@@ -71,7 +77,7 @@ function capabilityCounts(select) {
 
 const output = {
   schema: 'omdsh-workshop-verification-inventory/v1',
-  generatedAt: admissions.updatedAt,
+  generatedAt: new Date(Math.max(Date.parse(admissions.updatedAt), Date.parse(queue.generatedAt))).toISOString(),
   officialBaseline: {
     package: baseline.runtime.package,
     version: baseline.runtime.version,
