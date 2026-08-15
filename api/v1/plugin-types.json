@@ -13,9 +13,9 @@
     }
   },
   "totals": {
-    "catalogProjects": 681,
+    "catalogProjects": 693,
     "candidateProjects": 0,
-    "projects": 681
+    "projects": 693
   },
   "kinds": [
     {
@@ -25,9 +25,9 @@
         "en": "Skill"
       },
       "counts": {
-        "catalog": 42,
+        "catalog": 43,
         "candidates": 0,
-        "total": 42
+        "total": 43
       },
       "examples": [
         "bug-tamer",
@@ -42,9 +42,9 @@
         "en": "MCP"
       },
       "counts": {
-        "catalog": 21,
+        "catalog": 22,
         "candidates": 0,
-        "total": 21
+        "total": 22
       },
       "examples": [
         "almanac-mcp",
@@ -59,9 +59,9 @@
         "en": "Extension"
       },
       "counts": {
-        "catalog": 390,
+        "catalog": 396,
         "candidates": 0,
-        "total": 390
+        "total": 396
       },
       "examples": [
         "session-teleport",
@@ -76,9 +76,9 @@
         "en": "Channel"
       },
       "counts": {
-        "catalog": 19,
+        "catalog": 20,
         "candidates": 0,
-        "total": 19
+        "total": 20
       },
       "examples": [
         "vlln/whale-girl",
@@ -93,9 +93,9 @@
         "en": "UI"
       },
       "counts": {
-        "catalog": 121,
+        "catalog": 124,
         "candidates": 0,
-        "total": 121
+        "total": 124
       },
       "examples": [
         "7d7d",
@@ -159,9 +159,9 @@
         "en": "Workflow"
       },
       "counts": {
-        "catalog": 7,
+        "catalog": 6,
         "candidates": 0,
-        "total": 7
+        "total": 6
       },
       "examples": [
         "liustack/modlens",
@@ -176,9 +176,9 @@
         "en": "Developer tools"
       },
       "counts": {
-        "catalog": 408,
+        "catalog": 411,
         "candidates": 0,
-        "total": 408
+        "total": 411
       },
       "examples": [
         "github-integration",
@@ -193,9 +193,9 @@
         "en": "Channels"
       },
       "counts": {
-        "catalog": 19,
+        "catalog": 20,
         "candidates": 0,
-        "total": 19
+        "total": 20
       },
       "examples": [
         "vlln/whale-girl",
@@ -210,9 +210,9 @@
         "en": "Interface"
       },
       "counts": {
-        "catalog": 122,
+        "catalog": 126,
         "candidates": 0,
-        "total": 122
+        "total": 126
       },
       "examples": [
         "7d7d",
@@ -260,9 +260,9 @@
         "en": "Memory"
       },
       "counts": {
-        "catalog": 86,
+        "catalog": 91,
         "candidates": 0,
-        "total": 86
+        "total": 91
       },
       "examples": [
         "session-teleport",
@@ -339,7 +339,7 @@
         "zh": "引导接入",
         "en": "Guided"
       },
-      "count": 670
+      "count": 682
     }
   ],
   "reviewStates": [
@@ -349,7 +349,7 @@
         "zh": "待审核",
         "en": "Pending review"
       },
-      "count": 681
+      "count": 693
     },
     {
       "id": "needs-fix",
@@ -379,27 +379,39 @@
   "capabilities": {
     "seamlessInstall": [
       {
+        "id": "declared",
+        "count": 2
+      },
+      {
         "id": "unknown",
-        "count": 681
+        "count": 691
       }
     ],
     "failureIsolation": [
       {
+        "id": "declared",
+        "count": 2
+      },
+      {
         "id": "unknown",
-        "count": 681
+        "count": 691
       }
     ],
     "hotReload": [
       {
         "id": "unknown",
-        "count": 681
+        "count": 691
+      },
+      {
+        "id": "unsupported",
+        "count": 2
       }
     ]
   },
   "protocols": [
     {
       "id": "harness-profile",
-      "count": 597
+      "count": 614
     },
     {
       "id": "harness-repository",
@@ -411,17 +423,21 @@
     },
     {
       "id": "skill",
-      "count": 8
+      "count": 7
     },
     {
       "id": "third-party",
-      "count": 64
+      "count": 60
     }
   ],
   "admissionRoutes": [
     {
       "id": "legacy-compatibility-map",
-      "count": 681
+      "count": 691
+    },
+    {
+      "id": "package-json-manifest",
+      "count": 2
     }
   ],
   "guardrails": [

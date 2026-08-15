@@ -3,7 +3,7 @@ name: discover
 on:
   workflow_dispatch:
   schedule:
-    - cron: '17 */8 * * *'
+    - cron: '17 */6 * * *'
 
 permissions:
   contents: write
@@ -27,13 +27,28 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - name: Preserve the prior discovery snapshot
-        run: cp topic-repositories.json "$RUNNER_TEMP/topic-repositories.previous.json"
+        run: |
+          cp topic-repositories.json "$RUNNER_TEMP/topic-repositories.previous.json"
+          cp external-evidence.json "$RUNNER_TEMP/external-evidence.previous.json"
       - name: Fetch the complete adaptive Topic snapshot
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run topic:fetch
       - id: delta
         run: node scripts/topic-delta.mjs --previous "$RUNNER_TEMP/topic-repositories.previous.json" --output "$RUNNER_TEMP/topic-delta.json"
+      - name: Synchronize supplemental external evidence
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run external:sync
+      - id: external
+        name: Detect supplemental evidence changes
+        run: |
+          if cmp -s external-evidence.json "$RUNNER_TEMP/external-evidence.previous.json"; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
       - name: Incrementally audit changed repositories
         if: steps.delta.outputs.changed == 'true'
         run: npm run topic:audit
@@ -41,10 +56,10 @@ jobs:
         if: steps.delta.outputs.changed == 'true'
         run: npm run topic:apply
       - name: Validate the complete Hub
-        if: steps.delta.outputs.changed == 'true'
+        if: steps.delta.outputs.changed == 'true' || steps.external.outputs.changed == 'true'
         run: npm run validate
       - name: Commit one discovery-only branch
-        if: steps.delta.outputs.changed == 'true'
+        if: steps.delta.outputs.changed == 'true' || steps.external.outputs.changed == 'true'
         env:
           AUTOMATION_BRANCH: automation/topic-${{ github.run_id }}
         run: |
@@ -55,7 +70,7 @@ jobs:
           git commit -m "chore: refresh dsh-plugin discovery"
           git push origin "$AUTOMATION_BRANCH"
       - name: Open the discovery PR
-        if: steps.delta.outputs.changed == 'true'
+        if: steps.delta.outputs.changed == 'true' || steps.external.outputs.changed == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AUTOMATION_BRANCH: automation/topic-${{ github.run_id }}
@@ -66,5 +81,7 @@ jobs:
             - Added: ${{ steps.delta.outputs.added }}
             - Updated: ${{ steps.delta.outputs.updated }}
             - Removed: ${{ steps.delta.outputs.removed }}
+            - Supplemental external evidence changed: ${{ steps.external.outputs.changed }}
             - Topic membership grants no trust, verification, Admission, or installation authority.
+            - External probe results are pinned observations used only for prioritization and corroboration.
         run: node scripts/github-automation-pr.mjs

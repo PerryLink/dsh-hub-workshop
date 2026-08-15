@@ -71,9 +71,13 @@ export function buildVerificationJobs(record, baseline, policy, loaderRegistry) 
   return { jobs: blocked.length ? [] : jobs, blocked }
 }
 
-export function buildAutomationPlan(records, baseline, policy, loaderRegistry, releaseId = null) {
-  const selected = releaseId ? records.filter((record) => record.id === releaseId) : records
-  if (releaseId && selected.length !== 1) throw new Error(`unknown Intake release: ${releaseId}`)
+export function buildAutomationPlan(records, baseline, policy, loaderRegistry, releaseSelection = null) {
+  const releaseIds = releaseSelection === null
+    ? null
+    : new Set(Array.isArray(releaseSelection) ? releaseSelection : [releaseSelection])
+  const selected = releaseIds ? records.filter((record) => releaseIds.has(record.id)) : records
+  const missing = releaseIds ? [...releaseIds].filter((releaseId) => !selected.some((record) => record.id === releaseId)) : []
+  if (missing.length > 0) throw new Error(`unknown Intake release: ${missing.join(', ')}`)
   const jobs = []
   const blocked = []
   for (const record of selected) {
@@ -84,6 +88,7 @@ export function buildAutomationPlan(records, baseline, policy, loaderRegistry, r
   return {
     schema: 'omdsh-hub-automation-plan/v1',
     baseline: `${baseline.runtime.package}@${baseline.runtime.version}`,
+    releaseIds: selected.map((record) => record.id),
     jobs,
     blocked,
     summary: {

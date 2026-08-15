@@ -107,6 +107,7 @@ const snapshot = {
     searchCapHandled: true,
   },
   repositories: repositories.map((repository) => ({
+    repositoryId: repository.id,
     owner: repository.owner.login,
     name: repository.name,
     url: repository.html_url,

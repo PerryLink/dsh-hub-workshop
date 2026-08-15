@@ -4,7 +4,7 @@
   "discovery": {
     "topic": "dsh-plugin",
     "mode": "incremental-pull-request",
-    "schedule": "17 */8 * * *",
+    "schedule": "17 */6 * * *",
     "autoAdmission": false
   },
   "verification": {

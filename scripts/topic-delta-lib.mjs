@@ -7,11 +7,13 @@ function canonical(value) {
 }
 
 export function repositoryKey(repository) {
+  if (Number.isSafeInteger(repository.repositoryId) && repository.repositoryId > 0) return `github:${repository.repositoryId}`
   return `${repository.owner}/${repository.name}`.toLocaleLowerCase('en-US')
 }
 
 export function repositoryFingerprint(repository) {
   const facts = {
+    repositoryId: Number.isSafeInteger(repository.repositoryId) ? repository.repositoryId : null,
     owner: repository.owner,
     name: repository.name,
     description: repository.description || '',

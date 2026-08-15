@@ -41,6 +41,8 @@ const FILES = [
   'distributions-v1.json',
   'distributions-v1.schema.json',
   'ecosystem-repositories.json',
+  'external-evidence.json',
+  'external-evidence.schema.json',
   'harness-plan.schema.json',
   'harness-report.schema.json',
   'index.html',
@@ -72,6 +74,8 @@ const FILES = [
   'topic-repositories.json',
   'topic-plugin-audit.json',
   'verification-inventory.json',
+  'verification-priority.json',
+  'verification-priority.schema.json',
   'workshop-v1.json',
 ]
 

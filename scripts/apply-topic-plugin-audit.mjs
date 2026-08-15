@@ -84,7 +84,7 @@ const retainedDiscoveryEntries = catalog.packages.filter((entry) => {
   if (entry.status !== 'discovery') return false
   const classification = auditByRepository.get(repositoryKey(entry.repository))
   return classification?.decision === 'include'
-    && classification.qualification === 'verified'
+    && classification.qualification === 'static-evidence-passed'
     && (classification.evidence?.strongSignals || []).length > 0
 })
   .map((entry) => {
@@ -109,7 +109,7 @@ const retainedDiscoveryEntries = catalog.packages.filter((entry) => {
 const representedRepositories = new Set([...retainedDiscoveryEntries, ...reviewedEntries].map((entry) => repositoryKey(entry.repository)))
 const generatedEntries = audit.repositories
   .filter((entry) => entry.decision === 'include'
-    && entry.qualification === 'verified'
+    && entry.qualification === 'static-evidence-passed'
     && (entry.evidence?.strongSignals || []).length > 0
     && !representedRepositories.has(`${entry.owner}/${entry.name}`.toLocaleLowerCase('en-US')))
   .map((entry) => {

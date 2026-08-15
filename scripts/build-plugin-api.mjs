@@ -157,6 +157,8 @@ const plugins = {
     next: {
       taxonomy: '/api/v1/plugin-types.json',
       verification: '/verification-inventory.json',
+      externalEvidence: '/external-evidence.json',
+      priorityQueue: '/verification-priority.json',
       installAuthority: '/registry-v1.json',
     },
   },
@@ -175,10 +177,12 @@ const plugins = {
         ref: project.ref,
         path: project.repositoryPath || null,
       },
+      identity: status.identity,
       management: status.management,
       review: status.review,
       verification: status.verification,
       registry: status.registry,
+      externalEvidence: status.externalEvidence,
       capabilities: status.capabilities,
     }
   }),

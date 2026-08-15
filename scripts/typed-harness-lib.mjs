@@ -1,9 +1,12 @@
+import { createHash } from 'node:crypto'
+
 import { managementMode, validateSubmission } from './intake-lib.mjs'
 import { MCP_PROTOCOL_CURRENT, MCP_REGISTRY_SCHEMA } from './workshop-manifest-lib.mjs'
 
 export const HARNESS_PLAN_SCHEMA = 'omdsh-workshop-harness-plan/v1'
 export const HARNESS_REPORT_SCHEMA = 'omdsh-workshop-harness-report/v1'
 export const HARNESS_EVIDENCE_SCHEMA = 'omdsh-workshop-intake-evidence/v2'
+export const HARNESS_ENGINE_VERSION = '1.1.0'
 
 const EXECUTORS = new Set(['static', 'profile', 'repository', 'mcp', 'cordis', 'skill', 'third-party', 'loader'])
 const PHASES = new Set(['static', 'supply-chain', 'sandbox', 'install', 'ready', 'functional', 'failure', 'lifecycle', 'update', 'disable', 'remove', 'recovery'])
@@ -11,6 +14,20 @@ const SCOPES = new Set(['source-only', 'ephemeral-workspace', 'candidate-profile
 const RESULT_STATUSES = new Set(['passed', 'failed', 'blocked', 'not-applicable'])
 const CAPABILITY_KINDS = new Set(['tool', 'command', 'service', 'ui', 'event', 'provider', 'other'])
 const SECRET_RE = /(?:github_pat_|\bgh[opusr]_[A-Za-z0-9_]{16,}|\bnpm_[A-Za-z0-9]{20,}|-----BEGIN(?: [A-Z]+)? PRIVATE KEY-----|\bAKIA[0-9A-Z]{16}\b)/i
+
+function canonicalJson(value) {
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`
+  if (value && typeof value === 'object') {
+    return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(',')}}`
+  }
+  return JSON.stringify(value)
+}
+
+export function harnessEvidenceKey(plan) {
+  const input = structuredClone(plan)
+  delete input.evidenceKey
+  return `sha256:${createHash('sha256').update(canonicalJson(input)).digest('hex')}`
+}
 
 function requireCondition(condition, message, errors) {
   if (!condition) errors.push(message)
@@ -244,6 +261,7 @@ export function createHarnessPlan(submission, baseline, loaderDescriptor = null)
 
   const plan = {
     schema: HARNESS_PLAN_SCHEMA,
+    engineVersion: HARNESS_ENGINE_VERSION,
     id: `${submission.project.id}@${submission.release.version}:${baseline.runtime.version}:${protocol}`,
     projectId: submission.project.id,
     releaseId: `${submission.project.id}@${submission.release.version}`,
@@ -291,6 +309,7 @@ export function createHarnessPlan(submission, baseline, loaderDescriptor = null)
     blockedReasons,
     steps: [...commonSteps(protocol), ...typedSteps],
   }
+  plan.evidenceKey = harnessEvidenceKey(plan)
   const planErrors = validateHarnessPlan(plan)
   if (planErrors.length > 0) throw new Error(planErrors.join('; '))
   return plan
@@ -299,6 +318,9 @@ export function createHarnessPlan(submission, baseline, loaderDescriptor = null)
 export function validateHarnessPlan(plan) {
   const errors = []
   requireCondition(plan?.schema === HARNESS_PLAN_SCHEMA, 'unsupported Harness plan schema', errors)
+  requireCondition(plan?.engineVersion === HARNESS_ENGINE_VERSION, 'unsupported Harness engine version', errors)
+  requireCondition(/^sha256:[0-9a-f]{64}$/.test(plan?.evidenceKey || ''), 'Harness evidence key is invalid', errors)
+  requireCondition(plan?.evidenceKey === harnessEvidenceKey(plan), 'Harness evidence key does not match the plan', errors)
   requireCondition(typeof plan?.id === 'string' && plan.id.length > 2, 'Harness plan id is required', errors)
   requireCondition(/^[0-9a-f]{40}$/.test(plan?.source?.ref || ''), 'Harness source must use a fixed commit', errors)
   requireCondition(plan?.baseline?.package === '@deepseek-ai/dsh', 'Harness baseline package is invalid', errors)
@@ -451,6 +473,8 @@ export async function runHarnessPlan(plan, adapter, { verifiedAt = new Date().to
 
   const report = {
     schema: HARNESS_REPORT_SCHEMA,
+    engineVersion: plan.engineVersion,
+    evidenceKey: plan.evidenceKey,
     planId: plan.id,
     projectId: plan.projectId,
     releaseId: plan.releaseId,
@@ -480,6 +504,8 @@ export async function runHarnessPlan(plan, adapter, { verifiedAt = new Date().to
 export function validateHarnessReport(report, plan) {
   const errors = []
   requireCondition(report?.schema === HARNESS_REPORT_SCHEMA, 'unsupported Harness report schema', errors)
+  requireCondition(report?.engineVersion === plan?.engineVersion, 'Harness report engine binding mismatch', errors)
+  requireCondition(report?.evidenceKey === plan?.evidenceKey, 'Harness report evidence-key binding mismatch', errors)
   requireCondition(report?.planId === plan?.id, 'Harness report plan binding mismatch', errors)
   requireCondition(report?.projectId === plan?.projectId && report?.releaseId === plan?.releaseId, 'Harness report release binding mismatch', errors)
   requireCondition(JSON.stringify(report?.source) === JSON.stringify(plan?.source), 'Harness report source binding mismatch', errors)
