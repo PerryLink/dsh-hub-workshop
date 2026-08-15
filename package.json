@@ -18,6 +18,12 @@
     "intake:prepare": "node scripts/intake.mjs prepare",
     "intake:evidence": "node scripts/intake.mjs evidence",
     "intake:issue": "node scripts/prepare-issue-intake.mjs",
+    "harness:plan": "node scripts/harness.mjs plan",
+    "harness:evidence": "node scripts/harness.mjs evidence",
+    "harness:profile": "node scripts/run-harness-fixture.mjs profile",
+    "harness:mcp": "node scripts/run-harness-fixture.mjs mcp",
+    "harness:skill": "node scripts/run-harness-fixture.mjs skill",
+    "harness:verify": "node scripts/run-harness-fixture.mjs all",
     "baseline:verify": "node scripts/verify-official-baseline.mjs",
     "build": "npm run intake:build && npm run feeds:build && npm run inventory:build && npm run api:build && node scripts/build-public-site.mjs",
     "check": "npm run intake:check && npm run build && node --check worker/public.js && node scripts/check-public-site.mjs",
@@ -27,7 +33,10 @@
     "deploy": "npm run validate && wrangler deploy -c wrangler.public.jsonc"
   },
   "devDependencies": {
-    "wrangler": "4.122.0"
+    "@modelcontextprotocol/client": "2.0.0",
+    "@modelcontextprotocol/server": "2.0.0",
+    "wrangler": "4.122.0",
+    "yaml": "2.9.0"
   },
   "engines": {
     "node": ">=22"
