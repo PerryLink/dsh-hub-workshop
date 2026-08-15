@@ -38,4 +38,6 @@ Profile Bundle 和受信中间加载器运行“作者精确声明版本 + 当�
 - admission：只用于会执行固定第三方代码的 MCP/Profile。批准范围是一个精确 Release 和已展示的风险事实；通过后可自动形成证据 PR。
 - production：提升同一份已签名 staging 制品到线上。
 
+生产签名密钥必须匹配公开的 `registry-trust-roots.json` 活跃 Ed25519 公钥；线上检查会重算 Registry 快照并做真实密码学验签，不以“签名字段存在”代替验证。
+
 静态 Skill 不需要执行信任门禁。Topic 刷新和普通元数据更新不能触发 Admission。

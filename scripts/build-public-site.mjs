@@ -63,6 +63,8 @@ const FILES = [
   'recipes-v1.json',
   'recipes.schema.json',
   'registry-v1.json',
+  'registry-trust-roots.json',
+  'registry-trust-roots.schema.json',
   'registry.html',
   'run-records.json',
   'run-records.schema.json',

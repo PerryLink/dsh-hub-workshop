@@ -12,7 +12,7 @@ The architecture keeps production decentralized and trust facts centralized: aut
 
 The `dsh-plugin` Topic is a candidate source, not the Catalog. `topic-plugin-audit.json` requires file-level plugin evidence and excludes core products, ecosystem infrastructure, distributions, awesome lists, documentation, templates, standalone applications, placeholders, unavailable private sources, and Topic-only repositories from the plugin layer. Run `npm run topic:audit` to refresh the evidence report and `npm run topic:apply` to apply it to an existing Catalog snapshot.
 
-`registry-admissions.json` is the review source. `npm run feeds:build` verifies each evidence digest and regenerates the Catalog, Registry, Workshop, Run Record, Recipe, Collection, and Agent ecosystem projections deterministically. The public Registry artifact is unsigned and reproducible; a remote consumer must still verify the production Ed25519 signature, while a bundled consumer snapshot may explicitly accept the unsigned build artifact.
+`registry-admissions.json` is the review source. `npm run feeds:build` verifies each evidence digest and regenerates the Catalog, Registry, Workshop, Run Record, Recipe, Collection, and Agent ecosystem projections deterministically. The public Registry artifact is unsigned and reproducible; a remote consumer must verify the production Ed25519 signature against `registry-trust-roots.json`, while a bundled consumer snapshot may explicitly accept the unsigned build artifact. Production signing fails unless the private key matches the active published trust root.
 
 ## Validate
 
