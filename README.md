@@ -1,8 +1,20 @@
-# DSH Hub Workshop
-> **Fork notice:** this repository is a GitHub fork of [omdsh-dev/dsh-hub-workshop](https://github.com/omdsh-dev/dsh-hub-workshop). All content belongs to its original authors and is republished under the original license; see the commit history for attribution.
-> **转载声明：** 本仓库是上游 [omdsh-dev/dsh-hub-workshop](https://github.com/omdsh-dev/dsh-hub-workshop) 的 GitHub fork（转载），内容版权归原作者所有，按原许可证发布，署名见提交历史。
+> ⚠️ **转载声明（Fork Notice）**
+>
+> 本仓库是 GitHub 项目 **[`
+omdsh-dev/dsh-hub-workshop
+`](https://github.com/
+omdsh-dev/dsh-hub-workshop
+)** 的 Gitee 转载镜像，**并非原始项目**；所有代码与内容的著作权归原作者及贡献者所有，按原许可证发布。
+>
+> This repository is a Gitee repost (mirror) of the GitHub project [`
+omdsh-dev/dsh-hub-workshop
+`](https://github.com/
+omdsh-dev/dsh-hub-workshop
+) — **not the original project**. All code and content remain the property of their original authors and contributors, published under the original license.
 
-[![Gitee](https://img.shields.io/badge/Gitee-mirror-c71d23?logo=gitee)](https://gitee.com/perrylink/omdsh-dev-dsh-hub-workshop)
+# DSH Hub Workshop
+
+[![Gitee](https://img.shields.io/badge/Gitee-mirror-c71d23?logo=gitee)](https://gitee.com/perrylink/omdsh-dev.dsh-hub-workshop)
 
 Plugin intake and current-baseline verification are documented in [INTAKE.md](INTAKE.md) and [INTAKE.zh.md](INTAKE.zh.md). The three integration modes are transactional Profile Bundle, managed Repository Plugin configuration, and guided integration; pending review is an independent review state.
 
@@ -36,3 +48,14 @@ Cloudflare Web Analytics uses automatic setup for the `omdsh.dev` zone, which co
 ```sh
 npm run deploy
 ```
+---
+
+> **免责声明 / Disclaimer**
+>
+> 本仓库由 PerryLink 仅作**转载镜像**维护，不拥有、不修改本项目内容，亦不提供任何支持。任何问题、缺陷、建议或 Pull Request，请前往上游 GitHub 仓库提交：<https://github.com/
+omdsh-dev/dsh-hub-workshop
+>。本镜像不处理任何 issue / PR / 回复。若项目内容存在任何风险或权利争议，请直接联系上游原作者。
+>
+> This repository is maintained by PerryLink as a mirror/转载 only. PerryLink owns no content here and provides no support. For issues, questions or pull requests, please go to the original repository on GitHub: <https://github.com/
+omdsh-dev/dsh-hub-workshop
+>. All risks or rights disputes about the content should be directed to the original authors.
