@@ -1,4 +1,5 @@
 # DSH Hub Workshop
+[![Gitee](https://img.shields.io/badge/Gitee-mirror-c71d23?logo=gitee)](https://gitee.com/perrylink/dsh-hub-workshop)
 
 Plugin intake and current-baseline verification are documented in [INTAKE.md](INTAKE.md) and [INTAKE.zh.md](INTAKE.zh.md). The three integration modes are transactional Profile Bundle, managed Repository Plugin configuration, and guided integration; pending review is an independent review state.
 
